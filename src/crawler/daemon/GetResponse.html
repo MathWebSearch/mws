@@ -1,0 +1,29 @@
+<html>
+<body>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+	<h2> Use the crawler: </h2>
+   <div>
+   <form action="" method="post">
+   Start URL (REQUIRED):<br/>
+   <input name="urlstart" type="text" size="30"><br/>
+   Count (OPTIONAL):<br/>
+   <input name="count" type="text" size="10"><br/>
+   Don't crawl (OPTIONAL):<br/>
+   <table id="converter-table1">
+	<tr><td> 1: </td><td class="input"><input name="dontcrawl" size="28" value=""></td><tr>
+	<tr id="converter-table-submit-tr1"></tr>
+   </table>
+    <a id="add-converter-input-field1" > more </a>
+    <script> 
+	$(document).ready(function(){
+		$("#add-converter-input-field1").click(function(){
+			var newid = $("#converter-table1 tr").length - 1;
+			$("#converter-table-submit-tr1").before("<tr><td>"+newid+":</td><td class=\"input\"><input name=\"dontcrawl\" size=\"28\" value=\"\"></td></tr>");
+		});
+	});
+    </script> <br/>
+   <input type="submit" value=" Send ">
+   </form>
+   </div>
+</body>
+</html>

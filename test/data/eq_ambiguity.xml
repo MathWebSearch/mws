@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<mws:harvest xmlns:mws="http://search.mathweb.org/ns" xmlns:m="http://www.w3.org/1998/Math/MathML">
+  <mws:expr url="http://arxivdemo.mathweb.org/article/989/cond-mat.9905407/article/989/cond-mat.9905407#id2690579">
+    <m:apply id="id2690634">
+      <m:eq id="id2690635"/>
+      <m:ci id="id2690664">P</m:ci>
+      <m:ci id="id2690666">eq</m:ci>
+    </m:apply>
+  </mws:expr>
+</mws:harvest>

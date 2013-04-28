@@ -1,0 +1,46 @@
+<mws:query answsize="24" limitmin="1">
+    <mws:expr>
+        <m:apply>
+            <m:eq/>
+            <m:apply>
+                <m:times/>
+                <!--<m:ci>&Delta;</m:ci>-->
+                <m:apply>
+                    <m:csymbol cd="ambiguous">subscript</m:csymbol>
+                    <m:ci>R</m:ci>
+                    <m:ci>s</m:ci>
+                </m:apply>
+            </m:apply>
+            <m:apply>
+                <m:minus/>
+                <m:apply>
+                    <m:times/>
+                    <m:apply>
+                        <m:csymbol cd="ambiguous">subscript</m:csymbol>
+                        <m:ci>R</m:ci>
+                        <m:ci>s</m:ci>
+                    </m:apply>
+                    <m:apply>
+                        <m:csymbol cd="ambiguous">subscript</m:csymbol>
+                        <mws:qvar>x<m:test>aa</m:test>
+                        </mws:qvar>
+                        <m:apply>
+                            <m:times/>
+                            <mws:qvar>  x </mws:qvar>
+                            <m:ci>f</m:ci>
+                        </m:apply>
+                    </m:apply>
+                </m:apply>
+                <m:apply>
+                    <m:times/>
+                    <m:apply>
+                        <m:csymbol cd="ambiguous">subscript</m:csymbol>
+                        <m:ci>R</m:ci>
+                        <m:ci>s</m:ci>
+                    </m:apply>
+                    <m:cn>0</m:cn>
+                </m:apply>
+            </m:apply>
+        </m:apply>
+    </mws:expr>
+</mws:query>

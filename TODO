@@ -1,0 +1,22 @@
+TODO:
+    - multiple arity tokens
+    - test more thoroughly src/socket/*  -- add MUTEXES
+                                         -- fix accepting in constructor
+                                         -- fix read / write (?)
+    - mainpage doxygen
+    - document/unit test for most components
+    - check mem leaks in restd (minor)
+    - fix doxygen headers
+
+FEATURES:
+    - create mws schema with standard answers / error codes
+
+WONTFIX:
+    - memleak in xmlparser/write (when xmlOutputFlush fails) is singular and
+    caused by the text buffer within __xmlRaiseError not being freed
+
+    - Syscall param pwrite64(buf) points to uninitialised byte(s) warning
+    from Bdb (on DB*->close()) is due to the fact that unitialized bytes are
+    flushed to the file system. These are padding bytes which the database
+    does not need. See the flag --enable-umrw from the BerekleyDB configuration
+    manual for more explanations
