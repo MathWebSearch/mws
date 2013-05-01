@@ -170,7 +170,7 @@ CmmlToken::getParentNode() const
 }
 
 
-const list<CmmlToken*>&
+const CmmlToken::PtrList&
 CmmlToken::getChildNodes() const
 {
     return _childNodes;
@@ -234,7 +234,7 @@ CmmlToken::toString(int indent) const
     stringstream ss;
     string       padding;
     map<string, string> :: const_iterator mIt;
-    list<CmmlToken*> :: const_iterator lIt;
+    PtrList :: const_iterator lIt;
 
     padding.append(indent, ' ');
 
@@ -262,4 +262,30 @@ CmmlToken::toString(int indent) const
     ss << "</" << _tag << ">\n";
 
     return ss.str();
+}
+
+uint32_t
+CmmlToken::getExprDepth() const {
+    uint32_t max_depth = 0;
+    for (PtrList::const_iterator it = _childNodes.begin();
+         it != _childNodes.end(); it++) {
+
+        uint32_t depth = (*it)->getExprDepth() + 1;
+        if (depth > max_depth) max_depth = depth;
+    }
+
+    return max_depth;
+}
+
+uint32_t
+CmmlToken::getExprSize() const {
+    uint32_t size = 1; // counting current token
+
+    for (PtrList::const_iterator it = _childNodes.begin();
+         it != _childNodes.end(); it++) {
+
+        size += (*it)->getExprSize();
+    }
+
+    return size;
 }
