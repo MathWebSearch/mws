@@ -47,9 +47,9 @@ namespace mws
 /**
   * @brief Class encapsulating the properties of a ContentMathML Token
   */
-class CmmlToken
-{
-    // Instance variables
+class CmmlToken {
+public:
+    typedef std::list<CmmlToken*>      PtrList;
 private:
     /// Tag name
     std::string                        _tag;
@@ -58,7 +58,7 @@ private:
     /// Text content within the XML node
     std::string                        _textContent;
     /// List of child nodes
-    std::list<CmmlToken*>              _childNodes;
+    PtrList                            _childNodes;
     /// Pointer to parent node
     CmmlToken*                         _parentNode;
     /// Xpath of current node relative to the root
@@ -95,14 +95,18 @@ public:
     bool                         isRoot() const;
     bool                         isQvar() const;
     const std::string&           getTextContent() const;
-    const std::list<CmmlToken*>& getChildNodes() const;
+    const PtrList&               getChildNodes() const;
     CmmlToken*                   getParentNode() const;
     const std::string&           getXpath() const;
     // Return xpath without leading root selector (useful for concatenation)
     std::string                  getXpathRelative() const;
     const std::string&           getQvarName() const;
     const MeaningId&             getMeaningId() const;
+
+    // Logging / stats
     std::string                  toString(int indent=0) const;
+    uint32_t                     getExprDepth() const;
+    uint32_t                     getExprSize() const;
 private:
     void _updateMeaningId() const;
 protected:

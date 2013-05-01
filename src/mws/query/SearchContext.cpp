@@ -46,7 +46,7 @@ SearchContext::SearchContext(CmmlToken* expression)
     int                                      tokenCount;
     map<std::string, int>                    indexedQvars;
     map<std::string, int> :: iterator        mapIt;
-    list<CmmlToken*>::const_reverse_iterator rIt;
+    CmmlToken::PtrList::const_reverse_iterator rIt;
     stack<CmmlToken*>                        tokenStack;
     CmmlToken*                               currentToken;
     int                                      qvarCount;

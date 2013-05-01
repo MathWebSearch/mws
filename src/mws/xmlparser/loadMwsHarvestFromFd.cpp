@@ -300,7 +300,7 @@ my_endElement(void*          user_data,
             }
             else if (data->currentToken->isRoot())
             {
-                list<CmmlToken*>::const_reverse_iterator rIt;
+                CmmlToken::PtrList::const_reverse_iterator rIt;
                 stack<CmmlToken*>                        subtermStack;
                 CmmlToken*                               currentSubterm;
 

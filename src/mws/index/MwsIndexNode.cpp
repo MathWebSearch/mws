@@ -100,7 +100,7 @@ MwsIndexNode::insertData(CmmlToken*  expression,
     NodeInfo          currentNodeInfo;
 
     _MapType :: iterator mapIt;
-    list<CmmlToken*>::const_reverse_iterator rIt;
+    CmmlToken::PtrList::const_reverse_iterator rIt;
 
     // Initializing # of inserted entries
     inserted = 0;
