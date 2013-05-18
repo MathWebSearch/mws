@@ -15,11 +15,13 @@
 # Build directory
 build/
 
-# IDEs
 # vim temporary files
 *.swp
 *.swo
+
 # CMake Project file
 CMakeLists.txt.user
+
+>>>>>>> Fixed query_engine simple test
 # ctags
 tags
