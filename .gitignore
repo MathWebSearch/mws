@@ -14,3 +14,12 @@
 
 # Build directory
 build/
+
+# IDEs
+# vim temporary files
+*.swp
+*.swo
+# CMake Project file
+CMakeLists.txt.user
+# ctags
+tags
