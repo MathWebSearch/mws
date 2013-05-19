@@ -19,7 +19,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
- * @file test_query_engine_qvar_hvar.cpp
+ * @file engine_rep_qvars2.cpp
  *
  */
 
@@ -28,65 +28,64 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #define private public
 
-#include "mws/index/MwsIndexNode.hpp"
-#include "mws/index/encoded_token_dict.h"
-#include "mws/query/query_engine.h"
-
-#include "query_engine_tester.hpp"
+#include "engine_tester.hpp"
 
 using namespace mws;
 using namespace std;
 
 /*
 
-index: F(H,H,H): (apply,4) (F,1) (H,1) (H,1) (H,1)
-hvars: F,H
-query: Q(Q,P,h): (apply,4) (Q,1) (Q,1) (P,1) (h,1)
-qvars: Q,P
+index: f(h,h,t): (apply,4) (f,0) (h,0) (h,0) (f,0)
+query: f(h,h,t): (apply,4) (Q,0) (R,0) (R,0) (Q,0)
 
-Meanings: F -> 0
-          H -> 1
-
-          Q -> 32
-          P -> 33
-
+Meanings: 
           apply -> 65
-          h -> 66
+          f -> 66
+          h -> 67
+          t -> 68
+          Q -> 32
+          R -> 33
+
+1 solution expected
 
 */
+static int g_num_hits;
 
 static
 MwsIndexNode* create_test_MwsIndexNode() {
-    NodeInfo F_ni = make_pair(0, 1);
-    NodeInfo H_ni = make_pair(1, 1);
     NodeInfo apply_ni = make_pair(65, 4);
+    NodeInfo f_ni = make_pair(66, 0);
+    NodeInfo h_ni = make_pair(67, 0);
 
     MwsIndexNode* data = new MwsIndexNode();
 
-    MwsIndexNode* H_node_1 = new MwsIndexNode();
-    H_node_1->solutions = 1;
-    data->children.insert(make_pair(H_ni, H_node_1));
+    MwsIndexNode* h_node_1 = new MwsIndexNode();
+    h_node_1->solutions = 1;
+    data->children.insert(make_pair(h_ni, h_node_1));
 
-    MwsIndexNode* F_node_1 = new MwsIndexNode();
-    F_node_1->solutions = 1;
-    data->children.insert(make_pair(F_ni, F_node_1));
+    MwsIndexNode* f_node_1 = new MwsIndexNode();
+    f_node_1->solutions = 1;
+    data->children.insert(make_pair(f_ni, f_node_1));
 
     MwsIndexNode* apply_node_1 = new MwsIndexNode();
     apply_node_1->solutions = 1;
     data->children.insert(make_pair(apply_ni, apply_node_1));
 
-    MwsIndexNode* F_node_2 = new MwsIndexNode();
-    apply_node_1->children.insert(make_pair(F_ni, F_node_2));
+    MwsIndexNode* f_node_2 = new MwsIndexNode();
+    f_node_2->solutions = 1;
+    apply_node_1->children.insert(make_pair(f_ni, f_node_2));
 
-    MwsIndexNode* H_node_3 = new MwsIndexNode();
-    F_node_2->children.insert(make_pair(H_ni, H_node_3));
+    MwsIndexNode* h_node_3 = new MwsIndexNode();
+    h_node_3->solutions = 1;
+    f_node_2->children.insert(make_pair(h_ni, h_node_3));
 
-    MwsIndexNode* H_node_4 = new MwsIndexNode();
-    H_node_3->children.insert(make_pair(H_ni, H_node_4));
+    MwsIndexNode* h_node_4 = new MwsIndexNode();
+    h_node_4->solutions = 1;
+    h_node_3->children.insert(make_pair(h_ni, h_node_4));
 
-    MwsIndexNode* H_node_5 = new MwsIndexNode();
-    H_node_5->solutions = 1;
-    H_node_4->children.insert(make_pair(H_ni, H_node_5));
+    MwsIndexNode* f_node_5 = new MwsIndexNode();
+    f_node_5->solutions = 1;
+    h_node_4->children.insert(make_pair(f_ni, f_node_5));
 
     return data;
 }
@@ -97,10 +96,10 @@ static encoded_formula_t create_test_query() {
     result.data = new encoded_token_t[5];
     result.size = 5;
     result.data[0] = encoded_token(65, 4); // apply, 4
-    result.data[1] = encoded_token(32, 1); // Q, 1
-    result.data[2] = encoded_token(32, 1); // Q, 1
-    result.data[3] = encoded_token(33, 1); // P, 1
-    result.data[4] = encoded_token(66, 1); // h, 1
+    result.data[1] = encoded_token(32, 0); // Q, 0
+    result.data[2] = encoded_token(33, 0); // R, 0
+    result.data[3] = encoded_token(33, 0); // R, 0
+    result.data[4] = encoded_token(32, 0); // Q, 0
 
     return result;
 }
@@ -111,8 +110,7 @@ result_cb_return_t result_callback(void* handle,
     UNUSED(handle);
     UNUSED(leaf);
 
-    printf("Result found!\n");
-    fflush(stdout);
+    g_num_hits++;
 
     return QUERY_CONTINUE;
 }
@@ -121,7 +119,11 @@ int main() {
     mws::MwsIndexNode* index = create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
-    return -1; // TODO remove after test is running
-    return query_engine_tester(index, &query, result_callback, NULL);
-}
+    FAIL_ON(query_engine_tester(index, &query, result_callback, NULL) == EXIT_FAILURE);
+    FAIL_ON(g_num_hits != 1);
 
+    return EXIT_SUCCESS;
+
+fail:
+    return EXIT_FAILURE;
+}

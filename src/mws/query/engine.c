@@ -26,7 +26,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * License: GPLv3
  */
 
-#include "query_engine.h"
+#include "engine.h"
+
 #include "mws/index/encoded_token_dict.h"
 #include "common/utils/macro_func.h"
 
@@ -239,7 +240,7 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
 
             const inode_t* curr = query_ctxt->curr_index_inode;
             memsector_off_t off = inode_get_child(curr, query_token);
-            if (off != 0) {
+            if (off != MEMSECTOR_OFF_NULL) { // move to corresponding child node
                 const inode_t* child =
                         (inode_t*) memsector_off2addr(query_ctxt->alloc, off);
 
@@ -263,6 +264,9 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
                     ret = match_var_to_query(query_ctxt, 1);
                     if (ret != QUERY_CONTINUE) return ret;
                 }
+            } else { // no child node exists
+                // revert query token
+                token_stack_push(query, query_token);
             }
         }
     }

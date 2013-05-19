@@ -41,7 +41,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Compact offset pointer
  */
-typedef uint32_t memsector_off_t;
+typedef int32_t memsector_off_t;
+#define MEMSECTOR_OFF_NULL  (memsector_off_t) -1
 
 struct memsector_alloc_header_s {
     uint32_t curr_offset;

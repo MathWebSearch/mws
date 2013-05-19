@@ -26,8 +26,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * License: GPLv3
  */
 
-#ifndef __MWS_QUERY_QUERYENGINE_H
-#define __MWS_QUERY_QUERYENGINE_H
+#ifndef __MWS_QUERY_ENGINE_H
+#define __MWS_QUERY_ENGINE_H
 
 
 #include "mws/index/index.h"

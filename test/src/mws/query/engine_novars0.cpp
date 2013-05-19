@@ -1,5 +1,25 @@
+/*
+
+Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+
+This file is part of MathWebSearch.
+
+MathWebSearch is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+MathWebSearch is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 /**
- * @file test_query_engine_qvar_hvar.cpp
+ * @file engine_novars0.cpp
  *
  */
 
@@ -8,11 +28,7 @@
 
 #define private public
 
-#include "mws/index/MwsIndexNode.hpp"
-#include "mws/index/encoded_token_dict.h"
-#include "mws/query/query_engine.h"
-
-#include "query_engine_tester.hpp"
+#include "engine_tester.hpp"
 
 using namespace mws;
 using namespace std;
@@ -27,6 +43,8 @@ Meanings:
           f -> 66
           h -> 67
           t -> 68
+
+1 solution expected
 
 */
 static bool g_test_passed = false;
