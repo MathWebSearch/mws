@@ -1,4 +1,5 @@
 TODO:
+    - fix init.d scripts slow stop
     - multiple arity tokens
     - test more thoroughly src/socket/*  -- add MUTEXES
                                          -- fix accepting in constructor

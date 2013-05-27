@@ -112,7 +112,24 @@ harvest paths.
 Having done that, the machine running the mwsd/restd stack is ready to receive
 HTTP POST requests on port <arg> (with MwsQueries [1] as POST data).
 
+To setup or remove mwsd/restd as a global SysV service, use (as root):
+
+> scripts/sysv/deploy.sh config/mws_services.conf
+> scripts/sysv/remove.sh config/mws_services.conf
+
+The provided config file [2] sets up MathWebSearch to use the ArxivDemo
+harvests [3]. To start/stop services, use
+
+> service mwsd_arxivdemo [start|stop|status|...]
+> service restd_arxivdemo [start|stop|status|...]
+
+Output is logged to /var/log/[mwsd|restd]_*.log To serve different harvest
+paths, create your own configuration file similar to [2] and deploy the
+service.
+
 [1] https://trac.mathweb.org/MWS/wiki/MwsQuery
+[2] config/mws_services.conf
+[3] data/arxivdemo
 
 5.0) Troubleshooting
 --------------------
