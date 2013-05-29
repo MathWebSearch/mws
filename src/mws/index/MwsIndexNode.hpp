@@ -87,8 +87,8 @@ public:
       */
     int insertData(CmmlToken*  expression,
                    PageDbConn*  conn,
-                   const char* url,
-                   const char* xpath);
+                   MeaningDictionary *dict,
+                   const char* url, const char *xpath);
 
     void exportToMemsector(memsector_writer_t* mswr);
     // Friend declarations

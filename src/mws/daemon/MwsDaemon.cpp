@@ -52,7 +52,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "mws/xmlparser/readMwsQueryFromFd.hpp"
 #include "mws/xmlparser/verifyMwsMessageTypeFromMemory.hpp"
-#include "mws/xmlparser/loadMwsHarvestFromMemory.hpp"
 #include "mws/xmlparser/readMwsQueryFromMemory.hpp"
 #include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
@@ -71,6 +70,7 @@ using namespace mws;
 
 static MwsIndexNode* data;
 static PageDbHandle *dbhandle;
+static MeaningDictionary* dict;
 static InSocket* serverSocket;
 static sig_atomic_t run = 1;
 const string HarvestType = "mws:harvest";
@@ -131,7 +131,7 @@ HandleConnection(void* dataPtr)
     if (messageType == HarvestType)
     {
         printf("Processing Harvest ....");
-
+        /*
         loadReturn = loadMwsHarvestFromMemory(data, message, dbhandle);
         if (loadReturn.first == 0)
         {
@@ -142,7 +142,8 @@ HandleConnection(void* dataPtr)
             printf("%d loaded (with errors)\n", loadReturn.second);
         }
         fflush(stdout);
-
+        XXX deprecated
+        */
 
        // totalLoaded += loadReturn.second;
       free(message);
@@ -168,7 +169,7 @@ HandleConnection(void* dataPtr)
         mwsQuery->applyRestrictions();
 #endif
 
-        ctxt   = new SearchContext(mwsQuery->tokens[0]);
+        ctxt   = new SearchContext(mwsQuery->tokens[0], dict);
 
         result = ctxt->getResult(data,
                                  dbhandle,
@@ -268,12 +269,7 @@ int initMws(const Config& config)
 {
     int ret;
 
-    if ((ret = MeaningDictionary::init())
-            != 0)
-    {
-        fprintf(stderr, "Error while initializing MeaningDictionary\n");
-        return 1;
-    }
+    dict = new MeaningDictionary();
 
     data = new MwsIndexNode();
 
@@ -281,7 +277,7 @@ int initMws(const Config& config)
             != 0)
     {
         fprintf(stderr, "Error while initializing xmlparser module\n");
-        MeaningDictionary::clean();
+        delete dict;
         return 1;
     }
 
@@ -292,7 +288,7 @@ int initMws(const Config& config)
     {
         fprintf(stderr, "Error while initializing dbc module\n");
         clearxmlparser();
-        MeaningDictionary::clean();
+        delete dict;
         return 1;
     }
 
@@ -302,19 +298,25 @@ int initMws(const Config& config)
         fprintf(stderr, "Error while initializing thread module\n");
         dbhandle->clean();
         clearxmlparser();
-        MeaningDictionary::clean();
+        delete dict;
         return 1;
     }
 
     // load harvests
     const vector<string>& paths = config.harvestLoadPaths;
     vector<string> :: const_iterator it;
+
+    IndexContext ctxt;
+    ctxt.page_data_db = dbhandle;
+    ctxt.root = data;
+    ctxt.meaning_id_dict = dict;
+
     for (it = paths.begin(); it != paths.end(); it++)
     {
         AbsPath harvestPath(*it);
         printf("Loading from %s...\n", it->c_str());
         printf("%d expressions loaded.\n",
-                loadMwsHarvestFromDirectory(data, harvestPath,dbhandle));
+                loadMwsHarvestFromDirectory(harvestPath, &ctxt));
         fflush(stdout);
     }
 
@@ -343,6 +345,7 @@ void cleanupMws()
     delete serverSocket;
     delete dbhandle;
     delete data;
+    delete dict;
 }
 
 

@@ -273,26 +273,9 @@ void PageDbHandle::clean()
 #ifdef TRACE_FUNC_CALLS
     LOG_TRACE_IN;
 #endif
-
     int ret;
 
-    pthread_mutex_lock(&lock);
-    while (alive)
-    {
-        pthread_cond_wait(&instanceClosed,
-                          &lock);
-    }
-    pthread_mutex_unlock(&lock);
-
-    pthread_cond_destroy(&instanceClosed);
-
-    pthread_mutex_destroy(&lock);
-
-    if (dbHandle != NULL)
-        dbHandle->close(dbHandle, 0);
-
-    if (dbEnv != NULL)
-        dbEnv->close(dbEnv, 0);
+    this->close();
 
     // Removing database file
     string dbfile = dbenvDir + "/" + (string) MWS_DB_FILE;
@@ -323,8 +306,29 @@ void PageDbHandle::clean()
 #endif
 }
 
+void PageDbHandle::close() {
+    pthread_mutex_lock(&lock);
+    while (alive)
+    {
+        pthread_cond_wait(&instanceClosed,
+                          &lock);
+    }
+    pthread_mutex_unlock(&lock);
+
+    pthread_cond_destroy(&instanceClosed);
+
+    pthread_mutex_destroy(&lock);
+
+    if (dbHandle != NULL)
+        dbHandle->close(dbHandle, 0);
+
+    if (dbEnv != NULL)
+        dbEnv->close(dbEnv, 0);
+}
+
 PageDbConn* PageDbHandle::createConnection() {
 
     PageDbConn* conn = new PageDbConn(this);
-    return ( conn );
+
+    return conn;
 }

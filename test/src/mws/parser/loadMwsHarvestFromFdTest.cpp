@@ -60,8 +60,13 @@ using namespace mws;
 int main()
 {
     int           fd, ret;
-    MwsIndexNode* dataEntry;
+    MeaningDictionary dict;
     PageDbHandle dbhandle;
+    MwsIndexNode data;
+    IndexContext ictxt;
+    ictxt.meaning_id_dict = &dict;
+    ictxt.root = &data;
+    ictxt.page_data_db = &dbhandle;
     const char* xmlfile[] = 
     {
         "harvests1303818928.xml",
@@ -92,8 +97,6 @@ int main()
     // Initializing Mws Database
     FAIL_ON(dbhandle.init(dbenv_path) != 0);
 
-    dataEntry = new MwsIndexNode();
-
     for(int i = 0; (string)xmlfile[i] != ""; i++)
     {
         xml_path = (string) MWS_TESTDATA_PATH +
@@ -101,7 +104,7 @@ int main()
         
         FAIL_ON((fd = open(xml_path.c_str(), O_RDONLY)) < 0);
 
-        ret = loadMwsHarvestFromFd(dataEntry, fd, &dbhandle).second;
+        ret = loadMwsHarvestFromFd(fd, &ictxt).second;
         // Asserting if all the expressions have been parsed correctly
         FAIL_ON(ret != nr_exprs[i]);
 
@@ -111,8 +114,6 @@ int main()
 
     (void) dbhandle.clean();
     (void) clearxmlparser();
-
-    delete dataEntry;
 
     return EXIT_SUCCESS;
 

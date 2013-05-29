@@ -64,8 +64,11 @@ public:
     /// Initialization of the Page Database
     int init(std::string dbenv_dir);
 
-    /// Cleanup of the Page Database
+    /// Close and remove the database
     void clean();
+
+    /// Close the database
+    void close();
 
     /// Create a connection that will insert or query the Db
     PageDbConn* createConnection();

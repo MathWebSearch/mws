@@ -32,6 +32,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
+#include <cassert>
 #include <ctype.h>                     // C character types (isspace)
 #include <vector>                      // STL vector headers
 #include <string>                      // STL string headers
@@ -150,9 +151,7 @@ CmmlToken::isRoot() const
 bool
 CmmlToken::isQvar() const
 {
-    if (!_meaningIdValid) _updateMeaningId();
-
-    return (_meaning == MWS_QVAR_MEANING);
+    return (getType() == VAR);
 }
 
 
@@ -192,41 +191,6 @@ CmmlToken::getXpathRelative() const
 
     return xpath_relative;
 }
-
-const mws::MeaningId&
-CmmlToken::getMeaningId() const
-{
-    if (!_meaningIdValid) _updateMeaningId();
-
-    return _meaningId;
-}
-
-
-void
-CmmlToken::_updateMeaningId() const
-{
-    if (_tag == MWS_QVAR_MEANING)
-    {
-        _meaning = MWS_QVAR_MEANING;
-    }
-    else if (_tag == "apply" || _textContent.empty())
-    {
-        _meaning = _tag;
-    }
-    else
-    {
-        // to avoid ambiguity between <ci>eq</ci> and <m:eq/>
-        _meaning = "#" + _textContent;
-    }
-
-    if (_mode)
-        _meaningId = MeaningDictionary::put(_meaning);
-    else
-        _meaningId = MeaningDictionary::get(_meaning);
-
-    _meaningIdValid = true;
-}
-
 
 string
 CmmlToken::toString(int indent) const
@@ -288,4 +252,42 @@ CmmlToken::getExprSize() const {
     }
 
     return size;
+}
+
+CmmlToken::Type
+CmmlToken::getType() const {
+    if (_tag == MWS_QVAR_MEANING) {
+        return VAR;
+    } else {
+        return CONSTANT;
+    }
+}
+
+const std::string&
+CmmlToken::getVarName() const {
+    assert(getType() == VAR);
+
+    return _textContent;
+}
+
+std::string
+CmmlToken::getMeaning() const {
+    // assert(getType() == CONSTANT); XXX legacy mwsd still uses this
+
+    string meaning;
+    if (_tag == MWS_QVAR_MEANING)
+    {
+        meaning = MWS_QVAR_MEANING;
+    }
+    else if (_tag == "apply" || _textContent.empty())
+    {
+        meaning = _tag;
+    }
+    else
+    {
+        // to avoid ambiguity between <ci>eq</ci> and <m:eq/>
+        meaning = "#" + _textContent;
+    }
+
+    return meaning;
 }

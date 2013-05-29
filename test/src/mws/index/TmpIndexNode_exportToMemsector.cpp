@@ -63,13 +63,19 @@ int main() {
     string dbenv_path = TMPDBENV_PATH;
 
     MwsIndexNode* data = new MwsIndexNode();
+    IndexContext ictxt;
+    ictxt.meaning_id_dict = new MeaningDictionary();
+    ictxt.root = new MwsIndexNode();
+    ictxt.page_data_db = &dbhandle;
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(ms_path) != 0 && errno != ENOENT);
 
     FAIL_ON(dbhandle.init(dbenv_path) != 0);
   
-    FAIL_ON(loadMwsHarvestFromDirectory(data, AbsPath(harvest_path), &dbhandle) <= 0);
+
+
+    FAIL_ON(loadMwsHarvestFromDirectory(AbsPath(harvest_path), &ictxt) <= 0);
 
     FAIL_ON(memsector_create(&mswr, ms_path, TMPFILE_SIZE) != 0);
     printf("Memsector %s created\n", ms_path);

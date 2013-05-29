@@ -131,6 +131,8 @@ struct MwsHarvest_SaxUserData
     mws::MwsIndexNode*           indexNode;
     /// PageDbHandle pointer
     PageDbHandle*                dbhandle;
+    /// Meaning dictionary
+    MeaningDictionary*           meaningDict;
 };
 
 struct MwsMessage_SaxUserData

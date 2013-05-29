@@ -86,6 +86,7 @@ MwsIndexNode::~MwsIndexNode()
 int
 MwsIndexNode::insertData(CmmlToken*  expression,
                          PageDbConn *conn,
+                         MeaningDictionary* dict,
                          const char* url,
                          const char* xpath)
 {
@@ -115,7 +116,9 @@ MwsIndexNode::insertData(CmmlToken*  expression,
         currentToken = processStack.top();
         processStack.pop();
 
-        currentNodeInfo = make_pair(currentToken->getMeaningId(),
+        MeaningId meaning_id = dict->put(currentToken->getMeaning());
+
+        currentNodeInfo = make_pair(meaning_id,
                                     currentToken->getChildNodes().size());
 
         mapIt = currentNode->children.find(currentNodeInfo);

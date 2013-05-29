@@ -72,6 +72,11 @@ private:
     /// Meaning Id of the token as inserted in MeaningDictionary
     mutable mws::MeaningId             _meaningId;
 public:
+    enum Type {
+      VAR,
+      CONSTANT
+    };
+
     /**
       * @brief Method to get an instance of a CmmlToken (which can be used as
       * root).
@@ -100,15 +105,21 @@ public:
     const std::string&           getXpath() const;
     // Return xpath without leading root selector (useful for concatenation)
     std::string                  getXpathRelative() const;
+
     const std::string&           getQvarName() const;
-    const MeaningId&             getMeaningId() const;
+
+
+    Type                         getType() const;
+    // VAR specific methods
+    const std::string&           getVarName() const;
+
+    // CONSTANT specific
+    std::string                  getMeaning() const;
 
     // Logging / stats
     std::string                  toString(int indent=0) const;
     uint32_t                     getExprDepth() const;
     uint32_t                     getExprSize() const;
-private:
-    void _updateMeaningId() const;
 protected:
     /**
       * Declared protected to avoid instantiation.

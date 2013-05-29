@@ -52,6 +52,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/PageDbHandle.hpp"
 #include "mws/dbc/PageDbConn.hpp"
 
+#include "loadMwsHarvestFromFd.hpp"
+
 // Macros
 
 #define MWSHARVEST_MAIN_NAME           "mws:harvest"
@@ -325,6 +327,7 @@ my_endElement(void*          user_data,
                     PageDbConn* conn = data->dbhandle->createConnection();
                     if (data->indexNode->insertData(currentSubterm,
                                             conn,
+                                            data->meaningDict,
                                             data->exprUri.c_str(),
                                             currentSubterm->getXpath().c_str()))
                     {
@@ -482,7 +485,7 @@ namespace mws
 {
 
 pair<int,int>
-loadMwsHarvestFromFd(mws::MwsIndexNode* indexNode, int fd, PageDbHandle *dbhandle)
+loadMwsHarvestFromFd(int fd, IndexContext* ictxt)
 {
 #ifdef TRACE_FUNC_CALLS
     LOG_TRACE_IN;
@@ -494,8 +497,9 @@ loadMwsHarvestFromFd(mws::MwsIndexNode* indexNode, int fd, PageDbHandle *dbhandl
     int                    ret;
 
     // Initializing the user_data and return value
-    user_data.indexNode = indexNode;
-    user_data.dbhandle = dbhandle;
+    user_data.indexNode = ictxt->root;
+    user_data.dbhandle = ictxt->page_data_db;
+    user_data.meaningDict = ictxt->meaning_id_dict;
     ret                 = -1;
 
     // Initializing the SAX Handler

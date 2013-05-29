@@ -44,20 +44,27 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws
 {
 
+
+struct IndexContext {
+    MwsIndexNode* root;
+    PageDbHandle* page_data_db;
+    MeaningDictionary* meaning_id_dict;
+};
+
 /**
   * @brief Function to load a MwsHarvest in from a file descriptor.
-  * @param indexNode is a pointer to the MwsIndexNode where to load.
+  *
+  * @param ictxt is a pointer to index context where to load.
   * @param fd is the file descriptor from where to read.
   * @return a pair with an exit code (0 on success and -1 on failure) and
   * the number of successfully loaded entries.
   */
 std::pair<int, int>
-loadMwsHarvestFromFd(mws::MwsIndexNode* indexNode, int fd, PageDbHandle *dbhandle);
+loadMwsHarvestFromFd(int fd, IndexContext* ictxt);
 
 
-int loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
-                                const mws::AbsPath& dirPath,
-                                PageDbHandle *dbhandle);
+int loadMwsHarvestFromDirectory(const AbsPath &dirPath,
+                                IndexContext* ictxt);
 
 
 }

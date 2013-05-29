@@ -64,9 +64,8 @@ using namespace std;
 namespace mws {
 
 int
-loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
-                            mws::AbsPath const& dirPath,
-                            PageDbHandle *dbhandle)
+loadMwsHarvestFromDirectory(mws::AbsPath const& dirPath,
+                            IndexContext* ctxt)
 {
     DIR*           directory;
     struct dirent* currEntry;
@@ -140,7 +139,7 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
 
         printf("Loading %s... ", fullPath.get());
         fflush(stdout);
-        loadReturn = loadMwsHarvestFromFd(indexNode, fd, dbhandle);
+        loadReturn = loadMwsHarvestFromFd(fd, ctxt);
         if (loadReturn.first == 0)
         {
             printf("%d loaded\n", loadReturn.second);
