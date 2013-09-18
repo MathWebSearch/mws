@@ -18,23 +18,23 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <inttypes.h>
 
+#include "common/utils/macro_func.h"
 #include "save_pid_file.h"
 
-extern "C" {
+BEGIN_DECLS
 
 int
 save_pid_file(const char *path) {
     FILE* fp = fopen(path, "w");
-    // TODO FAIL_ON
-    if (fp == NULL) {
-        goto fail;
-    }
+    FAIL_ON(fp == NULL);
 
-    fprintf(fp, "%d\n", (int) getpid());
+    fprintf(fp, "%"PRIu64, (uint64_t) getpid());
 
     return fclose(fp);
 
@@ -42,4 +42,4 @@ fail:
     return -1;
 }
 
-}
+END_DECLS
