@@ -61,7 +61,9 @@ int main(int argc, char* argv[])
     FlagParser::addFlag('D', "data-path",            FLAG_OPT, ARG_REQ );
     FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ );
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ );
-    FlagParser::addFlag('d', "daemonize",   FLAG_OPT, ARG_NONE);
+#ifndef __APPLE__
+    FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
+#endif // !__APPLE__
 
     if ((ret = FlagParser::parse(argc, argv))
             != 0)
@@ -111,6 +113,7 @@ int main(int argc, char* argv[])
         }
     }
 
+#ifndef __APPLE__
     // daemon
     if (FlagParser::hasArg('d'))
     {
@@ -122,6 +125,7 @@ int main(int argc, char* argv[])
             goto failure;
         }
     }
+#endif // !__APPLE__
 
     // pid-file - always needs to be done after daemonizing
     if (FlagParser::hasArg('i')) {

@@ -32,8 +32,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ThreadWrapper.hpp"           // ThreadWrapper class definition
 
-using namespace std;
-
 // Static definitions
 
 pthread_mutex_t ThreadWrapper::lock;

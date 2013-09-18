@@ -37,8 +37,17 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* System Includes                                                          */
 /****************************************************************************/
 
-#include <string>                       /* C++  std string                  */
-#include <linux/limits.h>               /* -- PATH_MAX                      */
+#include <string>
+
+#if defined __linux__
+#  include <linux/limits.h>
+#  define MWS_PATH_MAX PATH_MAX
+#elif defined __APPLE__
+#  include <limits.h>
+#  define MWS_PATH_MAX PATH_MAX
+#else
+#  define MWS_PATH_MAX 4096
+#endif
 
 /****************************************************************************/
 /* Constants                                                                */

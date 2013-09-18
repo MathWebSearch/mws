@@ -43,7 +43,6 @@ class Robotstxt
 private:
     GURL startUrl; // Url of the Robots.txt page
     std::vector < GURL > not_allowed; // The list of links that are not allowed
-    int CRAWL_DELAY; // The time we need to delay between two links
 
 public:
     /**

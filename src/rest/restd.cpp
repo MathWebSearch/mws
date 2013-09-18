@@ -70,9 +70,11 @@ int main(int argc, char* argv[])
     FlagParser::addFlag('p', "rest-port",   FLAG_REQ, ARG_REQ );
     FlagParser::addFlag('m', "mws-port",    FLAG_OPT, ARG_REQ );
     FlagParser::addFlag('h', "mws-host",    FLAG_OPT, ARG_REQ );
-    FlagParser::addFlag('d', "daemonize",   FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('i', "pid-file",    FLAG_OPT, ARG_REQ );
     FlagParser::addFlag('l', "log-file",    FLAG_OPT, ARG_REQ );
+#ifndef __APPLE__
+    FlagParser::addFlag('d', "daemonize",   FLAG_OPT, ARG_NONE);
+#endif // !__APPLE__
 
     if ((ret = FlagParser::parse(argc, argv))
             != 0)
@@ -112,6 +114,7 @@ int main(int argc, char* argv[])
         config.mwsPort = DEFAULT_MWS_PORT;
     }
 
+#ifndef __APPLE__
     // daemon
     if (FlagParser::hasArg('d'))
     {
@@ -123,6 +126,7 @@ int main(int argc, char* argv[])
             goto failure;
         }
     }
+#endif // !__APPLE__
 
     // pid-file - always needs to be done after daemonizing
     if (FlagParser::hasArg('i')) {

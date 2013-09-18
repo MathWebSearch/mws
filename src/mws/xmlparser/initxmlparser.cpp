@@ -34,11 +34,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "initxmlparser.hpp"           // MWS initxmlparser header
 
-// Namespaces
-
-using namespace std;
-using namespace mws;
-
 
 int mws::initxmlparser()
 {

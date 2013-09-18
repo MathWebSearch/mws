@@ -39,5 +39,8 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
 # Binaries
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
-                      googleurl)
+                      crawlertypes
+                      crawlerutils
+                      commontypes
+                      commonsocket)
 

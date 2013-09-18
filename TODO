@@ -1,13 +1,13 @@
 TODO:
     - fix init.d scripts slow stop
-    - multiple arity tokens
     - test more thoroughly src/socket/*  -- add MUTEXES
                                          -- fix accepting in constructor
                                          -- fix read / write (?)
     - mainpage doxygen
     - document/unit test for most components
-    - check mem leaks in restd (minor)
     - fix doxygen headers
+    - check mem leaks in restd (minor)
+    - move embeded 3rdparty files
 
 FEATURES:
     - create mws schema with standard answers / error codes

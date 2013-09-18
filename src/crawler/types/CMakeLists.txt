@@ -42,5 +42,7 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp")
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       ${GOOGLEURL_LIBRARIES}
-                      ${DB_LIBRARY})
+                      ${DB_LIBRARY}
+                      crawlerutils
+                      )
 

@@ -44,8 +44,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 #include "config.h" // for location of MwsMathMLTags.txt path
-#include "crawler/types/Page.hpp"
-#include "crawler/utils/MwsGetMath.hpp"
+#include "crawler/utils/Page.hpp"
+#include "MwsGetMath.hpp"
+#include "memstream.h"
 
 using namespace std;
 using namespace mws;

@@ -34,7 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <set>
 
 // Local includes
-#include "crawler/types/Page.hpp"
+#include "crawler/utils/Page.hpp"
 
 // Global variable
 extern std::set < std::string > mathml_tags;

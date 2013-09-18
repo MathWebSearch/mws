@@ -19,16 +19,20 @@
 #                       (note: in addition to ICU_LIBRARIES)
 
 # Look for the header file.
+set(CMAKE_INCLUDE_PATH "/usr/local/opt/icu4c/include/")
 find_path(
   ICU_INCLUDE_DIR
   NAMES unicode/utypes.h
   DOC "Include directory for the ICU library")
 mark_as_advanced(ICU_INCLUDE_DIR)
+message(${ICU_INCLUDE_DIR})
 
 # Look for the library.
+set(CMAKE_LIBRARY_PATH "/usr/local/opt/icu4c/lib/")
 find_library(
   ICU_LIBRARY
   NAMES icuuc cygicuuc cygicuuc32
+  PATH
   DOC "Libraries to link against for the common parts of ICU")
 mark_as_advanced(ICU_LIBRARY)
 

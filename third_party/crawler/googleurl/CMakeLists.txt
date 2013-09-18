@@ -24,6 +24,7 @@ FIND_PACKAGE( Threads   REQUIRED )
 ADD_DEFINITIONS( "-w" ) # disable warnings from 3rd party code
 
 # Includes
+INCLUDE_DIRECTORIES( ${ICU_INCLUDE_DIRS} )
 
 # Sources
 FILE( GLOB SOURCES "src/*.cc")

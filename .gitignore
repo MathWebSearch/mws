@@ -15,5 +15,11 @@
 # Build directory
 build/
 
-# vi open files
+# vi
 *.swp
+
+# qtCreator
+CMakeLists.txt.user
+
+# others
+.DS_Store

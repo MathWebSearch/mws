@@ -39,10 +39,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // Local includes
 #include "MwsCrawler.hpp"
 #include "rest/types/MwsConnection.hpp"
-#include "crawler/utils/MwsGetMath.hpp"
-#include "crawler/types/Page.hpp"
 #include "crawler/types/Robotstxt.hpp"
 #include "crawler/types/SharedQueue.hpp"
+#include "crawler/utils/MwsGetMath.hpp"
+#include "crawler/utils/Page.hpp"
 
 // Third Party includes
 #include "gurl.h"
@@ -287,7 +287,7 @@ void Crawler::addMath(vector<string> formulae)
  */
 void Crawler::cleanupLinks(vector<GURL> &page_links)
 {
-    size_t pos = 0,i;
+    size_t pos = 0, i = 0;
     vector<GURL>::iterator it,itpos;
     GURL current;
     for(itpos = it = page_links.begin();it!=page_links.end();++i,++it)

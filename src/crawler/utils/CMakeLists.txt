@@ -28,9 +28,8 @@ SET(MODULE "crawlerutils")
 
 # Dependencies
 FIND_PACKAGE (LibXml2 REQUIRED)
-FIND_PACKAGE (PkgConfig REQUIRED)
-PKG_SEARCH_MODULE( LIBCURL libcurl REQUIRED )
-PKG_SEARCH_MODULE( HTMLCXX htmlcxx REQUIRED )
+FIND_LIBRARY (CURL_LIBRARIES curl)
+FIND_LIBRARY (HTMLCXX_LIBRARIES htmlcxx)
 
 # Includes
 INCLUDE_DIRECTORIES( "${GOOGLEURL_INCLUDES}" )
@@ -40,12 +39,13 @@ configure_file ( MwsMathMLTags.txt MwsMathMLTags.txt )
 # Flags
 
 # Sources
-FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
+FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*.h")
 
 # Binaries
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       ${LIBXML2_LIBRARIES}
-                      ${LIBCURL_LIBRARIES}
-                      ${HTMLCXX_LIBRARIES})
-
+                      ${CURL_LIBRARIES}
+                      ${HTMLCXX_LIBRARIES}
+                      ${GOOGLEURL_LIBRARIES}
+                      )

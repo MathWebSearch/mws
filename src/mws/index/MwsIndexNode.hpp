@@ -92,8 +92,8 @@ public:
 
     void exportToMemsector(memsector_writer_t* mswr);
     // Friend declarations
-    friend class SearchContext;
-    friend class qvarCtxt;
+    friend struct SearchContext;
+    friend struct qvarCtxt;
     friend class Tester;
 };
 

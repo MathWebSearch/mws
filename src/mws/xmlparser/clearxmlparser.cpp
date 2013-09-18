@@ -34,11 +34,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "clearxmlparser.hpp"          // MWS clearxmlparser header
 
-// Namespaces
-
-using namespace std;
-using namespace mws;
-
 
 void mws::clearxmlparser()
 {
