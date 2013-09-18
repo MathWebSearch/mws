@@ -25,7 +25,6 @@ find_path(
   NAMES unicode/utypes.h
   DOC "Include directory for the ICU library")
 mark_as_advanced(ICU_INCLUDE_DIR)
-message(${ICU_INCLUDE_DIR})
 
 # Look for the library.
 set(CMAKE_LIBRARY_PATH "/usr/local/opt/icu4c/lib/")
