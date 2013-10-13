@@ -66,7 +66,8 @@ namespace mws {
 int
 loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
                             mws::AbsPath const& dirPath,
-                            PageDbHandle *dbhandle)
+                            PageDbHandle *dbhandle,
+                            bool recursive)
 {
     DIR*           directory;
     struct dirent* currEntry;
@@ -78,6 +79,7 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
     int            totalLoaded;
     pair<int,int>  loadReturn;
     vector<string> files;
+    vector<string> subdirs;
     AbsPath        fullPath;
     vector<string> :: iterator it;
 
@@ -88,29 +90,40 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
     directory = opendir(dirPath.get());
     if (!directory)
     {
-        perror("Bad data directory provided");
+        perror("loadMwsHarvestFromDirectory");
         return -1;
     }
-
-    printf("Indexing harvest files...\n");
 
     while ((ret = readdir_r(directory, &tmpEntry, &currEntry)) == 0 &&
             currEntry != NULL)
     {
         entrySize = strlen(currEntry->d_name);
 
-        if ( currEntry->d_name[0] == '.' )      // Skipping if hidden file
-        {
+        if (currEntry->d_name[0] == '.') {
             printf("Skipping hidden entry \"%s\"\n", currEntry->d_name);
-        }
-        else if ( strcmp(currEntry->d_name + entrySize - extenSize,
-                         MWS_HARVEST_EXT) != 0 ) // Skipping if bad file extension
-        {
-            printf("Skipping bad extension file \"%s\"\n", currEntry->d_name);
-        }
-        else
-        {
-            files.push_back(currEntry->d_name);
+        } else {
+            switch (currEntry->d_type) {
+            case DT_DIR:
+                if (recursive) {
+                    subdirs.push_back(currEntry->d_name);
+                } else {
+                    printf("Skipping directory \"%s\"\n", currEntry->d_name);
+                }
+                break;
+            case DT_REG:
+                if (strcmp(currEntry->d_name + entrySize - extenSize,
+                             MWS_HARVEST_EXT) == 0) {
+                    files.push_back(currEntry->d_name);
+                } else {
+                    printf("Skipping bad extension file \"%s\"\n",
+                           currEntry->d_name);
+                }
+                break;
+            default:
+                printf("Skiping entry \"%s\": not a regular file\n",
+                       currEntry->d_name);
+                break;
+            }
         }
     }
     if (ret != 0)
@@ -155,6 +168,17 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
         close(fd);
 
         printf("Total %d\n", totalLoaded);
+    }
+
+    // Recursing through directories
+    if (recursive) {
+        for (it = subdirs.begin(); it != subdirs.end(); it++) {
+            fullPath.set(dirPath.get());
+            fullPath.append(*it);
+            totalLoaded += loadMwsHarvestFromDirectory(indexNode, fullPath,
+                                                       dbhandle,
+                                                       /* recursive = */ true);
+        }
     }
 
     return totalLoaded;

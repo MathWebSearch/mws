@@ -42,6 +42,7 @@ namespace mws { namespace daemon {
 
 struct Config {
     std::vector<std::string> harvestLoadPaths;
+    bool                     recursive;
     uint16_t                 mwsPort;
     std::string              dataPath;
 };

@@ -61,6 +61,7 @@ int main(int argc, char* argv[])
     FlagParser::addFlag('D', "data-path",            FLAG_OPT, ARG_REQ );
     FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ );
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ );
+    FlagParser::addFlag('r', "recursive",            FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
 #endif // !__APPLE__
@@ -74,6 +75,13 @@ int main(int argc, char* argv[])
 
     // harvest paths
     config.harvestLoadPaths = FlagParser::getArgs('I');
+
+    // recursive
+    if (FlagParser::hasArg('r')) {
+        config.recursive = true;
+    } else {
+        config.recursive = false;
+    }
 
     // mws-port
     if (FlagParser::hasArg('m')) {

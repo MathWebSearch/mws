@@ -314,7 +314,8 @@ int initMws(const Config& config)
         AbsPath harvestPath(*it);
         printf("Loading from %s...\n", it->c_str());
         printf("%d expressions loaded.\n",
-                loadMwsHarvestFromDirectory(data, harvestPath,dbhandle));
+                loadMwsHarvestFromDirectory(data, harvestPath, dbhandle,
+                                            config.recursive));
         fflush(stdout);
     }
 

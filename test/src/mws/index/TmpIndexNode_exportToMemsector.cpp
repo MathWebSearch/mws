@@ -69,7 +69,8 @@ int main() {
 
     FAIL_ON(dbhandle.init(dbenv_path) != 0);
   
-    FAIL_ON(loadMwsHarvestFromDirectory(data, AbsPath(harvest_path), &dbhandle) <= 0);
+    FAIL_ON(loadMwsHarvestFromDirectory(data, AbsPath(harvest_path), &dbhandle,
+                                        /* recursive = */ false) <= 0);
 
     FAIL_ON(memsector_create(&mswr, ms_path, TMPFILE_SIZE) != 0);
     printf("Memsector %s created\n", ms_path);

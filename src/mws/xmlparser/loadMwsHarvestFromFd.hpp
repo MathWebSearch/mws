@@ -57,7 +57,8 @@ loadMwsHarvestFromFd(mws::MwsIndexNode* indexNode, int fd, PageDbHandle *dbhandl
 
 int loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
                                 const mws::AbsPath& dirPath,
-                                PageDbHandle *dbhandle);
+                                PageDbHandle *dbhandle,
+                                bool recursive);
 
 
 }
