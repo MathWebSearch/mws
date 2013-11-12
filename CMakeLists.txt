@@ -79,7 +79,9 @@ OPTION( CMAKE_BUILD_TYPE "Choose one of Debug|Release|RelWithDebInfo|MinSizeRel"
 #ADD_DEFINITIONS( "-D_APPLYRESTRICT" )
 
 # Build Flags
-ADD_DEFINITIONS( "-Wall -W -Werror" )
+SET( COMMON_FLAGS   "-Wall -W -Wextra -pedantic -Werror -Wno-flexible-array-extensions" )
+SET( CMAKE_C_FLAGS      "${CMAKE_C_FLAGS} ${COMMON_FLAGS}" )
+SET( CMAKE_CXX_FLAGS    "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS} -std=c++11 -Weffc++" )
 
 # Global include paths
 INCLUDE_DIRECTORIES( "${MWS_SRC_DIR}"               # src dir
@@ -118,20 +120,18 @@ INCLUDE(config/Version)                         # Version.hpp
 
 # Documentation
 IF ( WITH_DOC )
+    FIND_PACKAGE(Doxygen REQUIRED)
+
     # Generate doxyfile
     INCLUDE(config/Doxyfile)                        # doxyfile
 
-    FIND_PACKAGE(Doxygen)
-
-    IF( DOXYGEN_FOUND )
-        # Adding doc/ generation method
-        ADD_CUSTOM_COMMAND(OUTPUT ${DOXYGEN_OUTPUT_DIR}
-                COMMAND ${DOXYGEN_EXECUTABLE}
-                ARGS ${CMAKE_CURRENT_BINARY_DIR}/doxyfile
-                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                COMMENT "Generating API documentation with Doxygen" VERBATIM)
-        # Set doc/ as target
-        ADD_CUSTOM_TARGET(doc ALL
-                DEPENDS ${DOXYGEN_OUTPUT_DIR})
-    ENDIF( DOXYGEN_FOUND )
+    # Adding doc/ generation method
+    ADD_CUSTOM_COMMAND(OUTPUT ${DOXYGEN_OUTPUT_DIR}
+            COMMAND ${DOXYGEN_EXECUTABLE}
+            ARGS ${CMAKE_CURRENT_BINARY_DIR}/doxyfile
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Generating API documentation with Doxygen" VERBATIM)
+    # Set doc/ as target
+    ADD_CUSTOM_TARGET(doc ALL
+            DEPENDS ${DOXYGEN_OUTPUT_DIR})
 ENDIF ( WITH_DOC )

@@ -50,7 +50,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std;
 using namespace mws;
 
-const string root_xpath_selector = "/m:semantics/m:annotation-xml[@encoding=\"MathML-Content\"]/*[1]";
+const string root_xpath_selector = "/*[1]";
 
 CmmlToken::CmmlToken(bool aMode) :
     _tag( "" ),

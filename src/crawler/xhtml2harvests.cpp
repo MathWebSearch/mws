@@ -25,7 +25,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // System includes
-#include <string> // stl
+#include <string>
 #include <vector>
 #include <queue>
 #include <set>
@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
         for (vector<string>::const_iterator it = params.begin(); it != params.end(); it++) {
             string url = root + "/" + *it;
             string content = get_file_contents(it->c_str());
-            vector <string> math = get_math_xhtml(content, url);
+            vector<string> math = get_math_xhtml(content, url);
             for(vector<string>::iterator it = math.begin(); it != math.end() ; it++) {
                 fputs(it->c_str(), harvest);
             }

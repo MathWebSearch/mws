@@ -96,7 +96,7 @@ int InSocket::enable()
         goto fail;
     }
 
-    ret = bind(this->_fd,
+    ret = ::bind(this->_fd,
                (struct sockaddr*)&this->_insideAddr,
                sizeof(this->_insideAddr));
     if (ret == -1)

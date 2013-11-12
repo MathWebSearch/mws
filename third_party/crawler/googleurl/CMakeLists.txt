@@ -20,8 +20,9 @@
 FIND_PACKAGE( ICU       REQUIRED )
 FIND_PACKAGE( Threads   REQUIRED )
 
-# Flags
-ADD_DEFINITIONS( "-w" ) # disable warnings from 3rd party code
+# disable warnings from 3rd party code
+SET( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w" )
+SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w" )
 
 # Includes
 INCLUDE_DIRECTORIES( ${ICU_INCLUDE_DIRS} )
