@@ -16,7 +16,31 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
-ADD_SUBDIRECTORY( dbc )
-ADD_SUBDIRECTORY( index )
-ADD_SUBDIRECTORY( parser )
-ADD_SUBDIRECTORY( query )
+#
+# test/src/mws/dbc/CMakeLists.txt --
+#
+# 19 Jun 2013
+# c.prodescu@jacobs-university.de
+#
+
+# Dependencies
+
+# Includes
+
+# Flags
+
+# Sources
+FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c")
+
+# Binaries
+FOREACH(source ${SOURCES})
+    GET_FILENAME_COMPONENT(SourceName ${source} NAME_WE)
+    # Generate Binaries
+    ADD_EXECUTABLE(${SourceName} ${source})
+    TARGET_LINK_LIBRARIES(${SourceName}
+                          mwsdbc
+                          commonutils)
+    # Add test
+    SET(TestName "test_${SourceName}")
+    ADD_TEST(${TestName} ${SourceName})
+ENDFOREACH(source)

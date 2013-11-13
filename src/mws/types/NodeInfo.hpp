@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWSNODEINFO_HPP
-#define _MWSNODEINFO_HPP
+#ifndef _MWS_TYPES_NODEINFO_HPP
+#define _MWS_TYPES_NODEINFO_HPP
 
 /**
   * @brief  File containing type declarations for NodeInfo
@@ -57,6 +57,14 @@ typedef uint8_t     Arity;
 /// Type of the node info
 typedef std::pair<MeaningId, Arity> NodeInfo;
 
+typedef uint32_t    FormulaId;  ///< Formula Id corresponding to a leaf node
+
+typedef uint32_t    CrawlId;     ///< Crawled data Id
+
+typedef std::string FormulaPath; ///< Path of the formula within a crawl data
+
+typedef std::string CrawlData;   ///< Data associated with a crawled element
+
 // Constants
 const Meaning   MWS_QVAR_MEANING       = "mws:qvar";
 
@@ -70,4 +78,4 @@ const Meaning MWS_URLMEANING_NO_URL       = "";
 
 }
 
-#endif // _MWSNODEINFO_HPP
+#endif // _MWS_TYPES_NODEINFO_HPP

@@ -29,10 +29,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-// Local includes
 #include "mws/dbc/PageDbHandle.hpp"
 #include "mws/types/PageData.hpp"
 #include "mws/types/MwsAnswset.hpp"
+#include "mws/types/NodeInfo.hpp"
 
 class PageDbHandle;
 
@@ -45,7 +45,6 @@ private:
      */
     PageDbConn(PageDbHandle* aHandle);
 public:
-
     /**
      * @brief Connection Destructor
      */
@@ -54,7 +53,7 @@ public:
     /**
      * @brief insert pageData into the Database
      */
-    int insert(const char* url_uuid,const char* xpath,unsigned long long id);
+    int insert(const char* url_uuid, const char* xpath,unsigned long long id);
 
     /**
      * @brief query the Db for the id and return the results in pageData pointer
@@ -68,9 +67,8 @@ public:
     friend class PageDbHandle;
 
 private:
-
-    /// Unused
-    PageDbConn();
+    PageDbConn(const PageDbConn&);
+    const PageDbConn& operator=(const PageDbConn&);
 };
 
 
