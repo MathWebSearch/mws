@@ -51,12 +51,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MwsDaemonConf.hpp"
 
-// Macro handling
-
-#ifndef MWS_HARVEST_EXT
-#define MWS_HARVEST_EXT DEFAULT_MWS_HARVEST_EXT
-#endif
-
 // Namespaces
 
 using namespace std;
@@ -74,7 +68,6 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
     struct dirent  tmpEntry;
     int            ret;
     size_t         extenSize;
-    size_t         entrySize;
     int            fd;
     int            totalLoaded;
     pair<int,int>  loadReturn;
@@ -85,7 +78,7 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
 
     totalLoaded = 0;
 
-    extenSize = strlen(DEFAULT_MWS_HARVEST_EXT);
+    extenSize = strlen(MWS_HARVEST_SUFFIX);
 
     directory = opendir(dirPath.get());
     if (!directory)
@@ -97,7 +90,7 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
     while ((ret = readdir_r(directory, &tmpEntry, &currEntry)) == 0 &&
             currEntry != NULL)
     {
-        entrySize = strlen(currEntry->d_name);
+        size_t entrySize = strlen(currEntry->d_name);
 
         if (currEntry->d_name[0] == '.') {
             printf("Skipping hidden entry \"%s\"\n", currEntry->d_name);
@@ -112,7 +105,7 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
                 break;
             case DT_REG:
                 if (strcmp(currEntry->d_name + entrySize - extenSize,
-                             MWS_HARVEST_EXT) == 0) {
+                             MWS_HARVEST_SUFFIX) == 0) {
                     files.push_back(currEntry->d_name);
                 } else {
                     printf("Skipping bad extension file \"%s\"\n",

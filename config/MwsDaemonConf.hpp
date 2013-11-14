@@ -43,6 +43,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_MWS_DATA_PATH           "/tmp"
 
 // Extension of Mws Harvest files
-#define DEFAULT_MWS_HARVEST_EXT         "mws"
+#define MWS_HARVEST_SUFFIX              "harvest"
 
 #endif

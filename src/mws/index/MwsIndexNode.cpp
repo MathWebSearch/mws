@@ -201,7 +201,6 @@ MwsIndexNode::exportToMemsector(memsector_writer_t* mswr) {
                 ms_nodes_stack.top().second++;
             }
 
-
             if (new_arity == 0) {   // leaf node
                 MwsIndexNode* leaf = top_curr->second;
 
