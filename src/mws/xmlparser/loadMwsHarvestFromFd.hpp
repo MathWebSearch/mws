@@ -34,11 +34,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <utility>                     // C++ utility headers (pair)
+#include <utility>
 
 // Local includes
 
-#include "mws/index/MwsIndexNode.hpp"  // MwsIndexNode datatype header
+#include "mws/index/IndexManager.hpp"
 #include "common/utils/Path.hpp"
 
 namespace mws
@@ -52,12 +52,11 @@ namespace mws
   * the number of successfully loaded entries.
   */
 std::pair<int, int>
-loadMwsHarvestFromFd(mws::MwsIndexNode* indexNode, int fd, PageDbHandle *dbhandle);
+loadMwsHarvestFromFd(mws::index::IndexManager* indexManager, int fd);
 
 
-int loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
+int loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
                                 const mws::AbsPath& dirPath,
-                                PageDbHandle *dbhandle,
                                 bool recursive);
 
 

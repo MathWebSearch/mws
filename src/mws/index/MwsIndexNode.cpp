@@ -48,6 +48,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // Namespaces
 
 using namespace mws;
+using namespace mws::types;
 using namespace std;
 
 // Static members declaration
@@ -83,27 +84,15 @@ MwsIndexNode::~MwsIndexNode()
 }
 
 
-int
-MwsIndexNode::insertData(CmmlToken*  expression,
-                         PageDbConn *conn,
-                         const char* url,
-                         const char* xpath)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
-    int               inserted;
-    stack<CmmlToken*> processStack;
-    CmmlToken*        currentToken;
+MwsIndexNode*
+MwsIndexNode::insertData(const CmmlToken* expression,
+                         MeaningDictionary* meaningDictionary) {
+    stack<const CmmlToken*> processStack;
     MwsIndexNode*     currentNode;
     NodeInfo          currentNodeInfo;
 
     _MapType :: iterator mapIt;
     CmmlToken::PtrList::const_reverse_iterator rIt;
-
-    // Initializing # of inserted entries
-    inserted = 0;
 
     // Initializing the iterative procedure
     processStack.push(expression);
@@ -112,10 +101,11 @@ MwsIndexNode::insertData(CmmlToken*  expression,
     while (!processStack.empty())
     {
         // Getting the next token and pushing it in the right node
-        currentToken = processStack.top();
+        const CmmlToken* currentToken = processStack.top();
         processStack.pop();
 
-        currentNodeInfo = make_pair(currentToken->getMeaningId(),
+        MeaningId meaningId = meaningDictionary->put(currentToken->getMeaning());
+        currentNodeInfo = make_pair(meaningId,
                                     currentToken->getChildNodes().size());
 
         mapIt = currentNode->children.find(currentNodeInfo);
@@ -141,17 +131,7 @@ MwsIndexNode::insertData(CmmlToken*  expression,
         }
     }
 
-    if (conn->insert(url, xpath, currentNode->id))
-    {
-        currentNode->solutions++;
-        inserted++;
-    }
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
-
-    return inserted;
+    return currentNode;
 }
 
 

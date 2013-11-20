@@ -48,11 +48,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/socket/InSocket.hpp"
 #include "common/socket/OutSocket.hpp"
 #include "mws/dbc/PageDbHandle.hpp"
+#include "mws/dbc/MemFormulaDb.hpp"
+#include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/xmlparser/verifyMwsMessageTypeFromFd.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "mws/xmlparser/readMwsQueryFromFd.hpp"
 #include "mws/xmlparser/verifyMwsMessageTypeFromMemory.hpp"
-#include "mws/xmlparser/loadMwsHarvestFromMemory.hpp"
 #include "mws/xmlparser/readMwsQueryFromMemory.hpp"
 #include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
@@ -66,8 +67,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/Path.hpp"
 #include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
 
+#include "mws/index/IndexManager.hpp"
+
 using namespace std;
 using namespace mws;
+using namespace mws::types;
 
 static MwsIndexNode* data;
 static PageDbHandle *dbhandle;
@@ -75,6 +79,12 @@ static InSocket* serverSocket;
 static sig_atomic_t run = 1;
 const string HarvestType = "mws:harvest";
 const string QueryType = "mws:query";
+
+dbc::CrawlDb* crawlDb;
+dbc::FormulaDb* formulaDb;
+MeaningDictionary* meaningDictionary;
+
+index::IndexManager* indexManager;
 
 namespace mws { namespace daemon {
 
@@ -127,30 +137,7 @@ HandleConnection(void* dataPtr)
     printf("Type: %s\n",messageType.c_str());
     fflush(stdout);
 
-    // IN CASE OF MWS HARVEST
-    if (messageType == HarvestType)
-    {
-        printf("Processing Harvest ....");
-
-        loadReturn = loadMwsHarvestFromMemory(data, message, dbhandle);
-        if (loadReturn.first == 0)
-        {
-            printf("%d loaded\n", loadReturn.second);
-        }
-        else
-        {
-            printf("%d loaded (with errors)\n", loadReturn.second);
-        }
-        fflush(stdout);
-
-
-       // totalLoaded += loadReturn.second;
-      free(message);
-      delete outSocket;
-      return NULL;
-    }
-    else if (messageType != QueryType)
-    {
+    if (messageType != QueryType) {
       free(message);
       delete outSocket;
       return NULL;
@@ -168,7 +155,7 @@ HandleConnection(void* dataPtr)
         mwsQuery->applyRestrictions();
 #endif
 
-        ctxt   = new SearchContext(mwsQuery->tokens[0]);
+        ctxt   = new SearchContext(mwsQuery->tokens[0], meaningDictionary);
 
         result = ctxt->getResult(data,
                                  dbhandle,
@@ -268,41 +255,26 @@ int initMws(const Config& config)
 {
     int ret;
 
-    if ((ret = MeaningDictionary::init())
-            != 0)
-    {
-        fprintf(stderr, "Error while initializing MeaningDictionary\n");
-        return 1;
-    }
-
-    data = new MwsIndexNode();
-
     if ((ret = initxmlparser())
             != 0)
     {
         fprintf(stderr, "Error while initializing xmlparser module\n");
-        MeaningDictionary::clean();
         return 1;
     }
 
-    dbhandle = new PageDbHandle();
+    crawlDb = new dbc::MemCrawlDb();
+    formulaDb = new dbc::MemFormulaDb();
+    data = new MwsIndexNode();
+    meaningDictionary = new MeaningDictionary();
 
-    ret = dbhandle->init(config.dataPath);
-    if (ret)
-    {
-        fprintf(stderr, "Error while initializing dbc module\n");
-        clearxmlparser();
-        MeaningDictionary::clean();
-        return 1;
-    }
+    indexManager = new index::IndexManager(formulaDb, crawlDb, data,
+                                           meaningDictionary);
 
     ret = ThreadWrapper::init();
     if (ret)
     {
         fprintf(stderr, "Error while initializing thread module\n");
-        dbhandle->clean();
         clearxmlparser();
-        MeaningDictionary::clean();
         return 1;
     }
 
@@ -314,7 +286,7 @@ int initMws(const Config& config)
         AbsPath harvestPath(*it);
         printf("Loading from %s...\n", it->c_str());
         printf("%d expressions loaded.\n",
-                loadMwsHarvestFromDirectory(data, harvestPath, dbhandle,
+                loadMwsHarvestFromDirectory(indexManager, harvestPath,
                                             config.recursive));
         fflush(stdout);
     }

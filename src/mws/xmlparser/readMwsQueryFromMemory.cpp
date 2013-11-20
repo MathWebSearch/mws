@@ -60,6 +60,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 using namespace mws;
+using namespace mws::types;
 
 /**
   * @brief This function is called before the SAX handler starts parsing the

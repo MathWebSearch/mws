@@ -39,9 +39,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 using namespace mws;
+using namespace mws::types;
 
 
-SearchContext::SearchContext(CmmlToken* expression)
+SearchContext::SearchContext(CmmlToken* expression, MeaningDictionary* dict)
 {
     int                                      tokenCount;
     map<std::string, int>                    indexedQvars;
@@ -59,6 +60,7 @@ SearchContext::SearchContext(CmmlToken* expression)
     {
         currentToken = tokenStack.top();
         tokenStack.pop();
+        MeaningId meaning_id = dict->get(currentToken->getMeaning());
 
         // Pushing the children on the stack (in reverse order to maintain DFS)
         for (rIt  = currentToken->getChildNodes().rbegin();
@@ -76,7 +78,7 @@ SearchContext::SearchContext(CmmlToken* expression)
             {
                 expr.push_back(
                         makeNodeTriple(true,
-                                       currentToken->getMeaningId(),
+                                       meaning_id,
                                        qvarCount)
                         );
                 backtrackPoints.push_back(tokenCount+1);
@@ -91,7 +93,7 @@ SearchContext::SearchContext(CmmlToken* expression)
                                                   qvarCount));
                     expr.push_back(
                             makeNodeTriple(true,
-                                           currentToken->getMeaningId(),
+                                           meaning_id,
                                            qvarCount)
                             );
                     backtrackPoints.push_back(tokenCount+1);
@@ -104,7 +106,7 @@ SearchContext::SearchContext(CmmlToken* expression)
                 {
                     expr.push_back(
                             makeNodeTriple(true,
-                                           currentToken->getMeaningId(),
+                                           meaning_id,
                                            mapIt->second)
                             );
                 }
@@ -115,7 +117,7 @@ SearchContext::SearchContext(CmmlToken* expression)
         {
             expr.push_back(
                     makeNodeTriple(false,
-                                   currentToken->getMeaningId(),
+                                   meaning_id,
                                    currentToken->getChildNodes().size())
                     );
         }

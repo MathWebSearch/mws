@@ -31,14 +31,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
+#include <stack>
+#include <utility>
 
-#include <stack>                       // STL stack class header
-#include <utility>                     // STL pair
-
-// Local includes
-
-#include "mws/dbc/PageDbConn.hpp"       // MWS Database connection class
 #include "mws/types/CmmlToken.hpp"     // CmmlToken class header
 #include "mws/types/MwsAnswset.hpp"    // MWS Answer set class header
 #include "mws/types/NodeInfo.hpp"      // MWS node meaning declaration
@@ -52,16 +47,18 @@ namespace mws
 
 class MwsIndexNode
 {
-// Map to select children based on _MapKeyType
-typedef mws::VectorMap<NodeInfo, MwsIndexNode*>                           _MapType;
+    // Map to select children based on _MapKeyType
+    typedef mws::VectorMap<NodeInfo, MwsIndexNode*> _MapType;
 
 private:
     /// Id of the next node to be created
     static unsigned long long nextNodeId;
+public:
     /// Id of the MwsIndexNode
     const unsigned long long id;
     /// Number of solutions associated with this node
     unsigned int solutions;
+private:
     /// Map of children MwsIndex Nodes
     _MapType children;
 
@@ -83,12 +80,10 @@ public:
       * into the database
       * @param url is the address to be linked to the respective expression
       * @param xpath is the xpath to be linked to the respective expression
-      * @return 1 if the expression was inserted and 0 otherwise.
+      * @return leaf node corresponding to the inserted expression
       */
-    int insertData(CmmlToken*  expression,
-                   PageDbConn*  conn,
-                   const char* url,
-                   const char* xpath);
+    MwsIndexNode* insertData(const types::CmmlToken *expression,
+                             types::MeaningDictionary *meaningDictionary);
 
     void exportToMemsector(memsector_writer_t* mswr);
     // Friend declarations

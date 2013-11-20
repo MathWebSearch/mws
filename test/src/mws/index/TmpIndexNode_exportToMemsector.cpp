@@ -31,7 +31,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/MeaningDictionary.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "common/utils/macro_func.h"
-#include "mws/dbc/PageDbHandle.hpp"
+#include "mws/dbc/MemCrawlDb.hpp"
+#include "mws/dbc/MemFormulaDb.hpp"
+#include "mws/index/IndexManager.hpp"
 
 #include "config.h"
 
@@ -59,17 +61,21 @@ int main() {
     memsector_handle_t ms;
     const char *ms_path = TMPFILE_PATH;
     string harvest_path = MWS_TESTDATA_PATH;
-    PageDbHandle dbhandle;
     string dbenv_path = TMPDBENV_PATH;
 
+    dbc::CrawlDb* crawlDb = new dbc::MemCrawlDb();
+    dbc::FormulaDb* formulaDb = new dbc::MemFormulaDb();
     MwsIndexNode* data = new MwsIndexNode();
+    types::MeaningDictionary* meaningDictionary =
+            new types::MeaningDictionary();
+
+    index::IndexManager* indexManager =
+            new index::IndexManager(formulaDb,crawlDb, data, meaningDictionary);
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(ms_path) != 0 && errno != ENOENT);
-
-    FAIL_ON(dbhandle.init(dbenv_path) != 0);
   
-    FAIL_ON(loadMwsHarvestFromDirectory(data, AbsPath(harvest_path), &dbhandle,
+    FAIL_ON(loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
                                         /* recursive = */ false) <= 0);
 
     FAIL_ON(memsector_create(&mswr, ms_path, TMPFILE_SIZE) != 0);
@@ -95,12 +101,9 @@ int main() {
     FAIL_ON(memsector_remove(&ms) != 0);
     printf("Memsector removed\n");
 
-    dbhandle.clean();
-
     return 0;
 
 fail:
-    dbhandle.clean();
     return -1;
 }
 

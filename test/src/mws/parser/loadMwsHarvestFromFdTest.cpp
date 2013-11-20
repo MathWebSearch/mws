@@ -44,9 +44,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "mws/dbc/MwsDbConn.hpp"
-#include "mws/dbc/PageDbHandle.hpp"
-#include "mws/dbc/PageDbConn.hpp"
+#include "mws/dbc/MemCrawlDb.hpp"
+#include "mws/dbc/MemFormulaDb.hpp"
 #include "common/utils/macro_func.h"
+
+
 
 #include "config.h"
 
@@ -60,8 +62,6 @@ using namespace mws;
 int main()
 {
     int           fd, ret;
-    MwsIndexNode* dataEntry;
-    PageDbHandle dbhandle;
     const char* xmlfile[] = 
     {
         "harvests1303818928.xml",
@@ -87,12 +87,17 @@ int main()
     string      xml_path;
     string dbenv_path = TMPDBENV_PATH;
 
+    dbc::CrawlDb* crawlDb = new dbc::MemCrawlDb();
+    dbc::FormulaDb* formulaDb = new dbc::MemFormulaDb();
+    MwsIndexNode* data = new MwsIndexNode();
+    types::MeaningDictionary* meaningDictionary =
+            new types::MeaningDictionary();
+
+    index::IndexManager* indexManager =
+            new index::IndexManager(formulaDb,crawlDb, data, meaningDictionary);
+
     // Initializing Mws Xml Parser
     FAIL_ON(initxmlparser() != 0);
-    // Initializing Mws Database
-    FAIL_ON(dbhandle.init(dbenv_path) != 0);
-
-    dataEntry = new MwsIndexNode();
 
     for(int i = 0; (string)xmlfile[i] != ""; i++)
     {
@@ -101,18 +106,16 @@ int main()
         
         FAIL_ON((fd = open(xml_path.c_str(), O_RDONLY)) < 0);
 
-        ret = loadMwsHarvestFromFd(dataEntry, fd, &dbhandle).second;
+        ret = loadMwsHarvestFromFd(indexManager, fd).second;
         // Asserting if all the expressions have been parsed correctly
         FAIL_ON(ret != nr_exprs[i]);
 
         (void) close(fd);
     }
 
-
-    (void) dbhandle.clean();
     (void) clearxmlparser();
 
-    delete dataEntry;
+    delete data;
 
     return EXIT_SUCCESS;
 

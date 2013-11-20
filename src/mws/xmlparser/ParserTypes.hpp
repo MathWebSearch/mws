@@ -32,18 +32,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
+#include <cstdio>
+#include <string>
+#include <stack>
 
-#include <cstdio>                      // C standard input output library
-#include <string>                      // C++ String header
-#include <stack>                       // C++ Stack header
-
-// Local includes
-
-#include "mws/types/CmmlToken.hpp"     // Content MathML token class header
-#include "mws/types/MwsQuery.hpp"      // Mws Query class header
-#include "mws/index/MwsIndexNode.hpp"  // Mws Index Node class header
-#include "mws/dbc/PageDbHandle.hpp"    // Page DbHandle
+#include "mws/types/CmmlToken.hpp"
+#include "mws/types/MwsQuery.hpp"
+#include "mws/index/IndexManager.hpp"
 
 namespace mws
 {
@@ -68,11 +63,11 @@ struct MwsQuery_SaxUserData
     /// Depth of the parse tree in unknown state
     int                          unknownDepth;
     /// The token which is currently being parsed
-    mws::CmmlToken*              currentToken;
+    types::CmmlToken*              currentToken;
     /// The root of the token being currently parsed
-    mws::CmmlToken*              currentTokenRoot;
+    types::CmmlToken*              currentTokenRoot;
     /// The stack containing the parent CMML Tokens
-    std::stack<mws::CmmlToken*>  processStack;
+    std::stack<types::CmmlToken*>  processStack;
     /// State of the parsing
     mws::MwsQueryState           state;
     /// State of the parsing before going into an unknown state
@@ -110,11 +105,11 @@ struct MwsHarvest_SaxUserData
     /// Depth of the parse tree in unknown state
     int                          unknownDepth;
     /// The token which is currently being parsed
-    mws::CmmlToken*              currentToken;
+    types::CmmlToken*              currentToken;
     /// The root of the token being currently parsed
-    mws::CmmlToken*              currentTokenRoot;
+    types::CmmlToken*              currentTokenRoot;
     /// The stack containing the parent CMML Tokens
-    std::stack<mws::CmmlToken*>  processStack;
+    std::stack<types::CmmlToken*>  processStack;
     /// State of the parsing
     mws::MwsHarvestState         state;
     /// State of the parsing before going into an unknown state
@@ -127,10 +122,8 @@ struct MwsHarvest_SaxUserData
     int                          warnings;
     /// URI of the expression being parsed
     std::string                  exprUri;
-    /// MwsIndexNode where to add expressions from the harvest
-    mws::MwsIndexNode*           indexNode;
-    /// PageDbHandle pointer
-    PageDbHandle*                dbhandle;
+    /// Index manager used to add expressions from the harvest
+    index::IndexManager*         indexManager;
 };
 
 struct MwsMessage_SaxUserData

@@ -39,16 +39,19 @@ public:
      * @brief insert crawled data
      * @param crawlId id of the crawl element
      * @param crawlData data associated with the crawl element
-     * @return 0 on success and -1 on failure.
+     *
      */
-    virtual int putData(const mws::CrawlId&     crawlId,
-                        const mws::CrawlData&   crawlData) = 0;
+    virtual mws::CrawlId putData(const mws::CrawlData& crawlData)
+    throw (std::exception) = 0;
+
     /**
      * @brief get crawled data
      * @param crawlId id of the crawl element
-     * @return 0 on success and -1 on failure.
+     * @return CrawlData corresponding to crawlId
+     * @throw NotFound or I/O exceptions
      */
-    virtual const mws::CrawlData* getData(const mws::CrawlId&   crawlId) = 0;
+    virtual const mws::CrawlData* getData(const mws::CrawlId& crawlId)
+    throw (std::exception) = 0;
 };
 
 } }

@@ -59,7 +59,7 @@ struct MwsQuery
     /// Variable used to show the number of warnings (-1 for critical error)
     int                          warnings;
     /// Vector containing pointers to the CMML tokens which have been read
-    std::vector<mws::CmmlToken*> tokens;
+    std::vector<types::CmmlToken*> tokens;
     /// Value showing the maximum number of results to be returned
     size_t                       attrResultMaxSize;
     /// Value showing the index from which to return results
@@ -89,7 +89,7 @@ struct MwsQuery
     /// Destructor of the MwsQuery class
     ~MwsQuery()
     {
-        std::vector<mws::CmmlToken*> :: iterator it;
+        std::vector<types::CmmlToken*> :: iterator it;
         for (it = tokens.begin(); it != tokens.end(); it++)
             delete (*it);
     }
@@ -116,7 +116,7 @@ struct MwsQuery
     /// Service method for printing the contents of a MwsQuery
     void print()
     {
-        std::vector<mws::CmmlToken*> :: iterator it;
+        std::vector<types::CmmlToken*> :: iterator it;
         printf("MwsQuery details:\n");
         printf("Warnings: %d\n", warnings);
         printf("Expressions (%d):\n", (int) tokens.size());

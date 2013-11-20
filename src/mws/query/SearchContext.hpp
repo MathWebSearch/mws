@@ -75,7 +75,8 @@ struct SearchContext
       * @param expression is a pointer to a CmmlToken from which to create
       * the SearchContext instance.
       */
-    SearchContext(mws::CmmlToken* expression);
+    SearchContext(mws::types::CmmlToken* expression,
+                  types::MeaningDictionary *dict);
 
     /**
       * @brief Destructor of the SearchContext class.

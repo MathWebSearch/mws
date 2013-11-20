@@ -25,32 +25,42 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 12 Nov 2013
   */
 
-#include "MemCrawlDb.hpp"
-
 #include <map>
+
+#include "common/utils/ToString.hpp"
+
+#include "MemCrawlDb.hpp"
 
 using namespace std;
 
 namespace mws { namespace dbc {
 
-int
-MemCrawlDb::putData(const mws::CrawlId&     crawlId,
-                    const mws::CrawlData&   crawlData) {
+MemCrawlDb::MemCrawlDb() : mNextCrawlId(0) {
+
+}
+
+mws::CrawlId
+MemCrawlDb::putData(const mws::CrawlData& crawlData)
+throw (std::exception) {
+    const CrawlId crawlId = mNextCrawlId++;
     auto ret = mData.insert(make_pair(crawlId, crawlData));
-    if (ret.second) {
-        return 0;
-    } else {
-        return -1;
+    if (!ret.second) {
+        throw std::runtime_error("Duplicate entry at crawlId = " +
+                                 ToString(crawlId));
     }
+
+    return crawlId;
 }
 
 const mws::CrawlData*
-MemCrawlDb::getData(const mws::CrawlId&   crawlId) {
+MemCrawlDb::getData(const mws::CrawlId& crawlId)
+throw (std::exception) {
     auto it = mData.find(crawlId);
     if (it != mData.end()) {
         return &(it->second);
     } else {
-        return NULL;
+        throw runtime_error("No data corresponding to crawlId = " +
+                            ToString(crawlId));
     }
 }
 

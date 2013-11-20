@@ -42,7 +42,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/IndexManager.hpp"
 #include "common/utils/Path.hpp"
 #include "loadMwsHarvestFromFd.hpp"
 
@@ -58,9 +58,8 @@ using namespace std;
 namespace mws {
 
 int
-loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
+loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
                             mws::AbsPath const& dirPath,
-                            PageDbHandle *dbhandle,
                             bool recursive)
 {
     DIR*           directory;
@@ -146,7 +145,7 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
 
         printf("Loading %s... ", fullPath.get());
         fflush(stdout);
-        loadReturn = loadMwsHarvestFromFd(indexNode, fd, dbhandle);
+        loadReturn = loadMwsHarvestFromFd(indexManager, fd);
         if (loadReturn.first == 0)
         {
             printf("%d loaded\n", loadReturn.second);
@@ -168,8 +167,7 @@ loadMwsHarvestFromDirectory(mws::MwsIndexNode*  indexNode,
         for (it = subdirs.begin(); it != subdirs.end(); it++) {
             fullPath.set(dirPath.get());
             fullPath.append(*it);
-            totalLoaded += loadMwsHarvestFromDirectory(indexNode, fullPath,
-                                                       dbhandle,
+            totalLoaded += loadMwsHarvestFromDirectory(indexManager, fullPath,
                                                        /* recursive = */ true);
         }
     }

@@ -18,11 +18,11 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWSMEANINGDICTIONARY_HPP
-#define _MWSMEANINGDICTIONARY_HPP
+#ifndef _MWS_TYPES_MEANINGDICTIONARY_HPP
+#define _MWS_TYPES_MEANINGDICTIONARY_HPP
 
 /**
-  * @brief  File containing the header of MeaningDictionary Class
+  * @brief  Meaning Dictionary Class
   * @file   MeaningDictionary.hpp
   * @author Corneliu-Claudiu Prodescu <c.prodescu@jacobs-university.de>
   * @date   07 Jul 2011
@@ -31,80 +31,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
+#include "mws/types/NodeInfo.hpp"
+#include "common/types/IdDictionary.hpp"
 
-#ifdef _MEANINGDICTIONARY_MAPTYPE_HASH
-#include <tr1/unordered_map>           // STL unordered map (hash) - TechRep1
-#else
-#include <map>                         // STL map class header
-#endif
+namespace mws { namespace types {
 
-// Local includes
+typedef common::types::IdDictionary<Meaning, MeaningId> MeaningDictionary;
 
-#include "mws/types/NodeInfo.hpp"      // MWS Meaning declaration
+} }
 
-
-namespace mws
-{
-
-class MeaningDictionary
-{
-private:
-// Map type used for the dictionary
-#ifdef _MEANINGDICTIONARY_MAPTYPE_HASH
-    typedef std::tr1::unordered_map<Meaning,
-                                    MeaningId,
-                                    std::tr1::hash<Meaning> >   _MapType;
-#else
-    typedef std::map<Meaning, MeaningId>                        _MapType;
-#endif
-
-private:
-    /// Id of the latest meaning to be inserted
-    static MeaningId _nextMeaningId;
-    /// Map of meanings
-    static _MapType  _dictionary;
-
-// Instance Methods
-public:
-
-    /**
-      * @brief Method to initialize the MeaningDictionary class.
-      * @return 0 on success and -1 on failure
-      */
-    static int init();
-
-    /**
-      * @brief Method to clean up the MeaningDictionary class.
-      */
-    static void clean();
-
-    /**
-      * @brief Method to register a meaning with the dictionary.
-      * @param aMeaning is the meaning to be registered.
-      * @return an id corresponding to the meaning which was inserted. If the
-      * meaning was already in the dictionary, its id is returned without any
-      * changes to the dictionary
-      */
-    static MeaningId put(const Meaning& aMeaning);
-
-    /**
-      * @brief Method to get a meaning id from a meaning.
-      * @param aMeaning is the meaning to be queried.
-      * @return the id of the meaning if it is found, or MWS_MEANING_ID_UNKNOWN
-      * if it is not found.
-      */
-    static MeaningId get(const Meaning& aMeaning);
-
-private:
-    /**
-      * Declared private to disable instantiation
-      * @brief Default constructor of the MeaningDictionary class
-      */
-    MeaningDictionary();
-
-};
-
-}
-
-#endif // _MWSMEANINGDICTIONARY_HPP
+#endif // _MWS_TYPES_MEANINGDICTIONARY_HPP

@@ -18,31 +18,26 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _CMMLTOKEN_HPP
-#define _CMMLTOKEN_HPP
+#ifndef _MWS_TYPES_CMMLTOKEN_HPP
+#define _MWS_TYPES_CMMLTOKEN_HPP
 
 /**
-  * @brief  File containing the header of CmmlToken Class
+  * @brief  Content MathML Token
   * @file   CmmlToken.hpp
   * @author Corneliu-Claudiu Prodescu <c.prodescu@jacobs-university.de>
-  * @date   12 Oct 2010
+  * @date   12 Oct 2013
   *
   * License: GPL v3
   *
   */
 
-// System includes
+#include <list>
+#include <map>
+#include <string>
 
-#include <list>                        // STL list headers
-#include <map>                         // STL map headers
-#include <string>                      // STL string headers
+#include "NodeInfo.hpp"
 
-// Local includes
-
-#include "mws/types/NodeInfo.hpp"
-
-namespace mws
-{
+namespace mws { namespace types {
 
 /**
   * @brief Class encapsulating the properties of a ContentMathML Token
@@ -72,6 +67,11 @@ private:
     /// Meaning Id of the token as inserted in MeaningDictionary
     mutable mws::MeaningId             _meaningId;
 public:
+    enum Type {
+      VAR,
+      CONSTANT
+    };
+
     /**
       * @brief Method to get an instance of a CmmlToken (which can be used as
       * root).
@@ -100,15 +100,21 @@ public:
     const std::string&           getXpath() const;
     // Return xpath without leading root selector (useful for concatenation)
     std::string                  getXpathRelative() const;
+
     const std::string&           getQvarName() const;
-    const MeaningId&             getMeaningId() const;
+
+
+    Type                         getType() const;
+    // VAR specific methods
+    const std::string&           getVarName() const;
+
+    // CONSTANT specific
+    std::string                  getMeaning() const;
 
     // Logging / stats
     std::string                  toString(int indent=0) const;
     uint32_t                     getExprDepth() const;
     uint32_t                     getExprSize() const;
-private:
-    void _updateMeaningId() const;
 protected:
     /**
       * Declared protected to avoid instantiation.
@@ -125,6 +131,6 @@ protected:
     CmmlToken(CmmlToken const&);
 };
 
-}
+} }
 
 #endif

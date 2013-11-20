@@ -63,6 +63,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 using namespace mws;
+using namespace mws::types;
 
 
 /**
@@ -300,37 +301,13 @@ my_endElement(void*          user_data,
             }
             else if (data->currentToken->isRoot())
             {
-                CmmlToken::PtrList::const_reverse_iterator rIt;
-                stack<CmmlToken*>                        subtermStack;
-                CmmlToken*                               currentSubterm;
+                assert(data->currentToken == data->currentTokenRoot);
 
-                // Using a stack to insert all subterms by
-                // going depth first through the CmmlToken
-                subtermStack.push(data->currentToken);
-
-                while (!subtermStack.empty())
-                {
-                    // Retrieving the subterm
-                    currentSubterm = subtermStack.top();
-                    subtermStack.pop();
-
-                    // Inserting the children subterms
-                    for (rIt  = currentSubterm->getChildNodes().rbegin();
-                         rIt != currentSubterm->getChildNodes().rend();
-                         rIt ++)
-                    {
-                        subtermStack.push(*rIt);
-                    }
-                    // Inserting the currentSubterm into the database
-                    PageDbConn* conn = data->dbhandle->createConnection();
-                    if (data->indexNode->insertData(currentSubterm,
-                                            conn,
-                                            data->exprUri.c_str(),
-                                            currentSubterm->getXpath().c_str()))
-                    {
-                        data->parsedExpr++;
-                    }
-                    delete conn;
+                // Add content math node to index
+                int ret = data->indexManager->indexContentMath(
+                            data->currentToken, data->exprUri);
+                if (ret != -1) {
+                    data->parsedExpr += ret;
                 }
 
                 delete data->currentTokenRoot;
@@ -482,7 +459,7 @@ namespace mws
 {
 
 pair<int,int>
-loadMwsHarvestFromFd(mws::MwsIndexNode* indexNode, int fd, PageDbHandle *dbhandle)
+loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd)
 {
 #ifdef TRACE_FUNC_CALLS
     LOG_TRACE_IN;
@@ -494,9 +471,8 @@ loadMwsHarvestFromFd(mws::MwsIndexNode* indexNode, int fd, PageDbHandle *dbhandl
     int                    ret;
 
     // Initializing the user_data and return value
-    user_data.indexNode = indexNode;
-    user_data.dbhandle = dbhandle;
-    ret                 = -1;
+    user_data.indexManager = indexManager;
+    ret                    = -1;
 
     // Initializing the SAX Handler
     memset(&saxHandler, 0, sizeof(xmlSAXHandler));

@@ -34,9 +34,9 @@ int main() {
     CrawlDb* crawlDb = new MemCrawlDb();
     const mws::CrawlData* crawlData;
 
-    FAIL_ON(crawlDb->putData(3, "foobar") != 0);
-    FAIL_ON(crawlDb->getData(4) != NULL);
-    FAIL_ON((crawlData = crawlDb->getData(3)) == NULL);
+    mws::CrawlId crawlId = crawlDb->putData("foobar");
+    FAIL_ON(crawlDb->getData(42) != NULL);
+    FAIL_ON((crawlData = crawlDb->getData(crawlId)) == NULL);
     FAIL_ON(*crawlData != "foobar");
 
     delete crawlDb;
