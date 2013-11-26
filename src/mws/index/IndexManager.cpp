@@ -24,6 +24,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 18 Nov 2013
   */
 
+#include <set>
+
 #include "IndexManager.hpp"
 
 using namespace std;
@@ -42,38 +44,31 @@ IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
 int
 IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
                                const CrawlData& crawlData) {
-    CmmlToken::PtrList::const_reverse_iterator rIt;
-    stack<const CmmlToken*> subtermStack;
-
-    int numSubExpressions = 0;
-
-    const CrawlId crawlId = m_crawlDb->putData(crawlData);
-
     // Using a stack to insert all subterms by
     // going depth first through the CmmlToken
-    subtermStack.push(cmmlToken);
+    set<FormulaId> uniqueFormulaIds;
+    stack<const CmmlToken*> subtermStack;
+    int numSubExpressions = 0;
+    const CrawlId crawlId = m_crawlDb->putData(crawlData);
 
-    while (!subtermStack.empty())
-    {
-        // Retrieving the subterm
-        // TODO should be const
+    subtermStack.push(cmmlToken);
+    while (!subtermStack.empty()) {
         const CmmlToken* currentSubterm = subtermStack.top();
         subtermStack.pop();
 
-        // Inserting the children subterms
-        for (rIt  = currentSubterm->getChildNodes().rbegin();
+        for (auto rIt  = currentSubterm->getChildNodes().rbegin();
              rIt != currentSubterm->getChildNodes().rend();
-             rIt ++)
-        {
+             rIt ++) {
             subtermStack.push(*rIt);
         }
 
         MwsIndexNode* leaf = m_index->insertData(currentSubterm,
                                                  m_meaningDictionary);
-
-        int ret = m_formulaDb->insertFormula(leaf->id, crawlId,
-                                             currentSubterm->getXpath());
-        if (ret == 0) {
+        FormulaId formulaId = leaf->id;
+        auto ret = uniqueFormulaIds.insert(formulaId);
+        if (ret.second) {
+            m_formulaDb->insertFormula(leaf->id, crawlId,
+                                       currentSubterm->getXpath());
             leaf->solutions++;
             numSubExpressions++;
         }

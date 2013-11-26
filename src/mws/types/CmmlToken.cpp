@@ -58,8 +58,7 @@ CmmlToken::CmmlToken(bool aMode) :
     _tag( "" ),
     _textContent( "" ),
     _parentNode( NULL ),
-    _mode( aMode ),
-    _meaningIdValid( false )
+    _mode( aMode )
 {
     _xpath = root_xpath_selector;
 }
@@ -90,7 +89,6 @@ CmmlToken::setTag(const std::string& aTag)
     } else {
         _tag            = aTag;
     }
-    _meaningIdValid = false;
 }
 
 
@@ -99,7 +97,6 @@ CmmlToken::addAttribute(const std::string& anAttribute,
                         const std::string& aValue)
 {
     _attributes.insert(make_pair(anAttribute, aValue));
-    _meaningIdValid = false;
 }
 
 
@@ -116,8 +113,6 @@ CmmlToken::appendTextContent(const char* aTextContent,
         if (!isspace(aTextContent[i]))
             _textContent.append(1, aTextContent[i]);
     }
-
-    _meaningIdValid = false;
 }
 
 

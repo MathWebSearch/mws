@@ -60,12 +60,6 @@ private:
     std::string                        _xpath;
     /// Mode (Harvest or Query)
     bool                               _mode;
-    /// true if Meaning / MeaningId acurate
-    mutable bool                       _meaningIdValid;
-    /// Meaning of the token
-    mutable mws::Meaning               _meaning;
-    /// Meaning Id of the token as inserted in MeaningDictionary
-    mutable mws::MeaningId             _meaningId;
 public:
     enum Type {
       VAR,

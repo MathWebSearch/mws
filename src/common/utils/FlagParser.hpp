@@ -58,8 +58,7 @@ struct FlagOpt
 };
 
 
-class FlagParser
-{
+class FlagParser {
 private:
     static std::string                               _progName;
     static std::map<char, FlagOpt>                   _flagOpts;

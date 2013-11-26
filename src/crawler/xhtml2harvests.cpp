@@ -35,35 +35,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <errno.h>
 #include <fstream>
 
-// Local includes
 #include "crawler/utils/MwsGetMath.hpp"
 #include "crawler/utils/Page.hpp"
 
 #include "common/utils/FlagParser.hpp"
+#include "common/utils/util.hpp"
 
 using namespace std;
+using namespace common;
 using namespace mws;
-
-static std::string get_file_contents(const char *filename)
-{
-    string contents;
-
-    try {
-        std::ifstream in(filename, std::ios::in | std::ios::binary);
-        if (in)
-        {
-            in.seekg(0, std::ios::end);
-            contents.resize(in.tellg());
-            in.seekg(0, std::ios::beg);
-            in.read(&contents[0], contents.size());
-            in.close();
-        }
-        return contents;
-    } catch (...) {
-        perror("get_file_contents");
-        return "";
-    }
-}
 
 
 int main(int argc, char *argv[])
@@ -106,7 +86,7 @@ int main(int argc, char *argv[])
         const vector<string>& params = FlagParser::getParams();
         for (vector<string>::const_iterator it = params.begin(); it != params.end(); it++) {
             string url = root + "/" + *it;
-            string content = get_file_contents(it->c_str());
+            string content = utils::getFileContents(it->c_str());
             vector<string> math = get_math_xhtml(content, url);
             for(vector<string>::iterator it = math.begin(); it != math.end() ; it++) {
                 fputs(it->c_str(), harvest);
