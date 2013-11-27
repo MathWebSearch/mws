@@ -19,31 +19,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief  File containing the implementation of MwsIndexNode Class
+  * @brief  MwsIndexNode implementation
   * @file   MwsIndexNode.cpp
   * @author Corneliu-Claudiu Prodescu <c.prodescu@jacobs-university.de>
   * @date   03 May 2011
-  *
-  * License: GPL v3
-  *
   */
 
-// System includes
-
-#include <stack>                       // STL stack
-#include <string>                      // C++ string
-
-// Local includes
+#include <stack>
+#include <string>
 
 #include "MwsIndexNode.hpp"
-#include "mws/dbc/PageDbConn.hpp"       // MWS Database connection
+#include "mws/dbc/PageDbConn.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
-#include "common/utils/DebugMacros.hpp"// MWS Debug Macro Utilities
-#include "common/utils/macro_func.h"   // MWS Utility functions
-
-// Configuration files
-
-#include "MwsDaemonConf.hpp"
+#include "common/utils/DebugMacros.hpp"
+#include "common/utils/macro_func.h"
 
 // Namespaces
 

@@ -18,27 +18,23 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FLAGPARSER_HPP
-#define _FLAGPARSER_HPP
+#ifndef _COMMON_UTILS_FLAGPARSER_HPP
+#define _COMMON_UTILS_FLAGPARSER_HPP
 
 /**
-  * @brief File containing the header of the FlagParser class.
+  * @brief FlagParser header
   *
   * @file FlagParser.hpp
-  * @author Corneliu-Claudiu Prodescu
+  * @author Corneliu C Prodescu
   * @date 24 Jul 2011
-  *
-  * License: GPL v3
   */
-
-// System includes
 
 #include <getopt.h>                    // C getopt function family
 #include <map>                         // C++ map container
 #include <string>                      // C string header
 #include <vector>                      // C++ vector container
 
-// Macros
+// Constants
 
 #define FLAG_OPT     0
 #define FLAG_REQ     1
@@ -48,6 +44,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define ARG_REQ      required_argument
 
 
+namespace common { namespace utils {
 
 struct FlagOpt
 {
@@ -57,13 +54,13 @@ struct FlagOpt
     bool        parsed;
 };
 
-
 class FlagParser {
 private:
     static std::string                               _progName;
     static std::map<char, FlagOpt>                   _flagOpts;
     static std::map<char, std::vector<std::string> > _parsedArgs;
     static std::vector<std::string>                  _params;
+    static int                                       _minNumParams;
 public:
     /**
       * @brief Method to add an expected flag to the flag list
@@ -77,6 +74,17 @@ public:
                         const std::string& aLongOpt,
                         int                optMandatory,
                         int                argMandatory);
+
+    /**
+     * @brief setMinNumParams Method to set the minimum number of params
+     * @param minNumParams -1 if no params are allowed
+     *                      0 if params are optional
+     *                      any number higher is the minimum number of params
+     */
+    inline
+    static void setMinNumParams(int minNumParams) {
+        _minNumParams = minNumParams;
+    }
 
     /**
       * @brief Method to parse the arguments, based on previously added flags
@@ -115,10 +123,15 @@ public:
       */
     static std::string getUsage();
 
+    /**
+      * @brief Method to retrieve parsed params
+      */
     inline
     static const std::vector<std::string>& getParams() {
         return _params;
     }
 };
+
+} }
 
 #endif // _FLAGPARSER_HPP

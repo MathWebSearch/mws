@@ -39,6 +39,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 
 using namespace std;
+using namespace common::utils;
 
 // struct needed for the Crawler
 struct CrawlerInfo{

@@ -17,9 +17,10 @@
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Crawler Modules
-ADD_SUBDIRECTORY( crawler )             # mwscrawler
-ADD_SUBDIRECTORY( daemon )              # mwscrawlerdaemon
-ADD_SUBDIRECTORY( types )               # mwscrawlertypes
+ADD_SUBDIRECTORY( crawler )             # crawlercrawler
+ADD_SUBDIRECTORY( daemon )              # crawlerdaemon
+ADD_SUBDIRECTORY( parser )              # crawlerparser
+ADD_SUBDIRECTORY( types )               # crawlertypes
 ADD_SUBDIRECTORY( utils )               # crawlerutils
 
 # Includes
@@ -28,8 +29,8 @@ INCLUDE_DIRECTORIES( "${GOOGLEURL_INCLUDES}" )
 # MWS stand-alone xhtml harvester
 ADD_EXECUTABLE( xhtml2harvests xhtml2harvests.cpp )
 TARGET_LINK_LIBRARIES( xhtml2harvests
-    googleurl
     crawlerutils
+    crawlerparser
     crawlertypes
     commonutils
 )

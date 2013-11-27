@@ -18,31 +18,33 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWSDAEMONCONF_HPP
-#define _MWSDAEMONCONF_HPP
+/**
+ * Function to extract MathML formulas from a website
+ * coded in HTML or XHTML
+ * @file MathParser.hpp
+ *
+ * date: 15 Aug 2012
+ */
+#ifndef _CRAWLER_PARSER_MATHPARSER_HPP
+#define _CRAWLER_PARSER_MATHPARSER_HPP
+
+#include <string>
+#include <vector>
+
+
+
+namespace crawler { namespace parser {
 
 /**
-  * @brief  File containing configuration macros for the MWS daemon module
-  * @file   MwsDaemonConf.hpp
-  * @author Corneliu-Claudiu Prodescu
-  * @date   20 May 2011
-  *
-  */
+ * @param xhtml XHTML content
+ * @param url URL of the XHTML content to be attributed to the harvested
+ * expressions
+ * @return vector of harvested expressions
+ */
+std::vector<std::string> getHarvestFromXhtml(const std::string& xhtml,
+                                             const std::string& url);
 
-// Local includes
+} }
 
-#include "common/utils/macro_func.h"
 
-// Port where to run MWS
-#define DEFAULT_MWS_PORT                26285
-
-// Host where to run MWS
-#define DEFAULT_MWS_HOST                "localhost"
-
-// Data path (db files, index, etc)
-#define DEFAULT_MWS_DATA_PATH           "/tmp"
-
-// Extension of Mws Harvest files
-#define MWS_HARVEST_SUFFIX              "harvest"
-
-#endif
+#endif // _CRAWLER_PARSER_MATHPARSER_HPP

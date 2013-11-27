@@ -1,4 +1,47 @@
+/*
+
+Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+
+This file is part of MathWebSearch.
+
+MathWebSearch is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+MathWebSearch is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+/**
+ *  @file config.h
+ */
+
+#ifndef _CONFIG_CONFIG_H
+#define _CONFIG_CONFIG_H
+
+// CMake Exported
+
 #define MATHMLTAGS_PATH         "${MATHMLTAGS_PATH}"
 #define GETRESPONSE_PATH        "${GETRESPONSE_PATH}"
 #define HARVESTFILES_PATH       "${MWS_DATA_DIR}"
 #define MWS_TESTDATA_PATH       "${MWS_TSTDAT_DIR}"
+
+// Common
+
+//! Extension of Mws Harvest files
+#define MWS_HARVEST_SUFFIX "harvest"
+
+// MWS Daemon
+
+#define DEFAULT_MWS_PORT                26285
+#define DEFAULT_MWS_HOST                "localhost"
+// Path where to store db files and index
+#define DEFAULT_MWS_DATA_PATH           "/tmp"
+
+#endif // _CONFIG_CONFIG_H

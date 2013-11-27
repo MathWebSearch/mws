@@ -319,7 +319,6 @@ int isXHTML(Page& page) {
  * return the xml math tags from memory written in 'xhtml'
  */
 std::vector< std::string > get_math_xhtml(const string& xhtml, const string& url) {
-
     const xmlChar *xpath = (const xmlChar*)
             "//m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']/*";
 
@@ -341,6 +340,7 @@ std::vector< std::string > get_math_xhtml(const string& xhtml, const string& url
             fprintf(stream, "<mws:expr url=\"%s#%s\">\n", url.c_str() , id);
             xmlElemDump(stream, doc, nodeset->nodeTab[i]);
             fprintf(stream, "</mws:expr>\n");
+            fclose(stream);
 
             string str = (string)buf;
             if (is_good_xml(str)) {
@@ -348,7 +348,6 @@ std::vector< std::string > get_math_xhtml(const string& xhtml, const string& url
             }
 
             xmlFree(id);
-            fclose(stream);
             free(buf);
         }
 

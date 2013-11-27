@@ -31,21 +31,17 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
 #include <string>
 #include <sstream>
 #include <iomanip>
 #include <sys/time.h>
 
-// Local includes
-
-#include "common/socket/OutSocket.hpp"    // OutSocket class header
-#include "common/types/ControlSequence.hpp" // Mws control sequence
-#include "common/utils/ToString.hpp"       // Utility ToString function
+#include "common/socket/OutSocket.hpp"
+#include "common/types/ControlSequence.hpp"
+#include "common/utils/ToString.hpp"
 
 // Config files
-#include "MwsDaemonConf.hpp" // Mws Daemon configuration macros
+#include "config.h"
 
 // TODO documentation
 

@@ -30,30 +30,24 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
+#include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
-#include <signal.h>                    // C signals headers
-#include <stdlib.h>                    // C general purpose headers
-#include <stdio.h>                     // C standard input output headers
-#include <unistd.h>                    // C Misc functions
-
-// Local includes
-
-#include "common/utils/FlagParser.hpp" // Flag parser utility class
+#include "common/utils/FlagParser.hpp"
 #include "common/utils/save_pid_file.h"
-#include "rest/daemon/RestDaemon.hpp"  // Rest Daemon headers
+#include "rest/daemon/RestDaemon.hpp"
 
-// Config
+#include "config.h"
 
-#include "MwsDaemonConf.hpp"
+using namespace common::utils;
 
-// Variables 
 static volatile sig_atomic_t sigQuit = 0;
 
 static void catch_sigint(int sig)
 {
-  if (sig == SIGINT || sig == SIGTERM)
-    sigQuit = 1;
+    if (sig == SIGINT || sig == SIGTERM) sigQuit = 1;
 }
 
 

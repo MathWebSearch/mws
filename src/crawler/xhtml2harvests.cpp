@@ -19,9 +19,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /** 
+ *  @file xhtml2harvests.cpp
+ *  @author Corneliu C Prodescu <cprodescu@gmail.com>
  *
- * quick crawl a number of pages given on stdin, one per line
- *
+ *  Harvest XHTML files given as command line arguments.
  */
 
 // System includes
@@ -34,16 +35,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <errno.h>
 #include <fstream>
+using namespace std;
 
-#include "crawler/utils/MwsGetMath.hpp"
-#include "crawler/utils/Page.hpp"
+#include "crawler/parser/MathParser.hpp"
+using namespace crawler::parser;
 
 #include "common/utils/FlagParser.hpp"
 #include "common/utils/util.hpp"
-
-using namespace std;
-using namespace common;
-using namespace mws;
+using namespace common::utils;
 
 
 int main(int argc, char *argv[])
@@ -54,6 +53,7 @@ int main(int argc, char *argv[])
 
     FlagParser::addFlag('O', "outdir",  FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('R', "root",    FLAG_OPT, ARG_REQ);
+    FlagParser::setMinNumParams(1);
 
     if (FlagParser::parse(argc, argv) != 0) {
         fprintf(stderr, "%s", FlagParser::getUsage().c_str());
@@ -64,9 +64,9 @@ int main(int argc, char *argv[])
     if (FlagParser::hasArg('R')) root = FlagParser::getArg('R');
 
 
-    string harvest_templ_str = outdir + "/harvest_XXXXXX.xml";
+    string harvest_templ_str = outdir + "/harvest_XXXXXX.harvest";
     char* harvest_templ = strdup(harvest_templ_str.c_str());
-    int harvest_fd = mkstemps(harvest_templ, /* suffixlen = */ 4);
+    int harvest_fd = mkstemps(harvest_templ, /* suffixlen = */ 8);
     if (harvest_fd < 0) {
         perror("mkstemp");
         goto failure;
@@ -86,8 +86,8 @@ int main(int argc, char *argv[])
         const vector<string>& params = FlagParser::getParams();
         for (vector<string>::const_iterator it = params.begin(); it != params.end(); it++) {
             string url = root + "/" + *it;
-            string content = utils::getFileContents(it->c_str());
-            vector<string> math = get_math_xhtml(content, url);
+            string content = getFileContents(it->c_str());
+            vector<string> math = getHarvestFromXhtml(content, url);
             for(vector<string>::iterator it = math.begin(); it != math.end() ; it++) {
                 fputs(it->c_str(), harvest);
             }
@@ -101,5 +101,6 @@ int main(int argc, char *argv[])
 
 failure:
     if (harvest) fclose(harvest);
+
     return EXIT_FAILURE;
 }

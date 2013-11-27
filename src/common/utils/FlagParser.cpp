@@ -47,10 +47,13 @@ using namespace std;
 
 // Static declarations
 
+namespace common { namespace utils {
+
 string                     FlagParser::_progName;
 map<char, FlagOpt>         FlagParser::_flagOpts;
 map<char, vector<string> > FlagParser::_parsedArgs;
 vector<string>             FlagParser::_params;
+int                        FlagParser::_minNumParams = -1;
 
 
 void
@@ -150,7 +153,7 @@ FlagParser::parse(const int   argc,
         _params.push_back(argv[optind++]);
     }
 
-    // Checking if all mandatory arguments were parsed
+    // Check if all mandatory arguments were parsed
     for (it = _flagOpts.begin(); it != _flagOpts.end(); it++)
     {
         if (it->second.optMandatory == FLAG_REQ &&
@@ -160,6 +163,16 @@ FlagParser::parse(const int   argc,
                     argv[0], it->first, it->second.longOpt.c_str());
             goto failure;
         }
+    }
+
+    // Check if number of params is valid
+    if (_minNumParams == -1 && _params.size() != 0) {
+        fprintf(stderr, "%s: No params are allowed\n", argv[0]);
+        goto failure;
+    } else if (_minNumParams > 0 && _params.size() < (size_t) _minNumParams) {
+        fprintf(stderr, "%s: At least %d params are requiered",
+                argv[0], _minNumParams);
+        goto failure;
     }
 
     return 0;
@@ -260,5 +273,18 @@ FlagParser::getUsage()
                + it->second.longOpt + " " + arg + " " + sep2 + "\n";
     }
 
+    if (_minNumParams >= 0) {
+        if (_minNumParams == 0) {
+            sep1 = "[";
+            sep2 = "]";
+        } else {
+            sep1 = " ";
+            sep2 = " ";
+        }
+        result += begin + " " + sep1 + " params... " + sep2 + "\n";
+    }
+
     return result;
 }
+
+} }

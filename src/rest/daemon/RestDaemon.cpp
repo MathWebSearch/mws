@@ -50,8 +50,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "rest/daemon/GenericResponses.hpp" // Generic responses collection
 #include "rest/types/MwsConnection.hpp"     // Mws Connection datatype
 
-// Config files
-#include "MwsDaemonConf.hpp" // Mws Daemon configuration macros
+#include "config.h"
 
 // Namespaces
 

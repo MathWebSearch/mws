@@ -31,25 +31,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <utility>
-#include <algorithm>
 #include <stdio.h>
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
-
-// Local includes
+#include <algorithm>
+#include <utility>
 
 #include "mws/index/IndexManager.hpp"
 #include "common/utils/Path.hpp"
 #include "loadMwsHarvestFromFd.hpp"
 
-
-// Configuration files
-
-#include "MwsDaemonConf.hpp"
+#include "config.h"
 
 // Namespaces
 

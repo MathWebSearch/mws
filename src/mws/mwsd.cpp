@@ -28,27 +28,22 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
 #include <unistd.h>
 #include <string>
 
-// Local includes
-
 #include "common/utils/FlagParser.hpp"
 #include "common/utils/save_pid_file.h"
 #include "mws/daemon/MwsDaemon.hpp"
 #include "mws/index/memsector.h"
 
-// Config files
-#include "MwsDaemonConf.hpp"
-
+#include "config.h"
 
 using namespace std;
 using namespace mws;
+using namespace common::utils;
 
 int main(int argc, char* argv[])
 {
