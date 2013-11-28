@@ -19,15 +19,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief File containing the main function of Restful interface of the
-  * MathWebSearch Project
+  * @brief Rest daemon executable
   * @file restd.cpp
-  * @author Corneliu-Claudiu Prodescu
   * @date 20 Jun 2011
-  * @updated Daniel Hasegan
-  *
-  * License: GPL v3
-  *
+  * @author Corneliu-Claudiu Prodescu
+  * @author Daniel Hasegan
   */
 
 #include <signal.h>
