@@ -41,7 +41,8 @@ using namespace std;
 namespace crawler { namespace parser {
 
 static xmlDocPtr get_XMLDoc (const char *buffer);
-static void removeXmlIdAttributes(xmlNode* xmlNode);
+static void renameXmlIdAttributes(xmlNode* xmlNode);
+static void cleanContentMath(xmlNode* xmlNode);
 static xmlXPathObjectPtr get_XMLNodeset (xmlDocPtr doc, const xmlChar *xpath);
 static bool isValidXml(const string& xml);
 
@@ -72,10 +73,14 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
                 const xmlChar *id = xmlGetProp(mathNode, BAD_CAST "id");
 
                 fprintf(stream, "<mws:expr url=\"%s#%s\">\n", url.c_str() , id);
+                // Rename xml:id to local_id to avoid constraints of uniqueness
+                renameXmlIdAttributes(mathNode);
                 fprintf(stream, "<data>\n");
                 xmlElemDump(stream, doc, mathNode);
                 fprintf(stream, "</data>\n");
-                removeXmlIdAttributes(contentMathNode);
+
+                // Remove redundant attributes (local_id, xref)
+                cleanContentMath(contentMathNode);
                 fprintf(stream, "<content>\n");
                 xmlElemDump(stream, doc, contentMathNode);
                 fprintf(stream, "</content>\n");
@@ -175,7 +180,11 @@ bool isValidXml(const string& xml) {
 }
 
 static
-void removeXmlIdAttributes(xmlNode* xmlNode) {
+void renameXmlIdAttributes(xmlNode* xmlNode) {
+    // Create attribute local_id
+    const xmlChar* id = xmlGetProp(xmlNode, BAD_CAST "id");
+    xmlSetProp(xmlNode, BAD_CAST "local_id", id);
+
     // Remove id attribute
     xmlAttrPtr attrPtr = xmlNode->properties;
     while (attrPtr != NULL) {
@@ -190,7 +199,32 @@ void removeXmlIdAttributes(xmlNode* xmlNode) {
     // Recurse through child nodes
     xmlNodePtr curr = xmlNode->children;
     while (curr != NULL) {
-        removeXmlIdAttributes(curr);
+        renameXmlIdAttributes(curr);
+        curr = curr->next;
+    }
+}
+
+/**
+ * @brief remove redundant attributes from ContentMath
+ * @param xmlNode
+ */
+static
+void cleanContentMath(xmlNode* xmlNode) {
+    // Remove id attribute
+    xmlAttrPtr attrPtr = xmlNode->properties;
+    while (attrPtr != NULL) {
+        if (strcmp((char*) attrPtr->name, "local_id") == 0 ||
+                strcmp((char*) attrPtr->name, "xref") == 0) {
+            xmlRemoveProp(attrPtr);
+        }
+
+        attrPtr = attrPtr->next;
+    }
+
+    // Recurse through child nodes
+    xmlNodePtr curr = xmlNode->children;
+    while (curr != NULL) {
+        cleanContentMath(curr);
         curr = curr->next;
     }
 }
