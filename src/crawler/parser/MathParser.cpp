@@ -38,7 +38,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std;
 //using namespace ;
 
-namespace crawler { namespace parser {
+namespace crawler {
+namespace parser {
 
 static xmlDocPtr get_XMLDoc (const char *buffer);
 static void renameXmlIdAttributes(xmlNode* xmlNode);
@@ -229,6 +230,7 @@ void cleanContentMath(xmlNode* xmlNode) {
     }
 }
 
-} }
+}  // namespace parser
+}  // namespace crawler
 
 

@@ -42,7 +42,7 @@ public:
      *
      */
     virtual mws::CrawlId putData(const mws::CrawlData& crawlData)
-    throw (std::exception) = 0;
+    throw(std::exception) = 0;
 
     /**
      * @brief get crawled data
@@ -51,9 +51,10 @@ public:
      * @throw NotFound or I/O exceptions
      */
     virtual const mws::CrawlData* getData(const mws::CrawlId& crawlId)
-    throw (std::exception) = 0;
+    throw(std::exception) = 0;
 };
 
-} }
+}  // namespace dbc
+}  // namespace mws
 
-#endif // _MWS_DBC_CRAWLDB_HPP
+#endif  // _MWS_DBC_CRAWLDB_HPP

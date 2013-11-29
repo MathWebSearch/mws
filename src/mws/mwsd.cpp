@@ -30,40 +30,37 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <vector>
 #include <unistd.h>
+
 #include <string>
+#include <vector>
 
 #include "common/utils/FlagParser.hpp"
 #include "common/utils/save_pid_file.h"
 #include "mws/daemon/MwsDaemon.hpp"
 #include "mws/index/memsector.h"
-
 #include "config.h"
 
-using namespace std;
-using namespace mws;
-using namespace common::utils;
+using std::vector;
+using std::string;
+using common::utils::FlagParser;
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     int ret;
-    daemon::Config config;
+    mws::daemon::Config config;
 
     // Parsing the flags
-    FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ );
-    FlagParser::addFlag('m', "mws-port",             FLAG_OPT, ARG_REQ );
-    FlagParser::addFlag('D', "data-path",            FLAG_OPT, ARG_REQ );
-    FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ );
-    FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ );
+    FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('m', "mws-port",             FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('D', "data-path",            FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('r', "recursive",            FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
-#endif // !__APPLE__
+#endif  // !__APPLE__
 
-    if ((ret = FlagParser::parse(argc, argv))
-            != 0)
-    {
+    if ((ret = FlagParser::parse(argc, argv)) != 0) {
         fprintf(stderr, "%s", FlagParser::getUsage().c_str());
         goto failure;
     }
@@ -84,7 +81,8 @@ int main(int argc, char* argv[])
         if (mwsPort > 0 && mwsPort < (1<<16)) {
             config.mwsPort = mwsPort;
         } else {
-            fprintf(stderr, "Invalid port \"%s\"\n", FlagParser::getArg('m').c_str());
+            fprintf(stderr, "Invalid port \"%s\"\n",
+                    FlagParser::getArg('m').c_str());
             goto failure;
         }
     } else {
@@ -118,17 +116,15 @@ int main(int argc, char* argv[])
 
 #ifndef __APPLE__
     // daemon
-    if (FlagParser::hasArg('d'))
-    {
+    if (FlagParser::hasArg('d')) {
         // Daemonizing
         ret = ::daemon(0, /* noclose = */ FlagParser::hasArg('l'));
-        if (ret != 0)
-        {
+        if (ret != 0) {
             fprintf(stderr, "Error while daemonizing\n");
             goto failure;
         }
     }
-#endif // !__APPLE__
+#endif  // !__APPLE__
 
     // pid-file - always needs to be done after daemonizing
     if (FlagParser::hasArg('i')) {
