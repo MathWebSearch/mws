@@ -75,20 +75,18 @@ struct MwsQuery
     bool                         restricted;
     
     /// Default Constructor of the MwsQuery class
-    MwsQuery()
-    {
-        warnings               = 0;
-        attrResultMaxSize      = DEFAULT_MWSQUERY_MAXSIZE;
-        attrResultLimitMin     = 0;
-        attrResultTotalReq     = DEFAULT_MWSQUERY_TOTALREQ;
-        attrResultTotalReqNr   = DEFAULT_MWSQUERY_TOTALREQ_MAXSIZE;
-        attrResultOutputFormat = DATAFORMAT_DEFAULT;
-        restricted             = false;
+    MwsQuery() :
+        warnings(0),
+        attrResultMaxSize(DEFAULT_MWSQUERY_MAXSIZE),
+        attrResultLimitMin(0),
+        attrResultTotalReq(DEFAULT_MWSQUERY_TOTALREQ),
+        attrResultTotalReqNr(DEFAULT_MWSQUERY_TOTALREQ_MAXSIZE),
+        attrResultOutputFormat(DATAFORMAT_DEFAULT),
+        restricted(false) {
     }
 
     /// Destructor of the MwsQuery class
-    ~MwsQuery()
-    {
+    ~MwsQuery() {
         std::vector<types::CmmlToken*> :: iterator it;
         for (it = tokens.begin(); it != tokens.end(); it++)
             delete (*it);

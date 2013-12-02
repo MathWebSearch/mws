@@ -26,7 +26,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <map>
-
+#include <stdexcept>
 #include "common/utils/ToString.hpp"
 
 #include "MemCrawlDb.hpp"

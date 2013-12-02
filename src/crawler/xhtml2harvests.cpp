@@ -27,6 +27,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 #include <string>
+#include <cstring>
 #include <vector>
 #include <queue>
 #include <set>

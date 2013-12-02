@@ -27,10 +27,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 
-#include "util.hpp"
+#include <errno.h>
+#include <string.h>
 
-#include <cerrno>
 #include <fstream>
+#include <stdexcept>
+
+#include "util.hpp"
 
 using namespace std;
 

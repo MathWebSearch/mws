@@ -31,38 +31,38 @@ SET( ${PROJECT_NAME}_MAJOR_VERSION 0 )
 SET( ${PROJECT_NAME}_MINOR_VERSION 6 )
 SET( ${PROJECT_NAME}_PATCH_LEVEL   0 )
 SET( MWS_VERSION
-        ${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION} )
+    ${${PROJECT_NAME}_MAJOR_VERSION}.${${PROJECT_NAME}_MINOR_VERSION} )
 SET( MWS_FULL_VERSION
-        ${MWS_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL} )
+    ${MWS_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL} )
 
 # Project variables
 SET(PROJECT_CONFIG_DIR # Configuration headers and input files
-        "${PROJECT_SOURCE_DIR}/config")
+    "${PROJECT_SOURCE_DIR}/config")
 SET(MWS_SRC_DIR   # MWS sources
-        "${PROJECT_SOURCE_DIR}/src" )
+    "${PROJECT_SOURCE_DIR}/src" )
 SET(MWS_DATA_DIR
-        "${PROJECT_SOURCE_DIR}/data")
+    "${PROJECT_SOURCE_DIR}/data")
 SET(MWS_TST_DIR   # MWS Test directory
-        "${PROJECT_SOURCE_DIR}/test" )
+    "${PROJECT_SOURCE_DIR}/test" )
 SET(MWS_TSTSRC_DIR # MWS Test sources directory
-        "${MWS_TST_DIR}/src" )
+    "${MWS_TST_DIR}/src" )
 SET(MWS_TSTDAT_DIR # MWS Test data directory
-        "${MWS_TST_DIR}/data" )
+    "${MWS_TST_DIR}/data" )
 SET(MWS_SCRIPT_DIR # MWS Scripts directory
-        "${PROJECT_SOURCE_DIR}/scripts" )
+    "${PROJECT_SOURCE_DIR}/scripts" )
 SET(THIRD_PARTY_DIR
-        "${PROJECT_SOURCE_DIR}/third_party")
+    "${PROJECT_SOURCE_DIR}/third_party")
 
 SET(MATHMLTAGS_PATH ${PROJECT_BINARY_DIR}/src/crawler/utils/MwsMathMLTags.txt)
 SET(GETRESPONSE_PATH ${PROJECT_BINARY_DIR}/src/crawler/daemon/GetResponse.html)
 CONFIGURE_FILE(${PROJECT_CONFIG_DIR}/config.h.in
-            ${PROJECT_BINARY_DIR}/config.h)
+        ${PROJECT_BINARY_DIR}/config.h)
 
 # Add local CMake module paths
 SET(CMAKE_MODULE_PATH
-        "${CMAKE_MODULE_PATH}"
-        "${MWS_SCRIPT_DIR}/cmake-modules"
-        "${THIRD_PARTY_DIR}/cmake-modules")
+    "${CMAKE_MODULE_PATH}"
+    "${MWS_SCRIPT_DIR}/cmake-modules"
+    "${THIRD_PARTY_DIR}/cmake-modules")
 
 #       Options                 Description                             Default
 OPTION( BUILD_SHARED_LIBS       "static/dynamic executables"            ON )
@@ -72,16 +72,19 @@ OPTION( WITH_CRAWLER            "build MWS crawlers"                    OFF )
 OPTION( WITH_DOC                "build MWS documentation"               OFF )
 OPTION( WITH_TEST               "build test suites"                     ON )
 OPTION( CMAKE_BUILD_TYPE "Choose one of Debug|Release|RelWithDebInfo|MinSizeRel"
-                                                                        Debug)
+                                                                    Debug)
 # Debug flags
 # ADD_DEFINITIONS( "-DTRACE_FUNC_CALLS" )
 # Apply restrictions
 #ADD_DEFINITIONS( "-D_APPLYRESTRICT" )
 
 # Build Flags
-SET( COMMON_FLAGS   "-Wall -W -Wextra -pedantic -Werror -Wno-flexible-array-extensions" )
-SET( CMAKE_C_FLAGS      "${CMAKE_C_FLAGS} ${COMMON_FLAGS}" )
-SET( CMAKE_CXX_FLAGS    "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS} -std=c++11 -Weffc++" )
+SET(COMMON_FLAGS
+    "-Wall -W -Wextra -Wno-flexible-array-extensions")
+SET(CMAKE_C_FLAGS
+    "${CMAKE_C_FLAGS} ${COMMON_FLAGS}")
+SET(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS} -std=c++0x")
 
 # Global include paths
 INCLUDE_DIRECTORIES( "${MWS_SRC_DIR}"               # src dir
