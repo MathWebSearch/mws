@@ -30,8 +30,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
 #include <stdlib.h>                    // C general purpose library
 #include <stdio.h>                     // C Standrad Input Output
 #include <string.h>                    // C string library
@@ -42,15 +40,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>                 // Primitive System datatypes
 #include <sys/stat.h>                  // POSIX File characteristics
 #include <fcntl.h>                     // File control operations
-#include <sstream>                     // C++ stringstream header
 
-// Local includes
+#include <sstream>
+#include <vector>
+#include <string>
 
 #include "ParserTypes.hpp"             // Common Mws Parsers datatypes
 #include "common/utils/DebugMacros.hpp"// Debug macros
 #include "common/utils/macro_func.h"   // Macro functions
-#include "mws/dbc/PageDbHandle.hpp"
-#include "mws/dbc/PageDbConn.hpp"
 
 // Macros
 
@@ -58,6 +55,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define MWSHARVEST_EXPR_NAME           "mws:expr"
 #define MWSHARVEST_EXPR_ATTR_URI_NAME  "url"
 #define MWSHARVEST_EXPR_URI_DEFAULT    ""
+#define MWSHARVEST_EXPR_MATH_NAME      "content"
+#define MWSHARVEST_EXPR_SNIPPET_NAME   "data"
 
 // Namespaces
 
@@ -65,6 +64,50 @@ using namespace std;
 using namespace mws;
 using namespace mws::types;
 
+/**
+  * @brief Callback function used with an xmlOutputBuffer
+  *
+  */
+static inline int
+copyToCharBufCallback(void*       vectorPtr,
+                      const char* buffer,
+                      int         len) {
+    vector<char> * vec = (vector<char>*) vectorPtr;
+    for (int i = 0; i < len; ++i) {
+        vec->push_back(buffer[i]);
+    }
+
+    return len;
+}
+
+
+static inline
+int setupCopyToStringWriter(MwsHarvest_SaxUserData* data) {
+    xmlOutputBuffer* outPtr;
+
+    data->buffer.clear();
+    if ((outPtr = xmlOutputBufferCreateIO(copyToCharBufCallback,
+                                          NULL,
+                                          &data->buffer,
+                                          NULL))
+            == NULL) {
+        fprintf(stderr, "Error while creating the OutputBuffer\n");
+        return -1;
+    } else if ((data->stringWriter = xmlNewTextWriter(outPtr))
+               == NULL) {
+        fprintf(stderr, "Error while creating the XML Writer\n");
+        return -1;
+    }
+
+    return 0;
+}
+
+static inline
+void tearDownCopyToStringWriter(MwsHarvest_SaxUserData* data) {
+    xmlTextWriterEndDocument(data->stringWriter);
+    xmlTextWriterFlush(data->stringWriter);
+    xmlFreeTextWriter(data->stringWriter);
+}
 
 /**
   * @brief Callback function used to be used with an IO context parser
@@ -109,6 +152,7 @@ my_startDocument(void* user_data)
     data->unknownDepth           = 0;
     data->currentToken           = NULL;
     data->currentTokenRoot       = NULL;
+    data->math                   = NULL;
     data->state                  = MWSHARVESTSTATE_DEFAULT;
     data->prevState              = MWSHARVESTSTATE_DEFAULT;
     data->errorDetected          = false;
@@ -167,92 +211,106 @@ my_startElement(void*           user_data,
 
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
-    switch (data->state)
-    {
-        case MWSHARVESTSTATE_DEFAULT:
-            if (strcmp((char*) name, MWSHARVEST_MAIN_NAME) == 0)
-            {
-                data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
-                // Parsing the attributes
-                while (NULL != attrs && NULL != attrs[0])
-                {
-                    // NO ATTRIBUTES EXPECTED TODO HANDLE THEM
-                    attrs = &attrs[2];
-                }
-            }
-            else
-            {
-                data->warnings++;
-                // Saving the state
-                data->prevState = data->state;
-                // Going to an unkown state
-                data->state = MWSHARVESTSTATE_UNKNOWN;
-                data->unknownDepth = 1;
-            }
-            break;
-
-        case MWSHARVESTSTATE_IN_MWS_HARVEST:
-            if (strcmp((char*) name, MWSHARVEST_EXPR_NAME) == 0)
-            {
-                data->state = MWSHARVESTSTATE_IN_MWS_EXPR;
-                // Parsing the attributes
-                while (NULL != attrs && NULL != attrs[0])
-                {
-                    if (strcmp((char*) attrs[0],
-                                MWSHARVEST_EXPR_ATTR_URI_NAME) == 0)
-                    {
-                        data->exprUri = (char*) attrs[1];
-                    }
-                    else
-                    {
-                        // Invalid attribute
-                        data->warnings++;
-                        // TODO Move to logging
-                        fprintf(stderr, "Unexpected attribute \"%s\"\n",
-                                attrs[0]);
-                        // Setting exprUri to default
-                        data->exprUri = MWSHARVEST_EXPR_URI_DEFAULT;
-                    }
-
-                    attrs = &attrs[2];
-                }
-            }
-            else
-            {
-                data->warnings++;
-                // Saving the state
-                data->prevState = data->state;
-                // Going to an unkown state
-                data->state = MWSHARVESTSTATE_UNKNOWN;
-                data->unknownDepth = 1;
-            }
-            break;
-
-        case MWSHARVESTSTATE_IN_MWS_EXPR:
-            //Building the token
-            if (data->currentToken != NULL)
-            {
-                data->currentToken = data->currentToken->newChildNode();
-            }
-            else
-            {
-                data->currentTokenRoot = CmmlToken::newRoot(true);
-                data->currentToken = data->currentTokenRoot;
-            }
-            // Adding the tag name
-            data->currentToken->setTag((char*) name);
-            // Adding the attributes
+    switch (data->state) {
+    case MWSHARVESTSTATE_DEFAULT:
+        if (strcmp(reinterpret_cast<const char*>(name),
+                   MWSHARVEST_MAIN_NAME) == 0) {
+            data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
+            // Parsing the attributes
             while (NULL != attrs && NULL != attrs[0])
             {
-                data->currentToken->addAttribute((char*) attrs[0],
-                                                 (char*) attrs[1]);
+                // NO ATTRIBUTES EXPECTED TODO HANDLE THEM
                 attrs = &attrs[2];
             }
-            break;
+        } else {
+            data->warnings++;
+            // Saving the state
+            data->prevState = data->state;
+            // Going to an unkown state
+            data->state = MWSHARVESTSTATE_UNKNOWN;
+            data->unknownDepth = 1;
+        }
+        break;
 
-        case MWSHARVESTSTATE_UNKNOWN:
-            data->unknownDepth++;
-            break;
+    case MWSHARVESTSTATE_IN_MWS_HARVEST:
+        if (strcmp(reinterpret_cast<const char*>(name),
+
+                   MWSHARVEST_EXPR_NAME) == 0) {
+            data->state = MWSHARVESTSTATE_IN_MWS_EXPR;
+            // Parsing the attributes
+            while (NULL != attrs && NULL != attrs[0]) {
+                if (strcmp(reinterpret_cast<const char*>(attrs[0]),
+                           MWSHARVEST_EXPR_ATTR_URI_NAME) == 0) {
+                    data->exprUri = reinterpret_cast<const char*>(attrs[1]);
+                } else {
+                    // Invalid attribute
+                    data->warnings++;
+                    fprintf(stderr, "Unexpected attribute \"%s\"\n", attrs[0]);
+                    // Setting exprUri to default
+                    data->exprUri = MWSHARVEST_EXPR_URI_DEFAULT;
+                }
+
+                attrs = &attrs[2];
+            }
+        } else {
+            data->warnings++;
+            // Saving the state
+            data->prevState = data->state;
+            // Going to an unkown state
+            data->state = MWSHARVESTSTATE_UNKNOWN;
+            data->unknownDepth = 1;
+        }
+        break;
+
+    case MWSHARVESTSTATE_IN_MWS_EXPR:
+        if (strcmp(reinterpret_cast<const char*>(name),
+                   MWSHARVEST_EXPR_MATH_NAME) == 0) {
+            data->state = MWSHARVESTSTATE_IN_MWS_MATH;
+        } else if (strcmp(reinterpret_cast<const char*>(name),
+                          MWSHARVEST_EXPR_SNIPPET_NAME) == 0) {
+            setupCopyToStringWriter(data);
+            data->state = MWSHARVESTSTATE_IN_MWS_COPY;
+            data->copyDepth = 1;
+        } else {
+            data->warnings++;
+            // Saving the state
+            data->prevState = data->state;
+            // Going to an unkown state
+            data->state = MWSHARVESTSTATE_UNKNOWN;
+            data->unknownDepth = 1;
+        }
+        break;
+
+    case MWSHARVESTSTATE_IN_MWS_MATH:
+        if (data->currentToken != NULL) {
+            data->currentToken = data->currentToken->newChildNode();
+        } else {
+            data->currentTokenRoot = CmmlToken::newRoot(true);
+            data->currentToken = data->currentTokenRoot;
+        }
+        data->currentToken->setTag(reinterpret_cast<const char*>(name));
+        // Adding the attributes
+        while (NULL != attrs && NULL != attrs[0]) {
+            string attributeName = reinterpret_cast<const char*>(attrs[0]);
+            string attributeValue = reinterpret_cast<const char*>(attrs[1]);
+            data->currentToken->addAttribute(attributeName, attributeValue);
+
+            attrs = &attrs[2];
+        }
+        break;
+
+    case MWSHARVESTSTATE_IN_MWS_COPY:
+        data->copyDepth++;
+        xmlTextWriterStartElement(data->stringWriter, name);
+        while (NULL != attrs && NULL != attrs[0]) {
+            xmlTextWriterWriteAttribute(data->stringWriter, attrs[0], attrs[1]);
+            attrs = &attrs[2];
+        }
+        break;
+
+    case MWSHARVESTSTATE_UNKNOWN:
+        data->unknownDepth++;
+        break;
     }
 
 #if DEBUG
@@ -281,50 +339,66 @@ my_endElement(void*          user_data,
 
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
-    switch (data->state)
-    {
-        case MWSHARVESTSTATE_DEFAULT:
-            // Shouldn't happen
-            // LOGGER!
-            fprintf(stderr, "Unexpected Default State for end element \"%s\"",
-                    (char*) name);
-            break;
+    switch (data->state) {
+    case MWSHARVESTSTATE_DEFAULT:
+        fprintf(stderr, "Unexpected Default State for end element \"%s\"",
+                reinterpret_cast<const char*>(name));
+        assert(false);
+        break;
 
-        case MWSHARVESTSTATE_IN_MWS_HARVEST:
-            data->state = MWSHARVESTSTATE_DEFAULT;
-            break;
+    case MWSHARVESTSTATE_IN_MWS_HARVEST:
+        data->state = MWSHARVESTSTATE_DEFAULT;
+        break;
 
-        case MWSHARVESTSTATE_IN_MWS_EXPR:
-            if (data->currentToken == NULL)
-            {
-                data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
+    case MWSHARVESTSTATE_IN_MWS_EXPR:
+        data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
+
+        if (data->math != NULL) {
+            CrawlData crawlData;
+            crawlData.expressionUri = data->exprUri;
+            crawlData.data = data->data;
+
+            // Add content math node to index
+            int ret = data->indexManager->indexContentMath(data->math,
+                                                           crawlData);
+            if (ret != -1) {
+                data->parsedExpr += ret;
             }
-            else if (data->currentToken->isRoot())
-            {
-                assert(data->currentToken == data->currentTokenRoot);
 
-                // Add content math node to index
-                int ret = data->indexManager->indexContentMath(
-                            data->currentToken, data->exprUri);
-                if (ret != -1) {
-                    data->parsedExpr += ret;
-                }
+            delete data->math;
+            data->math = NULL;
+        } else {
+            cerr << "[Warning: empty math element ]\n";
+        }
+        break;
 
-                delete data->currentTokenRoot;
-                data->currentToken = NULL;
-                data->currentTokenRoot = NULL;
-            }
-            else
-            {
-                data->currentToken = data->currentToken->getParentNode();
-            }
-            break;
+    case MWSHARVESTSTATE_IN_MWS_MATH:
+        if (data->currentToken == NULL) {
+            data->state = MWSHARVESTSTATE_IN_MWS_EXPR;
+        } else if (data->currentToken->isRoot()) {
+            data->math = data->currentToken;
+            data->currentToken = NULL;
+            data->currentTokenRoot = NULL;
+        } else {
+            data->currentToken = data->currentToken->getParentNode();
+        }
+        break;
 
-        case MWSHARVESTSTATE_UNKNOWN:
-            data->unknownDepth--;
-            if (data->unknownDepth == 0)
-                data->state = data->prevState;
-            break;
+    case MWSHARVESTSTATE_IN_MWS_COPY:
+        xmlTextWriterEndElement(data->stringWriter);
+        data->copyDepth--;
+        if (data->copyDepth == 0) {
+            tearDownCopyToStringWriter(data);
+            data->state = MWSHARVESTSTATE_IN_MWS_EXPR;
+            data->data = string(data->buffer.data(), data->buffer.size());
+        }
+        break;
+
+    case MWSHARVESTSTATE_UNKNOWN:
+        data->unknownDepth--;
+        if (data->unknownDepth == 0)
+            data->state = data->prevState;
+        break;
     }
 
 #if DEBUG
@@ -347,10 +421,13 @@ my_characters(void *user_data,
 
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
-    if (data->state == MWSHARVESTSTATE_IN_MWS_EXPR &&  // Valid state
-        data->currentToken != NULL)                    // Valid token
-    {
+    if (data->state == MWSHARVESTSTATE_IN_MWS_EXPR &&   // Valid state
+            data->currentToken != NULL) {               // Valid token
         data->currentToken->appendTextContent((char*) ch, len);
+    }
+
+    if (data->state == MWSHARVESTSTATE_IN_MWS_COPY) {
+        xmlTextWriterWriteRawLen(data->stringWriter, ch, len);
     }
 
 #ifdef TRACE_FUNC_CALLS
@@ -393,7 +470,7 @@ my_warning(void*       user_data,
     data->warnings++;
     
     va_start(args, msg);
-        vfprintf(stderr, msg, args);
+    vfprintf(stderr, msg, args);
     va_end(args);
 
 #ifdef TRACE_FUNC_CALLS
@@ -421,7 +498,7 @@ my_error(void*       user_data,
         data->currentToken = NULL;
     }
     va_start(args, msg);
-        vfprintf(stderr, msg, args);
+    vfprintf(stderr, msg, args);
     va_end(args);
 
 #ifdef TRACE_FUNC_CALLS
@@ -444,7 +521,7 @@ my_fatalError(void*       user_data,
     va_list args;
 
     va_start(args, msg);
-        vfprintf(stderr, msg, args);
+    vfprintf(stderr, msg, args);
     va_end(args);
 
 #ifdef TRACE_FUNC_CALLS
@@ -520,7 +597,7 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd)
     }
     // Parsing the document
     else if ((ret = xmlParseDocument(ctxtPtr))
-            == -1)
+             == -1)
     {
         fprintf(stderr, "Parsing XML document failed\n");
     }

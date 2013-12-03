@@ -29,16 +29,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
 #include <sys/types.h>                 // Primitive System datatypes
 #include <sys/stat.h>                  // POSIX File characteristics
 #include <fcntl.h>                     // File control operations
 #include <string>                      // C++ String header
 #include <stdlib.h>
 #include <unistd.h>
-
-// Local includes
 
 #include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
 #include "common/utils/macro_func.h"
@@ -47,34 +43,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TMP_PATH "/tmp/"
 
-// Namespaces
-
-using namespace std;
-using namespace mws;
 
 int main() {
-    MwsAnswset* answset;
-    MwsAnsw*    answ;
-    int         fd;
-    int         ret;
-    const char* xmlfile  = "MwsAnswset1.xml";
-    string      xml_path = (string) TMP_PATH +
-                            "/" + (string) xmlfile;
-    
-    // Building an anserset
-    answset = new MwsAnswset;
-    answ = new MwsAnsw("www.example.org", "defxml");
-    answset->answers.push_back(answ);
+    using mws::MwsAnswset;
+    using std::string;
+    using mws::types::Answer;
 
-    fd = open(xml_path.c_str(), O_WRONLY | O_CREAT,
+    const string xml_path = (string) TMP_PATH + "/MwsAnswset1.xml";
+
+    Answer* answer = new Answer();
+    answer->data = "lalala";
+    answer->uri = "http://foo";
+    answer->xpath = "//*[1]";
+    MwsAnswset* answset = new MwsAnswset();
+    answset->answers.push_back(answer);
+
+    int fd = open(xml_path.c_str(), O_WRONLY | O_CREAT,
             S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     FAIL_ON(fd < 0);
+    FAIL_ON(writeXmlAnswsetToFd(answset, fd) != 0);
 
-    // Running the function
-    ret = writeXmlAnswsetToFd(answset, fd);
-    FAIL_ON(ret != 0);
-
-    // Freeing the Answer Set
     delete answset;
 
     (void) close(fd);

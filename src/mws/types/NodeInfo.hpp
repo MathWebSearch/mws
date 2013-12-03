@@ -39,9 +39,18 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 
+namespace mws {
+namespace types {
 
-namespace mws
-{
+struct CrawlData {
+    std::string expressionUri;
+    std::string data;
+};
+
+}  // namespace types
+}  // namespace mws
+
+namespace mws {
 
 // Typedefs
 
@@ -62,8 +71,6 @@ typedef uint32_t    FormulaId;  ///< Formula Id corresponding to a leaf node
 typedef uint32_t    CrawlId;     ///< Crawled data Id
 
 typedef std::string FormulaPath; ///< Path of the formula within a crawl data
-
-typedef std::string CrawlData;   ///< Data associated with a crawled element
 
 // Constants
 const Meaning   MWS_QVAR_MEANING       = "mws:qvar";

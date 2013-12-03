@@ -29,17 +29,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
-#include <unistd.h>                     // write()
-#include <sstream>
 #include <unistd.h>
 
-// Local includes
+#include <sstream>
+#include <vector>
 
-#include "mws/xmlparser/writeJsonAnswsetToFd.hpp"    // function definition
-
-// Namespaces
+#include "writeJsonAnswsetToFd.hpp"
 
 using namespace std;
 using namespace mws;
@@ -51,7 +46,7 @@ int
 writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
 {
     stringstream               ss;
-    vector<MwsAnsw*>::iterator it;
+    vector<mws::types::Answer*>::iterator it;
     const char*                data;
     size_t                     data_size;
     size_t                     bytes_written;
@@ -62,10 +57,8 @@ writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
     ss << "{\"size\":" << answset->answers.size()
        << ",\"total\":" << answset->total
        << ",\"data\":[";
-    for (it  = answset->answers.begin();
-         it != answset->answers.end();
-         it ++)
-    {
+    for (auto it = answset->answers.begin();
+         it != answset->answers.end(); it ++) {
         if (it != answset->answers.begin())
         {
             ss << ",";
@@ -76,12 +69,11 @@ writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
            << "\",\"qvars\":{";
         for (i = 0; i < answset->qvarNames.size(); i++)
         {
-            if (i != 0)
-            {
+            if (i != 0) {
                 ss << ",";
             }
             ss << "\"" << answset->qvarNames[i] << "\":\""
-               << (*it)->subst.qvarXpaths[i] << "\"";
+               << (*it)->xpath << answset->qvarXpaths[i] << "\"";
         }
         ss << "}}";
     }
@@ -92,8 +84,7 @@ writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
     data_size = out.size();
 
     bytes_written = 0;
-    while (bytes_written < data_size)
-    {
+    while (bytes_written < data_size) {
         bytes_written += write(fd,
                                data + bytes_written,
                                data_size - bytes_written);

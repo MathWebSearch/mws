@@ -21,8 +21,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @file MathParser.cpp
  * @todo error handling
- *
- * date: 15 Aug 2012
+ * @date 15 Aug 2012
  */
 
 #include <string.h>
@@ -36,7 +35,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "MathParser.hpp"
 
 using namespace std;
-//using namespace ;
 
 namespace crawler {
 namespace parser {

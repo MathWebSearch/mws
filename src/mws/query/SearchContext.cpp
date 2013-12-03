@@ -138,9 +138,10 @@ SearchContext::~SearchContext()
 
 MwsAnswset*
 SearchContext::getResult(MwsIndexNode* data,
-                         PageDbHandle *dbhandle,
-                         unsigned int  offset,
-                         unsigned int  size, unsigned int maxTotal)
+                         dbc::DbQueryManager* dbQueryManger,
+                         unsigned int offset,
+                         unsigned int size,
+                         unsigned int maxTotal)
 {
     MwsAnswset*   result;
     MwsIndexNode* currentNode;
@@ -243,24 +244,28 @@ SearchContext::getResult(MwsIndexNode* data,
             if (found < size + offset &&
                 found + currentNode->solutions > offset)
             {
-                PageDbConn* conn = dbhandle->createConnection();
-                // If we are in this interval, we need to return the solutions
-                if (offset < found)
-                {
-                    conn->query(currentNode->id,
-                               0,
-                               size + offset - found,
-                               result);
+                unsigned dbOffset;
+                unsigned dbMaxSize;
+                if (offset < found) {
+                    dbOffset = 0;
+                    dbMaxSize = size + offset - found;
+                } else {
+                    dbOffset = offset - found;
+                    dbMaxSize = size;
                 }
-                else
-                {
-                    conn->query(currentNode->id,
-                               offset - found,
-                               size,
-                               result);
-                }
+                dbc::DbAnswerCallback callback =
+                        [result](const FormulaPath& formulaPath,
+                                 const types::CrawlData& crawlData) {
+                    mws::types::Answer* answer = new mws::types::Answer();
+                    answer->data = crawlData.data;
+                    answer->uri = crawlData.expressionUri;
+                    answer->xpath = formulaPath;
+                    result->answers.push_back(answer);
+                    return 0;
+                };
 
-                delete conn;
+                dbQueryManger->query((FormulaId)currentNode->id, dbOffset,
+                                     dbMaxSize, callback);
             }
 
             found += currentNode->solutions;

@@ -27,58 +27,40 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @file MwsAnswset.hpp
   * @author Corneliu-Claudiu Prodescu
   * @date 27 Apr 2011
-  *
-  * License: GPL v3
-  *
   */
 
-// System includes
+#include <cstdio>
+#include <vector>
 
-#include <cstdio>                      // C standard input output library
-#include <vector>                      // STL vector headers
+#include "mws/types/Answer.hpp"
 
-// Local includes
-
-#include "mws/types/MwsAnsw.hpp"       // MWS Answer datatype header
-#include "mws/types/MwsSubst.hpp"      // MWS Substitution datatype header
-
-namespace mws
-{
+namespace mws {
 
 /**
-  * @brief Datatype used to store a MWS Answer Set
+  * @brief <mws:answset> Answer Set
   *
   */
 struct MwsAnswset
 {
     /// Vector containing the MWS Answers
-    std::vector<mws::MwsAnsw*> answers;
-    /// Total number of solutions (returned or not)
+    std::vector<mws::types::Answer*> answers;
+    /// Total number of solutions in the index
     int total;
     /// Vector containing the qvar names
     std::vector<std::string> qvarNames;
     /// Vector containing the qvar relative xpaths
     std::vector<std::string> qvarXpaths;
 
-    MwsAnswset()
-    {
-        total = 0;
+    MwsAnswset() : total(0) {
     }
 
-    ~MwsAnswset()
-    {
-        std::vector<mws::MwsAnsw*>::iterator it1;
-        std::vector<mws::MwsSubst*>::iterator it2;
-
-        for (it1  = answers.begin();
-             it1 != answers.end();
-             it1 ++)
-        {
-            delete *it1;
+    ~MwsAnswset() {
+        for (auto answer : answers) {
+            delete answer;
         }
     }
 };
 
-}
+}  // namespace mws
 
 #endif // _MWSANSWSET_HPP

@@ -40,7 +40,7 @@ MemCrawlDb::MemCrawlDb() : mNextCrawlId(0) {
 }
 
 mws::CrawlId
-MemCrawlDb::putData(const mws::CrawlData& crawlData)
+MemCrawlDb::putData(const mws::types::CrawlData& crawlData)
 throw (std::exception) {
     const CrawlId crawlId = mNextCrawlId++;
     auto ret = mData.insert(make_pair(crawlId, crawlData));
@@ -52,12 +52,11 @@ throw (std::exception) {
     return crawlId;
 }
 
-const mws::CrawlData*
-MemCrawlDb::getData(const mws::CrawlId& crawlId)
+const types::CrawlData MemCrawlDb::getData(const mws::CrawlId& crawlId)
 throw (std::exception) {
     auto it = mData.find(crawlId);
     if (it != mData.end()) {
-        return &(it->second);
+        return it->second;
     } else {
         throw runtime_error("No data corresponding to crawlId = " +
                             ToString(crawlId));

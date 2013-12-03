@@ -18,36 +18,35 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _VERIFYMWSMESSAGETYPEFROMFD_HPP
-#define _VERIFYMWSMESSAGETYPEFROMFD_HPP
+#ifndef _MWS_TYPES_ANSWER_HPP
+#define _MWS_TYPES_ANSWER_HPP
 
 /**
-  * @brief File containing the header of the verifyMwsMessageTypeFromFd function
+  * @brief MWS Answer type
   *
-  * @file verifyMwsMessageTypeFromFd.hpp
-  * @author Daniel Hasegan
-  * @date 08 Aug 2012
+  * @file MwsAnsw.hpp
+  * @author Corneliu Claudiu Prodescu
+  * @date 27 Apr 2011
   *
   * License: GPL v3
   *
   */
 
-// System includes
-
 #include <string>
 
-// Local includes
-
-namespace mws
-{
+namespace mws {
+namespace types {
 
 /**
-  * @brief Function to read a MwsMessage from an input file descriptor.
-  * @param fd is the file descriptor from where to read.
-  * @return a string describing the first tag of the MwsMessage
+  * @brief <mws:answ> Answer
   */
-std::string verifyMwsMessageTypeFromFd(int fd);
+struct Answer {
+    std::string uri;
+    std::string xpath;
+    std::string data;
+};
 
-}
+}  // namespace types
+}  // namespace mws
 
-#endif
+#endif  // _MWS_TYPES_ANSWER_HPP

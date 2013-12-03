@@ -19,8 +19,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief   File containing the implementation of the writeXmlAnswsetToFd
-  * function
+  * @brief   writeXmlAnswsetToFd implementation
   * @file    writeXmlAnswsetToFd.cpp
   * @author  Corneliu-Claudiu Prodescu
   * @date    28 Apr 2011
@@ -28,27 +27,23 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
-#include <stdlib.h>                    // C general purpose library
-#include <stdio.h>                     // C Standrad Input Output
-#include <string.h>                    // C string library
-#include <libxml/encoding.h>           // LibXML encodings headers
-#include <libxml/xmlwriter.h>          // LibXML writer headers
-#include <sys/types.h>                 // Primitive System datatypes
-#include <sys/stat.h>                  // POSIX File characteristics
-#include <fcntl.h>                     // File control operations
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <libxml/encoding.h>
+#include <libxml/xmlwriter.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <unistd.h>
 
-// Local includes
+#include <string>
 
-#include "common/utils/DebugMacros.hpp"// Utility debug macros
-#include "common/utils/ToString.hpp"   // ToString utility function
-#include "mws/xmlparser/writeXmlAnswsetToFd.hpp" // Function definition
-
-// Config files
-
+#include "common/utils/DebugMacros.hpp"
+#include "common/utils/ToString.hpp"
 #include "Version.hpp"   // Common version macros
+
+#include "writeXmlAnswsetToFd.hpp"
 
 // Macros
 
@@ -105,7 +100,6 @@ int writeXmlAnswsetToFd(MwsAnswset* answset, int fd)
     size_t           qvarNr;
     int              ret;
     unsigned int     i;
-    vector<MwsAnsw*>::iterator it;
 
     // Initializing values
     outPtr    = NULL;
@@ -182,10 +176,8 @@ int writeXmlAnswsetToFd(MwsAnswset* answset, int fd)
     else
     // Writing the answers
     {
-        for (it  = answset->answers.begin();
-             it != answset->answers.end();
-             it++)
-        {
+        for (auto it = answset->answers.begin();
+             it != answset->answers.end(); it++) {
             if ((ret = xmlTextWriterStartElement(writerPtr,
                         BAD_CAST MWSANSWSET_ANSW_NAME))
                     == -1)
@@ -214,6 +206,7 @@ int writeXmlAnswsetToFd(MwsAnswset* answset, int fd)
                 // Writing the substitutions
                 for (i = 0; i < qvarNr; i++)
                 {
+                    string qvarXpath = (*it)->xpath + answset->qvarXpaths[i];
                     if ((ret = xmlTextWriterStartElement(writerPtr,
                                 BAD_CAST MWSANSWSET_SUBSTPAIR_NAME))
                             == -1)
@@ -232,7 +225,7 @@ int writeXmlAnswsetToFd(MwsAnswset* answset, int fd)
                     }
                     else if ((ret = xmlTextWriterWriteAttribute(writerPtr,
                                 BAD_CAST "xpath",
-                                BAD_CAST (*it)->subst.qvarXpaths[i].c_str()))
+                                BAD_CAST qvarXpath.c_str()))
                             == -1)
                     {
                         fprintf(stderr,
@@ -246,6 +239,15 @@ int writeXmlAnswsetToFd(MwsAnswset* answset, int fd)
                         break;
                     }
                 }
+                // <data>
+                xmlTextWriterStartElement(writerPtr,
+                    BAD_CAST "data");
+                // .. raw..
+                xmlTextWriterWriteRawLen(writerPtr,
+                                         BAD_CAST (*it)->data.c_str(),
+                                         (*it)->data.size());
+                // </data>
+                xmlTextWriterEndElement(writerPtr);
             }
             if (ret == -1)
             {

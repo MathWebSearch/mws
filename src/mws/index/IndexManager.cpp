@@ -44,6 +44,7 @@ IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
 int
 IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
                                const CrawlData& crawlData) {
+    assert(cmmlToken != NULL);
     // Using a stack to insert all subterms by
     // going depth first through the CmmlToken
     set<FormulaId> uniqueFormulaIds;

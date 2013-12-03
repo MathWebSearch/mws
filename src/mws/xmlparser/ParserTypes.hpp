@@ -32,9 +32,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include <cstdio>
-#include <string>
+#include <stdio.h>
+#include <libxml/xmlwriter.h>
+
 #include <stack>
+#include <string>
+#include <vector>
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsQuery.hpp"
@@ -93,6 +96,8 @@ enum MwsHarvestState
     MWSHARVESTSTATE_DEFAULT,
     MWSHARVESTSTATE_IN_MWS_HARVEST,
     MWSHARVESTSTATE_IN_MWS_EXPR,
+    MWSHARVESTSTATE_IN_MWS_MATH,
+    MWSHARVESTSTATE_IN_MWS_COPY,
     MWSHARVESTSTATE_UNKNOWN
 };
 
@@ -103,13 +108,15 @@ enum MwsHarvestState
 struct MwsHarvest_SaxUserData
 {
     /// Depth of the parse tree in unknown state
-    int                          unknownDepth;
+    int                             unknownDepth;
     /// The token which is currently being parsed
-    types::CmmlToken*              currentToken;
+    types::CmmlToken*               currentToken;
     /// The root of the token being currently parsed
-    types::CmmlToken*              currentTokenRoot;
+    types::CmmlToken*               currentTokenRoot;
+
+
     /// The stack containing the parent CMML Tokens
-    std::stack<types::CmmlToken*>  processStack;
+    std::stack<types::CmmlToken*>   processStack;
     /// State of the parsing
     mws::MwsHarvestState         state;
     /// State of the parsing before going into an unknown state
@@ -120,10 +127,17 @@ struct MwsHarvest_SaxUserData
     int                          parsedExpr;
     /// Variable used to show the number of warnings (-1 for critical error)
     int                          warnings;
-    /// URI of the expression being parsed
-    std::string                  exprUri;
     /// Index manager used to add expressions from the harvest
     index::IndexManager*         indexManager;
+
+    xmlTextWriter*               stringWriter;
+    int                          copyDepth;
+    std::vector<char>            buffer;
+
+    types::CmmlToken*               math;
+    /// URI of the expression being parsed
+    std::string                  exprUri;
+    std::string                  data;
 };
 
 struct MwsMessage_SaxUserData

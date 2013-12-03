@@ -50,11 +50,11 @@ public:
     /**
      * @brief index content math formula
      * @param cmmlToken ContentMathML node
-     * @param crawlData crawled data (URL)
+     * @param crawlData URL and opaque data given in the crawled harvest
      * @return Number of indexed subexpressions on success, -1 on failure.
      */
     virtual int indexContentMath(const types::CmmlToken* cmmlToken,
-                                 const CrawlData& crawlData);
+                                 const types::CrawlData& crawlData);
 };
 
 } }

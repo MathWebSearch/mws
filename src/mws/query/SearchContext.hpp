@@ -31,21 +31,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
-#include <utility>                     // STL pair
+#include <utility>
 #include <map>
 #include <vector>
 #include <string>
 #include <list>
 
-// Local includes
-
-#include "mws/types/CmmlToken.hpp"     // CmmlToken class header
-#include "mws/types/MwsAnswset.hpp"    // MWS Answer set class header
-#include "mws/dbc/PageDbConn.hpp"       // MWS Page Database connection class header
-#include "mws/dbc/PageDbHandle.hpp"     // MWS Page Database handle class
-#include "mws/index/MwsIndexNode.hpp"  // MWS Index node class header
+#include "mws/types/CmmlToken.hpp"
+#include "mws/types/MwsAnswset.hpp"
+#include "mws/dbc/DbQueryManger.hpp"
+#include "mws/index/MwsIndexNode.hpp"
 
 #include "SearchContextTypes.hpp"
 
@@ -94,10 +89,10 @@ struct SearchContext
       * @return an answer set with the corresponding results.
       */
     mws::MwsAnswset* getResult(mws::MwsIndexNode* aNode,
-                               PageDbHandle* dbhandle,
-                               unsigned int       anOffset,
-                               unsigned int       aSize,
-                               unsigned int       aMaxTotal);
+                               dbc::DbQueryManager* dbQueryManager,
+                               unsigned int anOffset,
+                               unsigned int aSize,
+                               unsigned int aMaxTotal);
 
 };
 

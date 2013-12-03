@@ -47,14 +47,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "MwsDaemon.hpp"
 #include "common/socket/InSocket.hpp"
 #include "common/socket/OutSocket.hpp"
-#include "mws/dbc/PageDbHandle.hpp"
 #include "mws/dbc/MemFormulaDb.hpp"
 #include "mws/dbc/MemCrawlDb.hpp"
-#include "mws/xmlparser/verifyMwsMessageTypeFromFd.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "mws/xmlparser/readMwsQueryFromFd.hpp"
-#include "mws/xmlparser/verifyMwsMessageTypeFromMemory.hpp"
-#include "mws/xmlparser/readMwsQueryFromMemory.hpp"
 #include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
@@ -66,7 +62,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/DebugMacros.hpp"   // MWS Debug Macro Utilities
 #include "common/utils/Path.hpp"
 #include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
-
+#include "mws/dbc/DbQueryManger.hpp"
 #include "mws/index/IndexManager.hpp"
 
 using namespace std;
@@ -74,7 +70,6 @@ using namespace mws;
 using namespace mws::types;
 
 static MwsIndexNode* data;
-static PageDbHandle *dbhandle;
 static InSocket* serverSocket;
 static sig_atomic_t run = 1;
 const string HarvestType = "mws:harvest";
@@ -100,9 +95,6 @@ graceful_exit(int signum)
     }
 }
 
-static char*
-readMessage(int fd);
-
 static void*
 HandleConnection(void* dataPtr)
 {
@@ -110,14 +102,10 @@ HandleConnection(void* dataPtr)
     MwsAnswset*       result;
     OutSocket*        outSocket;
     SocketInfo        sockInfo;
-    stack<CmmlToken*> exprStack;
     SearchContext*    ctxt;
     int               ret;
     ControlSequence   controlSequence;
-    char *            message;
-    string            messageType;
     int               fd;
-    pair<int,int>     loadReturn;
     
     outSocket = (OutSocket*) dataPtr;
     sockInfo  = outSocket->getInfo();
@@ -128,37 +116,21 @@ HandleConnection(void* dataPtr)
             sockInfo.hostname.c_str(),
             sockInfo.service.c_str());
     fflush(stdout);
- 
-    fd = outSocket->getFd();
-    message = readMessage(fd);
-
-    //Print MessageType
-    messageType = verifyMwsMessageTypeFromMemory(message);
-    printf("Type: %s\n",messageType.c_str());
-    fflush(stdout);
-
-    if (messageType != QueryType) {
-      free(message);
-      delete outSocket;
-      return NULL;
-    }
-
-    // IN CASE OF MWS QUERY
 
     // Reading the MwsQuery
-    mwsQuery = readMwsQueryFromMemory(message);
-    free(message);
+    fd = outSocket->getFd();
+    mwsQuery = readMwsQueryFromFd(fd);
 
     if (mwsQuery && mwsQuery->tokens.size())
     {
 #ifdef _APPLYRESTRICT
         mwsQuery->applyRestrictions();
 #endif
-
+        dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
         ctxt   = new SearchContext(mwsQuery->tokens[0], meaningDictionary);
 
         result = ctxt->getResult(data,
-                                 dbhandle,
+                                 &dbQueryManger,
                                  mwsQuery->attrResultLimitMin,
                                  mwsQuery->attrResultMaxSize,
                                  mwsQuery->attrResultTotalReqNr);
@@ -203,51 +175,6 @@ HandleConnection(void* dataPtr)
     delete outSocket;
 
     return NULL;
-}
-
-static char*
-readMessage(int fd)
-{
-    FILE*             fdstream;
-    size_t            lSize = 1000000;
-    size_t            bytes_read;
-    char *            message;
-
-
-    // Duplicate file descriptor
-    int fd2 = dup(fd);
-
-    // Open file stream reader on fd2
-    if (  NULL == (fdstream = fdopen( fd2 ,"r" ))  ) {
-        fprintf(stderr,"Cannot open file descriptor %d\n", fd);
-        return NULL;
-    }
-
-    // allocate memory to contain the first lSize of the file:
-    message = (char*) malloc (sizeof(char)*lSize);
-    if (message == NULL) {
-        fprintf (stderr,"Memory allocation fail.\n");
-        return NULL;
-    }
-    bytes_read = fread(message, 1, lSize, fdstream);
-
-
-    while (!feof(fdstream)) {
-        bytes_read += fread(message + bytes_read, 1, lSize - bytes_read, fdstream);
-        if (bytes_read == lSize) {
-            lSize = 2 * lSize;
-            char* new_message = (char*) malloc (sizeof(char)*lSize);
-            memcpy(new_message, message, bytes_read);
-            free(message);
-            message = new_message;
-        }
-    }
-
-    fclose(fdstream);
-
-    message[bytes_read] = '\0';
-
-    return message;
 }
 
 
@@ -312,9 +239,7 @@ void cleanupMws()
     ThreadWrapper::clean();
 
     clearxmlparser();
-    dbhandle->clean();
     delete serverSocket;
-    delete dbhandle;
     delete data;
 }
 

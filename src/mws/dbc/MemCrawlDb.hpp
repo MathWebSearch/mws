@@ -45,7 +45,7 @@ public:
      * @param crawlData data associated with the crawl element
      *
      */
-    virtual mws::CrawlId putData(const mws::CrawlData& crawlData)
+    virtual mws::CrawlId putData(const mws::types::CrawlData& crawlData)
     throw (std::exception);
 
     /**
@@ -54,11 +54,11 @@ public:
      * @return CrawlData corresponding to crawlId
      * @throw NotFound or I/O exceptions
      */
-    virtual const mws::CrawlData* getData(const mws::CrawlId& crawlId)
+    virtual const mws::types::CrawlData getData(const mws::CrawlId& crawlId)
     throw (std::exception);
 
 private:
-    std::map<mws::CrawlId, mws::CrawlData> mData;
+    std::map<mws::CrawlId, mws::types::CrawlData> mData;
     CrawlId mNextCrawlId;
 };
 
