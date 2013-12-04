@@ -28,8 +28,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include <ctype.h>
 #include <assert.h>
+#include <ctype.h>
+#include <string.h>
 
 #include <map>
 using std::map;
@@ -52,8 +53,8 @@ CmmlToken::CmmlToken(bool aMode) :
     _tag(""),
     _textContent(""),
     _parentNode(NULL),
-    _mode(aMode),
-    _xpath(root_xpath_selector) {
+    _xpath(root_xpath_selector),
+    _mode(aMode) {
 }
 
 
