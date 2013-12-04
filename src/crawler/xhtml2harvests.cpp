@@ -25,16 +25,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  *  Harvest XHTML files given as command line arguments.
  */
 
-// System includes
-#include <string>
-#include <cstring>
-#include <vector>
-#include <queue>
-#include <set>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <string.h>
+
+#include <string>
+#include <vector>
+#include <queue>
+#include <set>
 #include <fstream>
 using namespace std;
 
@@ -49,7 +49,7 @@ using namespace common::utils;
 int main(int argc, char *argv[])
 {
     string outdir = ".";
-    string root   = ".";
+    string root   = "";
     FILE* harvest = NULL;
 
     FlagParser::addFlag('O', "outdir",  FLAG_OPT, ARG_REQ);
@@ -84,13 +84,18 @@ int main(int argc, char *argv[])
           "             xmlns:mws=\"http://search.mathweb.org/ns\">\n",
           harvest);
     {
-        const vector<string>& params = FlagParser::getParams();
-        for (vector<string>::const_iterator it = params.begin(); it != params.end(); it++) {
-            string url = root + "/" + *it;
-            string content = getFileContents(it->c_str());
-            vector<string> math = getHarvestFromXhtml(content, url);
-            for(vector<string>::iterator it = math.begin(); it != math.end() ; it++) {
-                fputs(it->c_str(), harvest);
+        const vector<string>& files = FlagParser::getParams();
+        for (const string& file : files) {
+            string url = root + file;
+            string content = getFileContents(file.c_str());
+            vector<string> mathElements = getHarvestFromXhtml(content, url);
+            if (mathElements.size() == 0) {
+                fprintf(stderr, "%s: %s: Could not find any Content MathML\n",
+                        argv[0], file.c_str());
+                continue;
+            }
+            for (const string& mathElement : mathElements) {
+                fputs(mathElement.c_str(), harvest);
             }
         }
     }

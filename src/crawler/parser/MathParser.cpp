@@ -151,7 +151,6 @@ xmlXPathObjectPtr get_XMLNodeset (xmlDocPtr doc, const xmlChar *xpath) {
     }
     if(xmlXPathNodeSetIsEmpty(result->nodesetval)){
         xmlXPathFreeObject(result);
-        printf("No result\n");
         return NULL;
     }
 
