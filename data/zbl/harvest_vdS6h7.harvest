@@ -3,7 +3,7 @@
              xmlns:mws="http://search.mathweb.org/ns">
 <mws:expr url="./16/103/5027229/5027229.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:msup xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">H</m:mi>
@@ -28,7 +28,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="V" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="V" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">V</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -42,7 +42,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\mathbb{S}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\mathbb{S}" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">𝕊</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
@@ -56,7 +56,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="n" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="n" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">n</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
@@ -70,7 +70,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="V(\mathbb{S})" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="V(\mathbb{S})" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mrow xref="m4.1.5.cmml" local_id="m4.1.5">
       <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">V</m:mi>
@@ -100,7 +100,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\mathbb{S}^{n}\to\mathbb{C}P^{{\frac{n-1}{2}}}" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\mathbb{S}^{n}\to\mathbb{C}P^{{\frac{n-1}{2}}}" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mrow xref="m5.1.7.cmml" local_id="m5.1.7">
       <m:msup xref="m5.1.7.1.cmml" local_id="m5.1.7.1">
@@ -183,7 +183,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="n=3" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="n=3" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:mrow xref="m6.1.4.cmml" local_id="m6.1.4">
       <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">n</m:mi>
@@ -209,7 +209,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="r&gt;\frac{1}{\sqrt{n-4}}" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="r&gt;\frac{1}{\sqrt{n-4}}" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:mrow xref="m7.1.4.cmml" local_id="m7.1.4">
       <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">r</m:mi>
@@ -266,7 +266,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="r" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="r" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">r</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m8.1" local_id="m8.1.cmml">
@@ -280,7 +280,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m9.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="r" display="inline" xref="m9.1.cmml" local_id="m9.1">
+<m:math xmlns="http://zentralblatt.org" alttext="r" display="inline" xref="m9.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m9.1">
   <m:semantics xref="m9.1.cmml" local_id="m9.1a">
     <m:mi xref="m9.1.1.cmml" local_id="m9.1.1">r</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m9.1" local_id="m9.1.cmml">
@@ -294,7 +294,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027276/5027276.xhtml#m10.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="r" display="inline" xref="m10.1.cmml" local_id="m10.1">
+<m:math xmlns="http://zentralblatt.org" alttext="r" display="inline" xref="m10.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m10.1">
   <m:semantics xref="m10.1.cmml" local_id="m10.1a">
     <m:mi xref="m10.1.1.cmml" local_id="m10.1.1">r</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m10.1" local_id="m10.1.cmml">
@@ -308,7 +308,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026736/5026736.xhtml#S0.Ex1.m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="i\beta\varphi_{t}+m\Delta\varphi=c(p+1)|\varphi|^{{p-1}}|\psi|^{{q+1}}\varphi,%&#10;\ t&gt;0,\ x\in{\mathbb{R}}^{2}" display="block" xref="S0.Ex1.m1.1.cmml" local_id="S0.Ex1.m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="i\beta\varphi_{t}+m\Delta\varphi=c(p+1)|\varphi|^{{p-1}}|\psi|^{{q+1}}\varphi,%&#10;\ t&gt;0,\ x\in{\mathbb{R}}^{2}" display="block" xref="S0.Ex1.m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="S0.Ex1.m1.1">
   <m:semantics xref="S0.Ex1.m1.1.cmml" local_id="S0.Ex1.m1.1a">
     <m:mrow xref="S0.Ex1.m1.1.36.cmml" local_id="S0.Ex1.m1.1.36">
       <m:mrow xref="S0.Ex1.m1.1.36.2.cmml" local_id="S0.Ex1.m1.1.36.2">
@@ -555,7 +555,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026736/5026736.xhtml#S0.Ex2.m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="i\psi_{t}+s\Delta\psi=b(q+1)|\psi|^{{q-1}}|\varphi|^{{p+1}}\psi,\ t&gt;0,\ x\in{%&#10;\mathbb{R}}^{2}," display="block" xref="S0.Ex2.m1.1.cmml" local_id="S0.Ex2.m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="i\psi_{t}+s\Delta\psi=b(q+1)|\psi|^{{q-1}}|\varphi|^{{p+1}}\psi,\ t&gt;0,\ x\in{%&#10;\mathbb{R}}^{2}," display="block" xref="S0.Ex2.m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="S0.Ex2.m1.1">
   <m:semantics xref="S0.Ex2.m1.1.cmml" local_id="S0.Ex2.m1.1a">
     <m:mrow xref="S0.Ex2.m1.1.36.cmml" local_id="S0.Ex2.m1.1.36">
       <m:mrow xref="S0.Ex2.m1.1.36.cmml" local_id="S0.Ex2.m1.1.36a">
@@ -801,7 +801,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026984/5026984.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="(x)" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="(x)" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mrow xref="m1.1.2.cmml" local_id="m1.1.2">
       <m:mo xref="m1.1.2.cmml" local_id="m1.1.2a">(</m:mo>
@@ -819,7 +819,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026984/5026984.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="D(x)=d/x^{2}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="D(x)=d/x^{2}" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mrow xref="m2.1.10.cmml" local_id="m2.1.10">
       <m:mrow xref="m2.1.10.1.cmml" local_id="m2.1.10.1">
@@ -884,7 +884,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027079/5027079.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="{\mathbb{C}}^{n}" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="{\mathbb{C}}^{n}" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:msup xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">ℂ</m:mi>
@@ -909,7 +909,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027258/5027258.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">t</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -923,7 +923,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027258/5027258.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">t</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
@@ -937,7 +937,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027258/5027258.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">t</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
@@ -951,7 +951,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027258/5027258.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">t</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
@@ -965,7 +965,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027258/5027258.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">t</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
@@ -979,7 +979,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027258/5027258.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">t</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m6.1" local_id="m6.1.cmml">
@@ -993,7 +993,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027258/5027258.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="t" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">t</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m7.1" local_id="m7.1.cmml">
@@ -1007,7 +1007,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mrow xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">h</m:mi>
@@ -1033,7 +1033,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mrow xref="m2.1.3.cmml" local_id="m2.1.3">
       <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">h</m:mi>
@@ -1059,7 +1059,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mrow xref="m3.1.3.cmml" local_id="m3.1.3">
       <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">h</m:mi>
@@ -1085,7 +1085,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="hp" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mrow xref="m4.1.3.cmml" local_id="m4.1.3">
       <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">h</m:mi>
@@ -1111,7 +1111,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="h" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="h" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">h</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
@@ -1125,7 +1125,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">p</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m6.1" local_id="m6.1.cmml">
@@ -1139,7 +1139,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="p)" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="p)" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:mrow xref="m7.1.cmml" local_id="m7.1b">
       <m:mi local_id="m7.1.1">p</m:mi>
@@ -1164,7 +1164,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027231/5027231.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="L^{2}" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="L^{2}" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:msup xref="m8.1.3.cmml" local_id="m8.1.3">
       <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">L</m:mi>
@@ -1189,7 +1189,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">m</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -1203,7 +1203,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\{X_{n};n\geq 1\}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\{X_{n};n\geq 1\}" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mrow xref="m2.1.9.cmml" local_id="m2.1.9">
       <m:mo xref="m2.1.9.cmml" local_id="m2.1.9a">{</m:mo>
@@ -1262,7 +1262,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">m</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
@@ -1276,7 +1276,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">m</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
@@ -1290,7 +1290,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\{X_{n};n\geq 1\}" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\{X_{n};n\geq 1\}" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mrow xref="m5.1.9.cmml" local_id="m5.1.9">
       <m:mo xref="m5.1.9.cmml" local_id="m5.1.9a">{</m:mo>
@@ -1349,7 +1349,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="S_{n}=\sum^{n}_{{j=1}}X_{j}" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="S_{n}=\sum^{n}_{{j=1}}X_{j}" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:mrow xref="m6.1.9.cmml" local_id="m6.1.9">
       <m:msub xref="m6.1.9.1.cmml" local_id="m6.1.9.1">
@@ -1438,7 +1438,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="1\leq p&lt;2" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="1\leq p&lt;2" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:mrow xref="m7.1.6.cmml" local_id="m7.1.6">
       <m:mn xref="m7.1.1.cmml" local_id="m7.1.1">1</m:mn>
@@ -1482,7 +1482,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="P\{\|S_{n}\|\geq\varepsilon n^{{1/p}}\}" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="P\{\|S_{n}\|\geq\varepsilon n^{{1/p}}\}" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:mrow xref="m8.1.cmml" local_id="m8.1b">
       <m:mi local_id="m8.1.1">P</m:mi>
@@ -1570,7 +1570,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m9.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\varepsilon\to 0" display="inline" xref="m9.1.cmml" local_id="m9.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\varepsilon\to 0" display="inline" xref="m9.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m9.1">
   <m:semantics xref="m9.1.cmml" local_id="m9.1a">
     <m:mrow xref="m9.1.4.cmml" local_id="m9.1.4">
       <m:mi xref="m9.1.1.cmml" local_id="m9.1.1">ε</m:mi>
@@ -1596,7 +1596,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m10.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="P\{\|S_{n}\|\geq\varepsilon\sqrt{n\log n}\}" display="inline" xref="m10.1.cmml" local_id="m10.1">
+<m:math xmlns="http://zentralblatt.org" alttext="P\{\|S_{n}\|\geq\varepsilon\sqrt{n\log n}\}" display="inline" xref="m10.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m10.1">
   <m:semantics xref="m10.1.cmml" local_id="m10.1a">
     <m:mrow xref="m10.1.cmml" local_id="m10.1b">
       <m:mi xref="m1.1.1.cmml" local_id="m10.1.1">P</m:mi>
@@ -1691,7 +1691,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027060/5027060.xhtml#m11.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\varepsilon\to 0" display="inline" xref="m11.1.cmml" local_id="m11.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\varepsilon\to 0" display="inline" xref="m11.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m11.1">
   <m:semantics xref="m11.1.cmml" local_id="m11.1a">
     <m:mrow xref="m11.1.4.cmml" local_id="m11.1.4">
       <m:mi xref="m11.1.1.cmml" local_id="m11.1.1">ε</m:mi>
@@ -1717,7 +1717,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026988/5026988.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="N" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="N" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">N</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -1731,7 +1731,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026988/5026988.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="J" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="J" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">J</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
@@ -1745,7 +1745,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027066/5027066.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="(2+1)" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="(2+1)" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mrow xref="m1.1.6.cmml" local_id="m1.1.6">
       <m:mo xref="m1.1.6.cmml" local_id="m1.1.6a">(</m:mo>
@@ -1775,7 +1775,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027066/5027066.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="(2+1)" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="(2+1)" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mrow xref="m2.1.6.cmml" local_id="m2.1.6">
       <m:mo xref="m2.1.6.cmml" local_id="m2.1.6a">(</m:mo>
@@ -1805,7 +1805,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="N" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="N" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">N</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -1819,7 +1819,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\delta" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\delta" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">δ</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
@@ -1833,7 +1833,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{N}" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{N}" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:msub xref="m3.1.3.cmml" local_id="m3.1.3">
       <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">E</m:mi>
@@ -1858,7 +1858,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\delta" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\delta" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">δ</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
@@ -1872,7 +1872,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="N" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="N" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">N</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
@@ -1886,7 +1886,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\Gamma" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\Gamma" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:mi mathvariant="normal" xref="m6.1.1.cmml" local_id="m6.1.1">Γ</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m6.1" local_id="m6.1.cmml">
@@ -1900,7 +1900,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{{0}}" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{{0}}" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:msub xref="m7.1.3.cmml" local_id="m7.1.3">
       <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">E</m:mi>
@@ -1925,7 +1925,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{{N}}" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{{N}}" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:msub xref="m8.1.3.cmml" local_id="m8.1.3">
       <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">E</m:mi>
@@ -1950,7 +1950,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m9.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="N\rightarrow\infty" display="inline" xref="m9.1.cmml" local_id="m9.1">
+<m:math xmlns="http://zentralblatt.org" alttext="N\rightarrow\infty" display="inline" xref="m9.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m9.1">
   <m:semantics xref="m9.1.cmml" local_id="m9.1a">
     <m:mrow xref="m9.1.4.cmml" local_id="m9.1.4">
       <m:mi xref="m9.1.1.cmml" local_id="m9.1.1">N</m:mi>
@@ -1976,7 +1976,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m10.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{{0}}" display="inline" xref="m10.1.cmml" local_id="m10.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{{0}}" display="inline" xref="m10.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m10.1">
   <m:semantics xref="m10.1.cmml" local_id="m10.1a">
     <m:msub xref="m10.1.3.cmml" local_id="m10.1.3">
       <m:mi xref="m10.1.1.cmml" local_id="m10.1.1">E</m:mi>
@@ -2001,7 +2001,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m11.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{{N}}" display="inline" xref="m11.1.cmml" local_id="m11.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{{N}}" display="inline" xref="m11.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m11.1">
   <m:semantics xref="m11.1.cmml" local_id="m11.1a">
     <m:msub xref="m11.1.3.cmml" local_id="m11.1.3">
       <m:mi xref="m11.1.1.cmml" local_id="m11.1.1">E</m:mi>
@@ -2026,7 +2026,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m12.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{{N}}" display="inline" xref="m12.1.cmml" local_id="m12.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{{N}}" display="inline" xref="m12.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m12.1">
   <m:semantics xref="m12.1.cmml" local_id="m12.1a">
     <m:msub xref="m12.1.3.cmml" local_id="m12.1.3">
       <m:mi xref="m12.1.1.cmml" local_id="m12.1.1">E</m:mi>
@@ -2051,7 +2051,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027271/5027271.xhtml#m13.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\Gamma" display="inline" xref="m13.1.cmml" local_id="m13.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\Gamma" display="inline" xref="m13.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m13.1">
   <m:semantics xref="m13.1.cmml" local_id="m13.1a">
     <m:mi mathvariant="normal" xref="m13.1.1.cmml" local_id="m13.1.1">Γ</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m13.1" local_id="m13.1.cmml">
@@ -2065,7 +2065,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="1^{0}" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="1^{0}" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:msup xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mn xref="m1.1.1.cmml" local_id="m1.1.1">1</m:mn>
@@ -2090,7 +2090,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="2^{0}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="2^{0}" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:msup xref="m2.1.3.cmml" local_id="m2.1.3">
       <m:mn xref="m2.1.1.cmml" local_id="m2.1.1">2</m:mn>
@@ -2115,7 +2115,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="3^{0}" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="3^{0}" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:msup xref="m3.1.3.cmml" local_id="m3.1.3">
       <m:mn xref="m3.1.1.cmml" local_id="m3.1.1">3</m:mn>
@@ -2140,7 +2140,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\sum a_{i}f_{i}(x)" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\sum a_{i}f_{i}(x)" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mrow xref="m4.1.9.cmml" local_id="m4.1.9">
       <m:mo xref="m4.1.1.cmml" local_id="m4.1.1">∑</m:mo>
@@ -2205,7 +2205,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="f_{i}(x)" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="f_{i}(x)" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mrow xref="m5.1.6.cmml" local_id="m5.1.6">
       <m:msub xref="m5.1.6.2.cmml" local_id="m5.1.6.2">
@@ -2246,7 +2246,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="1^{0}" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="1^{0}" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:msup xref="m6.1.3.cmml" local_id="m6.1.3">
       <m:mn xref="m6.1.1.cmml" local_id="m6.1.1">1</m:mn>
@@ -2271,7 +2271,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="2^{0}" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="2^{0}" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:msup xref="m7.1.3.cmml" local_id="m7.1.3">
       <m:mn xref="m7.1.1.cmml" local_id="m7.1.1">2</m:mn>
@@ -2296,7 +2296,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026810/5026810.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="3^{0}" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="3^{0}" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:msup xref="m8.1.3.cmml" local_id="m8.1.3">
       <m:mn xref="m8.1.1.cmml" local_id="m8.1.1">3</m:mn>
@@ -2321,7 +2321,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:msub xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">Z</m:mi>
@@ -2346,7 +2346,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:msub xref="m2.1.3.cmml" local_id="m2.1.3">
       <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">Z</m:mi>
@@ -2371,7 +2371,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="M_{2}(k)" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="M_{2}(k)" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mrow xref="m3.1.6.cmml" local_id="m3.1.6">
       <m:msub xref="m3.1.6.2.cmml" local_id="m3.1.6.2">
@@ -2412,7 +2412,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:msub xref="m4.1.3.cmml" local_id="m4.1.3">
       <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">Z</m:mi>
@@ -2437,7 +2437,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="2\times 2" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="2\times 2" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mrow xref="m5.1.4.cmml" local_id="m5.1.4">
       <m:mn xref="m5.1.1.cmml" local_id="m5.1.1">2</m:mn>
@@ -2463,7 +2463,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="M_{2}(k)" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="M_{2}(k)" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:mrow xref="m6.1.6.cmml" local_id="m6.1.6">
       <m:msub xref="m6.1.6.2.cmml" local_id="m6.1.6.2">
@@ -2504,7 +2504,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="k" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="k" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">k</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m7.1" local_id="m7.1.cmml">
@@ -2518,7 +2518,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="Z_{2}" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:msub xref="m8.1.3.cmml" local_id="m8.1.3">
       <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">Z</m:mi>
@@ -2543,7 +2543,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026762/5026762.xhtml#m9.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="M_{2}(k)" display="inline" xref="m9.1.cmml" local_id="m9.1">
+<m:math xmlns="http://zentralblatt.org" alttext="M_{2}(k)" display="inline" xref="m9.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m9.1">
   <m:semantics xref="m9.1.cmml" local_id="m9.1a">
     <m:mrow xref="m9.1.6.cmml" local_id="m9.1.6">
       <m:msub xref="m9.1.6.2.cmml" local_id="m9.1.6.2">
@@ -2584,7 +2584,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="T_{{(2,2,2,2)}}" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="T_{{(2,2,2,2)}}" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:msub xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">T</m:mi>
@@ -2633,7 +2633,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="T_{{(3,3,3)}}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="T_{{(3,3,3)}}" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:msub xref="m2.1.3.cmml" local_id="m2.1.3">
       <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">T</m:mi>
@@ -2678,7 +2678,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="T_{{(4,4,2)}}" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="T_{{(4,4,2)}}" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:msub xref="m3.1.3.cmml" local_id="m3.1.3">
       <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">T</m:mi>
@@ -2723,7 +2723,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="T_{{(6,3,2)}}" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="T_{{(6,3,2)}}" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:msub xref="m4.1.3.cmml" local_id="m4.1.3">
       <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">T</m:mi>
@@ -2768,7 +2768,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="D_{4}" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="D_{4}" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:msub xref="m5.1.3.cmml" local_id="m5.1.3">
       <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">D</m:mi>
@@ -2793,7 +2793,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{6}" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{6}" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:msub xref="m6.1.3.cmml" local_id="m6.1.3">
       <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">E</m:mi>
@@ -2818,7 +2818,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{7}" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{7}" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:msub xref="m7.1.3.cmml" local_id="m7.1.3">
       <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">E</m:mi>
@@ -2843,7 +2843,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="E_{8}" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="E_{8}" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:msub xref="m8.1.3.cmml" local_id="m8.1.3">
       <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">E</m:mi>
@@ -2868,7 +2868,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027122/5027122.xhtml#m9.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="D_{4}" display="inline" xref="m9.1.cmml" local_id="m9.1">
+<m:math xmlns="http://zentralblatt.org" alttext="D_{4}" display="inline" xref="m9.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m9.1">
   <m:semantics xref="m9.1.cmml" local_id="m9.1a">
     <m:msub xref="m9.1.3.cmml" local_id="m9.1.3">
       <m:mi xref="m9.1.1.cmml" local_id="m9.1.1">D</m:mi>
@@ -2893,7 +2893,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027013/5027013.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:msup xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">H</m:mi>
@@ -2918,7 +2918,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027013/5027013.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:msup xref="m2.1.3.cmml" local_id="m2.1.3">
       <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">H</m:mi>
@@ -2943,7 +2943,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027013/5027013.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:msup xref="m3.1.3.cmml" local_id="m3.1.3">
       <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">H</m:mi>
@@ -2968,7 +2968,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027013/5027013.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:msup xref="m4.1.3.cmml" local_id="m4.1.3">
       <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">H</m:mi>
@@ -2993,7 +2993,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027013/5027013.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:msup xref="m5.1.3.cmml" local_id="m5.1.3">
       <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">H</m:mi>
@@ -3018,7 +3018,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027013/5027013.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H^{1}" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:msup xref="m6.1.3.cmml" local_id="m6.1.3">
       <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">H</m:mi>
@@ -3043,7 +3043,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027118/5027118.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="n" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="n" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">n</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -3057,7 +3057,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027118/5027118.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="[d,D]" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="[d,D]" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mrow xref="m2.1.6.cmml" local_id="m2.1.6">
       <m:mo xref="m2.1.6.cmml" local_id="m2.1.6a">[</m:mo>
@@ -3087,7 +3087,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027118/5027118.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="D" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="D" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">D</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
@@ -3101,7 +3101,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027118/5027118.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="d" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="d" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">d</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
@@ -3115,7 +3115,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026756/5026756.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="(3+1)" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="(3+1)" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mrow xref="m1.1.6.cmml" local_id="m1.1.6">
       <m:mo xref="m1.1.6.cmml" local_id="m1.1.6a">(</m:mo>
@@ -3145,7 +3145,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026756/5026756.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="(3+1)" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="(3+1)" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mrow xref="m2.1.6.cmml" local_id="m2.1.6">
       <m:mo xref="m2.1.6.cmml" local_id="m2.1.6a">(</m:mo>
@@ -3175,7 +3175,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027092/5027092.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="A" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="A" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">A</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -3189,7 +3189,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027092/5027092.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="A" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="A" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">A</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
@@ -3203,7 +3203,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026737/5026737.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">p</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
@@ -3217,7 +3217,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026737/5026737.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">p</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
@@ -3231,7 +3231,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026737/5026737.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="p" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">p</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
@@ -3245,7 +3245,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026737/5026737.xhtml#S0.Ex1.m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="-\text{div}(|x|^{{a}}|\nabla u|^{{p-2}}\nabla u)+b(x)|u|^{{p-1}}=f(x,u)" display="block" xref="S0.Ex1.m1.1.cmml" local_id="S0.Ex1.m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="-\text{div}(|x|^{{a}}|\nabla u|^{{p-2}}\nabla u)+b(x)|u|^{{p-1}}=f(x,u)" display="block" xref="S0.Ex1.m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="S0.Ex1.m1.1">
   <m:semantics xref="S0.Ex1.m1.1.cmml" local_id="S0.Ex1.m1.1a">
     <m:mrow xref="S0.Ex1.m1.1.32.cmml" local_id="S0.Ex1.m1.1.32">
       <m:mrow xref="S0.Ex1.m1.1.32.1.cmml" local_id="S0.Ex1.m1.1.32.1">
@@ -3479,7 +3479,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5026737/5026737.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\mathbb{R}^{N}" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\mathbb{R}^{N}" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:msup xref="m4.1.3.cmml" local_id="m4.1.3">
       <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">ℝ</m:mi>
@@ -3504,7 +3504,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m1.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="C^{{*}}" display="inline" xref="m1.1.cmml" local_id="m1.1">
+<m:math xmlns="http://zentralblatt.org" alttext="C^{{*}}" display="inline" xref="m1.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m1.1">
   <m:semantics xref="m1.1.cmml" local_id="m1.1a">
     <m:msup xref="m1.1.3.cmml" local_id="m1.1.3">
       <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">C</m:mi>
@@ -3529,7 +3529,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m2.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="K" display="inline" xref="m2.1.cmml" local_id="m2.1">
+<m:math xmlns="http://zentralblatt.org" alttext="K" display="inline" xref="m2.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m2.1">
   <m:semantics xref="m2.1.cmml" local_id="m2.1a">
     <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">K</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
@@ -3543,7 +3543,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m3.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="K_{{*}}(C_{{r}}^{{*}}G)\rightarrow K_{{*}}(C_{{r}}^{{*}}(G,C(\partial X)))" display="inline" xref="m3.1.cmml" local_id="m3.1">
+<m:math xmlns="http://zentralblatt.org" alttext="K_{{*}}(C_{{r}}^{{*}}G)\rightarrow K_{{*}}(C_{{r}}^{{*}}(G,C(\partial X)))" display="inline" xref="m3.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m3.1">
   <m:semantics xref="m3.1.cmml" local_id="m3.1a">
     <m:mrow xref="m3.1.26.cmml" local_id="m3.1.26">
       <m:mrow xref="m3.1.26.1.cmml" local_id="m3.1.26.1">
@@ -3729,7 +3729,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m4.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="C_{{r}}^{{*}}G\rightarrow C_{{r}}^{{*}}(G,C(\partial X))" display="inline" xref="m4.1.cmml" local_id="m4.1">
+<m:math xmlns="http://zentralblatt.org" alttext="C_{{r}}^{{*}}G\rightarrow C_{{r}}^{{*}}(G,C(\partial X))" display="inline" xref="m4.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m4.1">
   <m:semantics xref="m4.1.cmml" local_id="m4.1a">
     <m:mrow xref="m4.1.18.cmml" local_id="m4.1.18">
       <m:mrow xref="m4.1.18.1.cmml" local_id="m4.1.18.1">
@@ -3861,7 +3861,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m5.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="C(\partial X)" display="inline" xref="m5.1.cmml" local_id="m5.1">
+<m:math xmlns="http://zentralblatt.org" alttext="C(\partial X)" display="inline" xref="m5.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m5.1">
   <m:semantics xref="m5.1.cmml" local_id="m5.1a">
     <m:mrow xref="m5.1.6.cmml" local_id="m5.1.6">
       <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">C</m:mi>
@@ -3901,7 +3901,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m6.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m6.1.cmml" local_id="m6.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m6.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m6.1">
   <m:semantics xref="m6.1.cmml" local_id="m6.1a">
     <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m6.1" local_id="m6.1.cmml">
@@ -3915,7 +3915,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m7.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="X" display="inline" xref="m7.1.cmml" local_id="m7.1">
+<m:math xmlns="http://zentralblatt.org" alttext="X" display="inline" xref="m7.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m7.1">
   <m:semantics xref="m7.1.cmml" local_id="m7.1a">
     <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">X</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m7.1" local_id="m7.1.cmml">
@@ -3929,7 +3929,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m8.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m8.1.cmml" local_id="m8.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m8.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m8.1">
   <m:semantics xref="m8.1.cmml" local_id="m8.1a">
     <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m8.1" local_id="m8.1.cmml">
@@ -3943,7 +3943,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m9.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="X" display="inline" xref="m9.1.cmml" local_id="m9.1">
+<m:math xmlns="http://zentralblatt.org" alttext="X" display="inline" xref="m9.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m9.1">
   <m:semantics xref="m9.1.cmml" local_id="m9.1a">
     <m:mi xref="m9.1.1.cmml" local_id="m9.1.1">X</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m9.1" local_id="m9.1.cmml">
@@ -3957,7 +3957,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m10.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m10.1.cmml" local_id="m10.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m10.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m10.1">
   <m:semantics xref="m10.1.cmml" local_id="m10.1a">
     <m:mi xref="m10.1.1.cmml" local_id="m10.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m10.1" local_id="m10.1.cmml">
@@ -3971,7 +3971,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m11.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m11.1.cmml" local_id="m11.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m11.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m11.1">
   <m:semantics xref="m11.1.cmml" local_id="m11.1a">
     <m:mi xref="m11.1.1.cmml" local_id="m11.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m11.1" local_id="m11.1.cmml">
@@ -3985,7 +3985,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m12.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m12.1.cmml" local_id="m12.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m12.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m12.1">
   <m:semantics xref="m12.1.cmml" local_id="m12.1a">
     <m:mi xref="m12.1.1.cmml" local_id="m12.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m12.1" local_id="m12.1.cmml">
@@ -3999,7 +3999,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m13.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\overline{X}" display="inline" xref="m13.1.cmml" local_id="m13.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\overline{X}" display="inline" xref="m13.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m13.1">
   <m:semantics xref="m13.1.cmml" local_id="m13.1a">
     <m:mover accent="true" xref="m13.1.1.cmml" local_id="m13.1.1">
       <m:mi xref="m13.1.1.2.cmml" local_id="m13.1.1.2">X</m:mi>
@@ -4022,7 +4022,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m14.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\partial X=\overline{X}\setminus X" display="inline" xref="m14.1.cmml" local_id="m14.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\partial X=\overline{X}\setminus X" display="inline" xref="m14.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m14.1">
   <m:semantics xref="m14.1.cmml" local_id="m14.1a">
     <m:mrow xref="m14.1.7.cmml" local_id="m14.1.7">
       <m:mrow xref="m14.1.7.1.cmml" local_id="m14.1.7.1">
@@ -4079,7 +4079,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m15.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="X" display="inline" xref="m15.1.cmml" local_id="m15.1">
+<m:math xmlns="http://zentralblatt.org" alttext="X" display="inline" xref="m15.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m15.1">
   <m:semantics xref="m15.1.cmml" local_id="m15.1a">
     <m:mi xref="m15.1.1.cmml" local_id="m15.1.1">X</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m15.1" local_id="m15.1.cmml">
@@ -4093,7 +4093,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m16.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="\overline{X}" display="inline" xref="m16.1.cmml" local_id="m16.1">
+<m:math xmlns="http://zentralblatt.org" alttext="\overline{X}" display="inline" xref="m16.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m16.1">
   <m:semantics xref="m16.1.cmml" local_id="m16.1a">
     <m:mover accent="true" xref="m16.1.1.cmml" local_id="m16.1.1">
       <m:mi xref="m16.1.1.2.cmml" local_id="m16.1.1.2">X</m:mi>
@@ -4116,7 +4116,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m17.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H" display="inline" xref="m17.1.cmml" local_id="m17.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H" display="inline" xref="m17.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m17.1">
   <m:semantics xref="m17.1.cmml" local_id="m17.1a">
     <m:mi xref="m17.1.1.cmml" local_id="m17.1.1">H</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m17.1" local_id="m17.1.cmml">
@@ -4130,7 +4130,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m18.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="H" display="inline" xref="m18.1.cmml" local_id="m18.1">
+<m:math xmlns="http://zentralblatt.org" alttext="H" display="inline" xref="m18.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m18.1">
   <m:semantics xref="m18.1.cmml" local_id="m18.1a">
     <m:mi xref="m18.1.1.cmml" local_id="m18.1.1">H</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m18.1" local_id="m18.1.cmml">
@@ -4144,7 +4144,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m19.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m19.1.cmml" local_id="m19.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m19.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m19.1">
   <m:semantics xref="m19.1.cmml" local_id="m19.1a">
     <m:mi xref="m19.1.1.cmml" local_id="m19.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m19.1" local_id="m19.1.cmml">
@@ -4158,7 +4158,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m20.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m20.1.cmml" local_id="m20.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m20.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m20.1">
   <m:semantics xref="m20.1.cmml" local_id="m20.1a">
     <m:mi xref="m20.1.1.cmml" local_id="m20.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m20.1" local_id="m20.1.cmml">
@@ -4172,7 +4172,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m21.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="C(\partial X)" display="inline" xref="m21.1.cmml" local_id="m21.1">
+<m:math xmlns="http://zentralblatt.org" alttext="C(\partial X)" display="inline" xref="m21.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m21.1">
   <m:semantics xref="m21.1.cmml" local_id="m21.1a">
     <m:mrow xref="m21.1.6.cmml" local_id="m21.1.6">
       <m:mi xref="m21.1.1.cmml" local_id="m21.1.1">C</m:mi>
@@ -4212,7 +4212,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m22.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m22.1.cmml" local_id="m22.1">
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m22.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m22.1">
   <m:semantics xref="m22.1.cmml" local_id="m22.1a">
     <m:mi xref="m22.1.1.cmml" local_id="m22.1.1">G</m:mi>
     <m:annotation-xml encoding="MathML-Content" xref="m22.1" local_id="m22.1.cmml">
@@ -4226,7 +4226,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m23.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="K_{{0}}(C_{{r}}^{{*}}(G,C(\partial X)))" display="inline" xref="m23.1.cmml" local_id="m23.1">
+<m:math xmlns="http://zentralblatt.org" alttext="K_{{0}}(C_{{r}}^{{*}}(G,C(\partial X)))" display="inline" xref="m23.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m23.1">
   <m:semantics xref="m23.1.cmml" local_id="m23.1a">
     <m:mrow xref="m23.1.17.cmml" local_id="m23.1.17">
       <m:msub xref="m23.1.17.2.cmml" local_id="m23.1.17.2">
@@ -4341,7 +4341,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m24.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="C_{{r}}^{{*}}(G,C(\partial X))" display="inline" xref="m24.1.cmml" local_id="m24.1">
+<m:math xmlns="http://zentralblatt.org" alttext="C_{{r}}^{{*}}(G,C(\partial X))" display="inline" xref="m24.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m24.1">
   <m:semantics xref="m24.1.cmml" local_id="m24.1a">
     <m:mrow xref="m24.1.13.cmml" local_id="m24.1.13">
       <m:msubsup xref="m24.1.13.2.cmml" local_id="m24.1.13.2">
@@ -4429,7 +4429,7 @@
 </mws:expr>
 <mws:expr url="./16/103/5027282/5027282.xhtml#m25.1">
 <data>
-<m:math xmlns="http://zentralblatt.org" alttext="C_{{r}}^{{*}}G" display="inline" xref="m25.1.cmml" local_id="m25.1">
+<m:math xmlns="http://zentralblatt.org" alttext="C_{{r}}^{{*}}G" display="inline" xref="m25.1.cmml" xmlns:m="http://www.w3.org/1998/Math/MathML" local_id="m25.1">
   <m:semantics xref="m25.1.cmml" local_id="m25.1a">
     <m:mrow xref="m25.1.5.cmml" local_id="m25.1.5">
       <m:msubsup xref="m25.1.5.2.cmml" local_id="m25.1.5.2">
