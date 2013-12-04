@@ -1,0 +1,2270 @@
+<?xml version="1.0" ?>
+<mws:harvest xmlns:m="http://www.w3.org/1998/Math/MathML"
+             xmlns:mws="http://search.mathweb.org/ns">
+<mws:expr url="./16/103/5027090/5027090.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="T" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">T</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">T</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">T</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>T</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027279/5027279.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="M" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">M</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">M</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">M</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>M</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027279/5027279.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="S^{{2N-1}}\subset\mathbb{C}^{N}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mrow xref="m2.1.6.cmml" local_id="m2.1.6">
+      <m:msup xref="m2.1.6.1.cmml" local_id="m2.1.6.1">
+        <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">S</m:mi>
+        <m:mrow xref="m2.1.2.1.cmml" local_id="m2.1.2.1">
+          <m:mrow xref="m2.1.2.1.5.cmml" local_id="m2.1.2.1.5">
+            <m:mn xref="m2.1.2.1.1.cmml" local_id="m2.1.2.1.1">2</m:mn>
+            <m:mo xref="m2.1.2.1.5.1.cmml" local_id="m2.1.2.1.5.1">⁢</m:mo>
+            <m:mi xref="m2.1.2.1.2.cmml" local_id="m2.1.2.1.2">N</m:mi>
+          </m:mrow>
+          <m:mo xref="m2.1.2.1.3.cmml" local_id="m2.1.2.1.3">-</m:mo>
+          <m:mn xref="m2.1.2.1.4.cmml" local_id="m2.1.2.1.4">1</m:mn>
+        </m:mrow>
+      </m:msup>
+      <m:mo xref="m2.1.3.cmml" local_id="m2.1.3">⊂</m:mo>
+      <m:msup xref="m2.1.6.2.cmml" local_id="m2.1.6.2">
+        <m:mi xref="m2.1.4.cmml" local_id="m2.1.4">ℂ</m:mi>
+        <m:mi xref="m2.1.5.1.cmml" local_id="m2.1.5.1">N</m:mi>
+      </m:msup>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:apply xref="m2.1.6" local_id="m2.1.6.cmml">
+        <m:subset xref="m2.1.3" local_id="m2.1.3.cmml"/>
+        <m:apply xref="m2.1.6.1" local_id="m2.1.6.1.cmml">
+          <m:csymbol cd="ambiguous" local_id="m2.1.6.1.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">S</m:ci>
+          <m:apply xref="m2.1.2.1" local_id="m2.1.2.1.cmml">
+            <m:minus xref="m2.1.2.1.3" local_id="m2.1.2.1.3.cmml"/>
+            <m:apply xref="m2.1.2.1.5" local_id="m2.1.2.1.5.cmml">
+              <m:times xref="m2.1.2.1.5.1" local_id="m2.1.2.1.5.1.cmml"/>
+              <m:cn type="integer" xref="m2.1.2.1.1" local_id="m2.1.2.1.1.cmml">2</m:cn>
+              <m:ci xref="m2.1.2.1.2" local_id="m2.1.2.1.2.cmml">N</m:ci>
+            </m:apply>
+            <m:cn type="integer" xref="m2.1.2.1.4" local_id="m2.1.2.1.4.cmml">1</m:cn>
+          </m:apply>
+        </m:apply>
+        <m:apply xref="m2.1.6.2" local_id="m2.1.6.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m2.1.6.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m2.1.4" local_id="m2.1.4.cmml">ℂ</m:ci>
+          <m:ci xref="m2.1.5.1" local_id="m2.1.5.1.cmml">N</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">S^{{2N-1}}\subset\mathbb{C}^{N}</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:subset/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>S</m:ci>
+    <m:apply>
+      <m:minus/>
+      <m:apply>
+        <m:times/>
+        <m:cn type="integer">2</m:cn>
+        <m:ci>N</m:ci>
+      </m:apply>
+      <m:cn type="integer">1</m:cn>
+    </m:apply>
+  </m:apply>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>ℂ</m:ci>
+    <m:ci>N</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027279/5027279.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="N&lt;+\infty" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mrow xref="m3.1.5.cmml" local_id="m3.1.5">
+      <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">N</m:mi>
+      <m:mo xref="m3.1.2.cmml" local_id="m3.1.2">&lt;</m:mo>
+      <m:mrow xref="m3.1.5.1.cmml" local_id="m3.1.5.1">
+        <m:mo xref="m3.1.3.cmml" local_id="m3.1.3">+</m:mo>
+        <m:mi mathvariant="normal" xref="m3.1.4.cmml" local_id="m3.1.4">∞</m:mi>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:apply xref="m3.1.5" local_id="m3.1.5.cmml">
+        <m:lt xref="m3.1.2" local_id="m3.1.2.cmml"/>
+        <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">N</m:ci>
+        <m:apply xref="m3.1.5.1" local_id="m3.1.5.1.cmml">
+          <m:plus xref="m3.1.3" local_id="m3.1.3.cmml"/>
+          <m:infinity xref="m3.1.4" local_id="m3.1.4.cmml"/>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">N&lt;+\infty</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:lt/>
+  <m:ci>N</m:ci>
+  <m:apply>
+    <m:plus/>
+    <m:infinity/>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027279/5027279.xhtml#m4.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\ell_{2}" display="inline" xref="m4.1.cmml" local_id="m4.1">
+  <m:semantics xref="m4.1.cmml" local_id="m4.1a">
+    <m:msub xref="m4.1.3.cmml" local_id="m4.1.3">
+      <m:mi mathvariant="normal" xref="m4.1.1.cmml" local_id="m4.1.1">ℓ</m:mi>
+      <m:mn xref="m4.1.2.1.cmml" local_id="m4.1.2.1">2</m:mn>
+    </m:msub>
+    <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
+      <m:apply xref="m4.1.3" local_id="m4.1.3.cmml">
+        <m:csymbol cd="ambiguous" local_id="m4.1.3.1.cmml">subscript</m:csymbol>
+        <m:ci xref="m4.1.1" local_id="m4.1.1.cmml">normal-ℓ</m:ci>
+        <m:cn type="integer" xref="m4.1.2.1" local_id="m4.1.2.1.cmml">2</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m4.1.cmml" local_id="m4.1b">\ell_{2}</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:csymbol cd="ambiguous">subscript</m:csymbol>
+  <m:ci>normal-ℓ</m:ci>
+  <m:cn type="integer">2</m:cn>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027279/5027279.xhtml#m5.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="M" display="inline" xref="m5.1.cmml" local_id="m5.1">
+  <m:semantics xref="m5.1.cmml" local_id="m5.1a">
+    <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">M</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
+      <m:ci xref="m5.1.1" local_id="m5.1.1.cmml">M</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m5.1.cmml" local_id="m5.1b">M</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>M</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026936/5026936.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="O(\delta^{{\frac{l-1}{l}}})" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.6.cmml" local_id="m1.1.6">
+      <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">O</m:mi>
+      <m:mo xref="m1.1.6.1.cmml" local_id="m1.1.6.1">⁢</m:mo>
+      <m:mrow xref="m1.1.6.2.cmml" local_id="m1.1.6.2">
+        <m:mo xref="m1.1.6.2.cmml" local_id="m1.1.6.2a">(</m:mo>
+        <m:msup xref="m1.1.6.2.cmml" local_id="m1.1.6.2b">
+          <m:mi xref="m1.1.3.cmml" local_id="m1.1.3">δ</m:mi>
+          <m:mfrac xref="m1.1.4.1.cmml" local_id="m1.1.4.1">
+            <m:mrow xref="m1.1.4.1.1.2.cmml" local_id="m1.1.4.1.1.2">
+              <m:mi xref="m1.1.4.1.1.2.1.cmml" local_id="m1.1.4.1.1.2.1">l</m:mi>
+              <m:mo xref="m1.1.4.1.1.2.2.cmml" local_id="m1.1.4.1.1.2.2">-</m:mo>
+              <m:mn xref="m1.1.4.1.1.2.3.cmml" local_id="m1.1.4.1.1.2.3">1</m:mn>
+            </m:mrow>
+            <m:mi xref="m1.1.4.1.1.3.cmml" local_id="m1.1.4.1.1.3">l</m:mi>
+          </m:mfrac>
+        </m:msup>
+        <m:mo xref="m1.1.6.2.cmml" local_id="m1.1.6.2c">)</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.6" local_id="m1.1.6.cmml">
+        <m:times xref="m1.1.6.1" local_id="m1.1.6.1.cmml"/>
+        <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">O</m:ci>
+        <m:apply xref="m1.1.6.2" local_id="m1.1.6.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m1.1.6.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m1.1.3" local_id="m1.1.3.cmml">δ</m:ci>
+          <m:apply xref="m1.1.4.1" local_id="m1.1.4.1.cmml">
+            <m:divide local_id="m1.1.4.1.1.1.cmml"/>
+            <m:apply xref="m1.1.4.1.1.2" local_id="m1.1.4.1.1.2.cmml">
+              <m:minus xref="m1.1.4.1.1.2.2" local_id="m1.1.4.1.1.2.2.cmml"/>
+              <m:ci xref="m1.1.4.1.1.2.1" local_id="m1.1.4.1.1.2.1.cmml">l</m:ci>
+              <m:cn type="integer" xref="m1.1.4.1.1.2.3" local_id="m1.1.4.1.1.2.3.cmml">1</m:cn>
+            </m:apply>
+            <m:ci xref="m1.1.4.1.1.3" local_id="m1.1.4.1.1.3.cmml">l</m:ci>
+          </m:apply>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">O(\delta^{{\frac{l-1}{l}}})</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:ci>O</m:ci>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>δ</m:ci>
+    <m:apply>
+      <m:divide/>
+      <m:apply>
+        <m:minus/>
+        <m:ci>l</m:ci>
+        <m:cn type="integer">1</m:cn>
+      </m:apply>
+      <m:ci>l</m:ci>
+    </m:apply>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="A" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">A</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">A</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">A</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>A</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">m</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">m</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">m</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>m</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="s" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">s</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">s</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">s</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>s</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m4.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="i" display="inline" xref="m4.1.cmml" local_id="m4.1">
+  <m:semantics xref="m4.1.cmml" local_id="m4.1a">
+    <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">i</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
+      <m:ci xref="m4.1.1" local_id="m4.1.1.cmml">i</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m4.1.cmml" local_id="m4.1b">i</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>i</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m5.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="A" display="inline" xref="m5.1.cmml" local_id="m5.1">
+  <m:semantics xref="m5.1.cmml" local_id="m5.1a">
+    <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">A</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
+      <m:ci xref="m5.1.1" local_id="m5.1.1.cmml">A</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m5.1.cmml" local_id="m5.1b">A</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>A</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m6.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="d_{i}" display="inline" xref="m6.1.cmml" local_id="m6.1">
+  <m:semantics xref="m6.1.cmml" local_id="m6.1a">
+    <m:msub xref="m6.1.3.cmml" local_id="m6.1.3">
+      <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">d</m:mi>
+      <m:mi xref="m6.1.2.1.cmml" local_id="m6.1.2.1">i</m:mi>
+    </m:msub>
+    <m:annotation-xml encoding="MathML-Content" xref="m6.1" local_id="m6.1.cmml">
+      <m:apply xref="m6.1.3" local_id="m6.1.3.cmml">
+        <m:csymbol cd="ambiguous" local_id="m6.1.3.1.cmml">subscript</m:csymbol>
+        <m:ci xref="m6.1.1" local_id="m6.1.1.cmml">d</m:ci>
+        <m:ci xref="m6.1.2.1" local_id="m6.1.2.1.cmml">i</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m6.1.cmml" local_id="m6.1b">d_{i}</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:csymbol cd="ambiguous">subscript</m:csymbol>
+  <m:ci>d</m:ci>
+  <m:ci>i</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m7.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="i" display="inline" xref="m7.1.cmml" local_id="m7.1">
+  <m:semantics xref="m7.1.cmml" local_id="m7.1a">
+    <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">i</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m7.1" local_id="m7.1.cmml">
+      <m:ci xref="m7.1.1" local_id="m7.1.1.cmml">i</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m7.1.cmml" local_id="m7.1b">i</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>i</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m8.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="d_{i}-2" display="inline" xref="m8.1.cmml" local_id="m8.1">
+  <m:semantics xref="m8.1.cmml" local_id="m8.1a">
+    <m:mrow xref="m8.1.5.cmml" local_id="m8.1.5">
+      <m:msub xref="m8.1.5.1.cmml" local_id="m8.1.5.1">
+        <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">d</m:mi>
+        <m:mi xref="m8.1.2.1.cmml" local_id="m8.1.2.1">i</m:mi>
+      </m:msub>
+      <m:mo xref="m8.1.3.cmml" local_id="m8.1.3">-</m:mo>
+      <m:mn xref="m8.1.4.cmml" local_id="m8.1.4">2</m:mn>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m8.1" local_id="m8.1.cmml">
+      <m:apply xref="m8.1.5" local_id="m8.1.5.cmml">
+        <m:minus xref="m8.1.3" local_id="m8.1.3.cmml"/>
+        <m:apply xref="m8.1.5.1" local_id="m8.1.5.1.cmml">
+          <m:csymbol cd="ambiguous" local_id="m8.1.5.1.1.cmml">subscript</m:csymbol>
+          <m:ci xref="m8.1.1" local_id="m8.1.1.cmml">d</m:ci>
+          <m:ci xref="m8.1.2.1" local_id="m8.1.2.1.cmml">i</m:ci>
+        </m:apply>
+        <m:cn type="integer" xref="m8.1.4" local_id="m8.1.4.cmml">2</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m8.1.cmml" local_id="m8.1b">d_{i}-2</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:minus/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">subscript</m:csymbol>
+    <m:ci>d</m:ci>
+    <m:ci>i</m:ci>
+  </m:apply>
+  <m:cn type="integer">2</m:cn>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m9.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="d_{i}" display="inline" xref="m9.1.cmml" local_id="m9.1">
+  <m:semantics xref="m9.1.cmml" local_id="m9.1a">
+    <m:msub xref="m9.1.3.cmml" local_id="m9.1.3">
+      <m:mi xref="m9.1.1.cmml" local_id="m9.1.1">d</m:mi>
+      <m:mi xref="m9.1.2.1.cmml" local_id="m9.1.2.1">i</m:mi>
+    </m:msub>
+    <m:annotation-xml encoding="MathML-Content" xref="m9.1" local_id="m9.1.cmml">
+      <m:apply xref="m9.1.3" local_id="m9.1.3.cmml">
+        <m:csymbol cd="ambiguous" local_id="m9.1.3.1.cmml">subscript</m:csymbol>
+        <m:ci xref="m9.1.1" local_id="m9.1.1.cmml">d</m:ci>
+        <m:ci xref="m9.1.2.1" local_id="m9.1.2.1.cmml">i</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m9.1.cmml" local_id="m9.1b">d_{i}</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:csymbol cd="ambiguous">subscript</m:csymbol>
+  <m:ci>d</m:ci>
+  <m:ci>i</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m10.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="A" display="inline" xref="m10.1.cmml" local_id="m10.1">
+  <m:semantics xref="m10.1.cmml" local_id="m10.1a">
+    <m:mi xref="m10.1.1.cmml" local_id="m10.1.1">A</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m10.1" local_id="m10.1.cmml">
+      <m:ci xref="m10.1.1" local_id="m10.1.1.cmml">A</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m10.1.cmml" local_id="m10.1b">A</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>A</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m11.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="m-2" display="inline" xref="m11.1.cmml" local_id="m11.1">
+  <m:semantics xref="m11.1.cmml" local_id="m11.1a">
+    <m:mrow xref="m11.1.4.cmml" local_id="m11.1.4">
+      <m:mi xref="m11.1.1.cmml" local_id="m11.1.1">m</m:mi>
+      <m:mo xref="m11.1.2.cmml" local_id="m11.1.2">-</m:mo>
+      <m:mn xref="m11.1.3.cmml" local_id="m11.1.3">2</m:mn>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m11.1" local_id="m11.1.cmml">
+      <m:apply xref="m11.1.4" local_id="m11.1.4.cmml">
+        <m:minus xref="m11.1.2" local_id="m11.1.2.cmml"/>
+        <m:ci xref="m11.1.1" local_id="m11.1.1.cmml">m</m:ci>
+        <m:cn type="integer" xref="m11.1.3" local_id="m11.1.3.cmml">2</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m11.1.cmml" local_id="m11.1b">m-2</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:minus/>
+  <m:ci>m</m:ci>
+  <m:cn type="integer">2</m:cn>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027277/5027277.xhtml#m12.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m12.1.cmml" local_id="m12.1">
+  <m:semantics xref="m12.1.cmml" local_id="m12.1a">
+    <m:mi xref="m12.1.1.cmml" local_id="m12.1.1">m</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m12.1" local_id="m12.1.cmml">
+      <m:ci xref="m12.1.1" local_id="m12.1.1.cmml">m</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m12.1.cmml" local_id="m12.1b">m</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>m</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="V_{m}^{p}(\Phi)" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.7.cmml" local_id="m1.1.7">
+      <m:msubsup xref="m1.1.7.2.cmml" local_id="m1.1.7.2">
+        <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">V</m:mi>
+        <m:mi xref="m1.1.2.1.cmml" local_id="m1.1.2.1">m</m:mi>
+        <m:mi xref="m1.1.3.1.cmml" local_id="m1.1.3.1">p</m:mi>
+      </m:msubsup>
+      <m:mo xref="m1.1.7.1.cmml" local_id="m1.1.7.1">⁢</m:mo>
+      <m:mrow xref="m1.1.5.cmml" local_id="m1.1.5">
+        <m:mo xref="m1.1.5.cmml" local_id="m1.1.5a">(</m:mo>
+        <m:mi mathvariant="normal" xref="m1.1.5.cmml" local_id="m1.1.5b">Φ</m:mi>
+        <m:mo xref="m1.1.5.cmml" local_id="m1.1.5c">)</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.7" local_id="m1.1.7.cmml">
+        <m:times xref="m1.1.7.1" local_id="m1.1.7.1.cmml"/>
+        <m:apply xref="m1.1.7.2" local_id="m1.1.7.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m1.1.7.2.1.cmml">superscript</m:csymbol>
+          <m:apply local_id="m1.1.7.2.2.cmml">
+            <m:csymbol cd="ambiguous" local_id="m1.1.7.2.2.1.cmml">subscript</m:csymbol>
+            <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">V</m:ci>
+            <m:ci xref="m1.1.2.1" local_id="m1.1.2.1.cmml">m</m:ci>
+          </m:apply>
+          <m:ci xref="m1.1.3.1" local_id="m1.1.3.1.cmml">p</m:ci>
+        </m:apply>
+        <m:ci xref="m1.1.5" local_id="m1.1.5.cmml">normal-Φ</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">V_{m}^{p}(\Phi)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:apply>
+      <m:csymbol cd="ambiguous">subscript</m:csymbol>
+      <m:ci>V</m:ci>
+      <m:ci>m</m:ci>
+    </m:apply>
+    <m:ci>p</m:ci>
+  </m:apply>
+  <m:ci>normal-Φ</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\phi_{1},\dots,\phi_{n}" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mrow xref="m2.1.8.cmml" local_id="m2.1.8">
+      <m:msub xref="m2.1.8.2.cmml" local_id="m2.1.8.2">
+        <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">ϕ</m:mi>
+        <m:mn xref="m2.1.2.1.cmml" local_id="m2.1.2.1">1</m:mn>
+      </m:msub>
+      <m:mo xref="m2.1.8.cmml" local_id="m2.1.8a">,</m:mo>
+      <m:mi mathvariant="normal" xref="m2.1.4.cmml" local_id="m2.1.4">…</m:mi>
+      <m:mo xref="m2.1.8.cmml" local_id="m2.1.8b">,</m:mo>
+      <m:msub xref="m2.1.8.3.cmml" local_id="m2.1.8.3">
+        <m:mi xref="m2.1.6.cmml" local_id="m2.1.6">ϕ</m:mi>
+        <m:mi xref="m2.1.7.1.cmml" local_id="m2.1.7.1">n</m:mi>
+      </m:msub>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:apply xref="m2.1.8" local_id="m2.1.8.cmml">
+        <m:list local_id="m2.1.8.1.cmml"/>
+        <m:apply xref="m2.1.8.2" local_id="m2.1.8.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m2.1.8.2.1.cmml">subscript</m:csymbol>
+          <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">ϕ</m:ci>
+          <m:cn type="integer" xref="m2.1.2.1" local_id="m2.1.2.1.cmml">1</m:cn>
+        </m:apply>
+        <m:ci xref="m2.1.4" local_id="m2.1.4.cmml">normal-…</m:ci>
+        <m:apply xref="m2.1.8.3" local_id="m2.1.8.3.cmml">
+          <m:csymbol cd="ambiguous" local_id="m2.1.8.3.1.cmml">subscript</m:csymbol>
+          <m:ci xref="m2.1.6" local_id="m2.1.6.cmml">ϕ</m:ci>
+          <m:ci xref="m2.1.7.1" local_id="m2.1.7.1.cmml">n</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">\phi_{1},\dots,\phi_{n}</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:list/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">subscript</m:csymbol>
+    <m:ci>ϕ</m:ci>
+    <m:cn type="integer">1</m:cn>
+  </m:apply>
+  <m:ci>normal-…</m:ci>
+  <m:apply>
+    <m:csymbol cd="ambiguous">subscript</m:csymbol>
+    <m:ci>ϕ</m:ci>
+    <m:ci>n</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">m</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">m</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">m</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>m</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m4.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\Phi=[\phi_{1},\dots,\phi_{n}]" display="inline" xref="m4.1.cmml" local_id="m4.1">
+  <m:semantics xref="m4.1.cmml" local_id="m4.1a">
+    <m:mrow xref="m4.1.12.cmml" local_id="m4.1.12">
+      <m:mi mathvariant="normal" xref="m4.1.1.cmml" local_id="m4.1.1">Φ</m:mi>
+      <m:mo xref="m4.1.2.cmml" local_id="m4.1.2">=</m:mo>
+      <m:mrow xref="m4.1.12.1.cmml" local_id="m4.1.12.1">
+        <m:mo xref="m4.1.12.1.cmml" local_id="m4.1.12.1a">[</m:mo>
+        <m:mrow xref="m4.1.12.1.cmml" local_id="m4.1.12.1b">
+          <m:msub xref="m4.1.12.1.2.cmml" local_id="m4.1.12.1.2">
+            <m:mi xref="m4.1.4.cmml" local_id="m4.1.4">ϕ</m:mi>
+            <m:mn xref="m4.1.5.1.cmml" local_id="m4.1.5.1">1</m:mn>
+          </m:msub>
+          <m:mo xref="m4.1.12.1.cmml" local_id="m4.1.12.1c">,</m:mo>
+          <m:mi mathvariant="normal" xref="m4.1.7.cmml" local_id="m4.1.7">…</m:mi>
+          <m:mo xref="m4.1.12.1.cmml" local_id="m4.1.12.1d">,</m:mo>
+          <m:msub xref="m4.1.12.1.3.cmml" local_id="m4.1.12.1.3">
+            <m:mi xref="m4.1.9.cmml" local_id="m4.1.9">ϕ</m:mi>
+            <m:mi xref="m4.1.10.1.cmml" local_id="m4.1.10.1">n</m:mi>
+          </m:msub>
+        </m:mrow>
+        <m:mo xref="m4.1.12.1.cmml" local_id="m4.1.12.1e">]</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
+      <m:apply xref="m4.1.12" local_id="m4.1.12.cmml">
+        <m:eq xref="m4.1.2" local_id="m4.1.2.cmml"/>
+        <m:ci xref="m4.1.1" local_id="m4.1.1.cmml">normal-Φ</m:ci>
+        <m:apply xref="m4.1.12.1" local_id="m4.1.12.1.cmml">
+          <m:list local_id="m4.1.12.1.1.cmml"/>
+          <m:apply xref="m4.1.12.1.2" local_id="m4.1.12.1.2.cmml">
+            <m:csymbol cd="ambiguous" local_id="m4.1.12.1.2.1.cmml">subscript</m:csymbol>
+            <m:ci xref="m4.1.4" local_id="m4.1.4.cmml">ϕ</m:ci>
+            <m:cn type="integer" xref="m4.1.5.1" local_id="m4.1.5.1.cmml">1</m:cn>
+          </m:apply>
+          <m:ci xref="m4.1.7" local_id="m4.1.7.cmml">normal-…</m:ci>
+          <m:apply xref="m4.1.12.1.3" local_id="m4.1.12.1.3.cmml">
+            <m:csymbol cd="ambiguous" local_id="m4.1.12.1.3.1.cmml">subscript</m:csymbol>
+            <m:ci xref="m4.1.9" local_id="m4.1.9.cmml">ϕ</m:ci>
+            <m:ci xref="m4.1.10.1" local_id="m4.1.10.1.cmml">n</m:ci>
+          </m:apply>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m4.1.cmml" local_id="m4.1b">\Phi=[\phi_{1},\dots,\phi_{n}]</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:eq/>
+  <m:ci>normal-Φ</m:ci>
+  <m:apply>
+    <m:list/>
+    <m:apply>
+      <m:csymbol cd="ambiguous">subscript</m:csymbol>
+      <m:ci>ϕ</m:ci>
+      <m:cn type="integer">1</m:cn>
+    </m:apply>
+    <m:ci>normal-…</m:ci>
+    <m:apply>
+      <m:csymbol cd="ambiguous">subscript</m:csymbol>
+      <m:ci>ϕ</m:ci>
+      <m:ci>n</m:ci>
+    </m:apply>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m5.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\Phi" display="inline" xref="m5.1.cmml" local_id="m5.1">
+  <m:semantics xref="m5.1.cmml" local_id="m5.1a">
+    <m:mi mathvariant="normal" xref="m5.1.1.cmml" local_id="m5.1.1">Φ</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
+      <m:ci xref="m5.1.1" local_id="m5.1.1.cmml">normal-Φ</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m5.1.cmml" local_id="m5.1b">\Phi</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>normal-Φ</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m6.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m6.1.cmml" local_id="m6.1">
+  <m:semantics xref="m6.1.cmml" local_id="m6.1a">
+    <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">m</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m6.1" local_id="m6.1.cmml">
+      <m:ci xref="m6.1.1" local_id="m6.1.1.cmml">m</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m6.1.cmml" local_id="m6.1b">m</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>m</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m7.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="V^{2}(\Phi)" display="inline" xref="m7.1.cmml" local_id="m7.1">
+  <m:semantics xref="m7.1.cmml" local_id="m7.1a">
+    <m:mrow xref="m7.1.6.cmml" local_id="m7.1.6">
+      <m:msup xref="m7.1.6.2.cmml" local_id="m7.1.6.2">
+        <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">V</m:mi>
+        <m:mn xref="m7.1.2.1.cmml" local_id="m7.1.2.1">2</m:mn>
+      </m:msup>
+      <m:mo xref="m7.1.6.1.cmml" local_id="m7.1.6.1">⁢</m:mo>
+      <m:mrow xref="m7.1.4.cmml" local_id="m7.1.4">
+        <m:mo xref="m7.1.4.cmml" local_id="m7.1.4a">(</m:mo>
+        <m:mi mathvariant="normal" xref="m7.1.4.cmml" local_id="m7.1.4b">Φ</m:mi>
+        <m:mo xref="m7.1.4.cmml" local_id="m7.1.4c">)</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m7.1" local_id="m7.1.cmml">
+      <m:apply xref="m7.1.6" local_id="m7.1.6.cmml">
+        <m:times xref="m7.1.6.1" local_id="m7.1.6.1.cmml"/>
+        <m:apply xref="m7.1.6.2" local_id="m7.1.6.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m7.1.6.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m7.1.1" local_id="m7.1.1.cmml">V</m:ci>
+          <m:cn type="integer" xref="m7.1.2.1" local_id="m7.1.2.1.cmml">2</m:cn>
+        </m:apply>
+        <m:ci xref="m7.1.4" local_id="m7.1.4.cmml">normal-Φ</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m7.1.cmml" local_id="m7.1b">V^{2}(\Phi)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>V</m:ci>
+    <m:cn type="integer">2</m:cn>
+  </m:apply>
+  <m:ci>normal-Φ</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m8.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="V^{p}_{m}(\Phi)" display="inline" xref="m8.1.cmml" local_id="m8.1">
+  <m:semantics xref="m8.1.cmml" local_id="m8.1a">
+    <m:mrow xref="m8.1.7.cmml" local_id="m8.1.7">
+      <m:msubsup xref="m8.1.7.2.cmml" local_id="m8.1.7.2">
+        <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">V</m:mi>
+        <m:mi xref="m8.1.3.1.cmml" local_id="m8.1.3.1">m</m:mi>
+        <m:mi xref="m8.1.2.1.cmml" local_id="m8.1.2.1">p</m:mi>
+      </m:msubsup>
+      <m:mo xref="m8.1.7.1.cmml" local_id="m8.1.7.1">⁢</m:mo>
+      <m:mrow xref="m8.1.5.cmml" local_id="m8.1.5">
+        <m:mo xref="m8.1.5.cmml" local_id="m8.1.5a">(</m:mo>
+        <m:mi mathvariant="normal" xref="m8.1.5.cmml" local_id="m8.1.5b">Φ</m:mi>
+        <m:mo xref="m8.1.5.cmml" local_id="m8.1.5c">)</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m8.1" local_id="m8.1.cmml">
+      <m:apply xref="m8.1.7" local_id="m8.1.7.cmml">
+        <m:times xref="m8.1.7.1" local_id="m8.1.7.1.cmml"/>
+        <m:apply xref="m8.1.7.2" local_id="m8.1.7.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m8.1.7.2.1.cmml">subscript</m:csymbol>
+          <m:apply local_id="m8.1.7.2.2.cmml">
+            <m:csymbol cd="ambiguous" local_id="m8.1.7.2.2.1.cmml">superscript</m:csymbol>
+            <m:ci xref="m8.1.1" local_id="m8.1.1.cmml">V</m:ci>
+            <m:ci xref="m8.1.2.1" local_id="m8.1.2.1.cmml">p</m:ci>
+          </m:apply>
+          <m:ci xref="m8.1.3.1" local_id="m8.1.3.1.cmml">m</m:ci>
+        </m:apply>
+        <m:ci xref="m8.1.5" local_id="m8.1.5.cmml">normal-Φ</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m8.1.cmml" local_id="m8.1b">V^{p}_{m}(\Phi)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">subscript</m:csymbol>
+    <m:apply>
+      <m:csymbol cd="ambiguous">superscript</m:csymbol>
+      <m:ci>V</m:ci>
+      <m:ci>p</m:ci>
+    </m:apply>
+    <m:ci>m</m:ci>
+  </m:apply>
+  <m:ci>normal-Φ</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026934/5026934.xhtml#m9.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="1\leq p\leq\infty" display="inline" xref="m9.1.cmml" local_id="m9.1">
+  <m:semantics xref="m9.1.cmml" local_id="m9.1a">
+    <m:mrow xref="m9.1.6.cmml" local_id="m9.1.6">
+      <m:mn xref="m9.1.1.cmml" local_id="m9.1.1">1</m:mn>
+      <m:mo xref="m9.1.2.cmml" local_id="m9.1.2">≤</m:mo>
+      <m:mi xref="m9.1.3.cmml" local_id="m9.1.3">p</m:mi>
+      <m:mo xref="m9.1.4.cmml" local_id="m9.1.4">≤</m:mo>
+      <m:mi mathvariant="normal" xref="m9.1.5.cmml" local_id="m9.1.5">∞</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m9.1" local_id="m9.1.cmml">
+      <m:apply xref="m9.1.6" local_id="m9.1.6.cmml">
+        <m:and xref="m9.1.6" local_id="m9.1.6a.cmml"/>
+        <m:apply xref="m9.1.6" local_id="m9.1.6b.cmml">
+          <m:leq xref="m9.1.2" local_id="m9.1.2.cmml"/>
+          <m:cn type="integer" xref="m9.1.1" local_id="m9.1.1.cmml">1</m:cn>
+          <m:ci xref="m9.1.3" local_id="m9.1.3.cmml">p</m:ci>
+        </m:apply>
+        <m:apply xref="m9.1.6" local_id="m9.1.6c.cmml">
+          <m:leq xref="m9.1.4" local_id="m9.1.4.cmml"/>
+          <m:share href="#m9.1.3.cmml" xref="m9.1.6" local_id="m9.1.6d.cmml"/>
+          <m:infinity xref="m9.1.5" local_id="m9.1.5.cmml"/>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m9.1.cmml" local_id="m9.1b">1\leq p\leq\infty</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:and/>
+  <m:apply>
+    <m:leq/>
+    <m:cn type="integer">1</m:cn>
+    <m:ci>p</m:ci>
+  </m:apply>
+  <m:apply>
+    <m:leq/>
+    <m:share href="#m9.1.3.cmml"/>
+    <m:infinity/>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{s}G" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.4.cmml" local_id="m1.1.4">
+      <m:msup xref="m1.1.4.2.cmml" local_id="m1.1.4.2">
+        <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">C</m:mi>
+        <m:mi xref="m1.1.2.1.cmml" local_id="m1.1.2.1">s</m:mi>
+      </m:msup>
+      <m:mo xref="m1.1.4.1.cmml" local_id="m1.1.4.1">⁢</m:mo>
+      <m:mi xref="m1.1.3.cmml" local_id="m1.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.4" local_id="m1.1.4.cmml">
+        <m:times xref="m1.1.4.1" local_id="m1.1.4.1.cmml"/>
+        <m:apply xref="m1.1.4.2" local_id="m1.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m1.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">C</m:ci>
+          <m:ci xref="m1.1.2.1" local_id="m1.1.2.1.cmml">s</m:ci>
+        </m:apply>
+        <m:ci xref="m1.1.3" local_id="m1.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">C^{s}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>s</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{r}G" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mrow xref="m2.1.4.cmml" local_id="m2.1.4">
+      <m:msup xref="m2.1.4.2.cmml" local_id="m2.1.4.2">
+        <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">C</m:mi>
+        <m:mi xref="m2.1.2.1.cmml" local_id="m2.1.2.1">r</m:mi>
+      </m:msup>
+      <m:mo xref="m2.1.4.1.cmml" local_id="m2.1.4.1">⁢</m:mo>
+      <m:mi xref="m2.1.3.cmml" local_id="m2.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:apply xref="m2.1.4" local_id="m2.1.4.cmml">
+        <m:times xref="m2.1.4.1" local_id="m2.1.4.1.cmml"/>
+        <m:apply xref="m2.1.4.2" local_id="m2.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m2.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">C</m:ci>
+          <m:ci xref="m2.1.2.1" local_id="m2.1.2.1.cmml">r</m:ci>
+        </m:apply>
+        <m:ci xref="m2.1.3" local_id="m2.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">C^{r}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="G" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">G</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">G</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>G</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m4.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{r}G" display="inline" xref="m4.1.cmml" local_id="m4.1">
+  <m:semantics xref="m4.1.cmml" local_id="m4.1a">
+    <m:mrow xref="m4.1.4.cmml" local_id="m4.1.4">
+      <m:msup xref="m4.1.4.2.cmml" local_id="m4.1.4.2">
+        <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">C</m:mi>
+        <m:mi xref="m4.1.2.1.cmml" local_id="m4.1.2.1">r</m:mi>
+      </m:msup>
+      <m:mo xref="m4.1.4.1.cmml" local_id="m4.1.4.1">⁢</m:mo>
+      <m:mi xref="m4.1.3.cmml" local_id="m4.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
+      <m:apply xref="m4.1.4" local_id="m4.1.4.cmml">
+        <m:times xref="m4.1.4.1" local_id="m4.1.4.1.cmml"/>
+        <m:apply xref="m4.1.4.2" local_id="m4.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m4.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m4.1.1" local_id="m4.1.1.cmml">C</m:ci>
+          <m:ci xref="m4.1.2.1" local_id="m4.1.2.1.cmml">r</m:ci>
+        </m:apply>
+        <m:ci xref="m4.1.3" local_id="m4.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m4.1.cmml" local_id="m4.1b">C^{r}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m5.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="(1\leq r\leq\omega)" display="inline" xref="m5.1.cmml" local_id="m5.1">
+  <m:semantics xref="m5.1.cmml" local_id="m5.1a">
+    <m:mrow xref="m5.1.8.cmml" local_id="m5.1.8">
+      <m:mo xref="m5.1.8.cmml" local_id="m5.1.8a">(</m:mo>
+      <m:mrow xref="m5.1.8.cmml" local_id="m5.1.8b">
+        <m:mn xref="m5.1.2.cmml" local_id="m5.1.2">1</m:mn>
+        <m:mo xref="m5.1.3.cmml" local_id="m5.1.3">≤</m:mo>
+        <m:mi xref="m5.1.4.cmml" local_id="m5.1.4">r</m:mi>
+        <m:mo xref="m5.1.5.cmml" local_id="m5.1.5">≤</m:mo>
+        <m:mi xref="m5.1.6.cmml" local_id="m5.1.6">ω</m:mi>
+      </m:mrow>
+      <m:mo xref="m5.1.8.cmml" local_id="m5.1.8c">)</m:mo>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
+      <m:apply xref="m5.1.8" local_id="m5.1.8.cmml">
+        <m:and xref="m5.1.8" local_id="m5.1.8a.cmml"/>
+        <m:apply xref="m5.1.8" local_id="m5.1.8b.cmml">
+          <m:leq xref="m5.1.3" local_id="m5.1.3.cmml"/>
+          <m:cn type="integer" xref="m5.1.2" local_id="m5.1.2.cmml">1</m:cn>
+          <m:ci xref="m5.1.4" local_id="m5.1.4.cmml">r</m:ci>
+        </m:apply>
+        <m:apply xref="m5.1.8" local_id="m5.1.8c.cmml">
+          <m:leq xref="m5.1.5" local_id="m5.1.5.cmml"/>
+          <m:share href="#m5.1.4.cmml" xref="m5.1.8" local_id="m5.1.8d.cmml"/>
+          <m:ci xref="m5.1.6" local_id="m5.1.6.cmml">ω</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m5.1.cmml" local_id="m5.1b">(1\leq r\leq\omega)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:and/>
+  <m:apply>
+    <m:leq/>
+    <m:cn type="integer">1</m:cn>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:apply>
+    <m:leq/>
+    <m:share href="#m5.1.4.cmml"/>
+    <m:ci>ω</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m6.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{r}G" display="inline" xref="m6.1.cmml" local_id="m6.1">
+  <m:semantics xref="m6.1.cmml" local_id="m6.1a">
+    <m:mrow xref="m6.1.4.cmml" local_id="m6.1.4">
+      <m:msup xref="m6.1.4.2.cmml" local_id="m6.1.4.2">
+        <m:mi xref="m6.1.1.cmml" local_id="m6.1.1">C</m:mi>
+        <m:mi xref="m6.1.2.1.cmml" local_id="m6.1.2.1">r</m:mi>
+      </m:msup>
+      <m:mo xref="m6.1.4.1.cmml" local_id="m6.1.4.1">⁢</m:mo>
+      <m:mi xref="m6.1.3.cmml" local_id="m6.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m6.1" local_id="m6.1.cmml">
+      <m:apply xref="m6.1.4" local_id="m6.1.4.cmml">
+        <m:times xref="m6.1.4.1" local_id="m6.1.4.1.cmml"/>
+        <m:apply xref="m6.1.4.2" local_id="m6.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m6.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m6.1.1" local_id="m6.1.1.cmml">C</m:ci>
+          <m:ci xref="m6.1.2.1" local_id="m6.1.2.1.cmml">r</m:ci>
+        </m:apply>
+        <m:ci xref="m6.1.3" local_id="m6.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m6.1.cmml" local_id="m6.1b">C^{r}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m7.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="r" display="inline" xref="m7.1.cmml" local_id="m7.1">
+  <m:semantics xref="m7.1.cmml" local_id="m7.1a">
+    <m:mi xref="m7.1.1.cmml" local_id="m7.1.1">r</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m7.1" local_id="m7.1.cmml">
+      <m:ci xref="m7.1.1" local_id="m7.1.1.cmml">r</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m7.1.cmml" local_id="m7.1b">r</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>r</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m8.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="s" display="inline" xref="m8.1.cmml" local_id="m8.1">
+  <m:semantics xref="m8.1.cmml" local_id="m8.1a">
+    <m:mi xref="m8.1.1.cmml" local_id="m8.1.1">s</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m8.1" local_id="m8.1.cmml">
+      <m:ci xref="m8.1.1" local_id="m8.1.1.cmml">s</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m8.1.cmml" local_id="m8.1b">s</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>s</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m9.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="r&lt;s" display="inline" xref="m9.1.cmml" local_id="m9.1">
+  <m:semantics xref="m9.1.cmml" local_id="m9.1a">
+    <m:mrow xref="m9.1.4.cmml" local_id="m9.1.4">
+      <m:mi xref="m9.1.1.cmml" local_id="m9.1.1">r</m:mi>
+      <m:mo xref="m9.1.2.cmml" local_id="m9.1.2">&lt;</m:mo>
+      <m:mi xref="m9.1.3.cmml" local_id="m9.1.3">s</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m9.1" local_id="m9.1.cmml">
+      <m:apply xref="m9.1.4" local_id="m9.1.4.cmml">
+        <m:lt xref="m9.1.2" local_id="m9.1.2.cmml"/>
+        <m:ci xref="m9.1.1" local_id="m9.1.1.cmml">r</m:ci>
+        <m:ci xref="m9.1.3" local_id="m9.1.3.cmml">s</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m9.1.cmml" local_id="m9.1b">r&lt;s</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:lt/>
+  <m:ci>r</m:ci>
+  <m:ci>s</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m10.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{r}G" display="inline" xref="m10.1.cmml" local_id="m10.1">
+  <m:semantics xref="m10.1.cmml" local_id="m10.1a">
+    <m:mrow xref="m10.1.4.cmml" local_id="m10.1.4">
+      <m:msup xref="m10.1.4.2.cmml" local_id="m10.1.4.2">
+        <m:mi xref="m10.1.1.cmml" local_id="m10.1.1">C</m:mi>
+        <m:mi xref="m10.1.2.1.cmml" local_id="m10.1.2.1">r</m:mi>
+      </m:msup>
+      <m:mo xref="m10.1.4.1.cmml" local_id="m10.1.4.1">⁢</m:mo>
+      <m:mi xref="m10.1.3.cmml" local_id="m10.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m10.1" local_id="m10.1.cmml">
+      <m:apply xref="m10.1.4" local_id="m10.1.4.cmml">
+        <m:times xref="m10.1.4.1" local_id="m10.1.4.1.cmml"/>
+        <m:apply xref="m10.1.4.2" local_id="m10.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m10.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m10.1.1" local_id="m10.1.1.cmml">C</m:ci>
+          <m:ci xref="m10.1.2.1" local_id="m10.1.2.1.cmml">r</m:ci>
+        </m:apply>
+        <m:ci xref="m10.1.3" local_id="m10.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m10.1.cmml" local_id="m10.1b">C^{r}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m11.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{r}G" display="inline" xref="m11.1.cmml" local_id="m11.1">
+  <m:semantics xref="m11.1.cmml" local_id="m11.1a">
+    <m:mrow xref="m11.1.4.cmml" local_id="m11.1.4">
+      <m:msup xref="m11.1.4.2.cmml" local_id="m11.1.4.2">
+        <m:mi xref="m11.1.1.cmml" local_id="m11.1.1">C</m:mi>
+        <m:mi xref="m11.1.2.1.cmml" local_id="m11.1.2.1">r</m:mi>
+      </m:msup>
+      <m:mo xref="m11.1.4.1.cmml" local_id="m11.1.4.1">⁢</m:mo>
+      <m:mi xref="m11.1.3.cmml" local_id="m11.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m11.1" local_id="m11.1.cmml">
+      <m:apply xref="m11.1.4" local_id="m11.1.4.cmml">
+        <m:times xref="m11.1.4.1" local_id="m11.1.4.1.cmml"/>
+        <m:apply xref="m11.1.4.2" local_id="m11.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m11.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m11.1.1" local_id="m11.1.1.cmml">C</m:ci>
+          <m:ci xref="m11.1.2.1" local_id="m11.1.2.1.cmml">r</m:ci>
+        </m:apply>
+        <m:ci xref="m11.1.3" local_id="m11.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m11.1.cmml" local_id="m11.1b">C^{r}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m12.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{s}G" display="inline" xref="m12.1.cmml" local_id="m12.1">
+  <m:semantics xref="m12.1.cmml" local_id="m12.1a">
+    <m:mrow xref="m12.1.4.cmml" local_id="m12.1.4">
+      <m:msup xref="m12.1.4.2.cmml" local_id="m12.1.4.2">
+        <m:mi xref="m12.1.1.cmml" local_id="m12.1.1">C</m:mi>
+        <m:mi xref="m12.1.2.1.cmml" local_id="m12.1.2.1">s</m:mi>
+      </m:msup>
+      <m:mo xref="m12.1.4.1.cmml" local_id="m12.1.4.1">⁢</m:mo>
+      <m:mi xref="m12.1.3.cmml" local_id="m12.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m12.1" local_id="m12.1.cmml">
+      <m:apply xref="m12.1.4" local_id="m12.1.4.cmml">
+        <m:times xref="m12.1.4.1" local_id="m12.1.4.1.cmml"/>
+        <m:apply xref="m12.1.4.2" local_id="m12.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m12.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m12.1.1" local_id="m12.1.1.cmml">C</m:ci>
+          <m:ci xref="m12.1.2.1" local_id="m12.1.2.1.cmml">s</m:ci>
+        </m:apply>
+        <m:ci xref="m12.1.3" local_id="m12.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m12.1.cmml" local_id="m12.1b">C^{s}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>s</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m13.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{r}G" display="inline" xref="m13.1.cmml" local_id="m13.1">
+  <m:semantics xref="m13.1.cmml" local_id="m13.1a">
+    <m:mrow xref="m13.1.4.cmml" local_id="m13.1.4">
+      <m:msup xref="m13.1.4.2.cmml" local_id="m13.1.4.2">
+        <m:mi xref="m13.1.1.cmml" local_id="m13.1.1">C</m:mi>
+        <m:mi xref="m13.1.2.1.cmml" local_id="m13.1.2.1">r</m:mi>
+      </m:msup>
+      <m:mo xref="m13.1.4.1.cmml" local_id="m13.1.4.1">⁢</m:mo>
+      <m:mi xref="m13.1.3.cmml" local_id="m13.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m13.1" local_id="m13.1.cmml">
+      <m:apply xref="m13.1.4" local_id="m13.1.4.cmml">
+        <m:times xref="m13.1.4.1" local_id="m13.1.4.1.cmml"/>
+        <m:apply xref="m13.1.4.2" local_id="m13.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m13.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m13.1.1" local_id="m13.1.1.cmml">C</m:ci>
+          <m:ci xref="m13.1.2.1" local_id="m13.1.2.1.cmml">r</m:ci>
+        </m:apply>
+        <m:ci xref="m13.1.3" local_id="m13.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m13.1.cmml" local_id="m13.1b">C^{r}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m14.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{1}G" display="inline" xref="m14.1.cmml" local_id="m14.1">
+  <m:semantics xref="m14.1.cmml" local_id="m14.1a">
+    <m:mrow xref="m14.1.4.cmml" local_id="m14.1.4">
+      <m:msup xref="m14.1.4.2.cmml" local_id="m14.1.4.2">
+        <m:mi xref="m14.1.1.cmml" local_id="m14.1.1">C</m:mi>
+        <m:mn xref="m14.1.2.1.cmml" local_id="m14.1.2.1">1</m:mn>
+      </m:msup>
+      <m:mo xref="m14.1.4.1.cmml" local_id="m14.1.4.1">⁢</m:mo>
+      <m:mi xref="m14.1.3.cmml" local_id="m14.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m14.1" local_id="m14.1.cmml">
+      <m:apply xref="m14.1.4" local_id="m14.1.4.cmml">
+        <m:times xref="m14.1.4.1" local_id="m14.1.4.1.cmml"/>
+        <m:apply xref="m14.1.4.2" local_id="m14.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m14.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m14.1.1" local_id="m14.1.1.cmml">C</m:ci>
+          <m:cn type="integer" xref="m14.1.2.1" local_id="m14.1.2.1.cmml">1</m:cn>
+        </m:apply>
+        <m:ci xref="m14.1.3" local_id="m14.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m14.1.cmml" local_id="m14.1b">C^{1}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:cn type="integer">1</m:cn>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027067/5027067.xhtml#m15.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="C^{r}G" display="inline" xref="m15.1.cmml" local_id="m15.1">
+  <m:semantics xref="m15.1.cmml" local_id="m15.1a">
+    <m:mrow xref="m15.1.4.cmml" local_id="m15.1.4">
+      <m:msup xref="m15.1.4.2.cmml" local_id="m15.1.4.2">
+        <m:mi xref="m15.1.1.cmml" local_id="m15.1.1">C</m:mi>
+        <m:mi xref="m15.1.2.1.cmml" local_id="m15.1.2.1">r</m:mi>
+      </m:msup>
+      <m:mo xref="m15.1.4.1.cmml" local_id="m15.1.4.1">⁢</m:mo>
+      <m:mi xref="m15.1.3.cmml" local_id="m15.1.3">G</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m15.1" local_id="m15.1.cmml">
+      <m:apply xref="m15.1.4" local_id="m15.1.4.cmml">
+        <m:times xref="m15.1.4.1" local_id="m15.1.4.1.cmml"/>
+        <m:apply xref="m15.1.4.2" local_id="m15.1.4.2.cmml">
+          <m:csymbol cd="ambiguous" local_id="m15.1.4.2.1.cmml">superscript</m:csymbol>
+          <m:ci xref="m15.1.1" local_id="m15.1.1.cmml">C</m:ci>
+          <m:ci xref="m15.1.2.1" local_id="m15.1.2.1.cmml">r</m:ci>
+        </m:apply>
+        <m:ci xref="m15.1.3" local_id="m15.1.3.cmml">G</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m15.1.cmml" local_id="m15.1b">C^{r}G</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>C</m:ci>
+    <m:ci>r</m:ci>
+  </m:apply>
+  <m:ci>G</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027125/5027125.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="O(N^{{-1}}+M^{{-1}}+\varepsilon)" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.11.cmml" local_id="m1.1.11">
+      <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">O</m:mi>
+      <m:mo xref="m1.1.11.1.cmml" local_id="m1.1.11.1">⁢</m:mo>
+      <m:mrow xref="m1.1.11.2.cmml" local_id="m1.1.11.2">
+        <m:mo xref="m1.1.11.2.cmml" local_id="m1.1.11.2a">(</m:mo>
+        <m:mrow xref="m1.1.11.2.cmml" local_id="m1.1.11.2b">
+          <m:msup xref="m1.1.11.2.1.cmml" local_id="m1.1.11.2.1">
+            <m:mi xref="m1.1.3.cmml" local_id="m1.1.3">N</m:mi>
+            <m:mrow xref="m1.1.4.1.cmml" local_id="m1.1.4.1">
+              <m:mo xref="m1.1.4.1.1.cmml" local_id="m1.1.4.1.1">-</m:mo>
+              <m:mn xref="m1.1.4.1.2.cmml" local_id="m1.1.4.1.2">1</m:mn>
+            </m:mrow>
+          </m:msup>
+          <m:mo xref="m1.1.5.cmml" local_id="m1.1.5">+</m:mo>
+          <m:msup xref="m1.1.11.2.2.cmml" local_id="m1.1.11.2.2">
+            <m:mi xref="m1.1.6.cmml" local_id="m1.1.6">M</m:mi>
+            <m:mrow xref="m1.1.7.1.cmml" local_id="m1.1.7.1">
+              <m:mo xref="m1.1.7.1.1.cmml" local_id="m1.1.7.1.1">-</m:mo>
+              <m:mn xref="m1.1.7.1.2.cmml" local_id="m1.1.7.1.2">1</m:mn>
+            </m:mrow>
+          </m:msup>
+          <m:mo xref="m1.1.5.cmml" local_id="m1.1.5a">+</m:mo>
+          <m:mi xref="m1.1.9.cmml" local_id="m1.1.9">ε</m:mi>
+        </m:mrow>
+        <m:mo xref="m1.1.11.2.cmml" local_id="m1.1.11.2c">)</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.11" local_id="m1.1.11.cmml">
+        <m:times xref="m1.1.11.1" local_id="m1.1.11.1.cmml"/>
+        <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">O</m:ci>
+        <m:apply xref="m1.1.11.2" local_id="m1.1.11.2.cmml">
+          <m:plus xref="m1.1.5" local_id="m1.1.5.cmml"/>
+          <m:apply xref="m1.1.11.2.1" local_id="m1.1.11.2.1.cmml">
+            <m:csymbol cd="ambiguous" local_id="m1.1.11.2.1.1.cmml">superscript</m:csymbol>
+            <m:ci xref="m1.1.3" local_id="m1.1.3.cmml">N</m:ci>
+            <m:apply xref="m1.1.4.1" local_id="m1.1.4.1.cmml">
+              <m:minus xref="m1.1.4.1.1" local_id="m1.1.4.1.1.cmml"/>
+              <m:cn type="integer" xref="m1.1.4.1.2" local_id="m1.1.4.1.2.cmml">1</m:cn>
+            </m:apply>
+          </m:apply>
+          <m:apply xref="m1.1.11.2.2" local_id="m1.1.11.2.2.cmml">
+            <m:csymbol cd="ambiguous" local_id="m1.1.11.2.2.1.cmml">superscript</m:csymbol>
+            <m:ci xref="m1.1.6" local_id="m1.1.6.cmml">M</m:ci>
+            <m:apply xref="m1.1.7.1" local_id="m1.1.7.1.cmml">
+              <m:minus xref="m1.1.7.1.1" local_id="m1.1.7.1.1.cmml"/>
+              <m:cn type="integer" xref="m1.1.7.1.2" local_id="m1.1.7.1.2.cmml">1</m:cn>
+            </m:apply>
+          </m:apply>
+          <m:ci xref="m1.1.9" local_id="m1.1.9.cmml">ε</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">O(N^{{-1}}+M^{{-1}}+\varepsilon)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:ci>O</m:ci>
+  <m:apply>
+    <m:plus/>
+    <m:apply>
+      <m:csymbol cd="ambiguous">superscript</m:csymbol>
+      <m:ci>N</m:ci>
+      <m:apply>
+        <m:minus/>
+        <m:cn type="integer">1</m:cn>
+      </m:apply>
+    </m:apply>
+    <m:apply>
+      <m:csymbol cd="ambiguous">superscript</m:csymbol>
+      <m:ci>M</m:ci>
+      <m:apply>
+        <m:minus/>
+        <m:cn type="integer">1</m:cn>
+      </m:apply>
+    </m:apply>
+    <m:ci>ε</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026747/5026747.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\eta" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">η</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">η</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">\eta</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>η</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026747/5026747.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\eta" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">η</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">η</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">\eta</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>η</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026937/5026937.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="B(X,Y)" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.7.cmml" local_id="m1.1.7">
+      <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">B</m:mi>
+      <m:mo xref="m1.1.7.1.cmml" local_id="m1.1.7.1">⁢</m:mo>
+      <m:mrow xref="m1.1.7.2.cmml" local_id="m1.1.7.2">
+        <m:mo xref="m1.1.7.2.cmml" local_id="m1.1.7.2a">(</m:mo>
+        <m:mrow xref="m1.1.7.2.cmml" local_id="m1.1.7.2b">
+          <m:mi xref="m1.1.3.cmml" local_id="m1.1.3">X</m:mi>
+          <m:mo xref="m1.1.7.2.cmml" local_id="m1.1.7.2c">,</m:mo>
+          <m:mi xref="m1.1.5.cmml" local_id="m1.1.5">Y</m:mi>
+        </m:mrow>
+        <m:mo xref="m1.1.7.2.cmml" local_id="m1.1.7.2d">)</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.7" local_id="m1.1.7.cmml">
+        <m:times xref="m1.1.7.1" local_id="m1.1.7.1.cmml"/>
+        <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">B</m:ci>
+        <m:apply xref="m1.1.7.2" local_id="m1.1.7.2.cmml">
+          <m:interval closure="open" local_id="m1.1.7.2.1.cmml"/>
+          <m:ci xref="m1.1.3" local_id="m1.1.3.cmml">X</m:ci>
+          <m:ci xref="m1.1.5" local_id="m1.1.5.cmml">Y</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">B(X,Y)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:times/>
+  <m:ci>B</m:ci>
+  <m:apply>
+    <m:interval closure="open"/>
+    <m:ci>X</m:ci>
+    <m:ci>Y</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026937/5026937.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="X" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">X</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">X</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">X</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>X</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026937/5026937.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="Y" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">Y</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">Y</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">Y</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>Y</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026750/5026750.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">m</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">m</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">m</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>m</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026750/5026750.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="m" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">m</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">m</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">m</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>m</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027230/5027230.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="V" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">V</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">V</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">V</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>V</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027272/5027272.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\Gamma" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi mathvariant="normal" xref="m1.1.1.cmml" local_id="m1.1.1">Γ</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">normal-Γ</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">\Gamma</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>normal-Γ</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027272/5027272.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\Gamma" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mi mathvariant="normal" xref="m2.1.1.cmml" local_id="m2.1.1">Γ</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">normal-Γ</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">\Gamma</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>normal-Γ</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027248/5027248.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="q:Y\to B" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.6.cmml" local_id="m1.1.6">
+      <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">q</m:mi>
+      <m:mo xref="m1.1.2.cmml" local_id="m1.1.2">:</m:mo>
+      <m:mrow xref="m1.1.6.1.cmml" local_id="m1.1.6.1">
+        <m:mi xref="m1.1.3.cmml" local_id="m1.1.3">Y</m:mi>
+        <m:mo xref="m1.1.4.cmml" local_id="m1.1.4">→</m:mo>
+        <m:mi xref="m1.1.5.cmml" local_id="m1.1.5">B</m:mi>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.6" local_id="m1.1.6.cmml">
+        <m:ci xref="m1.1.2" local_id="m1.1.2.cmml">normal-:</m:ci>
+        <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">q</m:ci>
+        <m:apply xref="m1.1.6.1" local_id="m1.1.6.1.cmml">
+          <m:ci xref="m1.1.4" local_id="m1.1.4.cmml">normal-→</m:ci>
+          <m:ci xref="m1.1.3" local_id="m1.1.3.cmml">Y</m:ci>
+          <m:ci xref="m1.1.5" local_id="m1.1.5.cmml">B</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">q:Y\to B</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:ci>normal-:</m:ci>
+  <m:ci>q</m:ci>
+  <m:apply>
+    <m:ci>normal-→</m:ci>
+    <m:ci>Y</m:ci>
+    <m:ci>B</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027248/5027248.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\cal C" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">𝒞</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">𝒞</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">\cal C</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>𝒞</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027248/5027248.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="q" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">q</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">q</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">q</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>q</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027248/5027248.xhtml#m4.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\cal C/B\to\cal C/B" display="inline" xref="m4.1.cmml" local_id="m4.1">
+  <m:semantics xref="m4.1.cmml" local_id="m4.1a">
+    <m:mrow xref="m4.1.8.cmml" local_id="m4.1.8">
+      <m:mrow xref="m4.1.8.1.cmml" local_id="m4.1.8.1">
+        <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">𝒞</m:mi>
+        <m:mo xref="m4.1.8.1.cmml" local_id="m4.1.8.1a">/</m:mo>
+        <m:mi xref="m4.1.3.cmml" local_id="m4.1.3">ℬ</m:mi>
+      </m:mrow>
+      <m:mo xref="m4.1.4.cmml" local_id="m4.1.4">→</m:mo>
+      <m:mrow xref="m4.1.8.2.cmml" local_id="m4.1.8.2">
+        <m:mi xref="m4.1.5.cmml" local_id="m4.1.5">𝒞</m:mi>
+        <m:mo xref="m4.1.8.2.cmml" local_id="m4.1.8.2a">/</m:mo>
+        <m:mi xref="m4.1.7.cmml" local_id="m4.1.7">ℬ</m:mi>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
+      <m:apply xref="m4.1.8" local_id="m4.1.8.cmml">
+        <m:ci xref="m4.1.4" local_id="m4.1.4.cmml">normal-→</m:ci>
+        <m:apply xref="m4.1.8.1" local_id="m4.1.8.1.cmml">
+          <m:divide local_id="m4.1.2.cmml"/>
+          <m:ci xref="m4.1.1" local_id="m4.1.1.cmml">𝒞</m:ci>
+          <m:ci xref="m4.1.3" local_id="m4.1.3.cmml">ℬ</m:ci>
+        </m:apply>
+        <m:apply xref="m4.1.8.2" local_id="m4.1.8.2.cmml">
+          <m:divide local_id="m4.1.6.cmml"/>
+          <m:ci xref="m4.1.5" local_id="m4.1.5.cmml">𝒞</m:ci>
+          <m:ci xref="m4.1.7" local_id="m4.1.7.cmml">ℬ</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m4.1.cmml" local_id="m4.1b">\cal C/B\to\cal C/B</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:ci>normal-→</m:ci>
+  <m:apply>
+    <m:divide/>
+    <m:ci>𝒞</m:ci>
+    <m:ci>ℬ</m:ci>
+  </m:apply>
+  <m:apply>
+    <m:divide/>
+    <m:ci>𝒞</m:ci>
+    <m:ci>ℬ</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027082/5027082.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="K" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">K</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">K</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">K</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>K</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026754/5026754.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="R(x,y+z]\sim(z/\rho\mu)\overline{F}(x)" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.20.cmml" local_id="m1.1.20">
+      <m:mrow xref="m1.1.20.1.cmml" local_id="m1.1.20.1">
+        <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">R</m:mi>
+        <m:mo xref="m1.1.20.1.1.cmml" local_id="m1.1.20.1.1">⁢</m:mo>
+        <m:mrow xref="m1.1.20.1.2.cmml" local_id="m1.1.20.1.2">
+          <m:mo xref="m1.1.20.1.2.cmml" local_id="m1.1.20.1.2a">(</m:mo>
+          <m:mrow xref="m1.1.20.1.2.cmml" local_id="m1.1.20.1.2b">
+            <m:mi xref="m1.1.3.cmml" local_id="m1.1.3">x</m:mi>
+            <m:mo xref="m1.1.20.1.2.cmml" local_id="m1.1.20.1.2c">,</m:mo>
+            <m:mrow xref="m1.1.20.1.2.2.cmml" local_id="m1.1.20.1.2.2">
+              <m:mi xref="m1.1.5.cmml" local_id="m1.1.5">y</m:mi>
+              <m:mo xref="m1.1.6.cmml" local_id="m1.1.6">+</m:mo>
+              <m:mi xref="m1.1.7.cmml" local_id="m1.1.7">z</m:mi>
+            </m:mrow>
+          </m:mrow>
+          <m:mo xref="m1.1.20.1.2.cmml" local_id="m1.1.20.1.2d">]</m:mo>
+        </m:mrow>
+      </m:mrow>
+      <m:mo xref="m1.1.9.cmml" local_id="m1.1.9">∼</m:mo>
+      <m:mrow xref="m1.1.20.2.cmml" local_id="m1.1.20.2">
+        <m:mrow xref="m1.1.20.2.2.cmml" local_id="m1.1.20.2.2">
+          <m:mo xref="m1.1.20.2.2.cmml" local_id="m1.1.20.2.2a">(</m:mo>
+          <m:mrow xref="m1.1.20.2.2.cmml" local_id="m1.1.20.2.2b">
+            <m:mrow xref="m1.1.20.2.2.2.cmml" local_id="m1.1.20.2.2.2">
+              <m:mi xref="m1.1.11.cmml" local_id="m1.1.11">z</m:mi>
+              <m:mo xref="m1.1.20.2.2.2.cmml" local_id="m1.1.20.2.2.2a">/</m:mo>
+              <m:mi xref="m1.1.13.cmml" local_id="m1.1.13">ρ</m:mi>
+            </m:mrow>
+            <m:mo xref="m1.1.20.2.2.1.cmml" local_id="m1.1.20.2.2.1">⁢</m:mo>
+            <m:mi xref="m1.1.14.cmml" local_id="m1.1.14">μ</m:mi>
+          </m:mrow>
+          <m:mo xref="m1.1.20.2.2.cmml" local_id="m1.1.20.2.2c">)</m:mo>
+        </m:mrow>
+        <m:mo xref="m1.1.20.2.1.cmml" local_id="m1.1.20.2.1">⁢</m:mo>
+        <m:mover accent="true" xref="m1.1.16.cmml" local_id="m1.1.16">
+          <m:mi xref="m1.1.16.2.cmml" local_id="m1.1.16.2">F</m:mi>
+          <m:mo xref="m1.1.16.1.cmml" local_id="m1.1.16.1">¯</m:mo>
+        </m:mover>
+        <m:mo xref="m1.1.20.2.1.cmml" local_id="m1.1.20.2.1a">⁢</m:mo>
+        <m:mrow xref="m1.1.18.cmml" local_id="m1.1.18">
+          <m:mo xref="m1.1.18.cmml" local_id="m1.1.18a">(</m:mo>
+          <m:mi xref="m1.1.18.cmml" local_id="m1.1.18b">x</m:mi>
+          <m:mo xref="m1.1.18.cmml" local_id="m1.1.18c">)</m:mo>
+        </m:mrow>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.20" local_id="m1.1.20.cmml">
+        <m:csymbol cd="latexml" xref="m1.1.9" local_id="m1.1.9.cmml">similar-to</m:csymbol>
+        <m:apply xref="m1.1.20.1" local_id="m1.1.20.1.cmml">
+          <m:times xref="m1.1.20.1.1" local_id="m1.1.20.1.1.cmml"/>
+          <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">R</m:ci>
+          <m:apply xref="m1.1.20.1.2" local_id="m1.1.20.1.2.cmml">
+            <m:interval closure="open-closed" local_id="m1.1.20.1.2.1.cmml"/>
+            <m:ci xref="m1.1.3" local_id="m1.1.3.cmml">x</m:ci>
+            <m:apply xref="m1.1.20.1.2.2" local_id="m1.1.20.1.2.2.cmml">
+              <m:plus xref="m1.1.6" local_id="m1.1.6.cmml"/>
+              <m:ci xref="m1.1.5" local_id="m1.1.5.cmml">y</m:ci>
+              <m:ci xref="m1.1.7" local_id="m1.1.7.cmml">z</m:ci>
+            </m:apply>
+          </m:apply>
+        </m:apply>
+        <m:apply xref="m1.1.20.2" local_id="m1.1.20.2.cmml">
+          <m:times xref="m1.1.20.2.1" local_id="m1.1.20.2.1.cmml"/>
+          <m:apply xref="m1.1.20.2.2" local_id="m1.1.20.2.2.cmml">
+            <m:times xref="m1.1.20.2.2.1" local_id="m1.1.20.2.2.1.cmml"/>
+            <m:apply xref="m1.1.20.2.2.2" local_id="m1.1.20.2.2.2.cmml">
+              <m:divide xref="m1.1.1" local_id="m1.1.12.cmml"/>
+              <m:ci xref="m1.1.11" local_id="m1.1.11.cmml">z</m:ci>
+              <m:ci xref="m1.1.13" local_id="m1.1.13.cmml">ρ</m:ci>
+            </m:apply>
+            <m:ci xref="m1.1.14" local_id="m1.1.14.cmml">μ</m:ci>
+          </m:apply>
+          <m:apply xref="m1.1.16" local_id="m1.1.16.cmml">
+            <m:ci xref="m1.1.16.1" local_id="m1.1.16.1.cmml">normal-¯</m:ci>
+            <m:ci xref="m1.1.16.2" local_id="m1.1.16.2.cmml">F</m:ci>
+          </m:apply>
+          <m:ci xref="m1.1.18" local_id="m1.1.18.cmml">x</m:ci>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">R(x,y+z]\sim(z/\rho\mu)\overline{F}(x)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:csymbol cd="latexml">similar-to</m:csymbol>
+  <m:apply>
+    <m:times/>
+    <m:ci>R</m:ci>
+    <m:apply>
+      <m:interval closure="open-closed"/>
+      <m:ci>x</m:ci>
+      <m:apply>
+        <m:plus/>
+        <m:ci>y</m:ci>
+        <m:ci>z</m:ci>
+      </m:apply>
+    </m:apply>
+  </m:apply>
+  <m:apply>
+    <m:times/>
+    <m:apply>
+      <m:times/>
+      <m:apply>
+        <m:divide/>
+        <m:ci>z</m:ci>
+        <m:ci>ρ</m:ci>
+      </m:apply>
+      <m:ci>μ</m:ci>
+    </m:apply>
+    <m:apply>
+      <m:ci>normal-¯</m:ci>
+      <m:ci>F</m:ci>
+    </m:apply>
+    <m:ci>x</m:ci>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026754/5026754.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="F" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">F</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">F</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">F</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>F</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026754/5026754.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\rho" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">ρ</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">ρ</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">\rho</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>ρ</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026754/5026754.xhtml#m4.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\mu" display="inline" xref="m4.1.cmml" local_id="m4.1">
+  <m:semantics xref="m4.1.cmml" local_id="m4.1a">
+    <m:mi xref="m4.1.1.cmml" local_id="m4.1.1">μ</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
+      <m:ci xref="m4.1.1" local_id="m4.1.1.cmml">μ</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m4.1.cmml" local_id="m4.1b">\mu</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>μ</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5026754/5026754.xhtml#m5.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="x\to\infty" display="inline" xref="m5.1.cmml" local_id="m5.1">
+  <m:semantics xref="m5.1.cmml" local_id="m5.1a">
+    <m:mrow xref="m5.1.4.cmml" local_id="m5.1.4">
+      <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">x</m:mi>
+      <m:mo xref="m5.1.2.cmml" local_id="m5.1.2">→</m:mo>
+      <m:mi mathvariant="normal" xref="m5.1.3.cmml" local_id="m5.1.3">∞</m:mi>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
+      <m:apply xref="m5.1.4" local_id="m5.1.4.cmml">
+        <m:ci xref="m5.1.2" local_id="m5.1.2.cmml">normal-→</m:ci>
+        <m:ci xref="m5.1.1" local_id="m5.1.1.cmml">x</m:ci>
+        <m:infinity xref="m5.1.3" local_id="m5.1.3.cmml"/>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m5.1.cmml" local_id="m5.1b">x\to\infty</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:ci>normal-→</m:ci>
+  <m:ci>x</m:ci>
+  <m:infinity/>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027065/5027065.xhtml#S0.Ex1.m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="x^{{\prime\prime}}\in G(x)+E(t)" display="block" xref="S0.Ex1.m1.1.cmml" local_id="S0.Ex1.m1.1">
+  <m:semantics xref="S0.Ex1.m1.1.cmml" local_id="S0.Ex1.m1.1a">
+    <m:mrow xref="S0.Ex1.m1.1.13.cmml" local_id="S0.Ex1.m1.1.13">
+      <m:msup xref="S0.Ex1.m1.1.13.1.cmml" local_id="S0.Ex1.m1.1.13.1">
+        <m:mi xref="S0.Ex1.m1.1.1.cmml" local_id="S0.Ex1.m1.1.1">x</m:mi>
+        <m:mi xref="S0.Ex1.m1.1.2.1.cmml" local_id="S0.Ex1.m1.1.2.1">′′</m:mi>
+      </m:msup>
+      <m:mo xref="S0.Ex1.m1.1.3.cmml" local_id="S0.Ex1.m1.1.3">∈</m:mo>
+      <m:mrow xref="S0.Ex1.m1.1.13.2.cmml" local_id="S0.Ex1.m1.1.13.2">
+        <m:mrow xref="S0.Ex1.m1.1.13.2.1.cmml" local_id="S0.Ex1.m1.1.13.2.1">
+          <m:mi xref="S0.Ex1.m1.1.4.cmml" local_id="S0.Ex1.m1.1.4">G</m:mi>
+          <m:mo xref="S0.Ex1.m1.1.13.2.1.1.cmml" local_id="S0.Ex1.m1.1.13.2.1.1">⁢</m:mo>
+          <m:mrow xref="S0.Ex1.m1.1.6.cmml" local_id="S0.Ex1.m1.1.6">
+            <m:mo xref="S0.Ex1.m1.1.6.cmml" local_id="S0.Ex1.m1.1.6a">(</m:mo>
+            <m:mi xref="S0.Ex1.m1.1.6.cmml" local_id="S0.Ex1.m1.1.6b">x</m:mi>
+            <m:mo xref="S0.Ex1.m1.1.6.cmml" local_id="S0.Ex1.m1.1.6c">)</m:mo>
+          </m:mrow>
+        </m:mrow>
+        <m:mo xref="S0.Ex1.m1.1.8.cmml" local_id="S0.Ex1.m1.1.8">+</m:mo>
+        <m:mrow xref="S0.Ex1.m1.1.13.2.2.cmml" local_id="S0.Ex1.m1.1.13.2.2">
+          <m:mi xref="S0.Ex1.m1.1.9.cmml" local_id="S0.Ex1.m1.1.9">E</m:mi>
+          <m:mo xref="S0.Ex1.m1.1.13.2.2.1.cmml" local_id="S0.Ex1.m1.1.13.2.2.1">⁢</m:mo>
+          <m:mrow xref="S0.Ex1.m1.1.11.cmml" local_id="S0.Ex1.m1.1.11">
+            <m:mo xref="S0.Ex1.m1.1.11.cmml" local_id="S0.Ex1.m1.1.11a">(</m:mo>
+            <m:mi xref="S0.Ex1.m1.1.11.cmml" local_id="S0.Ex1.m1.1.11b">t</m:mi>
+            <m:mo xref="S0.Ex1.m1.1.11.cmml" local_id="S0.Ex1.m1.1.11c">)</m:mo>
+          </m:mrow>
+        </m:mrow>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="S0.Ex1.m1.1" local_id="S0.Ex1.m1.1.cmml">
+      <m:apply xref="S0.Ex1.m1.1.13" local_id="S0.Ex1.m1.1.13.cmml">
+        <m:in xref="S0.Ex1.m1.1.3" local_id="S0.Ex1.m1.1.3.cmml"/>
+        <m:apply xref="S0.Ex1.m1.1.13.1" local_id="S0.Ex1.m1.1.13.1.cmml">
+          <m:csymbol cd="ambiguous" local_id="S0.Ex1.m1.1.13.1.1.cmml">superscript</m:csymbol>
+          <m:ci xref="S0.Ex1.m1.1.1" local_id="S0.Ex1.m1.1.1.cmml">x</m:ci>
+          <m:ci xref="S0.Ex1.m1.1.2.1" local_id="S0.Ex1.m1.1.2.1.cmml">′′</m:ci>
+        </m:apply>
+        <m:apply xref="S0.Ex1.m1.1.13.2" local_id="S0.Ex1.m1.1.13.2.cmml">
+          <m:plus xref="S0.Ex1.m1.1.8" local_id="S0.Ex1.m1.1.8.cmml"/>
+          <m:apply xref="S0.Ex1.m1.1.13.2.1" local_id="S0.Ex1.m1.1.13.2.1.cmml">
+            <m:times xref="S0.Ex1.m1.1.13.2.1.1" local_id="S0.Ex1.m1.1.13.2.1.1.cmml"/>
+            <m:ci xref="S0.Ex1.m1.1.4" local_id="S0.Ex1.m1.1.4.cmml">G</m:ci>
+            <m:ci xref="S0.Ex1.m1.1.6" local_id="S0.Ex1.m1.1.6.cmml">x</m:ci>
+          </m:apply>
+          <m:apply xref="S0.Ex1.m1.1.13.2.2" local_id="S0.Ex1.m1.1.13.2.2.cmml">
+            <m:times xref="S0.Ex1.m1.1.13.2.2.1" local_id="S0.Ex1.m1.1.13.2.2.1.cmml"/>
+            <m:ci xref="S0.Ex1.m1.1.9" local_id="S0.Ex1.m1.1.9.cmml">E</m:ci>
+            <m:ci xref="S0.Ex1.m1.1.11" local_id="S0.Ex1.m1.1.11.cmml">t</m:ci>
+          </m:apply>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="S0.Ex1.m1.1.cmml" local_id="S0.Ex1.m1.1b">x^{{\prime\prime}}\in G(x)+E(t)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:in/>
+  <m:apply>
+    <m:csymbol cd="ambiguous">superscript</m:csymbol>
+    <m:ci>x</m:ci>
+    <m:ci>′′</m:ci>
+  </m:apply>
+  <m:apply>
+    <m:plus/>
+    <m:apply>
+      <m:times/>
+      <m:ci>G</m:ci>
+      <m:ci>x</m:ci>
+    </m:apply>
+    <m:apply>
+      <m:times/>
+      <m:ci>E</m:ci>
+      <m:ci>t</m:ci>
+    </m:apply>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026848/5026848.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="n=3" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.4.cmml" local_id="m1.1.4">
+      <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">n</m:mi>
+      <m:mo xref="m1.1.2.cmml" local_id="m1.1.2">=</m:mo>
+      <m:mn xref="m1.1.3.cmml" local_id="m1.1.3">3</m:mn>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.4" local_id="m1.1.4.cmml">
+        <m:eq xref="m1.1.2" local_id="m1.1.2.cmml"/>
+        <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">n</m:ci>
+        <m:cn type="integer" xref="m1.1.3" local_id="m1.1.3.cmml">3</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">n=3</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:eq/>
+  <m:ci>n</m:ci>
+  <m:cn type="integer">3</m:cn>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026848/5026848.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="n=1" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mrow xref="m2.1.4.cmml" local_id="m2.1.4">
+      <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">n</m:mi>
+      <m:mo xref="m2.1.2.cmml" local_id="m2.1.2">=</m:mo>
+      <m:mn xref="m2.1.3.cmml" local_id="m2.1.3">1</m:mn>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:apply xref="m2.1.4" local_id="m2.1.4.cmml">
+        <m:eq xref="m2.1.2" local_id="m2.1.2.cmml"/>
+        <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">n</m:ci>
+        <m:cn type="integer" xref="m2.1.3" local_id="m2.1.3.cmml">1</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">n=1</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:eq/>
+  <m:ci>n</m:ci>
+  <m:cn type="integer">1</m:cn>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027278/5027278.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="u\in W^{{1,1}}(\bar{\Omega},\bar{\Omega})" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.10.cmml" local_id="m1.1.10">
+      <m:mi xref="m1.1.1.cmml" local_id="m1.1.1">u</m:mi>
+      <m:mo xref="m1.1.2.cmml" local_id="m1.1.2">∈</m:mo>
+      <m:mrow xref="m1.1.10.1.cmml" local_id="m1.1.10.1">
+        <m:msup xref="m1.1.10.1.2.cmml" local_id="m1.1.10.1.2">
+          <m:mi xref="m1.1.3.cmml" local_id="m1.1.3">W</m:mi>
+          <m:mrow xref="m1.1.4.1.cmml" local_id="m1.1.4.1">
+            <m:mn xref="m1.1.4.1.1.cmml" local_id="m1.1.4.1.1">1</m:mn>
+            <m:mo xref="m1.1.4.1.cmml" local_id="m1.1.4.1a">,</m:mo>
+            <m:mn xref="m1.1.4.1.3.cmml" local_id="m1.1.4.1.3">1</m:mn>
+          </m:mrow>
+        </m:msup>
+        <m:mo xref="m1.1.10.1.1.cmml" local_id="m1.1.10.1.1">⁢</m:mo>
+        <m:mrow xref="m1.1.10.1.3.cmml" local_id="m1.1.10.1.3">
+          <m:mo xref="m1.1.10.1.3.cmml" local_id="m1.1.10.1.3a">(</m:mo>
+          <m:mrow xref="m1.1.10.1.3.cmml" local_id="m1.1.10.1.3b">
+            <m:mover accent="true" xref="m1.1.6.cmml" local_id="m1.1.6">
+              <m:mi mathvariant="normal" xref="m1.1.6.2.cmml" local_id="m1.1.6.2">Ω</m:mi>
+              <m:mo xref="m1.1.6.1.cmml" local_id="m1.1.6.1">¯</m:mo>
+            </m:mover>
+            <m:mo xref="m1.1.10.1.3.cmml" local_id="m1.1.10.1.3c">,</m:mo>
+            <m:mover accent="true" xref="m1.1.8.cmml" local_id="m1.1.8">
+              <m:mi mathvariant="normal" xref="m1.1.8.2.cmml" local_id="m1.1.8.2">Ω</m:mi>
+              <m:mo xref="m1.1.8.1.cmml" local_id="m1.1.8.1">¯</m:mo>
+            </m:mover>
+          </m:mrow>
+          <m:mo xref="m1.1.10.1.3.cmml" local_id="m1.1.10.1.3d">)</m:mo>
+        </m:mrow>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.10" local_id="m1.1.10.cmml">
+        <m:in xref="m1.1.2" local_id="m1.1.2.cmml"/>
+        <m:ci xref="m1.1.1" local_id="m1.1.1.cmml">u</m:ci>
+        <m:apply xref="m1.1.10.1" local_id="m1.1.10.1.cmml">
+          <m:times xref="m1.1.10.1.1" local_id="m1.1.10.1.1.cmml"/>
+          <m:apply xref="m1.1.10.1.2" local_id="m1.1.10.1.2.cmml">
+            <m:csymbol cd="ambiguous" local_id="m1.1.10.1.2.1.cmml">superscript</m:csymbol>
+            <m:ci xref="m1.1.3" local_id="m1.1.3.cmml">W</m:ci>
+            <m:apply xref="m1.1.4.1" local_id="m1.1.4.1.cmml">
+              <m:list local_id="m1.1.4.1.4.cmml"/>
+              <m:cn type="integer" xref="m1.1.4.1.1" local_id="m1.1.4.1.1.cmml">1</m:cn>
+              <m:cn type="integer" xref="m1.1.4.1.3" local_id="m1.1.4.1.3.cmml">1</m:cn>
+            </m:apply>
+          </m:apply>
+          <m:apply xref="m1.1.10.1.3" local_id="m1.1.10.1.3.cmml">
+            <m:interval closure="open" local_id="m1.1.10.1.3.1.cmml"/>
+            <m:apply xref="m1.1.6" local_id="m1.1.6.cmml">
+              <m:ci xref="m1.1.6.1" local_id="m1.1.6.1.cmml">normal-¯</m:ci>
+              <m:ci xref="m1.1.6.2" local_id="m1.1.6.2.cmml">normal-Ω</m:ci>
+            </m:apply>
+            <m:apply xref="m1.1.8" local_id="m1.1.8.cmml">
+              <m:ci xref="m1.1.8.1" local_id="m1.1.8.1.cmml">normal-¯</m:ci>
+              <m:ci xref="m1.1.8.2" local_id="m1.1.8.2.cmml">normal-Ω</m:ci>
+            </m:apply>
+          </m:apply>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">u\in W^{{1,1}}(\bar{\Omega},\bar{\Omega})</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:in/>
+  <m:ci>u</m:ci>
+  <m:apply>
+    <m:times/>
+    <m:apply>
+      <m:csymbol cd="ambiguous">superscript</m:csymbol>
+      <m:ci>W</m:ci>
+      <m:apply>
+        <m:list/>
+        <m:cn type="integer">1</m:cn>
+        <m:cn type="integer">1</m:cn>
+      </m:apply>
+    </m:apply>
+    <m:apply>
+      <m:interval closure="open"/>
+      <m:apply>
+        <m:ci>normal-¯</m:ci>
+        <m:ci>normal-Ω</m:ci>
+      </m:apply>
+      <m:apply>
+        <m:ci>normal-¯</m:ci>
+        <m:ci>normal-Ω</m:ci>
+      </m:apply>
+    </m:apply>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027278/5027278.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="n-1" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mrow xref="m2.1.4.cmml" local_id="m2.1.4">
+      <m:mi xref="m2.1.1.cmml" local_id="m2.1.1">n</m:mi>
+      <m:mo xref="m2.1.2.cmml" local_id="m2.1.2">-</m:mo>
+      <m:mn xref="m2.1.3.cmml" local_id="m2.1.3">1</m:mn>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:apply xref="m2.1.4" local_id="m2.1.4.cmml">
+        <m:minus xref="m2.1.2" local_id="m2.1.2.cmml"/>
+        <m:ci xref="m2.1.1" local_id="m2.1.1.cmml">n</m:ci>
+        <m:cn type="integer" xref="m2.1.3" local_id="m2.1.3.cmml">1</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">n-1</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:minus/>
+  <m:ci>n</m:ci>
+  <m:cn type="integer">1</m:cn>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027278/5027278.xhtml#m3.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="n/(n-1)" display="inline" xref="m3.1.cmml" local_id="m3.1">
+  <m:semantics xref="m3.1.cmml" local_id="m3.1a">
+    <m:mrow xref="m3.1.8.cmml" local_id="m3.1.8">
+      <m:mi xref="m3.1.1.cmml" local_id="m3.1.1">n</m:mi>
+      <m:mo xref="m3.1.8.cmml" local_id="m3.1.8a">/</m:mo>
+      <m:mrow xref="m3.1.8.1.cmml" local_id="m3.1.8.1">
+        <m:mo xref="m3.1.8.1.cmml" local_id="m3.1.8.1a">(</m:mo>
+        <m:mrow xref="m3.1.8.1.cmml" local_id="m3.1.8.1b">
+          <m:mi xref="m3.1.4.cmml" local_id="m3.1.4">n</m:mi>
+          <m:mo xref="m3.1.5.cmml" local_id="m3.1.5">-</m:mo>
+          <m:mn xref="m3.1.6.cmml" local_id="m3.1.6">1</m:mn>
+        </m:mrow>
+        <m:mo xref="m3.1.8.1.cmml" local_id="m3.1.8.1c">)</m:mo>
+      </m:mrow>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m3.1" local_id="m3.1.cmml">
+      <m:apply xref="m3.1.8" local_id="m3.1.8.cmml">
+        <m:divide local_id="m3.1.2.cmml"/>
+        <m:ci xref="m3.1.1" local_id="m3.1.1.cmml">n</m:ci>
+        <m:apply xref="m3.1.8.1" local_id="m3.1.8.1.cmml">
+          <m:minus xref="m3.1.5" local_id="m3.1.5.cmml"/>
+          <m:ci xref="m3.1.4" local_id="m3.1.4.cmml">n</m:ci>
+          <m:cn type="integer" xref="m3.1.6" local_id="m3.1.6.cmml">1</m:cn>
+        </m:apply>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m3.1.cmml" local_id="m3.1b">n/(n-1)</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:divide/>
+  <m:ci>n</m:ci>
+  <m:apply>
+    <m:minus/>
+    <m:ci>n</m:ci>
+    <m:cn type="integer">1</m:cn>
+  </m:apply>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5027278/5027278.xhtml#m4.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\Omega" display="inline" xref="m4.1.cmml" local_id="m4.1">
+  <m:semantics xref="m4.1.cmml" local_id="m4.1a">
+    <m:mi mathvariant="normal" xref="m4.1.1.cmml" local_id="m4.1.1">Ω</m:mi>
+    <m:annotation-xml encoding="MathML-Content" xref="m4.1" local_id="m4.1.cmml">
+      <m:ci xref="m4.1.1" local_id="m4.1.1.cmml">normal-Ω</m:ci>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m4.1.cmml" local_id="m4.1b">\Omega</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:ci>normal-Ω</m:ci></content>
+</mws:expr>
+<mws:expr url="./16/103/5027278/5027278.xhtml#m5.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="\mathbb{R}^{n}" display="inline" xref="m5.1.cmml" local_id="m5.1">
+  <m:semantics xref="m5.1.cmml" local_id="m5.1a">
+    <m:msup xref="m5.1.3.cmml" local_id="m5.1.3">
+      <m:mi xref="m5.1.1.cmml" local_id="m5.1.1">ℝ</m:mi>
+      <m:mi xref="m5.1.2.1.cmml" local_id="m5.1.2.1">n</m:mi>
+    </m:msup>
+    <m:annotation-xml encoding="MathML-Content" xref="m5.1" local_id="m5.1.cmml">
+      <m:apply xref="m5.1.3" local_id="m5.1.3.cmml">
+        <m:csymbol cd="ambiguous" local_id="m5.1.3.1.cmml">superscript</m:csymbol>
+        <m:ci xref="m5.1.1" local_id="m5.1.1.cmml">ℝ</m:ci>
+        <m:ci xref="m5.1.2.1" local_id="m5.1.2.1.cmml">n</m:ci>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m5.1.cmml" local_id="m5.1b">\mathbb{R}^{n}</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:csymbol cd="ambiguous">superscript</m:csymbol>
+  <m:ci>ℝ</m:ci>
+  <m:ci>n</m:ci>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026983/5026983.xhtml#m1.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="[1,50]" display="inline" xref="m1.1.cmml" local_id="m1.1">
+  <m:semantics xref="m1.1.cmml" local_id="m1.1a">
+    <m:mrow xref="m1.1.7.cmml" local_id="m1.1.7">
+      <m:mo xref="m1.1.7.cmml" local_id="m1.1.7a">[</m:mo>
+      <m:mrow xref="m1.1.7.cmml" local_id="m1.1.7b">
+        <m:mn xref="m1.1.2.cmml" local_id="m1.1.2">1</m:mn>
+        <m:mo xref="m1.1.7.cmml" local_id="m1.1.7c">,</m:mo>
+        <m:mn xref="m1.1.5.cmml" local_id="m1.1.5">50</m:mn>
+      </m:mrow>
+      <m:mo xref="m1.1.7.cmml" local_id="m1.1.7d">]</m:mo>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m1.1" local_id="m1.1.cmml">
+      <m:apply xref="m1.1.7" local_id="m1.1.7.cmml">
+        <m:interval closure="closed" local_id="m1.1.7.1.cmml"/>
+        <m:cn type="integer" xref="m1.1.2" local_id="m1.1.2.cmml">1</m:cn>
+        <m:cn type="integer" xref="m1.1.5" local_id="m1.1.5.cmml">50</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m1.1.cmml" local_id="m1.1b">[1,50]</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:interval closure="closed"/>
+  <m:cn type="integer">1</m:cn>
+  <m:cn type="integer">50</m:cn>
+</m:apply></content>
+</mws:expr>
+<mws:expr url="./16/103/5026983/5026983.xhtml#m2.1">
+<data>
+<m:math xmlns="http://zentralblatt.org" alttext="[1,100]" display="inline" xref="m2.1.cmml" local_id="m2.1">
+  <m:semantics xref="m2.1.cmml" local_id="m2.1a">
+    <m:mrow xref="m2.1.8.cmml" local_id="m2.1.8">
+      <m:mo xref="m2.1.8.cmml" local_id="m2.1.8a">[</m:mo>
+      <m:mrow xref="m2.1.8.cmml" local_id="m2.1.8b">
+        <m:mn xref="m2.1.2.cmml" local_id="m2.1.2">1</m:mn>
+        <m:mo xref="m2.1.8.cmml" local_id="m2.1.8c">,</m:mo>
+        <m:mn xref="m2.1.6.cmml" local_id="m2.1.6">100</m:mn>
+      </m:mrow>
+      <m:mo xref="m2.1.8.cmml" local_id="m2.1.8d">]</m:mo>
+    </m:mrow>
+    <m:annotation-xml encoding="MathML-Content" xref="m2.1" local_id="m2.1.cmml">
+      <m:apply xref="m2.1.8" local_id="m2.1.8.cmml">
+        <m:interval closure="closed" local_id="m2.1.8.1.cmml"/>
+        <m:cn type="integer" xref="m2.1.2" local_id="m2.1.2.cmml">1</m:cn>
+        <m:cn type="integer" xref="m2.1.6" local_id="m2.1.6.cmml">100</m:cn>
+      </m:apply>
+    </m:annotation-xml>
+    <m:annotation encoding="application/x-tex" xref="m2.1.cmml" local_id="m2.1b">[1,100]</m:annotation>
+  </m:semantics>
+</m:math></data>
+<content>
+<m:apply>
+  <m:interval closure="closed"/>
+  <m:cn type="integer">1</m:cn>
+  <m:cn type="integer">100</m:cn>
+</m:apply></content>
+</mws:expr>
+</mws:harvest>
