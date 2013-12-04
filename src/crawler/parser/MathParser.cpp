@@ -24,25 +24,29 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * @date 15 Aug 2012
  */
 
-#include <string.h>
 #include <libxml/parser.h>
-#include <libxml/HTMLparser.h>
+#include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
+#include <string.h>
+
+#include <string>
+using std::string;
+#include <vector>
+using std::vector;
 
 #include "crawler/utils/memstream.h"
 
 #include "MathParser.hpp"
 
-using namespace std;
-
 namespace crawler {
 namespace parser {
 
-static xmlDocPtr get_XMLDoc (const char *buffer);
+static xmlDocPtr get_XMLDoc(const char *buffer);
+static void sanitizeMathML(xmlNode* mathMLNode);
 static void renameXmlIdAttributes(xmlNode* xmlNode);
 static void cleanContentMath(xmlNode* xmlNode);
-static xmlXPathObjectPtr get_XMLNodeset (xmlDocPtr doc, const xmlChar *xpath);
+static xmlXPathObjectPtr get_XMLNodeset(xmlDocPtr doc, const xmlChar *xpath);
 static bool isValidXml(const string& xml);
 
 /*--------------------------------------------------------------------------*/
@@ -73,7 +77,7 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
 
                 fprintf(stream, "<mws:expr url=\"%s#%s\">\n", url.c_str() , id);
                 // Rename xml:id to local_id to avoid constraints of uniqueness
-                renameXmlIdAttributes(mathNode);
+                sanitizeMathML(mathNode);
                 fprintf(stream, "<data>\n");
                 xmlElemDump(stream, doc, mathNode);
                 fprintf(stream, "</data>\n");
@@ -95,12 +99,13 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
                 free(buf);
             }
 
-            xmlXPathFreeObject (result);
+            xmlXPathFreeObject(result);
         }
 
         xmlFreeDoc(doc);
     }
-    //xmlCleanupParser(); should be called only at the end
+
+    // xmlCleanupParser(); should be called only at the end
 
     return harvestExpressions;
 }
@@ -110,13 +115,13 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
 /*--------------------------------------------------------------------------*/
 
 static
-xmlDocPtr get_XMLDoc (const char *buffer) {
+xmlDocPtr get_XMLDoc(const char *buffer) {
     int size = strlen(buffer);
     xmlDocPtr doc;
-    doc = xmlParseMemory(buffer,size);
+    doc = xmlParseMemory(buffer, size);
 
-    if (doc == NULL ) {
-        fprintf(stderr,"Document not parsed successfully. \n");
+    if (doc == NULL) {
+        fprintf(stderr, "Document not parsed successfully. \n");
         return NULL;
     }
 
@@ -124,7 +129,7 @@ xmlDocPtr get_XMLDoc (const char *buffer) {
 }
 
 static
-xmlXPathObjectPtr get_XMLNodeset (xmlDocPtr doc, const xmlChar *xpath) {
+xmlXPathObjectPtr get_XMLNodeset(xmlDocPtr doc, const xmlChar *xpath) {
     xmlXPathContextPtr context;
     xmlXPathObjectPtr result;
 
@@ -137,8 +142,8 @@ xmlXPathObjectPtr get_XMLNodeset (xmlDocPtr doc, const xmlChar *xpath) {
     // Register namespace m
     xmlChar *prefix = (xmlChar*) "m";
     xmlChar *href = (xmlChar*) "http://www.w3.org/1998/Math/MathML";
-    if(xmlXPathRegisterNs(context, prefix , href) != 0) {
-        fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" "
+    if (xmlXPathRegisterNs(context, prefix, href) != 0) {
+        fprintf(stderr, "Error: unable to register NS with prefix=\"%s\" "
                 "and href=\"%s\"\n", prefix, href);
         return NULL;
     }
@@ -149,7 +154,7 @@ xmlXPathObjectPtr get_XMLNodeset (xmlDocPtr doc, const xmlChar *xpath) {
         printf("Error in xmlXPathEvalExpression\n");
         return NULL;
     }
-    if(xmlXPathNodeSetIsEmpty(result->nodesetval)){
+    if (xmlXPathNodeSetIsEmpty(result->nodesetval)) {
         xmlXPathFreeObject(result);
         return NULL;
     }
@@ -175,6 +180,15 @@ bool isValidXml(const string& xml) {
     xmlFreeDoc(doc);
 
     return true;
+}
+
+static
+void sanitizeMathML(xmlNode* mathMLNode) {
+    // Add mathml namespace declaration
+    xmlNewProp(mathMLNode, BAD_CAST "xmlns:m",
+               BAD_CAST "http://www.w3.org/1998/Math/MathML");
+    // Rename xml:id attributes to local_id
+    renameXmlIdAttributes(mathMLNode);
 }
 
 static

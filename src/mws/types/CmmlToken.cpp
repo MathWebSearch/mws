@@ -19,7 +19,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief  File containing the implementation of CmmlToken Class
+  * @brief  Content MathML Token implementation
   * @file   CmmlToken.cpp
   * @author Corneliu-Claudiu Prodescu <c.prodescu@jacobs-university.de>
   * @date   12 Oct 2010
@@ -28,53 +28,43 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
+#include <ctype.h>
+#include <assert.h>
 
-
-// System includes
-
-#include <cassert>
-#include <ctype.h>                     // C character types (isspace)
-#include <vector>                      // STL vector headers
-#include <string>                      // STL string headers
 #include <map>
-#include <stack>
-#include <iostream>                    // C++ Input/Output stream headers
+using std::map;
+#include <sstream>
+using std::stringstream;
+#include <string>
+using std::string;
 
-// Local includes
+#include "common/utils/ToString.hpp"
 
-#include "mws/types/CmmlToken.hpp"     // CmmlToken class header
-#include "mws/types/MeaningDictionary.hpp"  // MeaningDictionary class
-#include "common/utils/ToString.hpp"   // ToString utility function
+#include "CmmlToken.hpp"
 
-// Namespaces
 
-using namespace std;
+namespace mws {
+namespace types {
 
-namespace mws { namespace types {
-
-const string root_xpath_selector = "/m:semantics/m:annotation-xml[@encoding=\"MathML-Content\"]/*[1]";
+const char root_xpath_selector[] = "/*[1]";
 
 CmmlToken::CmmlToken(bool aMode) :
-    _tag( "" ),
-    _textContent( "" ),
-    _parentNode( NULL ),
-    _mode( aMode )
-{
-    _xpath = root_xpath_selector;
+    _tag(""),
+    _textContent(""),
+    _parentNode(NULL),
+    _mode(aMode),
+    _xpath(root_xpath_selector) {
 }
 
 
 CmmlToken*
-CmmlToken::newRoot(bool aMode)
-{
+CmmlToken::newRoot(bool aMode) {
     return (new CmmlToken(aMode));
 }
 
 
-CmmlToken::~CmmlToken()
-{
-    while(!_childNodes.empty())
-    {
+CmmlToken::~CmmlToken() {
+    while (!_childNodes.empty()) {
         delete _childNodes.front();
         _childNodes.pop_front();
     }
@@ -82,8 +72,7 @@ CmmlToken::~CmmlToken()
 
 
 void
-CmmlToken::setTag(const std::string& aTag)
-{
+CmmlToken::setTag(const std::string& aTag) {
     if (aTag.compare(0, 2, "m:") == 0) {
         _tag = aTag.substr(2, aTag.size() - 2);
     } else {
@@ -94,38 +83,31 @@ CmmlToken::setTag(const std::string& aTag)
 
 void
 CmmlToken::addAttribute(const std::string& anAttribute,
-                        const std::string& aValue)
-{
+                        const std::string& aValue) {
     _attributes.insert(make_pair(anAttribute, aValue));
 }
 
 
 void
 CmmlToken::appendTextContent(const char* aTextContent,
-                             size_t      nBytes)
-{
-    size_t i;
-
+                             size_t      nBytes) {
     _textContent.reserve(_textContent.size() + nBytes);
-    for (i = 0; i < nBytes; i++)
-    {
-        // If not whitespace
-        if (!isspace(aTextContent[i]))
+    for (size_t i = 0; i < nBytes; i++) {
+        if (!isspace(aTextContent[i])) {
             _textContent.append(1, aTextContent[i]);
+        }
     }
 }
 
 
 const string&
-CmmlToken::getTextContent() const
-{
+CmmlToken::getTextContent() const {
     return _textContent;
 }
 
 
 CmmlToken*
-CmmlToken::newChildNode()
-{
+CmmlToken::newChildNode() {
     CmmlToken* result;
 
     result = new CmmlToken(_mode);
@@ -138,59 +120,51 @@ CmmlToken::newChildNode()
 
 
 bool
-CmmlToken::isRoot() const
-{
+CmmlToken::isRoot() const {
     return (_parentNode == NULL);
 }
 
 
 bool
-CmmlToken::isQvar() const
-{
+CmmlToken::isQvar() const {
     return (getType() == VAR);
 }
 
 
 const string&
-CmmlToken::getQvarName() const
-{
+CmmlToken::getQvarName() const {
     return _textContent;
 }
 
 
 CmmlToken*
-CmmlToken::getParentNode() const
-{
+CmmlToken::getParentNode() const {
     return _parentNode;
 }
 
 
 const CmmlToken::PtrList&
-CmmlToken::getChildNodes() const
-{
+CmmlToken::getChildNodes() const {
     return _childNodes;
 }
 
 
 const string&
-CmmlToken::getXpath() const
-{
+CmmlToken::getXpath() const {
     return _xpath;
 }
 
 
 string
-CmmlToken::getXpathRelative() const
-{
+CmmlToken::getXpathRelative() const {
     // xpath without initial /*[1]
-    string xpath_relative(_xpath, root_xpath_selector.length(), string::npos);
+    string xpath_relative(_xpath, strlen(root_xpath_selector), string::npos);
 
     return xpath_relative;
 }
 
 string
-CmmlToken::toString(int indent) const
-{
+CmmlToken::toString(int indent) const {
     stringstream ss;
     string       padding;
     map<string, string> :: const_iterator mIt;
@@ -200,19 +174,16 @@ CmmlToken::toString(int indent) const
 
     ss << padding << "<" << _tag << " ";
 
-    for (mIt = _attributes.begin(); mIt != _attributes.end(); mIt ++)
-    {
+    for (mIt = _attributes.begin(); mIt != _attributes.end(); mIt ++) {
         ss << mIt->first << "=\"" << mIt->second << "\" ";
     }
 
     ss << ">" << _textContent;
 
-    if (_childNodes.size())
-    {
+    if (_childNodes.size()) {
         ss << "\n";
 
-        for (lIt = _childNodes.begin(); lIt != _childNodes.end(); lIt ++)
-        {
+        for (lIt = _childNodes.begin(); lIt != _childNodes.end(); lIt ++) {
             ss << (*lIt)->toString(indent + 2);
         }
 
@@ -229,7 +200,6 @@ CmmlToken::getExprDepth() const {
     uint32_t max_depth = 0;
     for (PtrList::const_iterator it = _childNodes.begin();
          it != _childNodes.end(); it++) {
-
         uint32_t depth = (*it)->getExprDepth() + 1;
         if (depth > max_depth) max_depth = depth;
     }
@@ -239,11 +209,10 @@ CmmlToken::getExprDepth() const {
 
 uint32_t
 CmmlToken::getExprSize() const {
-    uint32_t size = 1; // counting current token
+    uint32_t size = 1;  // counting current token
 
     for (PtrList::const_iterator it = _childNodes.begin();
          it != _childNodes.end(); it++) {
-
         size += (*it)->getExprSize();
     }
 
@@ -271,16 +240,11 @@ CmmlToken::getMeaning() const {
     // assert(getType() == CONSTANT); XXX legacy mwsd still uses this
 
     string meaning;
-    if (_tag == MWS_QVAR_MEANING)
-    {
+    if (_tag == MWS_QVAR_MEANING) {
         meaning = MWS_QVAR_MEANING;
-    }
-    else if (_tag == "apply" || _textContent.empty())
-    {
+    } else if (_tag == "apply" || _textContent.empty()) {
         meaning = _tag;
-    }
-    else
-    {
+    } else {
         // to avoid ambiguity between <ci>eq</ci> and <m:eq/>
         meaning = "#" + _textContent;
     }
@@ -288,4 +252,5 @@ CmmlToken::getMeaning() const {
     return meaning;
 }
 
-} }
+}  // namespace types
+}  // namespace mws
