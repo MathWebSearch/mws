@@ -421,38 +421,25 @@ my_characters(void *user_data,
 
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
-    if (data->state == MWSHARVESTSTATE_IN_MWS_EXPR &&   // Valid state
+    if (data->state == MWSHARVESTSTATE_IN_MWS_MATH &&   // Valid state
             data->currentToken != NULL) {               // Valid token
         data->currentToken->appendTextContent((char*) ch, len);
     }
 
     if (data->state == MWSHARVESTSTATE_IN_MWS_COPY) {
-        xmlTextWriterWriteRawLen(data->stringWriter, ch, len);
+        string inputChars((const char*) ch, len);
+        xmlChar* encodedChars =
+                xmlEncodeSpecialChars(NULL, BAD_CAST inputChars.c_str());
+        assert(encodedChars != NULL);
+        xmlTextWriterWriteRawLen(data->stringWriter, encodedChars,
+                                 strlen((const char*) encodedChars));
+        xmlFree(encodedChars);
     }
 
 #ifdef TRACE_FUNC_CALLS
     LOG_TRACE_OUT;
 #endif
 }
-
-
-static xmlEntityPtr
-my_getEntity(void*          user_data,
-             const xmlChar* name)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-    UNUSED(user_data);
-    // STUB from http://www.jamesh.id.au/articles/libxml-sax/libxml-sax.html
-    // Also see http://xmlsoft.org/entities.html
-    // GetPredefined will only work for &gt; &amp; ...
-    xmlEntity* result = xmlGetPredefinedEntity(name);
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
-    return result;
-} 
 
 
 static void
@@ -536,8 +523,7 @@ namespace mws
 {
 
 pair<int,int>
-loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd)
-{
+loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
 #ifdef TRACE_FUNC_CALLS
     LOG_TRACE_IN;
 #endif
@@ -554,29 +540,12 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd)
     // Initializing the SAX Handler
     memset(&saxHandler, 0, sizeof(xmlSAXHandler));
 
-    // Registering Sax callbacks with defined ones
-
-    //internalSubsetSAXFunc        internalSubset;
-    //isStandaloneSAXFunc          isStandalone;
-    //hasInternalSubsetSAXFunc     hasInternalSubset;
-    //hasExternalSubsetSAXFunc     hasExternalSubset;
-    //resolveEntitySAXFunc         resolveEntity;
-    saxHandler.getEntity     = my_getEntity;               // STUB
-    //entityDeclSAXFunc            entityDecl;
-    //notationDeclSAXFunc          notationDecl;
-    //attributeDeclSAXFunc         attributeDecl;
-    //elementDeclSAXFunc           elementDecl;
-    //unparsedEntityDeclSAXFunc    unparsedEntityDecl;
-    //setDocumentLocatorSAXFunc    setDocumentLocator;
+    // Registering Sax callbacks
     saxHandler.startDocument = my_startDocument;
     saxHandler.endDocument   = my_endDocument;
     saxHandler.startElement  = my_startElement;
     saxHandler.endElement    = my_endElement;
-    //referenceSAXFunc             reference;
     saxHandler.characters    = my_characters;
-    //ignorableWhitespaceSAXFunc   ignorableWhitespace;
-    //processingInstructionSAXFunc processingInstruction;
-    //commentSAXFunc               comment;
     saxHandler.warning       = my_warning;
     saxHandler.error         = my_error;
     saxHandler.fatalError    = my_fatalError;
@@ -591,20 +560,19 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd)
                                          NULL,
                                          &fd,
                                          XML_CHAR_ENCODING_UTF8))
-            == NULL)
-    {
+            == NULL) {
         fprintf(stderr, "Error while creating the ParserContext\n");
     }
     // Parsing the document
     else if ((ret = xmlParseDocument(ctxtPtr))
-             == -1)
-    {
+             == -1) {
         fprintf(stderr, "Parsing XML document failed\n");
     }
 
     // Freeing the parser context
-    if (ctxtPtr)
+    if (ctxtPtr) {
         xmlFreeParserCtxt(ctxtPtr);
+    }
 
     // Unlocking libXML -- to allow multi-threaded use
     xmlUnlockLibrary();

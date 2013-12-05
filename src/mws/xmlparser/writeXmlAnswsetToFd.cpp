@@ -240,9 +240,8 @@ int writeXmlAnswsetToFd(MwsAnswset* answset, int fd)
                     }
                 }
                 // <data> ... </data>
-                xmlTextWriterWriteElement(writerPtr,
-                                   BAD_CAST "data",
-                                   BAD_CAST (*it)->data.c_str());
+                xmlTextWriterWriteElement(writerPtr, BAD_CAST "data",
+                                          BAD_CAST (*it)->data.c_str());
             }
             if (ret == -1)
             {
