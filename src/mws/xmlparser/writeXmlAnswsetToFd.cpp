@@ -239,15 +239,10 @@ int writeXmlAnswsetToFd(MwsAnswset* answset, int fd)
                         break;
                     }
                 }
-                // <data>
-                xmlTextWriterStartElement(writerPtr,
-                    BAD_CAST "data");
-                // .. raw..
-                xmlTextWriterWriteRawLen(writerPtr,
-                                         BAD_CAST (*it)->data.c_str(),
-                                         (*it)->data.size());
-                // </data>
-                xmlTextWriterEndElement(writerPtr);
+                // <data> ... </data>
+                xmlTextWriterWriteElement(writerPtr,
+                                   BAD_CAST "data",
+                                   BAD_CAST (*it)->data.c_str());
             }
             if (ret == -1)
             {

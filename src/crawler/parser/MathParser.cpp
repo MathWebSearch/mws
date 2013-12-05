@@ -42,12 +42,17 @@ using std::vector;
 namespace crawler {
 namespace parser {
 
-static xmlDocPtr get_XMLDoc(const char *buffer);
-static void sanitizeMathML(xmlNode* mathMLNode);
-static void renameXmlIdAttributes(xmlNode* xmlNode);
-static void cleanContentMath(xmlNode* xmlNode);
-static xmlXPathObjectPtr get_XMLNodeset(xmlDocPtr doc, const xmlChar *xpath);
+static xmlDocPtr getXMLDoc(const char *buffer);
+static xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const xmlChar *xpath);
 static bool isValidXml(const string& xml);
+static void cleanContentMath(xmlNode* xmlNode);
+static void sanitizeMathML(xmlDoc* doc, xmlNode* mathMLNode);
+static void renameXmlIdAttributes(xmlNode* xmlNode);
+
+const xmlChar MATHML_NAMESPACE[] = "http://www.w3.org/1998/Math/MathML";
+const xmlChar XPATH_CONTENT_MATH[] = "//m:math/m:semantics"
+        "/m:annotation-xml[@encoding='MathML-Content']/*";
+
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
@@ -55,18 +60,13 @@ static bool isValidXml(const string& xml);
 
 vector<std::string> getHarvestFromXhtml(const string& xhtml,
                                         const string& url) {
-    const xmlChar *XPATH_CONTENT_MATH = (const xmlChar*)
-            "//m:math/m:semantics"
-            "/m:annotation-xml[@encoding='MathML-Content']/*";
-
     vector<string> harvestExpressions;
 
-    xmlDocPtr doc = get_XMLDoc(xhtml.c_str());
+    xmlDocPtr doc = getXMLDoc(xhtml.c_str());
     if (doc != NULL) {
-        xmlXPathObjectPtr result = get_XMLNodeset(doc, XPATH_CONTENT_MATH);
+        xmlXPathObjectPtr result = getXMLNodeset(doc, XPATH_CONTENT_MATH);
         if (result != NULL) {
             xmlNodeSetPtr nodeset = result->nodesetval;
-
             for (int i = 0; i < nodeset->nodeNr; ++i) {
                 xmlNode* contentMathNode = nodeset->nodeTab[i];
                 xmlNode* mathNode = contentMathNode->parent->parent->parent;
@@ -76,17 +76,16 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
                 const xmlChar *id = xmlGetProp(mathNode, BAD_CAST "id");
 
                 fprintf(stream, "<mws:expr url=\"%s#%s\">\n", url.c_str() , id);
-                // Rename xml:id to local_id to avoid constraints of uniqueness
-                sanitizeMathML(mathNode);
+                sanitizeMathML(doc, mathNode);
                 fprintf(stream, "<data>\n");
                 xmlElemDump(stream, doc, mathNode);
-                fprintf(stream, "</data>\n");
+                fprintf(stream, "\n</data>\n");
 
                 // Remove redundant attributes (local_id, xref)
                 cleanContentMath(contentMathNode);
                 fprintf(stream, "<content>\n");
                 xmlElemDump(stream, doc, contentMathNode);
-                fprintf(stream, "</content>\n");
+                fprintf(stream, "\n</content>\n");
                 fprintf(stream, "</mws:expr>\n");
                 fclose(stream);
 
@@ -98,10 +97,8 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
                 xmlFree((void*) id);
                 free(buf);
             }
-
             xmlXPathFreeObject(result);
         }
-
         xmlFreeDoc(doc);
     }
 
@@ -115,7 +112,7 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
 /*--------------------------------------------------------------------------*/
 
 static
-xmlDocPtr get_XMLDoc(const char *buffer) {
+xmlDocPtr getXMLDoc(const char *buffer) {
     int size = strlen(buffer);
     xmlDocPtr doc;
     doc = xmlParseMemory(buffer, size);
@@ -129,7 +126,7 @@ xmlDocPtr get_XMLDoc(const char *buffer) {
 }
 
 static
-xmlXPathObjectPtr get_XMLNodeset(xmlDocPtr doc, const xmlChar *xpath) {
+xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const xmlChar *xpath) {
     xmlXPathContextPtr context;
     xmlXPathObjectPtr result;
 
@@ -166,7 +163,6 @@ static
 bool isValidXml(const string& xml) {
     string xmlfull = "<?xml version=\"1.0\" ?> "
             "<mws:harvest "
-            "xmlns:m=\"http://www.w3.org/1998/Math/MathML\" "
             "xmlns:mws=\"http://search.mathweb.org/ns\">" + xml +
             "</mws:harvest>";
 
@@ -183,30 +179,22 @@ bool isValidXml(const string& xml) {
 }
 
 static
-void sanitizeMathML(xmlNode* mathMLNode) {
+void sanitizeMathML(xmlDoc* doc, xmlNode* mathMLNode) {
     // Add mathml namespace declaration
-    xmlNewProp(mathMLNode, BAD_CAST "xmlns:m",
-               BAD_CAST "http://www.w3.org/1998/Math/MathML");
+    const xmlNs* mathNs = xmlSearchNs(doc, mathMLNode, BAD_CAST "m");
+    if (mathNs == NULL) {
+        xmlNewProp(mathMLNode, BAD_CAST "xmlns:m", MATHML_NAMESPACE);
+    }
     // Rename xml:id attributes to local_id
     renameXmlIdAttributes(mathMLNode);
 }
 
 static
 void renameXmlIdAttributes(xmlNode* xmlNode) {
-    // Create attribute local_id
+    // Rename attribute id to local_id
     const xmlChar* id = xmlGetProp(xmlNode, BAD_CAST "id");
     xmlSetProp(xmlNode, BAD_CAST "local_id", id);
-
-    // Remove id attribute
-    xmlAttrPtr attrPtr = xmlNode->properties;
-    while (attrPtr != NULL) {
-        if (strcmp((char*) attrPtr->name, "id") == 0) {
-            xmlRemoveProp(attrPtr);
-            break;
-        }
-
-        attrPtr = attrPtr->next;
-    }
+    xmlUnsetProp(xmlNode, BAD_CAST "id");
 
     // Recurse through child nodes
     xmlNodePtr curr = xmlNode->children;
@@ -222,16 +210,12 @@ void renameXmlIdAttributes(xmlNode* xmlNode) {
  */
 static
 void cleanContentMath(xmlNode* xmlNode) {
-    // Remove id attribute
-    xmlAttrPtr attrPtr = xmlNode->properties;
-    while (attrPtr != NULL) {
-        if (strcmp((char*) attrPtr->name, "local_id") == 0 ||
-                strcmp((char*) attrPtr->name, "xref") == 0) {
-            xmlRemoveProp(attrPtr);
-        }
+    // Remove id and xref attributes
+    xmlUnsetProp(xmlNode, BAD_CAST "local_id");
+    xmlUnsetProp(xmlNode, BAD_CAST "xref");
 
-        attrPtr = attrPtr->next;
-    }
+    // Remove namespace from name
+    xmlSetNs(xmlNode, NULL);
 
     // Recurse through child nodes
     xmlNodePtr curr = xmlNode->children;
