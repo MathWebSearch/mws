@@ -33,18 +33,37 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <stdint.h>                    // ISO C standard integer types
-#include <string>                      // C++ string headers
-#include <utility>                     // STL utility headers (std::pair)
+#include <stdint.h>
 
-// Local includes
+#include <string>
+#include <utility>
+
+#include "common/types/Parcelable.hpp"
+
 
 namespace mws {
 namespace types {
 
-struct CrawlData {
+struct CrawlData : public common::types::Parcelable {
     std::string expressionUri;
     std::string data;
+
+    virtual size_t getParcelableSize() const {
+        common::types::ParcelAllocator parcelAllocator;
+        parcelAllocator.reserve(expressionUri);
+        parcelAllocator.reserve(data);
+        return parcelAllocator.getSize();
+    }
+
+    virtual void writeToParcel(common::types::ParcelEncoder* encoder) const {
+        encoder->encode(expressionUri);
+        encoder->encode(data);
+    }
+
+    virtual void readFromParcel(common::types::ParcelDecoder* decoder) {
+        decoder->decode(&expressionUri);
+        decoder->decode(&data);
+    }
 };
 
 }  // namespace types
@@ -66,14 +85,14 @@ typedef uint8_t     Arity;
 /// Type of the node info
 typedef std::pair<MeaningId, Arity> NodeInfo;
 
-typedef uint32_t    FormulaId;  ///< Formula Id corresponding to a leaf node
+typedef uint32_t    FormulaId;    ///< Formula Id corresponding to a leaf node
 
-typedef uint32_t    CrawlId;     ///< Crawled data Id
+typedef uint32_t    CrawlId;      ///< Crawled data Id
 
-typedef std::string FormulaPath; ///< Path of the formula within a crawl data
+typedef std::string FormulaPath;  ///< Path of the formula within a crawl data
 
 // Constants
-const Meaning   MWS_QVAR_MEANING       = "mws:qvar";
+const Meaning   MWS_QVAR_MEANING = "mws:qvar";
 
 const MeaningId MWS_MEANING_ID_QVAR    = 0;
 const MeaningId MWS_MEANING_ID_UNKNOWN = 1;
@@ -83,6 +102,6 @@ const MeaningId MWS_URLMEANING_ID_START = 0;
 
 const Meaning MWS_URLMEANING_NO_URL       = "";
 
-}
+}  // namespace mws
 
-#endif // _MWS_TYPES_NODEINFO_HPP
+#endif  // _MWS_TYPES_NODEINFO_HPP

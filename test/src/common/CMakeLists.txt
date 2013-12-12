@@ -17,3 +17,4 @@
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
 ADD_SUBDIRECTORY( utils )
+ADD_SUBDIRECTORY( types )

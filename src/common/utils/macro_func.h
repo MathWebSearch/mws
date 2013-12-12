@@ -44,7 +44,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /// Print test and jump to fail label
 #define FAIL_ON(x) do {                                                     \
         if (x) {                                                            \
-            perror(#x);                                                     \
+            fprintf(stderr, "%s:%d: "#x"\n",                                \
+                    __FILE__, __LINE__);                                    \
             goto fail;                                                      \
         }                                                                   \
     } while(0)

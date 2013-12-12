@@ -17,14 +17,11 @@
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# src/mws/types/CMakeLists.txt --
+# test/src/common/types/CMakeLists.txt --
 #
-# 18 Jun 2011
+# 10 Dec 2013
 # c.prodescu@jacobs-university.de
 #
-
-# Module name
-SET(MODULE "mwstypes")
 
 # Dependencies
 
@@ -33,10 +30,17 @@ SET(MODULE "mwstypes")
 # Flags
 
 # Sources
-FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
+FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c")
 
 # Binaries
-ADD_LIBRARY( ${MODULE} ${SOURCES})
-TARGET_LINK_LIBRARIES(${MODULE}
-                      commontypes
-)
+FOREACH(source ${SOURCES})
+    GET_FILENAME_COMPONENT(SourceName ${source} NAME_WE)
+    # Generate Binaries
+    ADD_EXECUTABLE(${SourceName} ${source})
+    TARGET_LINK_LIBRARIES(${SourceName}
+                          commontypes
+                          mwstypes)
+    # Add test
+    SET(TestName "test_${SourceName}")
+    ADD_TEST(${TestName} ${SourceName})
+ENDFOREACH(source)
