@@ -56,6 +56,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('r', "recursive",            FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('L', "leveldb",              FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
@@ -73,6 +74,13 @@ int main(int argc, char* argv[]) {
         config.recursive = true;
     } else {
         config.recursive = false;
+    }
+
+    // leveldb
+    if (FlagParser::hasArg('L')) {
+        config.useLevelDb = true;
+    } else {
+        config.useLevelDb = false;
     }
 
     // mws-port
