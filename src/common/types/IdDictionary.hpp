@@ -22,12 +22,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define _COMMON_TYPES_IDDICTIONARY_HPP
 
 #include <istream>
-#include <ostream>
-#include <iostream>
-#include <vector>
 #include <map>
+#include <ostream>
+#include <string>
+#include <vector>
 
-namespace common { namespace types {
+namespace common {
+namespace types {
 
 template<class Key, class ValueId>
 class IdDictionary {
@@ -47,11 +48,12 @@ public:
         try {
             Key key;
             while (!in.eof()) {
-                getline (in, key);
+                std::getline(in, key, '\0');
                 if (key.size() > 0) {
                     put(key);
                 } else {
-                    std::cerr << "Empty key found!" << std::endl;
+                    put("");
+                    fprintf(stderr, "Empty key found!\n");
                 }
             }
         } catch (...) {
@@ -76,7 +78,7 @@ public:
             Key key;
 
             for (int i = 0; i < (int)keys.size(); i++) {
-                out << keys[i] << "\n";
+                out << keys[i] << '\0';
             }
         } catch (...) {
             return -1;
@@ -84,8 +86,6 @@ public:
 
         return 0;
     }
-
-    /* TODO: import, export */
 
     ValueId put(const Key& key) {
         ValueId result = get(key);
@@ -111,7 +111,8 @@ public:
     }
 };
 
-}  }
+}  // namespace types
+}  // namespace common
 
 #endif // _COMMON_TYPES_IDDICTIONARY_HPP
 

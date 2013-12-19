@@ -41,9 +41,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>                  // POSIX File characteristics
 #include <fcntl.h>                     // File control operations
 
+#include <iostream>
 #include <sstream>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "ParserTypes.hpp"             // Common Mws Parsers datatypes
 #include "common/utils/DebugMacros.hpp"// Debug macros
