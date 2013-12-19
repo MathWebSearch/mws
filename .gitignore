@@ -23,3 +23,7 @@ CMakeLists.txt.user
 
 # others
 .DS_Store
+
+# projects
+.project
+
