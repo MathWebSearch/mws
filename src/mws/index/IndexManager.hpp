@@ -53,8 +53,8 @@ public:
      * @param crawlData URL and opaque data given in the crawled harvest
      * @return Number of indexed subexpressions on success, -1 on failure.
      */
-    virtual int indexContentMath(const types::CmmlToken* cmmlToken,
-                                 const types::CrawlData& crawlData);
+    int indexContentMath(const types::CmmlToken* cmmlToken,
+                         const types::CrawlData& crawlData);
 };
 
 } }
