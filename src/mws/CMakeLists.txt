@@ -25,13 +25,24 @@ ADD_SUBDIRECTORY( types )               # mwstypes
 ADD_SUBDIRECTORY( xmlparser )           # mwsxmlparser
 
 # Main MWS executable
-ADD_EXECUTABLE(mwsd mwsd.cpp)
-TARGET_LINK_LIBRARIES(mwsd
+ADD_EXECUTABLE( mwsd mwsd.cpp )
+TARGET_LINK_LIBRARIES( mwsd
         mwsdaemon
         commonutils
 )
 
 # Output executables at the root of build tree
 SET_PROPERTY( TARGET mwsd
+        PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+#MWS saved index
+ADD_EXECUTABLE(mws-index mws-index.cpp)
+TARGET_LINK_LIBRARIES( mws-index
+       commonutils
+       mwsxmlparser
+)
+
+SET_PROPERTY( TARGET mws-index
         PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )
