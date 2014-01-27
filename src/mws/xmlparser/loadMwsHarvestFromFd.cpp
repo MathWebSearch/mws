@@ -59,11 +59,70 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define MWSHARVEST_EXPR_MATH_NAME      "content"
 #define MWSHARVEST_EXPR_SNIPPET_NAME   "data"
 
-// Namespaces
-
 using namespace std;
-using namespace mws;
 using namespace mws::types;
+
+namespace mws {
+
+enum MwsHarvestState
+{
+    MWSHARVESTSTATE_DEFAULT,
+    MWSHARVESTSTATE_IN_MWS_HARVEST,
+    MWSHARVESTSTATE_IN_MWS_EXPR,
+    MWSHARVESTSTATE_IN_MWS_MATH,
+    MWSHARVESTSTATE_IN_MWS_COPY,
+    MWSHARVESTSTATE_UNKNOWN
+};
+
+struct MwsHarvest_SaxUserData
+{
+    /// Depth of the parse tree in unknown state
+    int                             unknownDepth;
+    /// The token which is currently being parsed
+    types::CmmlToken*               currentToken;
+    /// The root of the token being currently parsed
+    types::CmmlToken*               currentTokenRoot;
+
+
+    /// The stack containing the parent CMML Tokens
+    std::stack<types::CmmlToken*>   processStack;
+    types::CmmlToken*               math;
+    /// State of the parsing
+    mws::MwsHarvestState         state;
+    /// State of the parsing before going into an unknown state
+    mws::MwsHarvestState         prevState;
+    /// True if an XML structural error is detected
+    bool                         errorDetected;
+    /// Number of correctly parsed expressions
+    int                          parsedExpr;
+    /// Variable used to show the number of warnings (-1 for critical error)
+    int                          warnings;
+    /// Index manager used to add expressions from the harvest
+    index::IndexManager*         indexManager;
+
+    xmlTextWriter*               stringWriter;
+    int                          copyDepth;
+    std::vector<char>            buffer;
+
+
+    /// URI of the expression being parsed
+    std::string                  exprUri;
+    std::string                  data;
+
+    MwsHarvest_SaxUserData() :
+        unknownDepth(0),
+        currentToken(NULL),
+        currentTokenRoot(NULL),
+        math(NULL),
+        state(MWSHARVESTSTATE_DEFAULT),
+        prevState(MWSHARVESTSTATE_DEFAULT),
+        errorDetected(false),
+        parsedExpr(0),
+        warnings(0),
+        exprUri("") {
+
+    }
+};
 
 /**
   * @brief Callback function used with an xmlOutputBuffer
@@ -519,9 +578,6 @@ my_fatalError(void*       user_data,
 
 
 // Implementation
-
-namespace mws
-{
 
 pair<int,int>
 loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {

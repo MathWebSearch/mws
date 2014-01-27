@@ -65,7 +65,6 @@ SET(CMAKE_MODULE_PATH
     "${THIRD_PARTY_DIR}/cmake-modules")
 
 #       Options                 Description                             Default
-OPTION( BUILD_SHARED_LIBS       "static/dynamic executables"            ON )
 OPTION( WITH_MWS                "build MathWebSearch daemon"            ON )
 OPTION( WITH_REST               "build MWS RESTful interface daemon"    ON )
 OPTION( WITH_CRAWLER            "build MWS crawlers"                    OFF )

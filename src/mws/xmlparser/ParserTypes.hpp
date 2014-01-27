@@ -88,58 +88,6 @@ struct MwsQuery_SaxUserData
     }
 };
 
-/**
-  * @brief Enumeration holding the states of the Mws Harvest Sax Parser.
-  */
-enum MwsHarvestState
-{
-    MWSHARVESTSTATE_DEFAULT,
-    MWSHARVESTSTATE_IN_MWS_HARVEST,
-    MWSHARVESTSTATE_IN_MWS_EXPR,
-    MWSHARVESTSTATE_IN_MWS_MATH,
-    MWSHARVESTSTATE_IN_MWS_COPY,
-    MWSHARVESTSTATE_UNKNOWN
-};
-
-/**
-  * @brief Data type used to store the variables needed during the parsing of
-  * a MwsQuery
-  */
-struct MwsHarvest_SaxUserData
-{
-    /// Depth of the parse tree in unknown state
-    int                             unknownDepth;
-    /// The token which is currently being parsed
-    types::CmmlToken*               currentToken;
-    /// The root of the token being currently parsed
-    types::CmmlToken*               currentTokenRoot;
-
-
-    /// The stack containing the parent CMML Tokens
-    std::stack<types::CmmlToken*>   processStack;
-    /// State of the parsing
-    mws::MwsHarvestState         state;
-    /// State of the parsing before going into an unknown state
-    mws::MwsHarvestState         prevState;
-    /// True if an XML structural error is detected
-    bool                         errorDetected;
-    /// Number of correctly parsed expressions
-    int                          parsedExpr;
-    /// Variable used to show the number of warnings (-1 for critical error)
-    int                          warnings;
-    /// Index manager used to add expressions from the harvest
-    index::IndexManager*         indexManager;
-
-    xmlTextWriter*               stringWriter;
-    int                          copyDepth;
-    std::vector<char>            buffer;
-
-    types::CmmlToken*               math;
-    /// URI of the expression being parsed
-    std::string                  exprUri;
-    std::string                  data;
-};
-
 struct MwsMessage_SaxUserData
 {
     // True is we found the nature of the message, False if not

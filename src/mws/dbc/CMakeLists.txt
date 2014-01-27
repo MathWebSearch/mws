@@ -27,11 +27,9 @@
 SET(MODULE "mwsdbc")
 
 # Dependencies
-FIND_PACKAGE(BerkeleyDB REQUIRED)
 FIND_PACKAGE(Threads REQUIRED)
 
 # Includes
-INCLUDE_DIRECTORIES( "${DB_INCLUDE_DIR}" )
 
 # Flags
 
@@ -45,5 +43,4 @@ TARGET_LINK_LIBRARIES(${MODULE}
                       leveldb
                       snappy
                       ${CMAKE_THREAD_LIBS_INIT}
-                      ${DB_LIBRARY}
 )
