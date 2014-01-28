@@ -28,8 +28,12 @@ SET(MODULE "mwsdbc")
 
 # Dependencies
 FIND_PACKAGE(Threads REQUIRED)
+FIND_PACKAGE(LevelDb REQUIRED)
+FIND_PACKAGE(Snappy REQUIRED)
 
 # Includes
+INCLUDE_DIRECTORIES(${LEVELDB_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${SNAPPY_INCLUDE_DIR})
 
 # Flags
 
@@ -40,7 +44,7 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       mwstypes
-                      leveldb
-                      snappy
+                      ${LEVELDB_LIBRARIES}
+                      ${SNAPPY_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT}
 )
