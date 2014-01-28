@@ -1,6 +1,6 @@
 MathWebSearch
 =============
-Last updated: 2013-04-29
+Last updated: 2014-01-28
 Release version: 0.6
 --------------------------------------------------------------------------------
 
@@ -43,13 +43,13 @@ third_party/    third party sources
 3.0) Compiling and Testing
 --------------------------
 Compiling of the source tree is automated via cmake. You can build the sources
-using the following commands
-> mkdir build
-> cd build
-> cmake ..
-> make all
+using the following command:
+> make
 
-To run the tests, use the standard test target
+To select which components to compile, use:
+> make config
+
+To run the tests, use:
 > make test
 
 For more details about these targets, see 3.2
@@ -63,13 +63,14 @@ The core executable (mwsd) requires:
   - make               (>= 3)
   - pkg-config
   - libxml2            (>= 2.7)
-  - libdb              (>= 4.6)
+  - libleveldb
+  - libsnappy
 
 The RESTful interface (restd) requires:
 
   - libmicrohttpd      (>= 0.4)
 
-The Crawler executables (crawlerd/xhtml2harvest) requires:
+The Crawler executables (xhtml2harvests) requires:
 
   - libhtmlcxx-dev
   - libicu-dev
@@ -105,12 +106,6 @@ with the desired RESTful port as argument.
 
 > mwsd -I <harvest include dir>
 > restd -p|--port <arg>
-> crawlerd -p <arg>
-
-The Crawlerd uses the MWS_PORT to talk with the MWSD, in order to send it 
-harvest paths.
-Having done that, the machine running the mwsd/restd stack is ready to receive
-HTTP POST requests on port <arg> (with MwsQueries [1] as POST data).
 
 To setup or remove mwsd/restd as a global SysV service, use (as root):
 
@@ -133,10 +128,6 @@ service.
 
 5.0) Troubleshooting
 --------------------
-Always check src/mws/config/* macros to see if garbage from previous runs
-is present. Check variables like:
-MWS_DBENV_DIR
-MWS_DB_FILE
 
 6.0) Copyright
 --------------

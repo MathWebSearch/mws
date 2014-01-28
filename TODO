@@ -7,8 +7,8 @@ TODO:
     - document/unit test for most components
     - fix doxygen headers
     - check mem leaks in restd (minor)
-    - move embeded 3rdparty files
     - add test for empty harvest
+    - add --user option arg for security
 
 FEATURES:
     - create mws schema with standard answers / error codes

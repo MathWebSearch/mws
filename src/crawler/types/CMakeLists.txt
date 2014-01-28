@@ -27,11 +27,9 @@
 SET(MODULE "crawlertypes")
 
 # Dependencies
-FIND_PACKAGE(BerkeleyDB REQUIRED)
 
 # Includes
 INCLUDE_DIRECTORIES( "${GOOGLEURL_INCLUDES}" )
-INCLUDE_DIRECTORIES( "${DB_INCLUDE_DIR}" )
 
 # Flags
 
@@ -42,7 +40,6 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp")
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       ${GOOGLEURL_LIBRARIES}
-                      ${DB_LIBRARY}
                       crawlerutils
                       )
 
