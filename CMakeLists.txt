@@ -117,9 +117,6 @@ IF ( WITH_CRAWLER )
     ADD_SUBDIRECTORY( "${MWS_SRC_DIR}/crawler" )
 ENDIF ( WITH_CRAWLER )
 
-# Configuration scripts -- generating source files
-INCLUDE(config/Version)                         # Version.hpp
-
 # Documentation
 IF ( WITH_DOC )
     FIND_PACKAGE(Doxygen REQUIRED)

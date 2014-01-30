@@ -19,7 +19,7 @@ build/
 *.swp
 
 # qtCreator
-CMakeLists.txt.user
+CMakeLists.txt.user*
 
 # others
 .DS_Store

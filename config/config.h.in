@@ -20,6 +20,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
  *  @file config.h
+ *  @brief Configuration header
  */
 
 #ifndef _CONFIG_CONFIG_H
@@ -27,10 +28,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // CMake Exported
 
-#define MATHMLTAGS_PATH         "${MATHMLTAGS_PATH}"
-#define GETRESPONSE_PATH        "${GETRESPONSE_PATH}"
 #define HARVESTFILES_PATH       "${MWS_DATA_DIR}"
 #define MWS_TESTDATA_PATH       "${MWS_TSTDAT_DIR}"
+#define MWS_NAME                "${PROJECT_NAME}"
+#define MWS_VERSION             "${MWS_FULL_VERSION}"
+#define MATHMLTAGS_PATH         "${MATHMLTAGS_PATH}"
+#define GETRESPONSE_PATH        "${GETRESPONSE_PATH}"
+
+#define MWS_BUILD   MWS_NAME "-" MWS_VERSION " as of " __DATA__ " " __TIME__
 
 // Common
 
