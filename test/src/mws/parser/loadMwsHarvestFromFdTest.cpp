@@ -19,7 +19,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief Testing for the loadMwsHarvestFromFd function - implementation
+  * @brief loadMwsHarvestFromFd Test
   *
   * @file loadMwsHarvestFromFdTest.cpp
   * @author Prodescu Corneliu-Claudiu <c.prodescu@jacobs-university.de>
@@ -48,73 +48,50 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/macro_func.h"
 
 
-
 #include "config.h"
-
-#define TMPDBENV_PATH   "/tmp"
 
 // Namespaces
 
 using namespace std;
 using namespace mws;
 
+struct HarvestData {
+    string path;
+    int returnValue;
+    int expressionCount;
+};
+
+const vector<HarvestData> harvests = {
+    { "empty.harvest", -1, 0 },
+    { "eq_ambiguity.harvest", 0, 4 },
+    { "data1.harvest", 0, 17 }
+};
+
 int main()
 {
-    int           fd, ret;
-    const char* xmlfile[] = 
-    {
-        "harvests1303818928.xml",
-        "harvests1303819075.xml",
-        "harvests1303819110.xml",
-        "harvests1303819134.xml",
-        "harvests1303819462.xml",
-        "harvests1303819627.xml",
-        "harvests1303819736.xml",
-        ""
-    };
-    int         nr_exprs[] = 
-    {
-        1911,
-        2281,
-        2860,
-        2149,
-        1762,
-        2201,
-        1997,
-        0,
-    };
-    string      xml_path;
-    string dbenv_path = TMPDBENV_PATH;
+    dbc::MemCrawlDb crawlDb;
+    dbc::MemFormulaDb formulaDb;
+    MwsIndexNode data;
+    types::MeaningDictionary meaningDictionary;
+    index::IndexManager indexManager(&formulaDb, &crawlDb, &data,
+                                     &meaningDictionary);
 
-    dbc::CrawlDb* crawlDb = new dbc::MemCrawlDb();
-    dbc::FormulaDb* formulaDb = new dbc::MemFormulaDb();
-    MwsIndexNode* data = new MwsIndexNode();
-    types::MeaningDictionary* meaningDictionary =
-            new types::MeaningDictionary();
-
-    index::IndexManager* indexManager =
-            new index::IndexManager(formulaDb,crawlDb, data, meaningDictionary);
-
-    // Initializing Mws Xml Parser
     FAIL_ON(initxmlparser() != 0);
 
-    for(int i = 0; (string)xmlfile[i] != ""; i++)
-    {
-        xml_path = (string) MWS_TESTDATA_PATH +
-                    "/" + (string) xmlfile[i];
-        
-        FAIL_ON((fd = open(xml_path.c_str(), O_RDONLY)) < 0);
+    for(HarvestData harvest : harvests) {
+        const string harvest_path =
+                (string) MWS_TESTDATA_PATH + "/" + harvest.path;
+        int fd;
 
-        ret = loadMwsHarvestFromFd(indexManager, fd).second;
-        // Asserting if all the expressions have been parsed correctly
-        FAIL_ON(ret != nr_exprs[i]);
+        FAIL_ON((fd = open(harvest_path.c_str(), O_RDONLY)) < 0);
+        auto ret = loadMwsHarvestFromFd(&indexManager, fd);
+        FAIL_ON(ret.first != harvest.returnValue);
+        FAIL_ON(ret.second != harvest.expressionCount);
 
         (void) close(fd);
     }
 
     (void) clearxmlparser();
-
-    delete data;
 
     return EXIT_SUCCESS;
 

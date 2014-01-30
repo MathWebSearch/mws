@@ -1,5 +1,4 @@
 TODO:
-    - fix init.d scripts slow stop
     - test more thoroughly src/socket/*  -- add MUTEXES
                                          -- fix accepting in constructor
                                          -- fix read / write (?)
@@ -7,8 +6,6 @@ TODO:
     - document/unit test for most components
     - fix doxygen headers
     - check mem leaks in restd (minor)
-    - add test for empty harvest
-    - add --user option arg for security
 
 FEATURES:
     - create mws schema with standard answers / error codes

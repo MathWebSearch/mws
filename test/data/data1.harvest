@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<mws:harvest xmlns:mws="http://search.mathweb.org/ns" xmlns:m="http://www.w3.org/1998/Math/MathML">
+  <mws:expr url="http://alpha.planetmath.org/article/6283/improperlimits/article/6283/improperlimits">
+    <content>
+      <m:apply>
+        <m:eq/>
+        <m:apply>
+          <m:apply>
+            <m:csymbol cd="ambiguous">subscript</m:csymbol>
+            <m:limit/>
+            <m:apply>
+              <m:ci>&#x2192;</m:ci>
+              <m:ci>x</m:ci>
+              <m:cn>0</m:cn>
+            </m:apply>
+          </m:apply>
+          <m:apply>
+            <m:divide/>
+            <m:cn>1</m:cn>
+            <m:apply>
+              <m:csymbol cd="ambiguous">superscript</m:csymbol>
+              <m:ci>x</m:ci>
+              <m:cn>2</m:cn>
+            </m:apply>
+          </m:apply>
+        </m:apply>
+        <m:infinity/>
+      </m:apply>
+    </content>
+  </mws:expr>
+</mws:harvest>
