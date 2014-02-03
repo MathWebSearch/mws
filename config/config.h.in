@@ -35,7 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define MATHMLTAGS_PATH         "${MATHMLTAGS_PATH}"
 #define GETRESPONSE_PATH        "${GETRESPONSE_PATH}"
 
-#define MWS_BUILD   MWS_NAME "-" MWS_VERSION " as of " __DATA__ " " __TIME__
+#define MWS_BUILD   MWS_NAME "-" MWS_VERSION " as of " __DATE__ " " __TIME__
 
 // Common
 

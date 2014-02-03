@@ -39,9 +39,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
+#include "config.h"
 #include "common/utils/DebugMacros.hpp"
 #include "common/utils/ToString.hpp"
-#include "Version.hpp"   // Common version macros
 
 #include "writeXmlAnswsetToFd.hpp"
 
