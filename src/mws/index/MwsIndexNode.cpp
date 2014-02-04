@@ -29,7 +29,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include "MwsIndexNode.hpp"
-#include "mws/dbc/DbQueryManger.hpp"
+#include "mws/dbc/DbQueryManager.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "common/utils/DebugMacros.hpp"
 #include "common/utils/macro_func.h"

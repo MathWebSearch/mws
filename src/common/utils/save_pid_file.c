@@ -18,6 +18,10 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+/**
+ * @file save_pid_file.c
+ * @brief save_pid_file implementation
+ */
 
 #include <sys/types.h>
 #include <unistd.h>

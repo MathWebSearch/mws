@@ -20,8 +20,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-  * @file CrawlDb.cpp
-  * @brief Crawl Data LevelDb Database implementation
+  * @file LevCrawlDb.cpp
+  * @brief LevelDb Crawl Database implementation
   * @author Radu Hambasan
   * @date 11 Dec 2013
   */

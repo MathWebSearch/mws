@@ -20,7 +20,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
  * @brief   Compiler Utilities
- * @file    compiler_utils.h
+ * @file    compiler_defs.h
  * @author  cprodescu
  * @bugs    No known bugs.
  *

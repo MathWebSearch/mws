@@ -18,6 +18,10 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+/**
+ * @file IdDictionary.hpp
+ * @brief IdDictionary API
+ */
 #ifndef _COMMON_TYPES_IDDICTIONARY_HPP
 #define _COMMON_TYPES_IDDICTIONARY_HPP
 

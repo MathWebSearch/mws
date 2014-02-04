@@ -39,7 +39,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsAnswset.hpp"
-#include "mws/dbc/DbQueryManger.hpp"
+#include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/MwsIndexNode.hpp"
 
 #include "SearchContextTypes.hpp"

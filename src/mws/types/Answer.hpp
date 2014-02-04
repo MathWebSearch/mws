@@ -24,7 +24,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /**
   * @brief MWS Answer type
   *
-  * @file MwsAnsw.hpp
+  * @file Answer.hpp
   * @author Corneliu Claudiu Prodescu
   * @date 27 Apr 2011
   *

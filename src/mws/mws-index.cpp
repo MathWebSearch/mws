@@ -19,12 +19,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @file mwsindex.cpp
+  * @file mws-index.cpp
+  * @brief mws-index executable
   * @author Radu Hambasan
   * @date 18 Jan 2014
   *
-  * License: GPL v3
-  *
+  * This executable build a math web search index and saves it.
   */
 
 #include <string>

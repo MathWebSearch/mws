@@ -19,9 +19,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief  Parcelable interface
+  * @brief  Parcelable implementation
   *
-  * @file   Parcelable.hpp
+  * @file   Parcelable.cpp
   * @author Corneliu-Claudiu Prodescu
   * @date   11 Dec 2013
   *

@@ -22,8 +22,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define _MWS_DBC_LEVCRAWLDB_HPP
 
 /**
-  * @file CrawlDb.hpp
-  * @brief Crawl Data LevelDb Database declarations
+  * @file LevCrawlDb.hpp
+  * @brief LevelDb Crawl Database API
   * @author Radu Hambasan
   * @date 11 Dec 2013
   */
@@ -36,7 +36,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "CrawlDb.hpp"
 
-namespace mws { namespace dbc {
+namespace mws {
+namespace dbc {
 
 class LevCrawlDb : public CrawlDb {
  public:

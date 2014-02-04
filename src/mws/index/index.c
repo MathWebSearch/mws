@@ -18,6 +18,14 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+/**
+ * @brief   Compact index data structure implementation
+ * @file    index.c
+ * @date    24 Jan 2013
+ * @todo    implement
+ * License: GPLv3
+ */
+
 #include "index.h"
 
 int g;

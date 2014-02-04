@@ -19,10 +19,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
- * @brief Implementation of the PageData class
- *
- * @author Daniel Hasegan d.hasegan@jacobs-university.de
- * @date 1.IV.2013
+ * @file PageData.cpp
+ * @brief PageData implementation
  */
 
 // System includes

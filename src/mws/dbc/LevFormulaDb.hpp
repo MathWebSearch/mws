@@ -22,7 +22,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define _MWS_DBC_LEVFORMULADB_HPP
 
 /**
-  * @file MemFormulaDb.hpp
+  * @file LevFormulaDb.hpp
   * @brief Formula Memory Database declarations
   * @author Radu Hambasan
   * @date 11 Dec 2013

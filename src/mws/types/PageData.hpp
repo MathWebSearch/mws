@@ -19,10 +19,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
- * Header of PageData class
- *
- * Date: 27.III.2013
- * Author: Daniel Hasegan d.hasegan@jacobs-university.de
+ * @file PageData.hpp
+ * @brief PageData declarations
  */
 #ifndef _PAGEDATA_HPP
 #define _PAGEDATA_HPP

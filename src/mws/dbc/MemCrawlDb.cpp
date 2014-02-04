@@ -20,7 +20,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-  * @file CrawlDb.cpp
+  * @file MemCrawlDb.cpp
   * @brief Crawl Data Memory Database implementation
   * @date 12 Nov 2013
   */

@@ -19,7 +19,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
- * @brief DbQueryManager declarations
+ * @file DbQueryManager.hpp
+ * @brief DbQueryManager API
  * @date 2 Dec 2013
  * @author cprodescu
  */

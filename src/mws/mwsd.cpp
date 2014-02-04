@@ -19,13 +19,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief File containing the main function of MathWebSearch Project
+  * @brief MathWebSearch daemon executable
   * @file mwsd.cpp
   * @author Corneliu-Claudiu Prodescu
   * @date 18 Jun 2011
-  *
-  * License: GPL v3
-  *
   */
 
 #include <stdio.h>

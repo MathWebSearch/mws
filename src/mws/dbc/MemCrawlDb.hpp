@@ -22,7 +22,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define _MWS_DBC_MEMCRAWLDB_HPP
 
 /**
-  * @file CrawlDb.hpp
+  * @file MemCrawlDb.hpp
   * @brief Crawl Data Memory Database declarations
   * @date 12 Nov 2013
   */

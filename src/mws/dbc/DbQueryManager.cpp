@@ -37,7 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/types/Answer.hpp"
 
-#include "DbQueryManger.hpp"
+#include "DbQueryManager.hpp"
 
 namespace mws {
 namespace dbc {

@@ -67,7 +67,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/DebugMacros.hpp"   // MWS Debug Macro Utilities
 #include "common/utils/Path.hpp"
 #include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
-#include "mws/dbc/DbQueryManger.hpp"
+#include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/IndexManager.hpp"
 
 using namespace std;

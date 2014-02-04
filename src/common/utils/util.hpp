@@ -23,6 +23,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
   * @file util.hpp
+  * @brief Utilities API
   * @date 22 Nov 2013
   *
   * License: GPL v3
