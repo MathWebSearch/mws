@@ -28,9 +28,11 @@ SET(MODULE "mwsxmlparser")
 
 # Dependencies
 FIND_PACKAGE (LibXml2 REQUIRED)
+FIND_PACKAGE (Json REQUIRED)
 
 # Includes
 INCLUDE_DIRECTORIES( "${LIBXML2_INCLUDE_DIR}" )
+INCLUDE_DIRECTORIES( "${JSON_INCLUDE_DIRS}" )
 
 # Flags
 
@@ -42,4 +44,5 @@ ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       mwsindex
                       commonutils
+                      ${JSON_LIBRARIES}
                       ${LIBXML2_LIBRARIES})

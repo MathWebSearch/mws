@@ -34,6 +34,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sstream>
 #include <vector>
 
+#include <json.h>
+
 #include "writeJsonAnswsetToFd.hpp"
 
 using namespace std;
