@@ -20,31 +20,35 @@
 # JSON_FOUND - system has LibJson
 # JSON_INCLUDE_DIRS - Json include directory
 # JSON_LIBRARIES - Link these to use Json
-# JSON_DEFINITIONS - Compiler switches required to use Json
-
-FIND_PACKAGE (PkgConfig)
-PKG_CHECK_MODULES (PC_JSON QUIET json)
-
-SET(LIBXML2_DEFINITIONS ${PC_LIBXML_CFLAGS_OTHER})
 
 IF (JSON_INCLUDE_DIRS AND JSON_LIBRARIES)
     SET(JSON_FIND_QUIETLY TRUE)
 ENDIF (JSON_INCLUDE_DIRS AND JSON_LIBRARIES)
-    
-FIND_PATH(JSON_INCLUDE_DIRS NAMES json.h PATH_SUFFIXES json HINTS
-    ${PC_JSON_INCLUDE_DIRS}
-    /usr/include
-    /usr/local/include
-    $ENV{JSON}
-    $ENV{JSON}/include
-    )
 
-FIND_LIBRARY(JSON_LIBRARIES NAMES json json.dll.a json.a HINTS
-    ${PC_JSON_LIBRARIES}
-    /usr/lib
-    /usr/local/lib
-    $ENV{JSON}
-    $ENV{JSON}/lib
+FIND_PACKAGE (PkgConfig)
+PKG_CHECK_MODULES (PC_JSON QUIET json)
+
+FIND_PATH(JSON_INCLUDE_DIRS
+    NAMES
+        json.h
+    PATH_SUFFIXES
+        json
+    PATHS
+        ${PC_JSON_INCLUDE_DIRS}
+        /usr/include
+        /usr/local/include
+        $ENV{JSON}
+        $ENV{JSON}/include
+    )
+FIND_LIBRARY(JSON_LIBRARIES
+    NAMES
+        json-c json
+    PATHS
+        ${PC_JSON_LIBRARY_DIRS}
+        /usr/lib
+        /usr/local/lib
+        $ENV{JSON}
+        $ENV{JSON}/lib
     )
 
 # handle the QUIETLY and REQUIRED arguments and set *_FOUND
