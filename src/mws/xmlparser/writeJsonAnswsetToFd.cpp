@@ -25,16 +25,19 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @author  Corneliu-Claudiu Prodescu
   * @date    30 Jul 2011
   *
+  * @edited Radu Hambasan
+  * @date 05 Feb 2014
+  *
   * License: GPL v3
   *
   */
 
 #include <unistd.h>
+#include <json.h>
 
 #include <sstream>
 #include <vector>
-
-#include <json.h>
+#include <string>
 
 #include "writeJsonAnswsetToFd.hpp"
 
@@ -47,43 +50,56 @@ namespace mws
 int
 writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
 {
-    stringstream               ss;
-    vector<mws::types::Answer*>::iterator it;
     const char*                data;
     size_t                     data_size;
     size_t                     bytes_written;
     string                     out;
-    unsigned int               i;
+    json_object *json_doc, *qvars, *hits;
 
+    json_doc = json_object_new_object();
+    qvars = json_object_new_array();
+    hits = json_object_new_array();
 
-    ss << "{\"size\":" << answset->answers.size()
-       << ",\"total\":" << answset->total
-       << ",\"data\":[";
-    for (auto it = answset->answers.begin();
-         it != answset->answers.end(); it ++) {
-        if (it != answset->answers.begin())
-        {
-            ss << ",";
-        }
+    json_object_object_add(json_doc, "total",
+                           json_object_new_int(answset->total));
 
-        ss << "{\"uri\":\"" << (*it)->uri
-           << "\",\"xpath\":\"" << (*it)->xpath
-           << "\",\"qvars\":{";
-        for (i = 0; i < answset->qvarNames.size(); i++)
-        {
-            if (i != 0) {
-                ss << ",";
-            }
-            ss << "\"" << answset->qvarNames[i] << "\":\""
-               << (*it)->xpath << answset->qvarXpaths[i] << "\"";
-        }
-        ss << "}}";
+    // Creating qvars field
+    for (int i = 0; i < (int) answset->qvarNames.size(); i++) {
+        json_object *qvar = json_object_new_object();
+        json_object_object_add(qvar, "name",
+                json_object_new_string(answset->qvarNames[i].c_str()));
+        json_object_object_add(qvar, "xpath",
+                json_object_new_string(answset->qvarXpaths[i].c_str()));
+
+        json_object_array_add(qvars, qvar);
     }
-    ss << "]}";
 
-    out = ss.str();
-    data = out.c_str();
-    data_size = out.size();
+    json_object_object_add(json_doc, "qvars", qvars);
+
+    // Creating hits field
+    for (auto answer : answset->answers) {
+        json_object *hit = json_object_new_object();
+        json_object *math_id = json_object_new_object();
+
+        json_object_object_add(math_id, "url",
+                               json_object_new_string(answer->uri.c_str()));
+        json_object_object_add(math_id, "xpath",
+                               json_object_new_string(answer->xpath.c_str()));
+
+        json_object_object_add(hit, "math_id", math_id);
+        json_object_object_add(hit, "xhtml",
+                               json_object_new_string(answer->data.c_str()));
+
+        json_object_array_add(hits, hit);
+    }
+
+    json_object_object_add(json_doc, "hits", hits);
+
+
+    string json_string = json_object_to_json_string(json_doc);
+
+    data = json_string.c_str();
+    data_size = json_string.size();
 
     bytes_written = 0;
     while (bytes_written < data_size) {
@@ -92,6 +108,7 @@ writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
                                data_size - bytes_written);
     }
 
+    json_object_put(json_doc);
     return data_size;
 }
 
