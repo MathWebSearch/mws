@@ -33,8 +33,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mws { namespace dbc {
 
-typedef std::function<int (const mws::CrawlId&,
-                           const mws::FormulaPath&)> QueryCallback;
+typedef std::function<int (const mws::types::CrawlId&,
+                           const mws::types::FormulaPath&)> QueryCallback;
 
 class FormulaDb {
 public:
@@ -48,9 +48,9 @@ public:
      * formula
      * @return 0 on success and -1 on failure.
      */
-    virtual int insertFormula(const mws::FormulaId&   formulaId,
-                              const mws::CrawlId&     crawlId,
-                              const mws::FormulaPath& formulaPath) = 0;
+    virtual int insertFormula(const mws::types::FormulaId&   formulaId,
+                              const mws::types::CrawlId&     crawlId,
+                              const mws::types::FormulaPath& formulaPath) = 0;
 
     /**
      * @brief query formula in database
@@ -60,7 +60,7 @@ public:
      * @param queryCallback
      * @return 0 on success and -1 on failure.
      */
-    virtual int queryFormula(const mws::FormulaId& formulaId,
+    virtual int queryFormula(const mws::types::FormulaId& formulaId,
                              unsigned limitMin,
                              unsigned limitSize,
                              QueryCallback queryCallback) = 0;

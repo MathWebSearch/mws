@@ -53,7 +53,7 @@ class LevCrawlDb : public CrawlDb {
      * @param crawlData data associated with the crawl element
      *
      */
-    virtual mws::CrawlId putData(const mws::types::CrawlData& crawlData)
+    virtual types::CrawlId putData(const types::CrawlData& crawlData)
     throw (std::exception);
 
     /**
@@ -62,12 +62,12 @@ class LevCrawlDb : public CrawlDb {
      * @return CrawlData corresponding to crawlId
      * @throw NotFound or I/O exceptions
      */
-    virtual const mws::types::CrawlData getData(const mws::CrawlId& crawlId)
+    virtual const types::CrawlData getData(const types::CrawlId& crawlId)
     throw (std::exception);
 
  private:
     leveldb::DB* mDatabase;
-    CrawlId mNextCrawlId;
+    types::CrawlId mNextCrawlId;
 };
 
 }  // namespace dbc

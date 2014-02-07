@@ -29,24 +29,27 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/macro_func.h"
 
-using namespace std;
-using namespace mws::dbc;
-
 int main() {
+    using mws::types::CrawlId;
     using mws::types::CrawlData;
+    using mws::dbc::CrawlDb;
+    using mws::dbc::MemCrawlDb;
 
     CrawlDb* crawlDb = new MemCrawlDb();
-    CrawlData crawlData;
-    crawlData.expressionUri = "foobar";
+    CrawlData crawlData = "foobar";
 
-    mws::CrawlId crawlId = crawlDb->putData(crawlData);
+    CrawlId crawlId = crawlDb->putData(crawlData);
+
+    // Check if data is inserted
+    FAIL_ON((crawlData = crawlDb->getData(crawlId)) != "foobar");
+
+    // Check for false positives
     try {
         CrawlData data = crawlDb->getData(42);
         goto fail;
     } catch (...) {
         // ignore
     }
-    FAIL_ON((crawlData = crawlDb->getData(crawlId)).expressionUri != "foobar");
 
     delete crawlDb;
 

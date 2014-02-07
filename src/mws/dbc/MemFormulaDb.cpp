@@ -31,9 +31,9 @@ using namespace std;
 namespace mws { namespace dbc {
 
 int
-MemFormulaDb::insertFormula(const mws::FormulaId&   formulaId,
-                            const mws::CrawlId&     crawlId,
-                            const mws::FormulaPath& formulaPath) {
+MemFormulaDb::insertFormula(const types::FormulaId&   formulaId,
+                            const types::CrawlId&     crawlId,
+                            const types::FormulaPath& formulaPath) {
     MemFormulaDb::FormulaInfo formulaInfo;
 
     formulaInfo.crawlId = crawlId;
@@ -45,7 +45,7 @@ MemFormulaDb::insertFormula(const mws::FormulaId&   formulaId,
 }
 
 int
-MemFormulaDb::queryFormula(const FormulaId &formulaId,
+MemFormulaDb::queryFormula(const types::FormulaId &formulaId,
                            unsigned limitMin,
                            unsigned limitSize,
                            QueryCallback queryCallback) {

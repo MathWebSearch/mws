@@ -33,7 +33,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <stdio.h>
-#include <libxml/xmlwriter.h>
 
 #include <stack>
 #include <string>

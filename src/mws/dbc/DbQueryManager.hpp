@@ -35,7 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace dbc {
 
-typedef std::function<int (const FormulaPath&, const types::CrawlData&)>
+typedef std::function<int (const types::FormulaPath&, const types::CrawlData&)>
 DbAnswerCallback;
 
 class DbQueryManager {
@@ -45,7 +45,7 @@ class DbQueryManager {
  public:
     DbQueryManager(CrawlDb* crawlDb, FormulaDb* formulaDb);
 
-    int query(FormulaId formulaId,
+    int query(types::FormulaId formulaId,
               unsigned limitMin,
               unsigned limitSize,
               DbAnswerCallback dbAnswerCallback);

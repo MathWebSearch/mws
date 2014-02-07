@@ -37,6 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <libxml/parser.h>             // LibXML parser headers
 #include <libxml/parserInternals.h>    // LibXML parser internals API
 #include <libxml/threads.h>            // LibXML thread handling API
+#include <libxml/xmlwriter.h>
 #include <sys/types.h>                 // Primitive System datatypes
 #include <sys/stat.h>                  // POSIX File characteristics
 #include <fcntl.h>                     // File control operations
@@ -44,20 +45,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <sstream>
 #include <string>
+using std::string;
 #include <vector>
+using std::vector;
+#include <map>
+using std::map;
 
-#include "ParserTypes.hpp"             // Common Mws Parsers datatypes
+#include "mws/index/IndexManager.hpp"
+#include "mws/types/NodeInfo.hpp"
+#include "mws/types/CmmlToken.hpp"
 #include "common/utils/DebugMacros.hpp"// Debug macros
-#include "common/utils/macro_func.h"   // Macro functions
+#include "common/utils/macro_func.h"
 
 // Macros
-
-#define MWSHARVEST_MAIN_NAME           "mws:harvest"
-#define MWSHARVEST_EXPR_NAME           "mws:expr"
-#define MWSHARVEST_EXPR_ATTR_URI_NAME  "url"
-#define MWSHARVEST_EXPR_URI_DEFAULT    ""
-#define MWSHARVEST_EXPR_MATH_NAME      "content"
-#define MWSHARVEST_EXPR_SNIPPET_NAME   "data"
+#define MWSHARVEST_MAIN_NAME                "mws:harvest"
+#define MWSHARVEST_EXPR_NAME                "mws:expr"
+#define MWSHARVEST_EXPR_ATTR_XMLID_NAME     "url"
+#define MWSHARVEST_EXPR_ATTR_LOCALID_NAME   "mws:data_id"
+#define MWSHARVEST_DATA_NAME                "mws:data"
+#define MWSHARVEST_DATA_ATTR_LOCALID_NAME   "mws:data_id"
+#define MWSHARVEST_EXPR_URI_DEFAULT         ""
 
 using namespace std;
 using namespace mws::types;
@@ -69,26 +76,22 @@ enum MwsHarvestState
     MWSHARVESTSTATE_DEFAULT,
     MWSHARVESTSTATE_IN_MWS_HARVEST,
     MWSHARVESTSTATE_IN_MWS_EXPR,
-    MWSHARVESTSTATE_IN_MWS_MATH,
-    MWSHARVESTSTATE_IN_MWS_COPY,
+    MWSHARVESTSTATE_IN_MWS_DATA,
     MWSHARVESTSTATE_UNKNOWN
 };
 
 struct MwsHarvest_SaxUserData
 {
-    /// Depth of the parse tree in unknown state
-    int                             unknownDepth;
+    mws::MwsHarvestState state;     //!< Parse state machine state
+    int unknownDepth;               //!< Depth of XML tree in unknown state
+    map<string, CrawlId> localIdToCrawlIds;
+
     /// The token which is currently being parsed
     types::CmmlToken*               currentToken;
     /// The root of the token being currently parsed
     types::CmmlToken*               currentTokenRoot;
 
-
-    /// The stack containing the parent CMML Tokens
-    std::stack<types::CmmlToken*>   processStack;
     types::CmmlToken*               math;
-    /// State of the parsing
-    mws::MwsHarvestState         state;
     /// State of the parsing before going into an unknown state
     mws::MwsHarvestState         prevState;
     /// True if an XML structural error is detected
@@ -109,12 +112,14 @@ struct MwsHarvest_SaxUserData
     std::string                  exprUri;
     std::string                  data;
 
+    std::string localId;
+
     MwsHarvest_SaxUserData() :
+        state(MWSHARVESTSTATE_DEFAULT),
         unknownDepth(0),
         currentToken(NULL),
         currentTokenRoot(NULL),
         math(NULL),
-        state(MWSHARVESTSTATE_DEFAULT),
         prevState(MWSHARVESTSTATE_DEFAULT),
         errorDetected(false),
         parsedExpr(0),
@@ -126,7 +131,6 @@ struct MwsHarvest_SaxUserData
 
 /**
   * @brief Callback function used with an xmlOutputBuffer
-  *
   */
 static inline int
 copyToCharBufCallback(void*       vectorPtr,
@@ -193,39 +197,6 @@ fdXmlInputReadCallback(void* fdPtr,
     return result;
 }
 
-
-/**
-  * @brief This function is called before the SAX handler starts parsing the
-  * document
-  *
-  * @param user_data is a structure which holds the state of the parser.
-  */
-static void
-my_startDocument(void* user_data)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
-    MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
-
-    data->unknownDepth           = 0;
-    data->currentToken           = NULL;
-    data->currentTokenRoot       = NULL;
-    data->math                   = NULL;
-    data->state                  = MWSHARVESTSTATE_DEFAULT;
-    data->prevState              = MWSHARVESTSTATE_DEFAULT;
-    data->errorDetected          = false;
-    data->parsedExpr             = 0;
-    data->warnings               = 0;
-    data->exprUri                = "";
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
-}
-
-
 /**
   * @brief This function is called after the SAX handler has finished parsing
   * the document
@@ -283,7 +254,6 @@ my_startElement(void*           user_data,
                 attrs = &attrs[2];
             }
         } else {
-            data->warnings++;
             // Saving the state
             data->prevState = data->state;
             // Going to an unkown state
@@ -294,26 +264,68 @@ my_startElement(void*           user_data,
 
     case MWSHARVESTSTATE_IN_MWS_HARVEST:
         if (strcmp(reinterpret_cast<const char*>(name),
-
                    MWSHARVEST_EXPR_NAME) == 0) {
             data->state = MWSHARVESTSTATE_IN_MWS_EXPR;
+
             // Parsing the attributes
+            data->exprUri = MWSHARVEST_EXPR_URI_DEFAULT;
+            data->localId = "";
             while (NULL != attrs && NULL != attrs[0]) {
                 if (strcmp(reinterpret_cast<const char*>(attrs[0]),
-                           MWSHARVEST_EXPR_ATTR_URI_NAME) == 0) {
+                           MWSHARVEST_EXPR_ATTR_XMLID_NAME) == 0) {
                     data->exprUri = reinterpret_cast<const char*>(attrs[1]);
+                } else if (strcmp(reinterpret_cast<const char*>(attrs[0]),
+                          MWSHARVEST_EXPR_ATTR_LOCALID_NAME) == 0) {
+                    data->localId = reinterpret_cast<const char*>(attrs[1]);
                 } else {
                     // Invalid attribute
-                    data->warnings++;
                     fprintf(stderr, "Unexpected attribute \"%s\"\n", attrs[0]);
-                    // Setting exprUri to default
-                    data->exprUri = MWSHARVEST_EXPR_URI_DEFAULT;
                 }
 
                 attrs = &attrs[2];
             }
+            if (data->localId != "" &&
+                    (data->localIdToCrawlIds.find(data->localId) ==
+                     data->localIdToCrawlIds.end())) {
+                fprintf(stderr, "%s \"%s\" does not point to any %s element\n",
+                        MWSHARVEST_DATA_ATTR_LOCALID_NAME,
+                        data->localId.c_str(),
+                        MWSHARVEST_DATA_NAME);
+                data->localId = "";
+            }
+        } else if (strcmp(reinterpret_cast<const char*>(name),
+                          MWSHARVEST_DATA_NAME) == 0) {
+            // Parsing the attributes
+            data->localId = "";
+            while (NULL != attrs && NULL != attrs[0]) {
+                if (strcmp(reinterpret_cast<const char*>(attrs[0]),
+                           MWSHARVEST_DATA_ATTR_LOCALID_NAME) == 0) {
+                    data->localId = reinterpret_cast<const char*>(attrs[1]);
+                } else {
+                    // Invalid attribute
+                    fprintf(stderr, "Unexpected attribute \"%s\"\n", attrs[0]);
+                }
+
+                attrs = &attrs[2];
+            }
+
+            // Check if localId exists
+            if (data->localId == "") {
+                fprintf(stderr, "Ignoring %s element without %s attribute.\n",
+                        MWSHARVEST_DATA_NAME,
+                        MWSHARVEST_DATA_ATTR_LOCALID_NAME);
+                // Saving the state
+                data->prevState = data->state;
+                // Going to an unkown state
+                data->state = MWSHARVESTSTATE_UNKNOWN;
+                data->unknownDepth = 1;
+            } else {
+                setupCopyToStringWriter(data);
+                data->state = MWSHARVESTSTATE_IN_MWS_DATA;
+                data->copyDepth = 1;
+            }
         } else {
-            data->warnings++;
+            fprintf(stderr, "Ignoring %s element\n", name);
             // Saving the state
             data->prevState = data->state;
             // Going to an unkown state
@@ -323,25 +335,6 @@ my_startElement(void*           user_data,
         break;
 
     case MWSHARVESTSTATE_IN_MWS_EXPR:
-        if (strcmp(reinterpret_cast<const char*>(name),
-                   MWSHARVEST_EXPR_MATH_NAME) == 0) {
-            data->state = MWSHARVESTSTATE_IN_MWS_MATH;
-        } else if (strcmp(reinterpret_cast<const char*>(name),
-                          MWSHARVEST_EXPR_SNIPPET_NAME) == 0) {
-            setupCopyToStringWriter(data);
-            data->state = MWSHARVESTSTATE_IN_MWS_COPY;
-            data->copyDepth = 1;
-        } else {
-            data->warnings++;
-            // Saving the state
-            data->prevState = data->state;
-            // Going to an unkown state
-            data->state = MWSHARVESTSTATE_UNKNOWN;
-            data->unknownDepth = 1;
-        }
-        break;
-
-    case MWSHARVESTSTATE_IN_MWS_MATH:
         if (data->currentToken != NULL) {
             data->currentToken = data->currentToken->newChildNode();
         } else {
@@ -359,7 +352,7 @@ my_startElement(void*           user_data,
         }
         break;
 
-    case MWSHARVESTSTATE_IN_MWS_COPY:
+    case MWSHARVESTSTATE_IN_MWS_DATA:
         data->copyDepth++;
         xmlTextWriterStartElement(data->stringWriter, name);
         while (NULL != attrs && NULL != attrs[0]) {
@@ -411,32 +404,23 @@ my_endElement(void*          user_data,
         break;
 
     case MWSHARVESTSTATE_IN_MWS_EXPR:
-        data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
-
-        if (data->math != NULL) {
-            CrawlData crawlData;
-            crawlData.expressionUri = data->exprUri;
-            crawlData.data = data->data;
-
-            // Add content math node to index
-            int ret = data->indexManager->indexContentMath(data->math,
-                                                           crawlData);
+        if (data->currentToken == NULL) {
+            data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
+        } else if (data->currentToken->isRoot()) {
+            int ret;
+            auto it = data->localIdToCrawlIds.find(data->localId);
+            if (it != data->localIdToCrawlIds.end()) {
+                CrawlId crawlId = it->second;
+                ret = data->indexManager->indexContentMath(data->currentToken,
+                                                           data->exprUri,
+                                                           crawlId);
+            } else {
+                ret = data->indexManager->indexContentMath(data->currentToken,
+                                                           data->exprUri);
+            }
             if (ret != -1) {
                 data->parsedExpr += ret;
             }
-
-            delete data->math;
-            data->math = NULL;
-        } else {
-            cerr << "[Warning: empty math element ]\n";
-        }
-        break;
-
-    case MWSHARVESTSTATE_IN_MWS_MATH:
-        if (data->currentToken == NULL) {
-            data->state = MWSHARVESTSTATE_IN_MWS_EXPR;
-        } else if (data->currentToken->isRoot()) {
-            data->math = data->currentToken;
             data->currentToken = NULL;
             data->currentTokenRoot = NULL;
         } else {
@@ -444,13 +428,16 @@ my_endElement(void*          user_data,
         }
         break;
 
-    case MWSHARVESTSTATE_IN_MWS_COPY:
+    case MWSHARVESTSTATE_IN_MWS_DATA:
         xmlTextWriterEndElement(data->stringWriter);
         data->copyDepth--;
         if (data->copyDepth == 0) {
             tearDownCopyToStringWriter(data);
-            data->state = MWSHARVESTSTATE_IN_MWS_EXPR;
-            data->data = string(data->buffer.data(), data->buffer.size());
+            data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
+
+            // Insert data in db
+            CrawlId crawlId = data->indexManager->indexCrawlData(data->data);
+            data->localIdToCrawlIds[data->localId] = crawlId;
         }
         break;
 
@@ -481,12 +468,12 @@ my_characters(void *user_data,
 
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
-    if (data->state == MWSHARVESTSTATE_IN_MWS_MATH &&   // Valid state
+    if (data->state == MWSHARVESTSTATE_IN_MWS_EXPR &&   // Valid state
             data->currentToken != NULL) {               // Valid token
         data->currentToken->appendTextContent((char*) ch, len);
     }
 
-    if (data->state == MWSHARVESTSTATE_IN_MWS_COPY) {
+    if (data->state == MWSHARVESTSTATE_IN_MWS_DATA) {
         string inputChars((const char*) ch, len);
         xmlChar* encodedChars =
                 xmlEncodeSpecialChars(NULL, BAD_CAST inputChars.c_str());
@@ -598,7 +585,6 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
     memset(&saxHandler, 0, sizeof(xmlSAXHandler));
 
     // Registering Sax callbacks
-    saxHandler.startDocument = my_startDocument;
     saxHandler.endDocument   = my_endDocument;
     saxHandler.startElement  = my_startElement;
     saxHandler.endElement    = my_endElement;
@@ -609,7 +595,6 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
 
     // Locking libXML -- to allow multi-threaded use
     xmlLockLibrary();
-    
     // Creating the IOParser context
     if ((ctxtPtr = xmlCreateIOParserCtxt(&saxHandler,
                                          &user_data,

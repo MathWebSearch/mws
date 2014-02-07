@@ -27,7 +27,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 18 Nov 2013
   */
 
+#include <string>
+
 #include "mws/types/CmmlToken.hpp"
+#include "mws/types/NodeInfo.hpp"
 #include "mws/dbc/FormulaDb.hpp"
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/index/MwsIndexNode.hpp"
@@ -48,13 +51,22 @@ public:
                  types::MeaningDictionary* meaningDictionary);
 
     /**
+     * @brief index crawl data
+     * @param crawlData URL and opaque data given in the crawled harvest
+     * @return Identifier of the crawled data
+     */
+    types::CrawlId indexCrawlData(const types::CrawlData& crawlData);
+
+    /**
      * @brief index content math formula
      * @param cmmlToken ContentMathML node
-     * @param crawlData URL and opaque data given in the crawled harvest
+     * @param xmlId XML id of associated content math
+     * @param crawlId id of asssociated crawl data
      * @return Number of indexed subexpressions on success, -1 on failure.
      */
     int indexContentMath(const types::CmmlToken* cmmlToken,
-                         const types::CrawlData& crawlData);
+                         const std::string xmlId,
+                         const types::CrawlId& crawlId = types::CRAWLID_NULL);
 };
 
 } }

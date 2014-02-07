@@ -39,21 +39,21 @@ namespace mws { namespace dbc {
 
 class MemFormulaDb : public FormulaDb {
 public:
-    virtual int insertFormula(const mws::FormulaId&   formulaId,
-                              const mws::CrawlId&     crawlId,
-                              const mws::FormulaPath& formulaPath);
+    virtual int insertFormula(const types::FormulaId&   formulaId,
+                              const types::CrawlId&     crawlId,
+                              const types::FormulaPath& formulaPath);
 
-    virtual int queryFormula(const mws::FormulaId&  formulaId,
-                             unsigned               limitMin,
-                             unsigned               limitSize,
-                             QueryCallback          queryCallback);
+    virtual int queryFormula(const types::FormulaId& formulaId,
+                             unsigned                limitMin,
+                             unsigned                limitSize,
+                             QueryCallback           queryCallback);
 private:
     struct FormulaInfo {
-        mws::CrawlId crawlId;
-        mws::FormulaPath formulaPath;
+        types::CrawlId crawlId;
+        types::FormulaPath formulaPath;
     };
 
-    std::map<mws::FormulaId, std::vector<FormulaInfo> > mData;
+    std::map<types::FormulaId, std::vector<FormulaInfo> > mData;
 };
 
 } }

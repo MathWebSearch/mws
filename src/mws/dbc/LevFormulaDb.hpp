@@ -50,14 +50,14 @@ class LevFormulaDb : public FormulaDb {
     int open(const char* path);
     int create_new(const char* path);
 
-    virtual int insertFormula(const mws::FormulaId&   formulaId,
-                              const mws::CrawlId&     crawlId,
-                              const mws::FormulaPath& formulaPath);
+    virtual int insertFormula(const types::FormulaId&   formulaId,
+                              const types::CrawlId&     crawlId,
+                              const types::FormulaPath& formulaPath);
 
-    virtual int queryFormula(const mws::FormulaId&  formulaId,
-                             unsigned               limitMin,
-                             unsigned               limitSize,
-                             QueryCallback          queryCallback);
+    virtual int queryFormula(const types::FormulaId& formulaId,
+                             unsigned                limitMin,
+                             unsigned                limitSize,
+                             QueryCallback           queryCallback);
 
  private:
     leveldb::DB* mDatabase;

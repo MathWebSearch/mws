@@ -39,10 +39,10 @@ MemCrawlDb::MemCrawlDb() : mNextCrawlId(0) {
 
 }
 
-mws::CrawlId
-MemCrawlDb::putData(const mws::types::CrawlData& crawlData)
+types::CrawlId
+MemCrawlDb::putData(const types::CrawlData& crawlData)
 throw (std::exception) {
-    const CrawlId crawlId = mNextCrawlId++;
+    const types::CrawlId crawlId = mNextCrawlId++;
     auto ret = mData.insert(make_pair(crawlId, crawlData));
     if (!ret.second) {
         throw std::runtime_error("Duplicate entry at crawlId = " +
@@ -52,7 +52,7 @@ throw (std::exception) {
     return crawlId;
 }
 
-const types::CrawlData MemCrawlDb::getData(const mws::CrawlId& crawlId)
+const types::CrawlData MemCrawlDb::getData(const types::CrawlId& crawlId)
 throw (std::exception) {
     auto it = mData.find(crawlId);
     if (it != mData.end()) {

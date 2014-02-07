@@ -47,15 +47,19 @@ DbQueryManager::DbQueryManager(CrawlDb* crawlDb, FormulaDb* formulaDb) :
 }
 
 int
-DbQueryManager::query(FormulaId formulaId,
-              unsigned limitMin,
-              unsigned limitSize,
-              DbAnswerCallback dbAnswerCallback) {
+DbQueryManager::query(types::FormulaId formulaId,
+                      unsigned limitMin,
+                      unsigned limitSize,
+                      DbAnswerCallback dbAnswerCallback) {
     QueryCallback formulaQueryCallback =
-            [dbAnswerCallback, this](const mws::CrawlId& crawlId,
-                                     const mws::FormulaPath& formulaPath) {
-        types::CrawlData crawlData = this->mCrawlDb->getData(crawlId);
-        return dbAnswerCallback(formulaPath, crawlData);
+            [dbAnswerCallback, this](const types::CrawlId& crawlId,
+                                     const types::FormulaPath& formulaPath) {
+        if (crawlId != types::CRAWLID_NULL) {
+            return dbAnswerCallback(formulaPath,
+                                    this->mCrawlDb->getData(crawlId));
+        } else {
+            return dbAnswerCallback(formulaPath, types::CRAWLDATA_NULL);
+        }
     };
     return mFormulaDb->queryFormula(formulaId, limitMin, limitSize,
                                     formulaQueryCallback);

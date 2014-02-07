@@ -44,27 +44,46 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace types {
 
-struct CrawlData : public common::types::Parcelable {
-    std::string expressionUri;
-    std::string data;
+typedef uint32_t FormulaId;     ///< Formula Id corresponding to a leaf node
+
+struct FormulaPath : public common::types::Parcelable {
+    std::string xmlId;
+    std::string xpath;
+
+    FormulaPath() {
+    }
+
+    FormulaPath(std::string xmlId, std::string xpath)
+        : xmlId(xmlId), xpath(xpath) {
+    }
+
+    inline bool operator!=(const FormulaPath& rhs) const {
+        return xmlId != rhs.xmlId || xpath != rhs.xpath;
+    }
 
     virtual size_t getParcelableSize() const {
         common::types::ParcelAllocator parcelAllocator;
-        parcelAllocator.reserve(expressionUri);
-        parcelAllocator.reserve(data);
+        parcelAllocator.reserve(xmlId);
+        parcelAllocator.reserve(xpath);
         return parcelAllocator.getSize();
     }
 
     virtual void writeToParcel(common::types::ParcelEncoder* encoder) const {
-        encoder->encode(expressionUri);
-        encoder->encode(data);
+        encoder->encode(xmlId);
+        encoder->encode(xpath);
     }
 
     virtual void readFromParcel(common::types::ParcelDecoder* decoder) {
-        decoder->decode(&expressionUri);
-        decoder->decode(&data);
+        decoder->decode(&xmlId);
+        decoder->decode(&xpath);
     }
 };
+
+typedef uint32_t CrawlId;   ///< Crawled data Id
+const CrawlId CRAWLID_NULL = 0;
+
+typedef std::string CrawlData;
+const CrawlData CRAWLDATA_NULL = CrawlData();
 
 }  // namespace types
 }  // namespace mws
@@ -84,12 +103,6 @@ typedef uint8_t     Arity;
 
 /// Type of the node info
 typedef std::pair<MeaningId, Arity> NodeInfo;
-
-typedef uint32_t    FormulaId;    ///< Formula Id corresponding to a leaf node
-
-typedef uint32_t    CrawlId;      ///< Crawled data Id
-
-typedef std::string FormulaPath;  ///< Path of the formula within a crawl data
 
 // Constants
 const Meaning   MWS_QVAR_MEANING = "mws:qvar";

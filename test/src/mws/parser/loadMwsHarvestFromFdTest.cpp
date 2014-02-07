@@ -64,7 +64,9 @@ struct HarvestData {
 const vector<HarvestData> harvests = {
     { "empty.harvest", -1, 0 },
     { "eq_ambiguity.harvest", 0, 4 },
-    { "data1.harvest", 0, 17 }
+    { "data1.harvest", 0, 17 },
+    { "data2.harvest", 0, 14 },
+    { "data3.harvest", 0, 14 }
 };
 
 int main()

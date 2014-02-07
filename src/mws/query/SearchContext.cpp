@@ -254,12 +254,12 @@ SearchContext::getResult(MwsIndexNode* data,
                     dbMaxSize = size;
                 }
                 dbc::DbAnswerCallback callback =
-                        [result](const FormulaPath& formulaPath,
+                        [result](const types::FormulaPath& formulaPath,
                                  const types::CrawlData& crawlData) {
                     mws::types::Answer* answer = new mws::types::Answer();
-                    answer->data = crawlData.data;
-                    answer->uri = crawlData.expressionUri;
-                    answer->xpath = formulaPath;
+                    answer->data = crawlData;
+                    answer->uri = formulaPath.xmlId;
+                    answer->xpath = formulaPath.xpath;
                     result->answers.push_back(answer);
                     return 0;
                 };

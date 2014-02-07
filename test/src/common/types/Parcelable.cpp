@@ -34,7 +34,7 @@ using common::types::ParcelAllocator;
 using common::types::ParcelEncoder;
 using common::types::ParcelDecoder;
 #include "mws/types/NodeInfo.hpp"
-using mws::types::CrawlData;
+using mws::types::FormulaPath;
 
 /*
  * Constructing a string from a char array (like a constant string "foo")
@@ -45,7 +45,7 @@ using mws::types::CrawlData;
 #define string_from_buffer(charBuffer)                                      \
     string(charBuffer, sizeof(charBuffer))
 
-static int testSerializeDeserialize(const CrawlData& initial) {
+static int testSerializeDeserialize(const FormulaPath& initial) {
     // Compute space required for the serialization
     ParcelAllocator allocator;
     allocator.reserve(initial);
@@ -56,12 +56,12 @@ static int testSerializeDeserialize(const CrawlData& initial) {
 
     // Deserialize the object
     ParcelDecoder decoder(encoder.getData(), encoder.getSize());
-    CrawlData deserialized;
+    FormulaPath deserialized;
     decoder.decode(&deserialized);
 
     // Check consistency
-    FAIL_ON(initial.expressionUri != deserialized.expressionUri);
-    FAIL_ON(initial.data != deserialized.data);
+    FAIL_ON(initial.xmlId != deserialized.xmlId);
+    FAIL_ON(initial.xpath != deserialized.xpath);
 
     return 0;
 
@@ -70,23 +70,23 @@ fail:
 }
 
 int main() {
-    CrawlData crawlData;
+    FormulaPath formulaPath;
 
-    crawlData.expressionUri = "http://www.example.org";
-    crawlData.data = "foo=bar";
-    FAIL_ON(testSerializeDeserialize(crawlData) != 0);
+    formulaPath.xmlId = "http://www.example.org";
+    formulaPath.xpath = "foo=bar";
+    FAIL_ON(testSerializeDeserialize(formulaPath) != 0);
 
-    crawlData.expressionUri = "";
-    crawlData.data = "";
-    FAIL_ON(testSerializeDeserialize(crawlData) != 0);
+    formulaPath.xmlId = "";
+    formulaPath.xpath = "";
+    FAIL_ON(testSerializeDeserialize(formulaPath) != 0);
 
-    crawlData.expressionUri = string_from_buffer("a \0 b");
-    crawlData.data = string_from_buffer("foo \0 bar");
-    FAIL_ON(testSerializeDeserialize(crawlData) != 0);
+    formulaPath.xmlId = string_from_buffer("a \0 b");
+    formulaPath.xpath = string_from_buffer("foo \0 bar");
+    FAIL_ON(testSerializeDeserialize(formulaPath) != 0);
 
-    crawlData.expressionUri = string_from_buffer("a \u00E1 b");
-    crawlData.data = string_from_buffer("foo \u00E1 \0 bar");
-    FAIL_ON(testSerializeDeserialize(crawlData) != 0);
+    formulaPath.xmlId = string_from_buffer("a \u00E1 b");
+    formulaPath.xpath = string_from_buffer("foo \u00E1 \0 bar");
+    FAIL_ON(testSerializeDeserialize(formulaPath) != 0);
 
     return 0;
 

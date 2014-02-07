@@ -78,7 +78,7 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
                 fprintf(stream, "<mws:expr url=\"%s#%s\">\n", url.c_str() , id);
                 sanitizeMathML(doc, mathNode);
                 fprintf(stream, "<data>\n");
-                xmlElemDump(stream, doc, mathNode);
+                xmlElemDump(stream, doc, xmlDocGetRootElement(doc));
                 fprintf(stream, "\n</data>\n");
 
                 // Remove redundant attributes (local_id, xref)

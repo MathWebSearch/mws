@@ -68,9 +68,9 @@ int LevFormulaDb::create_new(const char* path) {
 
 
 int
-LevFormulaDb::insertFormula(const mws::FormulaId&   formulaId,
-                            const mws::CrawlId&     crawlId,
-                            const mws::FormulaPath& formulaPath) {
+LevFormulaDb::insertFormula(const types::FormulaId&   formulaId,
+                            const types::CrawlId&     crawlId,
+                            const types::FormulaPath& formulaPath) {
     ++mCounter;
 
     std::string crawlId_str = std::to_string(crawlId);
@@ -94,7 +94,7 @@ LevFormulaDb::insertFormula(const mws::FormulaId&   formulaId,
 }
 
 int
-LevFormulaDb::queryFormula(const FormulaId &formulaId,
+LevFormulaDb::queryFormula(const types::FormulaId &formulaId,
                            unsigned limitMin,
                            unsigned limitSize,
                            QueryCallback queryCallback) {
@@ -119,8 +119,8 @@ LevFormulaDb::queryFormula(const FormulaId &formulaId,
         std::string crawlId_str;
         decoder.decode(&crawlId_str);
 
-        CrawlId crawlId = strtoul(crawlId_str.data(), NULL, 0);
-        FormulaPath formulaPath;
+        types::CrawlId crawlId = strtoul(crawlId_str.data(), NULL, 0);
+        types::FormulaPath formulaPath;
         decoder.decode(&formulaPath);
 
         if (queryCallback(crawlId, formulaPath) != 0)

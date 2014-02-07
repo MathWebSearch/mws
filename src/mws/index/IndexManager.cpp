@@ -25,32 +25,46 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <set>
+using std::set;
+#include <stack>
+using std::stack;
+#include <string>
+using std::string;
+
+#include "mws/types/CmmlToken.hpp"
+using mws::types::CmmlToken;
+#include "mws/types/NodeInfo.hpp"
+using mws::types::CrawlId;
+using mws::types::CrawlData;
+using mws::types::FormulaId;
+using mws::types::FormulaPath;
 
 #include "IndexManager.hpp"
-
-using namespace std;
-using namespace mws;
-using namespace mws::types;
 
 namespace mws { namespace index {
 
 IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
                            dbc::CrawlDb* crawlDb,
                            MwsIndexNode* index,
-                           MeaningDictionary* meaningDictionary) :
+                           types::MeaningDictionary* meaningDictionary) :
     m_formulaDb(formulaDb), m_crawlDb(crawlDb), m_index(index),
     m_meaningDictionary(meaningDictionary) { }
 
+types::CrawlId
+IndexManager::indexCrawlData(const types::CrawlData& crawlData) {
+    return m_crawlDb->putData(crawlData);
+}
+
 int
 IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
-                               const CrawlData& crawlData) {
+                               const std::string xmlId,
+                               const types::CrawlId& crawlId) {
     assert(cmmlToken != NULL);
     // Using a stack to insert all subterms by
     // going depth first through the CmmlToken
     set<FormulaId> uniqueFormulaIds;
     stack<const CmmlToken*> subtermStack;
     int numSubExpressions = 0;
-    const CrawlId crawlId = m_crawlDb->putData(crawlData);
 
     subtermStack.push(cmmlToken);
     while (!subtermStack.empty()) {
@@ -68,8 +82,10 @@ IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
         FormulaId formulaId = leaf->id;
         auto ret = uniqueFormulaIds.insert(formulaId);
         if (ret.second) {
-            m_formulaDb->insertFormula(leaf->id, crawlId,
-                                       currentSubterm->getXpath());
+            types::FormulaPath formulaPath;
+            formulaPath.xmlId = xmlId;
+            formulaPath.xpath = currentSubterm->getXpath();
+            m_formulaDb->insertFormula(leaf->id, crawlId, formulaPath);
             leaf->solutions++;
             numSubExpressions++;
         }

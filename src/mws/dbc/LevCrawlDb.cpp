@@ -69,10 +69,10 @@ int LevCrawlDb::create_new(const char* path) {
     return status.ok()? 0 : -1;
 }
 
-mws::CrawlId LevCrawlDb::putData(const mws::types::CrawlData& crawlData)
+types::CrawlId LevCrawlDb::putData(const types::CrawlData& crawlData)
 throw (std::exception) {
-    CrawlId crawlId = mNextCrawlId++;
-    std::string crawlId_str = ToString(crawlId);
+    types::CrawlId crawlId = mNextCrawlId++;
+    string crawlId_str = ToString(crawlId);
 
     ParcelAllocator allocator;
     allocator.reserve(crawlData);
@@ -80,7 +80,7 @@ throw (std::exception) {
     ParcelEncoder encoder(allocator);
     encoder.encode(crawlData);
 
-    std::string serial(encoder.getData(), encoder.getSize());
+    string serial(encoder.getData(), encoder.getSize());
     auto ret =
         mDatabase->Put(leveldb::WriteOptions(), crawlId_str, serial);
     if (!ret.ok()) {
@@ -91,10 +91,10 @@ throw (std::exception) {
     return crawlId;
 }
 
-const types::CrawlData LevCrawlDb::getData(const mws::CrawlId& crawlId)
+const types::CrawlData LevCrawlDb::getData(const types::CrawlId& crawlId)
 throw (std::exception) {
-    std::string crawlId_str = ToString(crawlId);
-    std::string retrieved_str;
+    string crawlId_str = ToString(crawlId);
+    string retrieved_str;
     mws::types::CrawlData retrieved;
 
     auto status =

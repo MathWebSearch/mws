@@ -32,9 +32,12 @@ clean:
 config: build/cmake_done_config
 	@ccmake build/
 
+test: build/cmake_done_config
+	@cd build && make --no-print-directory $@
+
 build/cmake_done_config:
 	@mkdir -p build
 	@cd build && cmake ..
 	@touch build/cmake_done_config
 
-.PHONY: all clean config
+.PHONY: all clean config test

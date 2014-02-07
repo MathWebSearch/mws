@@ -23,22 +23,29 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-#include "mws/dbc/MemFormulaDb.hpp"
-#include "common/utils/macro_func.h"
-#include <iostream>
-
 #include <vector>
+using std::vector;
 
-using namespace std;
-using namespace mws;
-using namespace mws::dbc;
+#include "mws/dbc/FormulaDb.hpp"
+using mws::dbc::FormulaDb;
+#include "mws/dbc/MemFormulaDb.hpp"
+using mws::dbc::MemFormulaDb;
+#include "common/utils/macro_func.h"
+#include "mws/types/NodeInfo.hpp"
+using mws::types::CrawlId;
+using mws::types::FormulaPath;
 
 struct FormulaInfo {
     CrawlId crawlId;
     FormulaPath formulaPath;
 };
 
-vector<FormulaInfo> g_infos = {{ 0, "0"}, {3, "1"}, {2, "4"}};
+vector<FormulaInfo> g_infos {
+    {0, FormulaPath("id1", "0")},
+    {3, FormulaPath("id2", "1")},
+    {2, FormulaPath("id3", "4")}
+};
+
 const int TEST_START_IDX = 1;
 
 static int queryCallback(const CrawlId& crawlId,
@@ -49,10 +56,6 @@ static int queryCallback(const CrawlId& crawlId,
 
     FAIL_ON(info.crawlId != crawlId);
     FAIL_ON(info.formulaPath != formulaPath);
-
-    cout << "Found: " <<
-            " crawlId = " << info.crawlId <<
-            " formulaPath = " << info.formulaPath << endl;
 
     return 0;
 
