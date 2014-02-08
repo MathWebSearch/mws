@@ -48,54 +48,51 @@ static bool isValidXml(const string& xml);
 static void cleanContentMath(xmlNode* xmlNode);
 static void sanitizeMathML(xmlDoc* doc, xmlNode* mathMLNode);
 static void renameXmlIdAttributes(xmlNode* xmlNode);
+static string xmlNodeToString(xmlDocPtr doc, xmlNode* xmlNode);
 
 const xmlChar MATHML_NAMESPACE[] = "http://www.w3.org/1998/Math/MathML";
 const xmlChar XPATH_CONTENT_MATH[] = "//m:math/m:semantics"
         "/m:annotation-xml[@encoding='MathML-Content']/*";
-
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
 
 vector<std::string> getHarvestFromXhtml(const string& xhtml,
-                                        const string& url) {
+                                        const int data_id) {
     vector<string> harvestExpressions;
 
     xmlDocPtr doc = getXMLDoc(xhtml.c_str());
     if (doc != NULL) {
         xmlXPathObjectPtr result = getXMLNodeset(doc, XPATH_CONTENT_MATH);
+
         if (result != NULL) {
+            xmlNodePtr full_document = xmlDocGetRootElement(doc);
+            string dataExpression = "<mws:data mws:data_id=\"" +
+                    std::to_string(data_id) + "\">\n" +
+                    xmlNodeToString(doc, full_document) +
+                    "</mws:data>\n";
+            harvestExpressions.push_back(dataExpression);
+
             xmlNodeSetPtr nodeset = result->nodesetval;
             for (int i = 0; i < nodeset->nodeNr; ++i) {
                 xmlNode* contentMathNode = nodeset->nodeTab[i];
                 xmlNode* mathNode = contentMathNode->parent->parent->parent;
-                char* buf;
-                size_t sz;
-                FILE *stream = open_memstream(&buf, &sz);
                 const xmlChar *id = xmlGetProp(mathNode, BAD_CAST "id");
 
-                fprintf(stream, "<mws:expr url=\"%s#%s\">\n", url.c_str() , id);
-                sanitizeMathML(doc, mathNode);
-                fprintf(stream, "<data>\n");
-                xmlElemDump(stream, doc, xmlDocGetRootElement(doc));
-                fprintf(stream, "\n</data>\n");
-
-                // Remove redundant attributes (local_id, xref)
                 cleanContentMath(contentMathNode);
-                fprintf(stream, "<content>\n");
-                xmlElemDump(stream, doc, contentMathNode);
-                fprintf(stream, "\n</content>\n");
-                fprintf(stream, "</mws:expr>\n");
-                fclose(stream);
 
-                string harvestExpression = (string) buf;
+                string harvestExpression = "<mws:expr url=\"#" +
+                        string((char*)id) +
+                        "\" mws:data_id=\"" + std::to_string(data_id) +"\">\n"+
+                        xmlNodeToString(doc, contentMathNode) +
+                        "</mws:expr>\n";
+
                 if (isValidXml(harvestExpression)) {
                     harvestExpressions.push_back(harvestExpression);
                 }
 
                 xmlFree((void*) id);
-                free(buf);
             }
             xmlXPathFreeObject(result);
         }
@@ -223,6 +220,25 @@ void cleanContentMath(xmlNode* xmlNode) {
         cleanContentMath(curr);
         curr = curr->next;
     }
+}
+
+/**
+  * @brief get the content of an xmlNode from document doc
+  * @param doc
+  * @param xmlNode
+  */
+static
+string xmlNodeToString(xmlDocPtr doc, xmlNode *xmlNode) {
+    char* buf;
+    size_t size;
+    FILE *stream = open_memstream(&buf, &size);
+    xmlElemDump(stream, doc, xmlNode);
+    fclose(stream);
+
+    string content = (string) buf;;
+    free(buf);
+
+    return content;
 }
 
 }  // namespace parser

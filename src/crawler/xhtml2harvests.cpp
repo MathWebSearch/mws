@@ -22,6 +22,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  *  @file xhtml2harvests.cpp
  *  @author Corneliu C Prodescu <cprodescu@gmail.com>
  *
+ *  @edited Radu Hambasan
+ *  @date 07 Feb 2014
  *  Harvest XHTML files given as command line arguments.
  */
 
@@ -85,24 +87,31 @@ int main(int argc, char *argv[])
           harvest);
     {
         const vector<string>& files = FlagParser::getParams();
+        int data_id = 0;
         for (const string& file : files) {
             string url = root + file;
             string content = getFileContents(file.c_str());
-            vector<string> mathElements = getHarvestFromXhtml(content, url);
-            if (mathElements.size() == 0) {
+            vector<string> elements = getHarvestFromXhtml(content, data_id);
+
+            if (elements.size() == 0) {
                 fprintf(stderr, "%s: %s: Could not find any Content MathML\n",
                         argv[0], file.c_str());
                 continue;
             }
-            for (const string& mathElement : mathElements) {
-                fputs(mathElement.c_str(), harvest);
+
+
+            for (const string& element : elements) {
+                fputs(element.c_str(), harvest);
             }
+
+            ++data_id;
         }
     }
     fputs("</mws:harvest>\n", harvest);
 
     fclose(harvest);
 
+    printf("Generated harvest %s\n", harvest_templ);
     return EXIT_SUCCESS;
 
 failure:

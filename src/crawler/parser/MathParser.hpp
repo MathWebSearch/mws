@@ -42,7 +42,7 @@ namespace crawler { namespace parser {
  * @return vector of harvested expressions
  */
 std::vector<std::string> getHarvestFromXhtml(const std::string& xhtml,
-                                             const std::string& url);
+                                             const int data_id);
 
 } }
 
