@@ -234,8 +234,9 @@ int initMws(const Config& config)
         AbsPath harvestPath(*it);
         printf("Loading from %s...\n", it->c_str());
         printf("%d expressions loaded.\n",
-                loadMwsHarvestFromDirectory(indexManager, harvestPath,
-                                            config.recursive));
+                parser::loadMwsHarvestFromDirectory(indexManager, harvestPath,
+                                                    config.harvestFileExtension,
+                                                    config.recursive));
         fflush(stdout);
     }
 

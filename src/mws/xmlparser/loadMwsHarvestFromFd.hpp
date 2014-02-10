@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _LOADMWSHARVESTFROMFD_HPP
-#define _LOADMWSHARVESTFROMFD_HPP
+#ifndef _MWS_PARSER_LOADMWSHARVESTFROMFD_HPP
+#define _MWS_PARSER_LOADMWSHARVESTFROMFD_HPP
 
 /**
   * @brief File containing the header of the loadMwsHarvestFromFd function
@@ -34,6 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
+#include <string>
 #include <utility>
 
 // Local includes
@@ -41,8 +42,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/IndexManager.hpp"
 #include "common/utils/Path.hpp"
 
-namespace mws
-{
+namespace mws {
+namespace parser {
 
 /**
   * @brief Function to load a MwsHarvest in from a file descriptor.
@@ -57,9 +58,11 @@ loadMwsHarvestFromFd(mws::index::IndexManager* indexManager, int fd);
 
 int loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
                                 const mws::AbsPath& dirPath,
+                                const std::string& extension,
                                 bool recursive);
 
 
-}
+}  // namespace parser
+}  // namespace mws
 
-#endif
+#endif  // _MWS_PARSER_LOADMWSHARVESTFROMFD_HPP

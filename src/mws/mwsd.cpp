@@ -54,6 +54,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('r', "recursive",            FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('L', "leveldb",              FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
@@ -66,19 +67,18 @@ int main(int argc, char* argv[]) {
     // harvest paths
     config.harvestLoadPaths = FlagParser::getArgs('I');
 
-    // recursive
-    if (FlagParser::hasArg('r')) {
-        config.recursive = true;
+    // harvest file extension
+    if (FlagParser::hasArg('e')) {
+        config.harvestFileExtension = FlagParser::getArg('e');
     } else {
-        config.recursive = false;
+        config.harvestFileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
     }
 
+    // recursive
+    config.recursive = FlagParser::hasArg('r');
+
     // leveldb
-    if (FlagParser::hasArg('L')) {
-        config.useLevelDb = true;
-    } else {
-        config.useLevelDb = false;
-    }
+    config.useLevelDb = FlagParser::hasArg('L');
 
     // mws-port
     if (FlagParser::hasArg('m')) {

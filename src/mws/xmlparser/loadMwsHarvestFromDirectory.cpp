@@ -31,143 +31,77 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <stdio.h>
-#include <dirent.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <string.h>
+
 #include <algorithm>
+#include <string>
 #include <utility>
 
 #include "mws/index/IndexManager.hpp"
 #include "common/utils/Path.hpp"
+#include "common/utils/macro_func.h"
+#include "common/utils/util.hpp"
+
 #include "loadMwsHarvestFromFd.hpp"
 
-#include "config.h"
 
 // Namespaces
 
 using namespace std;
 
 namespace mws {
+namespace parser {
 
 int
 loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
                             mws::AbsPath const& dirPath,
-                            bool recursive)
-{
-    DIR*           directory;
-    struct dirent* currEntry;
-    struct dirent  tmpEntry;
-    int            ret;
-    size_t         extenSize;
-    int            fd;
-    int            totalLoaded;
-    pair<int,int>  loadReturn;
-    vector<string> files;
-    vector<string> subdirs;
-    AbsPath        fullPath;
-    vector<string> :: iterator it;
+                            const std::string& extension,
+                            bool recursive) {
+    int totalLoaded = 0;
 
-    totalLoaded = 0;
-
-    extenSize = strlen(MWS_HARVEST_SUFFIX);
-
-    directory = opendir(dirPath.get());
-    if (!directory)
-    {
-        perror("loadMwsHarvestFromDirectory");
-        return -1;
-    }
-
-    while ((ret = readdir_r(directory, &tmpEntry, &currEntry)) == 0 &&
-            currEntry != NULL)
-    {
-        size_t entrySize = strlen(currEntry->d_name);
-
-        if (currEntry->d_name[0] == '.') {
-            printf("Skipping hidden entry \"%s\"\n", currEntry->d_name);
-        } else {
-            switch (currEntry->d_type) {
-            case DT_DIR:
-                if (recursive) {
-                    subdirs.push_back(currEntry->d_name);
-                } else {
-                    printf("Skipping directory \"%s\"\n", currEntry->d_name);
-                }
-                break;
-            case DT_REG:
-                if (strcmp(currEntry->d_name + entrySize - extenSize,
-                             MWS_HARVEST_SUFFIX) == 0) {
-                    files.push_back(currEntry->d_name);
-                } else {
-                    printf("Skipping bad extension file \"%s\"\n",
-                           currEntry->d_name);
-                }
-                break;
-            default:
-                printf("Skiping entry \"%s\": not a regular file\n",
-                       currEntry->d_name);
-                break;
+    common::utils::FileCallback fileCallback =
+            [&totalLoaded, indexManager, extension](const std::string& path) {
+        if (common::utils::hasSuffix(path, extension)) {
+            printf("Loading %s... ", path.c_str());
+            int fd = open(path.c_str(), O_RDONLY);
+            if (fd < 0) {
+                return -1;
             }
+            auto loadReturn = loadMwsHarvestFromFd(indexManager, fd);
+            if (loadReturn.first == 0) {
+                printf("%d loaded\n", loadReturn.second);
+            } else {
+                printf("%d loaded (with errors)\n", loadReturn.second);
+            }
+            totalLoaded += loadReturn.second;
+            close(fd);
+        } else {
+            printf("Skipping \"%s\": bad extension\n", path.c_str());
         }
-    }
-    if (ret != 0)
-    {
-        perror("readdir:");
-    }
 
-    // Closing the directory
-    closedir(directory);
-
-    // Sorting the entries
-    sort(files.begin(), files.end());
+        return 0;
+    };
+    common::utils::DirectoryCallback shouldRecurse =
+            [](const std::string partialPath) {
+        UNUSED(partialPath);
+        return true;
+    };
 
     printf("Loading harvest files...\n");
-
-    // Loading the harvests from the respective entries
-    for (it = files.begin(); it != files.end(); it++)
-    {
-        fullPath.set(dirPath.get());
-        fullPath.append(*it);
-        fd = open(fullPath.get(), O_RDONLY);
-        if (fd < 0)
-        {
-            fprintf(stderr, "Error while opening \"%s\"\n", fullPath.get());
-            continue;
-        }
-
-        printf("Loading %s... ", fullPath.get());
-        fflush(stdout);
-        loadReturn = loadMwsHarvestFromFd(indexManager, fd);
-        if (loadReturn.first == 0)
-        {
-            printf("%d loaded\n", loadReturn.second);
-        }
-        else
-        {
-            printf("%d loaded (with errors)\n", loadReturn.second);
-        }
-
-        totalLoaded += loadReturn.second;
-
-        close(fd);
-
-        printf("Total %d\n", totalLoaded);
-    }
-
-    // Recursing through directories
     if (recursive) {
-        for (it = subdirs.begin(); it != subdirs.end(); it++) {
-            fullPath.set(dirPath.get());
-            fullPath.append(*it);
-            totalLoaded += loadMwsHarvestFromDirectory(indexManager, fullPath,
-                                                       /* recursive = */ true);
-        }
+        FAIL_ON(common::utils::foreachEntryInDirectory(dirPath.get(),
+                                                       fileCallback,
+                                                       shouldRecurse));
+    } else {
+        FAIL_ON(common::utils::foreachEntryInDirectory(dirPath.get(),
+                                                       fileCallback));
     }
 
+fail:
     return totalLoaded;
 }
 
-}
+}  // namespace parser
+}  // namespace mws

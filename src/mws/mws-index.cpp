@@ -66,12 +66,21 @@ int main(int argc, char* argv[]) {
 
     FlagParser::addFlag('d', "output-directory",        FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('I', "include-harvest-path",    FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('r', "recursive",               FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('s', "memsector-size",          FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
+
+    string harvestExtension = "harvest";
+    if (FlagParser::hasArg('e')) {
+        harvestExtension = FlagParser::getArg('e');
+    }
+
+    bool recursive = FlagParser::hasArg('r');
 
     if ((ret = FlagParser::parse(argc, argv)) != 0) {
-            fprintf(stderr, "%s", FlagParser::getUsage().c_str());
-            goto failure;
-        }
+        fprintf(stderr, "%s", FlagParser::getUsage().c_str());
+        goto failure;
+    }
 
     harvest_path = FlagParser::getArg('I');
     output_dir   = FlagParser::getArg('d');
@@ -103,11 +112,12 @@ int main(int argc, char* argv[]) {
     meaningDictionary = new types::MeaningDictionary();
 
     indexManager = new index::IndexManager(formulaDb,
-                                            crawlDb,
-                                            data,
-                                            meaningDictionary);
+                                           crawlDb,
+                                           data,
+                                           meaningDictionary);
 
-    loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path), false);
+    parser::loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
+                                        harvestExtension, recursive);
     memsector_create(&mwsr,
                      (output_dir + "memsector.dat").c_str(),
                      memsector_size);

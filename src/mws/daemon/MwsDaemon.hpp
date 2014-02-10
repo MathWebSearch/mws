@@ -46,6 +46,7 @@ struct Config {
     uint16_t                 mwsPort;
     std::string              dataPath;
     bool                     useLevelDb;
+    std::string              harvestFileExtension;
 };
 
 int mwsDaemonLoop(const Config& config);

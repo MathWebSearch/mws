@@ -70,6 +70,7 @@ using namespace std;
 using namespace mws::types;
 
 namespace mws {
+namespace parser {
 
 enum MwsHarvestState
 {
@@ -82,7 +83,7 @@ enum MwsHarvestState
 
 struct MwsHarvest_SaxUserData
 {
-    mws::MwsHarvestState state;     //!< Parse state machine state
+    MwsHarvestState state;     //!< Parse state machine state
     int unknownDepth;               //!< Depth of XML tree in unknown state
     map<string, CrawlId> localIdToCrawlIds;
 
@@ -93,7 +94,7 @@ struct MwsHarvest_SaxUserData
 
     types::CmmlToken*               math;
     /// State of the parsing before going into an unknown state
-    mws::MwsHarvestState         prevState;
+    MwsHarvestState         prevState;
     /// True if an XML structural error is detected
     bool                         errorDetected;
     /// Number of correctly parsed expressions
@@ -625,4 +626,5 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
     return make_pair(ret, user_data.parsedExpr);
 }
 
-}
+}  // namespace parser
+}  // namespace mws

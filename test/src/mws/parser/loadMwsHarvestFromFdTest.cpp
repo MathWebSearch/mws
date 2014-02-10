@@ -86,7 +86,7 @@ int main()
         int fd;
 
         FAIL_ON((fd = open(harvest_path.c_str(), O_RDONLY)) < 0);
-        auto ret = loadMwsHarvestFromFd(&indexManager, fd);
+        auto ret = parser::loadMwsHarvestFromFd(&indexManager, fd);
         FAIL_ON(ret.first != harvest.returnValue);
         FAIL_ON(ret.second != harvest.expressionCount);
 

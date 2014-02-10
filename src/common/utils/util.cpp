@@ -27,18 +27,33 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * License: GPL v3
   */
 
-
+#include <dirent.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
+#include <queue>
+using std::queue;
+#include <string>
+using std::string;
 #include <fstream>
+using std::ifstream;
 #include <stdexcept>
+using std::runtime_error;
+#include <functional>
 
+#include "common/utils/macro_func.h"
 #include "util.hpp"
 
-using namespace std;
 
 namespace common { namespace utils {
+
+bool hasSuffix(const std::string& str, const std::string& suffix) {
+    return (str.length() >= suffix.length()) &&
+            (0 == str.compare(str.length() - suffix.length(),
+                              suffix.length(), suffix));
+}
 
 std::string
 getFileContents(const std::string& path) {
@@ -54,11 +69,82 @@ getFileContents(const std::string& path) {
             in.close();
         }
     } catch (...) {
-        throw std::runtime_error(strerror(errno));
+        throw runtime_error(strerror(errno));
     }
 
     return contents;
 }
 
-} }
+static int getPathsInDirectory(const std::string& directoryPath,
+                               const std::string& prefix,
+                               queue<string>* directories,
+                               queue<string>* files) {
+    DIR* directory;
+    struct dirent entryData, *currEntry;
+
+    FAIL_ON((directory = opendir(directoryPath.c_str())) == NULL);
+    while (1) {
+        FAIL_ON(readdir_r(directory, &entryData, &currEntry) != 0);
+        if (currEntry == NULL) {
+            // end of directory
+            break;
+        }
+        const string name = prefix + "/" + currEntry->d_name;
+        if (currEntry->d_name[0] == '.') {
+            printf("Skipping entry \"%s\": hidden\n", name.c_str());
+        } else {
+            switch (currEntry->d_type) {
+            case DT_DIR:
+                directories->push(name);
+                break;
+            case DT_REG:
+                files->push(name);
+                break;
+            default:
+                printf("Skiping entry \"%s\": not a regular file\n",
+                       name.c_str());
+                break;
+            }
+        }
+    }
+    FAIL_ON(closedir(directory) != 0);
+
+    return 0;
+
+fail:
+    return -1;
+}
+
+int
+foreachEntryInDirectory(const std::string& path,
+                        const FileCallback& fileCallback,
+                        const DirectoryCallback& directoryCallback) {
+    queue<string> directories, files;
+
+    FAIL_ON(getPathsInDirectory(path, ".", &directories, &files) != 0);
+
+    while (!directories.empty() || !files.empty()) {
+        while (!files.empty()) {
+            const string file = files.front();
+            files.pop();
+            FAIL_ON(fileCallback(path + "/" + file) != 0);
+        }
+        if (!directories.empty()) {
+            const string directory = directories.front();
+            directories.pop();
+            if (directoryCallback(directory)) {
+                FAIL_ON(getPathsInDirectory(path + "/" + directory, directory,
+                                            &directories, &files) != 0);
+            }
+        }
+    }
+
+    return 0;
+
+fail:
+    return -1;
+}
+
+}  // namespace utils
+}  // namespace common
 
