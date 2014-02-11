@@ -79,17 +79,16 @@ writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
     // Creating hits field
     for (auto answer : answset->answers) {
         json_object *hit = json_object_new_object();
+        json_object *math_ids = json_object_new_array();
         json_object *math_id = json_object_new_object();
-
         json_object_object_add(math_id, "url",
                                json_object_new_string(answer->uri.c_str()));
         json_object_object_add(math_id, "xpath",
                                json_object_new_string(answer->xpath.c_str()));
-
-        json_object_object_add(hit, "math_id", math_id);
+        json_object_array_add(math_ids, math_id);
+        json_object_object_add(hit, "math_ids", math_ids);
         json_object_object_add(hit, "xhtml",
                                json_object_new_string(answer->data.c_str()));
-
         json_object_array_add(hits, hit);
     }
 
