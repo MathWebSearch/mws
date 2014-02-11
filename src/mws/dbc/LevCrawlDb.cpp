@@ -37,13 +37,14 @@ using common::types::ParcelEncoder;
 using common::types::ParcelDecoder;
 #include "mws/types/NodeInfo.hpp"
 using mws::types::CrawlData;
+using mws::types::CRAWLID_NULL;
 
 #include "LevCrawlDb.hpp"
 
 
 namespace mws { namespace dbc {
 
-LevCrawlDb::LevCrawlDb() : mDatabase(NULL), mNextCrawlId(0) {
+LevCrawlDb::LevCrawlDb() : mDatabase(NULL), mNextCrawlId(CRAWLID_NULL) {
 }
 
 LevCrawlDb::~LevCrawlDb() {
@@ -71,7 +72,7 @@ int LevCrawlDb::create_new(const char* path) {
 
 types::CrawlId LevCrawlDb::putData(const types::CrawlData& crawlData)
 throw (std::exception) {
-    types::CrawlId crawlId = mNextCrawlId++;
+    types::CrawlId crawlId = ++mNextCrawlId;
     string crawlId_str = ToString(crawlId);
 
     ParcelAllocator allocator;

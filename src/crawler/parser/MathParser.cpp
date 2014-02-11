@@ -80,6 +80,7 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
                 xmlNode* mathNode = contentMathNode->parent->parent->parent;
                 const xmlChar *id = xmlGetProp(mathNode, BAD_CAST "id");
 
+                sanitizeMathML(doc, contentMathNode);
                 cleanContentMath(contentMathNode);
 
                 string harvestExpression = "<mws:expr url=\"#" +

@@ -66,7 +66,8 @@ const vector<HarvestData> harvests = {
     { "eq_ambiguity.harvest", 0, 4 },
     { "data1.harvest", 0, 17 },
     { "data2.harvest", 0, 14 },
-    { "data3.harvest", 0, 14 }
+    { "data3.harvest", 0, 14 },
+    { "data4.harvest", 0, 1 }
 };
 
 int main()

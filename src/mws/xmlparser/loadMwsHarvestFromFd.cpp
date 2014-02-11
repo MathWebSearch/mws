@@ -172,6 +172,7 @@ void tearDownCopyToStringWriter(MwsHarvest_SaxUserData* data) {
     xmlTextWriterEndDocument(data->stringWriter);
     xmlTextWriterFlush(data->stringWriter);
     xmlFreeTextWriter(data->stringWriter);
+    data->data = string(data->buffer.data(), data->buffer.size());
 }
 
 /**

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<mws:harvest xmlns:mws="http://search.mathweb.org/ns" xmlns:m="http://www.w3.org/1998/Math/MathML">
+    <mws:data mws:data_id="0">
+        <ci>CONTENT</ci>
+    </mws:data>
+    <mws:expr mws:data_id="0" url="http://arxivdemo.mathweb.org/article/824/astro-ph.9911372/article/824/astro-ph.9911372#id2766860">
+        <m:cn id="id2766870">119</m:cn>
+    </mws:expr>
+</mws:harvest>
