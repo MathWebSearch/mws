@@ -196,8 +196,10 @@ int initMws(const Config& config)
 
     if (config.useLevelDb) {
         dbc::LevCrawlDb* crdb = new dbc::LevCrawlDb();
-        if (crdb->create_new("crawl1.db") == -1)
-            crdb->open("crawl1.db");
+        string crdbPath = config.dataPath + "/crawl.db";
+        if (crdb->create_new(crdbPath.c_str()) == -1) {
+            crdb->open(crdbPath.c_str());
+        }
         crawlDb = crdb;
     } else {
         crawlDb = new dbc::MemCrawlDb();
@@ -205,8 +207,10 @@ int initMws(const Config& config)
 
     if (config.useLevelDb) {
         dbc::LevFormulaDb* fmdb = new dbc::LevFormulaDb();
-        if (fmdb->create_new("formula1.db") == -1)
-            fmdb->open("formula1.db");
+        string fmdbPath = config.dataPath + "/formula.db";
+        if (fmdb->create_new(fmdbPath.c_str()) == -1) {
+            fmdb->open(fmdbPath.c_str());
+        }
         formulaDb = fmdb;
     } else {
         formulaDb = new dbc::MemFormulaDb();
