@@ -78,6 +78,7 @@ cat $MWSD_STUB |    \
     sed "s#@MWS_REST_PORT@#$MWS_REST_PORT#g" | \
     sed "s#@MWS_DATA_PATH@#$MWS_DATA_PATH#g" | \
     sed "s#@MWS_BIN_PATH@#$MWS_BIN_PATH#g" | \
+    sed "s#@MWS_DAEMON_EXTRA_ARGS@#$MWS_DAEMON_EXTRA_ARGS#g" | \
     sed "s#@MWS_HARVEST_PATH@#$MWS_HARVEST_PATH#g" > "$MWSD_OUT"
 chmod 755 $MWSD_OUT
 echo "Generated $MWSD_OUT"
