@@ -57,7 +57,10 @@ int LevCrawlDb::open(const char* path) {
     leveldb::Status status =
         leveldb::DB::Open(options, path, &mDatabase);
 
-    return status.ok()? 0 : -1;
+    if (!status.ok()) {
+        throw std::runtime_error(string(path) + " not found.");
+    }
+    return EXIT_SUCCESS;
 }
 
 int LevCrawlDb::create_new(const char* path) {
@@ -66,8 +69,12 @@ int LevCrawlDb::create_new(const char* path) {
     options.create_if_missing = true;
     leveldb::Status status =
         leveldb::DB::Open(options, path, &mDatabase);
+    if (!status.ok()) {
+        throw std::runtime_error(status.ToString());
+    }
 
-    return status.ok()? 0 : -1;
+
+    return EXIT_SUCCESS;
 }
 
 types::CrawlId LevCrawlDb::putData(const types::CrawlData& crawlData)

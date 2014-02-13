@@ -27,6 +27,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdlib.h>
 
+#include <stdexcept>
 #include <string>
 using std::string;
 
@@ -53,7 +54,11 @@ int LevFormulaDb::open(const char* path) {
     options.create_if_missing = false;
     leveldb::Status status = leveldb::DB::Open(options, path, &mDatabase);
 
-    return status.ok()? 0 : -1;
+    if (!status.ok()) {
+        throw std::runtime_error(status.ToString());
+    }
+
+    return EXIT_SUCCESS;
 }
 
 int LevFormulaDb::create_new(const char* path) {
@@ -62,8 +67,11 @@ int LevFormulaDb::create_new(const char* path) {
     options.create_if_missing = true;
 
     leveldb::Status status = leveldb::DB::Open(options, path, &mDatabase);
+    if (!status.ok()) {
+        throw std::runtime_error(status.ToString());
+    }
 
-    return status.ok()? 0 : -1;
+    return EXIT_SUCCESS;
 }
 
 

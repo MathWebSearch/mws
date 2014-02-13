@@ -196,24 +196,24 @@ int initMws(const Config& config)
 
     if (config.useLevelDb) {
         dbc::LevCrawlDb* crdb = new dbc::LevCrawlDb();
-        string crdbPath = config.dataPath + "/crawl.db";
-        if (crdb->create_new(crdbPath.c_str()) == -1) {
-            crdb->open(crdbPath.c_str());
-        }
-        crawlDb = crdb;
-    } else {
-        crawlDb = new dbc::MemCrawlDb();
-    }
-
-    if (config.useLevelDb) {
         dbc::LevFormulaDb* fmdb = new dbc::LevFormulaDb();
+        string crdbPath = config.dataPath + "/crawl.db";
         string fmdbPath = config.dataPath + "/formula.db";
-        if (fmdb->create_new(fmdbPath.c_str()) == -1) {
-            fmdb->open(fmdbPath.c_str());
+
+        try {
+            crdb->create_new(crdbPath.c_str());
+            fmdb->create_new(fmdbPath.c_str());
+
+            crawlDb = crdb;
+            formulaDb = fmdb;
         }
-        formulaDb = fmdb;
+        catch(const std::exception &e) {
+            fprintf(stderr, "Initializing database: %s\n", e.what());
+            return EXIT_FAILURE;
+        }
     } else {
-        formulaDb = new dbc::MemFormulaDb();
+         crawlDb = new dbc::MemCrawlDb();
+         formulaDb = new dbc::MemFormulaDb();
     }
 
     data = new MwsIndexNode();
@@ -278,7 +278,8 @@ int mwsDaemonLoop(const Config& config)
 {
     OutSocket* acceptedSock;
 
-    initMws(config);
+    if (initMws(config) != EXIT_SUCCESS)
+        return EXIT_FAILURE;
 
     atexit(cleanupMws);
 
@@ -291,4 +292,5 @@ int mwsDaemonLoop(const Config& config)
     return EXIT_SUCCESS;
 }
 
-} /* daemon */ } /* mws */
+}  // namespace daemon
+}  // namespace mws
