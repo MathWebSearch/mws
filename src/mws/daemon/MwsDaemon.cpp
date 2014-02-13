@@ -266,6 +266,10 @@ void cleanupMws()
 
     clearxmlparser();
     delete serverSocket;
+    delete indexManager;
+    delete meaningDictionary;
+    delete crawlDb;
+    delete formulaDb;
     delete data;
 }
 

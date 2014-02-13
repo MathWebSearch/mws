@@ -423,6 +423,7 @@ my_endElement(void*          user_data,
             if (ret != -1) {
                 data->parsedExpr += ret;
             }
+            delete data->currentToken;
             data->currentToken = NULL;
             data->currentTokenRoot = NULL;
         } else {
