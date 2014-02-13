@@ -39,8 +39,11 @@ bool hasSuffix(const std::string& str, const std::string& suffix);
 std::string
 getFileContents(const std::string& path);
 
-typedef std::function<int (const std::string fullPath)> FileCallback;
-typedef std::function<bool (const std::string partialPath)> DirectoryCallback;
+typedef std::function<int (const std::string& fullPath,
+                           const std::string& directoryPartialPath)>
+FileCallback;
+typedef std::function<bool (const std::string& directoryPartialPath)>
+DirectoryCallback;
 
 static
 DirectoryCallback ignore_directories = [](const std::string partialPath) {

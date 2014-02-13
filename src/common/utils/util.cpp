@@ -33,15 +33,18 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <queue>
-using std::queue;
-#include <string>
-using std::string;
+#include <algorithm>
 #include <fstream>
 using std::ifstream;
+#include <functional>
+#include <queue>
+using std::queue;
 #include <stdexcept>
 using std::runtime_error;
-#include <functional>
+#include <string>
+using std::string;
+#include <vector>
+using std::vector;
 
 #include "common/utils/macro_func.h"
 #include "util.hpp"
@@ -75,12 +78,23 @@ getFileContents(const std::string& path) {
     return contents;
 }
 
+struct FileData {
+    string fullPath;
+    string directoryPartialPath;
+
+    FileData(const string& fullPath, const string& directoryPartialPath)
+        : fullPath(fullPath), directoryPartialPath(directoryPartialPath) {
+    }
+};
+
 static int getPathsInDirectory(const std::string& directoryPath,
                                const std::string& prefix,
-                               queue<string>* directories,
-                               queue<string>* files) {
+                               queue<string>* directoriesOut,
+                               queue<FileData>* filesOut) {
     DIR* directory;
     struct dirent entryData, *currEntry;
+    vector<string> directories;
+    vector<string> files;
 
     FAIL_ON((directory = opendir(directoryPath.c_str())) == NULL);
     while (1) {
@@ -95,10 +109,10 @@ static int getPathsInDirectory(const std::string& directoryPath,
         } else {
             switch (currEntry->d_type) {
             case DT_DIR:
-                directories->push(name);
+                directories.push_back(name);
                 break;
             case DT_REG:
-                files->push(name);
+                files.push_back(name);
                 break;
             default:
                 printf("Skiping entry \"%s\": not a regular file\n",
@@ -109,9 +123,19 @@ static int getPathsInDirectory(const std::string& directoryPath,
     }
     FAIL_ON(closedir(directory) != 0);
 
+    sort(directories.begin(), directories.end(), std::less<string>());
+    sort(files.begin(), files.end(), std::less<string>());
+
+    for (string file : files) {
+        filesOut->push(FileData(file, prefix));
+    }
+    for (string directory : directories) {
+        directoriesOut->push(directory);
+    }
     return 0;
 
 fail:
+    fprintf(stderr, "%s\n", directoryPath.c_str());
     return -1;
 }
 
@@ -119,15 +143,17 @@ int
 foreachEntryInDirectory(const std::string& path,
                         const FileCallback& fileCallback,
                         const DirectoryCallback& directoryCallback) {
-    queue<string> directories, files;
+    queue<string> directories;
+    queue<FileData> files;
 
     FAIL_ON(getPathsInDirectory(path, ".", &directories, &files) != 0);
 
     while (!directories.empty() || !files.empty()) {
         while (!files.empty()) {
-            const string file = files.front();
+            const FileData fileData = files.front();
             files.pop();
-            FAIL_ON(fileCallback(path + "/" + file) != 0);
+            FAIL_ON(fileCallback(path + "/" + fileData.fullPath,
+                                 fileData.directoryPartialPath) != 0);
         }
         if (!directories.empty()) {
             const string directory = directories.front();

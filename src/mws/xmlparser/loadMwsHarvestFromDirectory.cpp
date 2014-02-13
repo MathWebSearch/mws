@@ -62,7 +62,9 @@ loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
     int totalLoaded = 0;
 
     common::utils::FileCallback fileCallback =
-            [&totalLoaded, indexManager, extension](const std::string& path) {
+            [&totalLoaded, indexManager, extension](const std::string& path,
+                                                    const std::string& prefix) {
+        UNUSED(prefix);
         if (common::utils::hasSuffix(path, extension)) {
             printf("Loading %s... ", path.c_str());
             int fd = open(path.c_str(), O_RDONLY);
