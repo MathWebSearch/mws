@@ -23,65 +23,151 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-#include <string>
-#include <cerrno>
+#include <errno.h>
+#include <unistd.h>
 
+#include <string>
+
+#include "mws/dbc/MemCrawlDb.hpp"
+#include "mws/dbc/MemFormulaDb.hpp"
 #include "mws/index/MwsIndexNode.hpp"
 #include "mws/index/memsector.h"
+#include "mws/index/IndexManager.hpp"
 #include "mws/types/MeaningDictionary.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "common/utils/macro_func.h"
-#include "mws/dbc/MemCrawlDb.hpp"
-#include "mws/dbc/MemFormulaDb.hpp"
-#include "mws/index/IndexManager.hpp"
+#include "common/utils/FlagParser.hpp"
+using common::utils::FlagParser;
 
 #include "config.h"
 
-#define TMPDBENV_PATH   "/tmp"
-#define TMPFILE_PATH    "/tmp/test.map"
-#define TMPFILE_SIZE    500 * 1024 * 1024
-
+#define DEFAULT_TMP_MEMSECTOR_PATH  "/tmp/test.memsector"
+#define DEFAULT_MEMSECTOR_SIZE      200 * 1024 * 1024
+#define DEFAULT_HARVEST_PATH        MWS_TESTDATA_PATH
 
 using namespace std;
 using namespace mws;
 
-namespace mws {
+const memsector_alloc_header_t *alloc;
 
-class Tester {
-  public:
-    static bool memsector_inode_consistent(MwsIndexNode* tmp_node, inode_t* inode);
+struct Tester {
+    static inline
+    bool memsector_inode_consistent(const MwsIndexNode* tmp_node,
+                                    const inode_t* inode) {
+        switch (inode->type) {
+        case INTERNAL_NODE: {
+            if (tmp_node->children.size() != inode->size) return false;
+            int i = 0;
+            for (auto& kv : tmp_node->children) {
+                MeaningId           meaningId  = kv.first.first;
+                Arity               arity      = kv.first.second;
+                const MwsIndexNode* child_node = kv.second;
+
+                if (meaningId != inode->data[i].token.id) return false;
+                if (arity     != inode->data[i].token.arity) return false;
+                inode_t* child_inode = (inode_t*)
+                        memsector_off2addr(alloc, inode->data[i].off);
+                if (!memsector_inode_consistent(child_node, child_inode)) {
+                    return false;
+                }
+
+                i++;
+            }
+            return true;
+        }
+
+        case LEAF_NODE: {
+            leaf_t *leaf = (leaf_t*)inode;
+            return ((tmp_node->id == leaf->dbid) &&
+                    (tmp_node->solutions == leaf->num_hits));
+        }
+
+        default: {
+            assert(false);
+        }
+        }
+    }
 };
 
+static
+int test_memsector_consistency(MwsIndexNode* data, memsector_handle_t* ms) {
+    alloc = ms_get_alloc(ms);
+    if (Tester::memsector_inode_consistent(data, ms->index.root))
+        return 0;
+    else
+        return -1;
 }
 
-static int test_memsector_consistency(MwsIndexNode* data, memsector_handle_t* ms);
-
-int main() {
+int main(int argc, char* argv[]) {
     memsector_writer_t mswr;
     memsector_handle_t ms;
-    const char *ms_path = TMPFILE_PATH;
-    string harvest_path = MWS_TESTDATA_PATH;
-    string dbenv_path = TMPDBENV_PATH;
+    dbc::CrawlDb* crawlDb;
+    dbc::FormulaDb* formulaDb;
+    MwsIndexNode* data;
+    types::MeaningDictionary* meaningDictionary;
+    index::IndexManager* indexManager;
+    string harvest_path;
+    string tmp_memsector_path;
+    uint32_t memsector_size;
 
-    dbc::CrawlDb* crawlDb = new dbc::MemCrawlDb();
-    dbc::FormulaDb* formulaDb = new dbc::MemFormulaDb();
-    MwsIndexNode* data = new MwsIndexNode();
-    types::MeaningDictionary* meaningDictionary =
-            new types::MeaningDictionary();
+    FlagParser::addFlag('s', "memsector-size",          FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('I', "include-harvest-path",    FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('O', "tmp-memsector-path",      FLAG_OPT, ARG_REQ);
 
-    index::IndexManager* indexManager =
+    if (FlagParser::parse(argc, argv) != 0) {
+        fprintf(stderr, "%s", FlagParser::getUsage().c_str());
+        goto fail;
+    }
+
+    if (FlagParser::hasArg('s')) {
+        int64_t size = strtoll(FlagParser::getArg('s').c_str(), NULL, 10);
+        if (size > 0 && size < UINT32_MAX) {
+            memsector_size = size;
+        } else {
+            fprintf(stderr, "Invalid size \"%s\"\n",
+                    FlagParser::getArg('s').c_str());
+            goto fail;
+        }
+    } else {
+        fprintf(stderr, "Using default memsector size %d\n",
+                DEFAULT_MEMSECTOR_SIZE);
+        memsector_size = DEFAULT_MEMSECTOR_SIZE;
+    }
+
+    if (FlagParser::hasArg('I')) {
+        harvest_path = FlagParser::getArg('I');
+    } else {
+        fprintf(stderr, "Using default include harvest path %s\n",
+                DEFAULT_HARVEST_PATH);
+        harvest_path = DEFAULT_HARVEST_PATH;
+    }
+
+    if (FlagParser::hasArg('O')) {
+        tmp_memsector_path = FlagParser::getArg('O');
+    } else {
+        fprintf(stderr, "Using default temporary memsector path %s\n",
+                DEFAULT_TMP_MEMSECTOR_PATH);
+        tmp_memsector_path = DEFAULT_TMP_MEMSECTOR_PATH;
+    }
+
+    crawlDb = new dbc::MemCrawlDb();
+    formulaDb = new dbc::MemFormulaDb();
+    data = new MwsIndexNode();
+    meaningDictionary = new types::MeaningDictionary();
+    indexManager =
             new index::IndexManager(formulaDb,crawlDb, data, meaningDictionary);
 
     /* ensure the file does not exist */
-    FAIL_ON(unlink(ms_path) != 0 && errno != ENOENT);
+    FAIL_ON(unlink(tmp_memsector_path.c_str()) != 0 && errno != ENOENT);
 
     FAIL_ON(parser::loadMwsHarvestFromDirectory(indexManager,
                                                 AbsPath(harvest_path),
                                                 ".harvest",
                                                 /* recursive = */ false) <= 0);
 
-    FAIL_ON(memsector_create(&mswr, ms_path, TMPFILE_SIZE) != 0);
-    printf("Memsector %s created\n", ms_path);
+    FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str(),
+                             memsector_size) != 0);
+    printf("Memsector %s created\n", tmp_memsector_path.c_str());
     
     data->exportToMemsector(&mswr);
     printf("Index exported to memsector\n");
@@ -91,7 +177,7 @@ int main() {
     FAIL_ON(memsector_save(&mswr) != 0);
     printf("Memsector saved\n");
 
-    FAIL_ON(memsector_load(&ms, ms_path) != 0);
+    FAIL_ON(memsector_load(&ms, tmp_memsector_path.c_str()) != 0);
     printf("Memsector loaded\n");
 
     if (test_memsector_consistency(data, &ms) != 0) {
@@ -107,52 +193,4 @@ int main() {
 
 fail:
     return -1;
-}
-
-const memsector_alloc_header_t *alloc;
-
-bool Tester::memsector_inode_consistent(MwsIndexNode* tmp_node, inode_t* inode) {
-    // XXX unbound recursive behavior... dangerous in general... ok in test
-
-    switch(inode->type) {
-        case INTERNAL_NODE: {
-            if (tmp_node->children.size() != inode->size) return false;
-
-            int i = 0;
-            MwsIndexNode::_MapType::iterator it;
-            for (it = tmp_node->children.begin();
-                it != tmp_node->children.end();
-                it++, i++) {
-
-                MeaningId     meaningId  = it->first.first;
-                Arity         arity      = it->first.second;
-                MwsIndexNode* child_node = it->second;
-
-                if (meaningId != inode->data[i].token.id) return false;
-                if (arity     != inode->data[i].token.arity) return false;
-
-                inode_t* child_inode = (inode_t*) memsector_off2addr(alloc, inode->data[i].off);
-                if (!memsector_inode_consistent(child_node, child_inode)) return false;
-            }
-            return true;
-        }
-
-        case LEAF_NODE: {
-            leaf_t *leaf = (leaf_t*)inode;
-            return (tmp_node->id == leaf->dbid) && (tmp_node->solutions == leaf->num_hits);
-        }
-
-        default: {
-            assert(false);
-        }
-    }
-}
-
-static
-int test_memsector_consistency(MwsIndexNode* data, memsector_handle_t* ms) {
-    alloc = ms_get_alloc(ms);
-    if (Tester::memsector_inode_consistent(data, ms->index.root))
-        return 0;
-    else
-        return -1;
 }

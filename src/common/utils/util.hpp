@@ -32,6 +32,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <functional>
 
+struct Tester;
+
+#define ALLOW_TESTER_ACCESS     friend struct ::Tester
+
 namespace common { namespace utils {
 
 bool hasSuffix(const std::string& str, const std::string& suffix);

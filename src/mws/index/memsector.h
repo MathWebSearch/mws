@@ -59,8 +59,6 @@ typedef struct memsector_handle_s {
     mmap_handle_t mmap_handle;
     memsector_alloc_header_t* alloc;
     index_handle_t index;
-    //encoded_token_dict_handle_t encoded_token_dict;
-    //encoded_url_dict_handle_t encoded_url_dict;
 } memsector_handle_t;
 
 typedef struct memsector_writer_s {
@@ -125,46 +123,6 @@ void mswr_index_begin(memsector_writer_t* RESTRICT mswr) {
     /* set index header offset */
     memsector_off_t index_off = memsector_alloc_get_curr_off(alloc);
     ms->index_header_off = index_off;
-}
-
-/**
- * Prepare the memsector to begin writing the encoded token dictionary
- *
- * @return pointer to the encoded token dictionary header
- */
-static inline
-encoded_token_dict_header_t*
-mswr_encoded_token_dict_begin(memsector_writer_t* RESTRICT mswr) {
-    memsector_header_t*       ms    = mswr->ms_header;
-    memsector_alloc_header_t* alloc = &ms->alloc_header;
-
-    /* alloc encoded_token_dict header */
-    memsector_off_t encoded_token_dict_header_off =
-            memsector_alloc(alloc, sizeof(encoded_token_dict_header_t));
-    ms->encoded_token_dict_header_off = encoded_token_dict_header_off;
-
-    return (encoded_token_dict_header_t*)
-            memsector_off2addr(alloc, encoded_token_dict_header_off);
-}
-
-/**
- * Prepare the memsector to begin writing the URL dictionary
- *
- * @return pointer to the URL dictionary header
- */
-static inline
-encoded_url_dict_header_t*
-mswr_encoded_url_dict_begin(memsector_writer_t* RESTRICT mswr) {
-    memsector_header_t*       ms    = mswr->ms_header;
-    memsector_alloc_header_t* alloc = &ms->alloc_header;
-
-    /* alloc encoded_url_dict header */
-    memsector_off_t encoded_url_dict_header_off =
-            memsector_alloc(alloc, sizeof(encoded_url_dict_header_t));
-    ms->encoded_url_dict_header_off = encoded_url_dict_header_off;
-
-    return (encoded_url_dict_header_t*) 
-            memsector_off2addr(alloc, encoded_url_dict_header_off);
 }
 
 END_DECLS

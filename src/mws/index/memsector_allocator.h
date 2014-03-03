@@ -34,6 +34,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <assert.h>
 #include <stdint.h>
 
+#include "common/utils/compiler_defs.h"
+
 /*--------------------------------------------------------------------------*/
 /* Type declarations                                                        */
 /*--------------------------------------------------------------------------*/

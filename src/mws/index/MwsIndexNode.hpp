@@ -34,35 +34,31 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stack>
 #include <utility>
 
-#include "mws/types/CmmlToken.hpp"     // CmmlToken class header
-#include "mws/types/MwsAnswset.hpp"    // MWS Answer set class header
-#include "mws/types/NodeInfo.hpp"      // MWS node meaning declaration
-#include "mws/types/MeaningDictionary.hpp" // MWS meaning dictionary
+#include "mws/types/CmmlToken.hpp"
+#include "mws/types/MwsAnswset.hpp"
+#include "mws/types/NodeInfo.hpp"
+#include "mws/types/MeaningDictionary.hpp"
 #include "mws/types/VectorMap.hpp"
 #include "mws/index/memsector.h"
-
+#include "common/utils/util.hpp"
 
 namespace mws
 {
 
 class MwsIndexNode
 {
-    // Map to select children based on _MapKeyType
+ private:
     typedef mws::VectorMap<NodeInfo, MwsIndexNode*> _MapType;
-
-private:
+    /// Map of children MwsIndex Nodes
+    _MapType children;
     /// Id of the next node to be created
     static unsigned long long nextNodeId;
-public:
+ public:
     /// Id of the MwsIndexNode
     const unsigned long long id;
     /// Number of solutions associated with this node
     unsigned int solutions;
-private:
-    /// Map of children MwsIndex Nodes
-    _MapType children;
 
-public:
     /**
       * @brief Default constructor of the MwsIndexSubst class
       */
@@ -85,11 +81,18 @@ public:
     MwsIndexNode* insertData(const types::CmmlToken *expression,
                              types::MeaningDictionary *meaningDictionary);
 
-    void exportToMemsector(memsector_writer_t* mswr);
-    // Friend declarations
+    /**
+     * @brief exportToMemsector dump index data to a memsector index
+     * @param mswr memsector writer handle
+     */
+    void exportToMemsector(memsector_writer_t* mswr) const;
+
+ protected:
+    memsector_off_t exportToMemsector(memsector_alloc_header_t* alloc) const;
+
     friend struct SearchContext;
     friend struct qvarCtxt;
-    friend class Tester;
+    ALLOW_TESTER_ACCESS;
 };
 
 }

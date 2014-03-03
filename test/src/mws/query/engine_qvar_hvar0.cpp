@@ -26,7 +26,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <cerrno>
 
-#define private public
+#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/encoded_token_dict.h"
+#include "mws/query/engine.h"
 
 #include "engine_tester.hpp"
 
@@ -51,41 +53,43 @@ Meanings: F -> 0
 
 */
 
-static
-MwsIndexNode* create_test_MwsIndexNode() {
-    NodeInfo F_ni = make_pair(0, 1);
-    NodeInfo H_ni = make_pair(1, 1);
-    NodeInfo apply_ni = make_pair(65, 4);
+struct Tester {
+    static inline
+    MwsIndexNode* create_test_MwsIndexNode() {
+        NodeInfo F_ni = make_pair(0, 1);
+        NodeInfo H_ni = make_pair(1, 1);
+        NodeInfo apply_ni = make_pair(65, 4);
 
-    MwsIndexNode* data = new MwsIndexNode();
+        MwsIndexNode* data = new MwsIndexNode();
 
-    MwsIndexNode* H_node_1 = new MwsIndexNode();
-    H_node_1->solutions = 1;
-    data->children.insert(make_pair(H_ni, H_node_1));
+        MwsIndexNode* H_node_1 = new MwsIndexNode();
+        H_node_1->solutions = 1;
+        data->children.insert(make_pair(H_ni, H_node_1));
 
-    MwsIndexNode* F_node_1 = new MwsIndexNode();
-    F_node_1->solutions = 1;
-    data->children.insert(make_pair(F_ni, F_node_1));
+        MwsIndexNode* F_node_1 = new MwsIndexNode();
+        F_node_1->solutions = 1;
+        data->children.insert(make_pair(F_ni, F_node_1));
 
-    MwsIndexNode* apply_node_1 = new MwsIndexNode();
-    apply_node_1->solutions = 1;
-    data->children.insert(make_pair(apply_ni, apply_node_1));
+        MwsIndexNode* apply_node_1 = new MwsIndexNode();
+        apply_node_1->solutions = 1;
+        data->children.insert(make_pair(apply_ni, apply_node_1));
 
-    MwsIndexNode* F_node_2 = new MwsIndexNode();
-    apply_node_1->children.insert(make_pair(F_ni, F_node_2));
+        MwsIndexNode* F_node_2 = new MwsIndexNode();
+        apply_node_1->children.insert(make_pair(F_ni, F_node_2));
 
-    MwsIndexNode* H_node_3 = new MwsIndexNode();
-    F_node_2->children.insert(make_pair(H_ni, H_node_3));
+        MwsIndexNode* H_node_3 = new MwsIndexNode();
+        F_node_2->children.insert(make_pair(H_ni, H_node_3));
 
-    MwsIndexNode* H_node_4 = new MwsIndexNode();
-    H_node_3->children.insert(make_pair(H_ni, H_node_4));
+        MwsIndexNode* H_node_4 = new MwsIndexNode();
+        H_node_3->children.insert(make_pair(H_ni, H_node_4));
 
-    MwsIndexNode* H_node_5 = new MwsIndexNode();
-    H_node_5->solutions = 1;
-    H_node_4->children.insert(make_pair(H_ni, H_node_5));
+        MwsIndexNode* H_node_5 = new MwsIndexNode();
+        H_node_5->solutions = 1;
+        H_node_4->children.insert(make_pair(H_ni, H_node_5));
 
-    return data;
-}
+        return data;
+    }
+};
 
 static encoded_formula_t create_test_query() {
     encoded_formula_t result;
@@ -114,7 +118,7 @@ result_cb_return_t result_callback(void* handle,
 }
 
 int main() {
-    mws::MwsIndexNode* index = create_test_MwsIndexNode();
+    mws::MwsIndexNode* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
     return -1; // TODO remove after test is running

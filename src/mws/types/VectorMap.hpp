@@ -164,6 +164,16 @@ public:
     {
         return _data.end();
     }
+
+    inline const_iterator
+    begin() const {
+        return _data.begin();
+    }
+
+    inline const_iterator
+    end() const {
+        return _data.end();
+    }
 };
 
 template<>
