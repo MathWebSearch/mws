@@ -74,7 +74,7 @@ int main() {
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(ms_path) != 0 && errno != ENOENT);
-  
+
     FAIL_ON(parser::loadMwsHarvestFromDirectory(indexManager,
                                                 AbsPath(harvest_path),
                                                 ".harvest",

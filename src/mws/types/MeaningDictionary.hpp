@@ -38,6 +38,7 @@ namespace mws { namespace types {
 
 typedef common::types::IdDictionary<Meaning, MeaningId> MeaningDictionary;
 
-} }
+}  // namespace types
+}  // namesapce mws
 
 #endif // _MWS_TYPES_MEANINGDICTIONARY_HPP

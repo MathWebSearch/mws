@@ -104,14 +104,14 @@ memsector_off_t leaf_alloc(memsector_alloc_header_t* alloc) {
 
 static inline
 memsector_off_t inode_get_child(const inode_t* inode, encoded_token_t token) {
-    uint32_t left, right;
+    int32_t left, right;
 
     left = 0;
     right = inode->size - 1;
 
     while(left <= right)
     {
-        uint32_t center = left + (right - left) / 2;
+        int32_t center = left + (right - left) / 2;
         int result = memcmp(&inode->data[center].token, &token, sizeof(token));
         if (result > 0)
         {
@@ -127,7 +127,7 @@ memsector_off_t inode_get_child(const inode_t* inode, encoded_token_t token) {
         }
     }
 
-    return 0;
+    return MEMSECTOR_OFF_NULL;
 }
 
 static inline

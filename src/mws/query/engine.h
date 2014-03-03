@@ -19,15 +19,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
- * @brief   Query engine
- * @file    query_engine.h
+ * @brief   Query engine API
+ * @file    engine.h
  * @date    21 Feb 2013
  *
  * License: GPLv3
  */
 
-#ifndef __MWS_QUERY_QUERYENGINE_H
-#define __MWS_QUERY_QUERYENGINE_H
+#ifndef __MWS_QUERY_ENGINE_H
+#define __MWS_QUERY_ENGINE_H
 
 
 #include "mws/index/index.h"

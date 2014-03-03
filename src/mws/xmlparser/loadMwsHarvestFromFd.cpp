@@ -57,6 +57,8 @@ using std::map;
 #include "common/utils/DebugMacros.hpp"// Debug macros
 #include "common/utils/macro_func.h"
 
+#include "loadMwsHarvestFromFd.hpp"
+
 // Macros
 #define MWSHARVEST_MAIN_NAME                "mws:harvest"
 #define MWSHARVEST_EXPR_NAME                "mws:expr"

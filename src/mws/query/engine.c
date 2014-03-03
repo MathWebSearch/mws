@@ -20,13 +20,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
  * @brief   Query engine implementation
- * @file    query_engine.c
+ * @file    engine.c
  * @date    21 Feb 2013
  *
  * License: GPLv3
  */
 
-#include "query_engine.h"
+#include "mws/query/engine.h"
+
 #include "mws/index/encoded_token_dict.h"
 #include "common/utils/macro_func.h"
 
@@ -126,7 +127,6 @@ int query_engine_run(index_handle_t* RESTRICT    index,
                      encoded_formula_t* RESTRICT query,
                      result_callback_t           result_cb,
                      void* RESTRICT              result_cb_handle) {
-
     query_ctxt_t query_ctxt;
 
     query_ctxt_init(&query_ctxt, index, query, result_cb, result_cb_handle);
@@ -186,10 +186,9 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
     // otherwise get next token and find match
     encoded_token_t query_token = token_stack_pop(query);
 
-    if (encoded_token_is_var(query_token)) { // variable query token
-
+    if (encoded_token_is_var(query_token)) {  // variable query token
         int var_id = encoded_token_get_id(query_token);
-        if (query_ctxt->vars[var_id].solved) { // solved
+        if (query_ctxt->vars[var_id].solved) {  // solved
             var_instantiation_t* var = &query_ctxt->vars[var_id];
             int i;
             int size = var->num_tokens;
@@ -203,7 +202,7 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
 
             // revert token stack
             token_stack_pop_many(query, size);
-        } else { // unsolved
+        } else {  // unsolved
             query_ctxt->solving_var_id = var_id;
             query_ctxt->vars[var_id].num_tokens = 0;
             ret = match_var_to_index(query_ctxt, 1);
@@ -212,11 +211,11 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
 
         token_stack_push(query, query_token);
 
-    } else { // constant query token
-
-        if (!token_stack_empty(&query_ctxt->index_stack)) { // index stack
-            encoded_token_t index_token = token_stack_pop(&query_ctxt->index_stack);
-            if (encoded_token_is_var(index_token)) { // variable index token
+    } else {  // constant query token
+        if (!token_stack_empty(&query_ctxt->index_stack)) {  // index stack
+            encoded_token_t index_token =
+                    token_stack_pop(&query_ctxt->index_stack);
+            if (encoded_token_is_var(index_token)) {  // variable index token
                 // push back query token to stack
                 token_stack_push(query, query_token);
 
@@ -224,8 +223,9 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
                 query_ctxt->solving_var_id = var_id;
                 ret = match_var_to_query(query_ctxt, 1);
                 if (ret != QUERY_CONTINUE) return ret;
-            } else { // constant index token
-                if (memcmp(&query_token, &index_token, sizeof(query_token)) == 0) {
+            } else {  // constant index token
+                if (memcmp(&query_token, &index_token,
+                           sizeof(query_token)) == 0) {
                     // continue
                     ret = process_query_token(query_ctxt);
                     if (ret != QUERY_CONTINUE) return ret;
@@ -234,12 +234,10 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
                 token_stack_push(query, query_token);
             }
             token_stack_push(&query_ctxt->index_stack, index_token);
-
-        } else { // regular index
-
+        } else {  // regular index
             const inode_t* curr = query_ctxt->curr_index_inode;
             memsector_off_t off = inode_get_child(curr, query_token);
-            if (off != 0) {
+            if (off != MEMSECTOR_OFF_NULL) {  // move to corresponding child
                 const inode_t* child =
                         (inode_t*) memsector_off2addr(query_ctxt->alloc, off);
 
@@ -256,13 +254,17 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
                 token_stack_push(query, query_token);
 
                 // hvars
-                uint32_t hvar_id_max = inode_get_max_var(query_ctxt->curr_index_inode);
+                uint32_t hvar_id_max =
+                        inode_get_max_var(query_ctxt->curr_index_inode);
                 uint32_t hvar_id;
                 for (hvar_id = 0; hvar_id < hvar_id_max; hvar_id++) {
                     query_ctxt->solving_var_id = hvar_id;
                     ret = match_var_to_query(query_ctxt, 1);
                     if (ret != QUERY_CONTINUE) return ret;
                 }
+            } else {  // no child node exists
+                // revert query token
+                token_stack_push(query, query_token);
             }
         }
     }
@@ -288,13 +290,13 @@ int match_var_to_index(query_ctxt_t* RESTRICT query_ctxt, uint32_t arity) {
         query_ctxt->solving_var_id = var_id;
         var->solved = false;
 
-    } else if (!token_stack_empty(&query_ctxt->index_stack)) { // index stack
+    } else if (!token_stack_empty(&query_ctxt->index_stack)) {  // index stack
         return match_var_to_stack(query_ctxt, &query_ctxt->index_stack);
-    } else { // regular index
-
+    } else {  // regular index
         uint32_t i;
         uint32_t size = query_ctxt->curr_index_inode->size;
-        const encoded_token_dict_entry_t* data = query_ctxt->curr_index_inode->data;
+        const encoded_token_dict_entry_t* data =
+                query_ctxt->curr_index_inode->data;
 
         for (i = 0; i < size; ++i) {
             const encoded_token_dict_entry_t* entry = &data[i];
@@ -305,11 +307,12 @@ int match_var_to_index(query_ctxt_t* RESTRICT query_ctxt, uint32_t arity) {
 
             while (!token_stack_empty(&var_stack)) {
                 encoded_token_t token = token_stack_pop(&var_stack);
-                if (encoded_token_is_var(token)) { // var
+                if (encoded_token_is_var(token)) {  // var
                     uint32_t var_id = encoded_token_get_id(token);
                     // check self-referencing variable
                     if (var_id == query_ctxt->solving_var_id) {
-                        if (token_stack_empty(&var_stack) && var->num_tokens == 0) {
+                        if (token_stack_empty(&var_stack) &&
+                                var->num_tokens == 0) {
                             // variable self references (e.g. Q1 -> H1 -> Q1)
                             // => set as not solved and proceed
                             break;
@@ -320,8 +323,9 @@ int match_var_to_index(query_ctxt_t* RESTRICT query_ctxt, uint32_t arity) {
                             goto revert_index;
                         }
                     }
-                    if (query_ctxt->vars[var_id].solved) { // solved var
-                        var_instantiation_t* solved_var = &query_ctxt->vars[var_id];
+                    if (query_ctxt->vars[var_id].solved) {  // solved var
+                        var_instantiation_t* solved_var =
+                                &query_ctxt->vars[var_id];
                         // push in reverse order on stack
                         int i;
                         for (i = solved_var->num_tokens - 1; i >= 0; --i) {
@@ -338,12 +342,13 @@ int match_var_to_index(query_ctxt_t* RESTRICT query_ctxt, uint32_t arity) {
 
             // advance in the index
             const inode_t* curr = query_ctxt->curr_index_inode;
-            const inode_t* child =
-                    (inode_t*) memsector_off2addr(query_ctxt->alloc, entry->off);
+            const inode_t* child = (inode_t*)
+                    memsector_off2addr(query_ctxt->alloc, entry->off);
             query_ctxt->curr_index_inode = child;
 
             // continue
-            ret = match_var_to_index(query_ctxt, arity + entry->token.arity - 1);
+            ret = match_var_to_index(query_ctxt,
+                                     arity + entry->token.arity - 1);
             if (ret != QUERY_CONTINUE) return ret;
 
 revert_index:
@@ -391,7 +396,7 @@ int match_var_to_stack(query_ctxt_t* query_ctxt, token_stack_t* stack) {
     bool solved = true;
     while (!token_stack_empty(&var_stack)) {
         encoded_token_t token = token_stack_pop(&var_stack);
-        if (encoded_token_is_var(token)) { // var
+        if (encoded_token_is_var(token)) {  // var
             uint32_t var_id = encoded_token_get_id(token);
             // check self-referencing variable
             if (var_id == query_ctxt->solving_var_id) {
@@ -407,7 +412,7 @@ int match_var_to_stack(query_ctxt_t* query_ctxt, token_stack_t* stack) {
                     goto revert_stack;
                 }
             }
-            if (query_ctxt->vars[var_id].solved) { // solved var
+            if (query_ctxt->vars[var_id].solved) {  // solved var
                 var_instantiation_t* solved_var = &query_ctxt->vars[var_id];
                 // push in reverse order on stack
                 int i;

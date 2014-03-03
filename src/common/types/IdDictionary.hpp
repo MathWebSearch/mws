@@ -119,4 +119,3 @@ public:
 }  // namespace common
 
 #endif // _COMMON_TYPES_IDDICTIONARY_HPP
-

@@ -186,7 +186,6 @@ HandleConnection(void* dataPtr)
 int initMws(const Config& config)
 {
     int ret;
-
     if ((ret = initxmlparser())
             != 0)
     {
@@ -233,6 +232,7 @@ int initMws(const Config& config)
     // load harvests
     const vector<string>& paths = config.harvestLoadPaths;
     vector<string> :: const_iterator it;
+
     for (it = paths.begin(); it != paths.end(); it++)
     {
         AbsPath harvestPath(*it);

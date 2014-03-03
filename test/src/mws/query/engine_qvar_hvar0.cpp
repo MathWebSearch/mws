@@ -19,7 +19,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
- * @file test_query_engine_qvar_hvar.cpp
+ * @file engine_qvar_hvar0.cpp
  *
  */
 
@@ -28,11 +28,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #define private public
 
-#include "mws/index/MwsIndexNode.hpp"
-#include "mws/index/encoded_token_dict.h"
-#include "mws/query/query_engine.h"
-
-#include "query_engine_tester.hpp"
+#include "engine_tester.hpp"
 
 using namespace mws;
 using namespace std;
@@ -96,11 +92,11 @@ static encoded_formula_t create_test_query() {
 
     result.data = new encoded_token_t[5];
     result.size = 5;
-    result.data[0] = encoded_token(65, 4); // apply, 4
-    result.data[1] = encoded_token(32, 1); // Q, 1
-    result.data[2] = encoded_token(32, 1); // Q, 1
-    result.data[3] = encoded_token(33, 1); // P, 1
-    result.data[4] = encoded_token(66, 1); // h, 1
+    result.data[0] = encoded_token(65, 4);  // apply, 4
+    result.data[1] = encoded_token(32, 1);  // Q, 1
+    result.data[2] = encoded_token(32, 1);  // Q, 1
+    result.data[3] = encoded_token(33, 1);  // P, 1
+    result.data[4] = encoded_token(66, 1);  // h, 1
 
     return result;
 }

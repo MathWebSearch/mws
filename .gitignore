@@ -15,15 +15,18 @@
 # Build directory
 build/
 
-# vi
-*.swp
+# others
+.DS_Store
+
+# Eclipse CBP
+.project
 
 # qtCreator
 CMakeLists.txt.user*
 
-# others
-.DS_Store
+# vim temporary files
+*.swp
+*.swo
 
-# projects
-.project
-
+# ctags
+tags

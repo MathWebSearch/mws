@@ -20,22 +20,22 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
  * @brief   Query Engine tester
- * @file    query_engine_test.hpp
+ * @file    engine_tester.hpp
  * @date    24 April 2013
  *
  * License: GPLv3
  */
 
-#ifndef __MWS_QUERY_QUERY_ENGINE_TESTER_H
-#define __MWS_QUERY_QUERY_ENGINE_TESTER_H
+#ifndef __MWS_QUERY_ENGINE_TESTER_H
+#define __MWS_QUERY_ENGINE_TESTER_H
 
 /*--------------------------------------------------------------------------*/
 /* Includes                                                                 */
 /*--------------------------------------------------------------------------*/
 
-#include "mws/index/MwsIndexNode.hpp"
-#include "mws/query/query_engine.h"
 #include "common/utils/macro_func.h"
+#include "mws/index/MwsIndexNode.hpp"
+#include "mws/query/engine.h"
 
 /*--------------------------------------------------------------------------*/
 /* Constants                                                                */

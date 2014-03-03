@@ -199,9 +199,8 @@ CmmlToken::toString(int indent) const {
 uint32_t
 CmmlToken::getExprDepth() const {
     uint32_t max_depth = 0;
-    for (PtrList::const_iterator it = _childNodes.begin();
-         it != _childNodes.end(); it++) {
-        uint32_t depth = (*it)->getExprDepth() + 1;
+    for (auto child : _childNodes) {
+        uint32_t depth = child->getExprDepth() + 1;
         if (depth > max_depth) max_depth = depth;
     }
 
@@ -212,9 +211,8 @@ uint32_t
 CmmlToken::getExprSize() const {
     uint32_t size = 1;  // counting current token
 
-    for (PtrList::const_iterator it = _childNodes.begin();
-         it != _childNodes.end(); it++) {
-        size += (*it)->getExprSize();
+    for (auto child : _childNodes) {
+        size += child->getExprSize();
     }
 
     return size;
