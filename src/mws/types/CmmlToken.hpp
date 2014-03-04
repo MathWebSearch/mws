@@ -109,6 +109,8 @@ public:
     std::string                  toString(int indent=0) const;
     uint32_t                     getExprDepth() const;
     uint32_t                     getExprSize() const;
+    uint32_t                     getArity() const;
+    bool                         equals(const CmmlToken *t) const;
 protected:
     /**
       * Declared protected to avoid instantiation.

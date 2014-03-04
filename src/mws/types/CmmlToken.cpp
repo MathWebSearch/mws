@@ -251,5 +251,24 @@ CmmlToken::getMeaning() const {
     return meaning;
 }
 
+bool
+CmmlToken::equals(const CmmlToken *t) const {
+    if (this->getType() != t->getType()) return false;
+    if (this->getMeaning() != t->getMeaning()) return false;
+    if (_childNodes.size() != t->_childNodes.size()) return false;
+
+    PtrList::const_iterator it1, it2;
+    it1 = _childNodes.begin();
+    it2 = t->_childNodes.begin();
+    while (it1 != _childNodes.end()) {
+        if (!(*it1)->equals(*it2)) return false;
+
+        it1++;
+        it2++;
+    }
+
+    return true;
+}
+
 }  // namespace types
 }  // namespace mws

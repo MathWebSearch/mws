@@ -55,8 +55,7 @@ public:
                 std::getline(in, key, '\0');
                 if (key.size() > 0) {
                     put(key);
-                } else {
-                    put("");
+                } else if (!in.eof()) {
                     fprintf(stderr, "Empty key found!\n");
                 }
             }
