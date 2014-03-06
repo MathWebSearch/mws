@@ -46,9 +46,9 @@ using std::string;
 #include <vector>
 using std::vector;
 
-#include "common/utils/macro_func.h"
-#include "util.hpp"
+#include "common/utils/compiler_defs.h"
 
+#include "util.hpp"
 
 namespace common { namespace utils {
 

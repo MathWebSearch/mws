@@ -34,6 +34,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
+#include "common/utils/compiler_defs.h"
+
 #include "Parcelable.hpp"
 
 namespace common {
@@ -102,7 +104,11 @@ ParcelEncoder::getSize() const {
 ParcelDecoder::ParcelDecoder(const char* data, size_t size) :
     mSize(size),
     mData(data),
-    mCurr(data) {}
+    mCurr(data) {
+    // Mark variables which are only used in debug build (assert)
+    RELEASE_UNUSED(mSize);
+    RELEASE_UNUSED(mData);
+}
 
 void
 ParcelDecoder::decode(Parcelable* parcelable) {

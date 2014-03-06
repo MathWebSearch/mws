@@ -35,7 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/IndexManager.hpp"
 #include "mws/types/MeaningDictionary.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
 

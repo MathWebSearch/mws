@@ -28,7 +28,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 using std::string;
 
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 #include "common/types/Parcelable.hpp"
 using common::types::ParcelAllocator;
 using common::types::ParcelEncoder;

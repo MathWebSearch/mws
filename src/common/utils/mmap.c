@@ -33,7 +33,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 
 #include "mmap.h"
 

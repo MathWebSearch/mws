@@ -42,10 +42,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 
-#include "ParserTypes.hpp"             // Common Mws Parsers datatypes
-#include "common/utils/DebugMacros.hpp"// Debug macros
-#include "common/utils/macro_func.h"   // Macro functions
-#include "common/utils/getBoolType.hpp"// getBoolType function
+#include "ParserTypes.hpp"
+#include "common/utils/DebugMacros.hpp"
+#include "common/utils/compiler_defs.h"
+#include "common/utils/getBoolType.hpp"
 
 // Macros
 

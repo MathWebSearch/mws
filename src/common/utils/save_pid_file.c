@@ -28,7 +28,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <inttypes.h>
 
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
+
 #include "save_pid_file.h"
 
 BEGIN_DECLS

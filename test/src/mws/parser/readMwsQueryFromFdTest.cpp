@@ -29,8 +29,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
 #include <sys/types.h>                 // Primitive System datatypes
 #include <sys/stat.h>                  // POSIX File characteristics
 #include <fcntl.h>                     // File control operations
@@ -39,10 +37,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <unistd.h>
 
-// Local includes
-
 #include "mws/xmlparser/readMwsQueryFromFd.hpp"
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 
 #include "config.h"
 

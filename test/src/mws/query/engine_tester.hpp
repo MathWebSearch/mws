@@ -35,7 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <utility>
 
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 #include "mws/index/MwsIndexNode.hpp"
 #include "mws/query/engine.h"
 #include "mws/types/MeaningDictionary.hpp"

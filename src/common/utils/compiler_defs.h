@@ -18,17 +18,19 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-/**
- * @brief   Compiler Utilities
- * @file    compiler_defs.h
- * @author  cprodescu
- * @bugs    No known bugs.
- *
- */
 
 #ifndef _COMMON_UTILS_COMPILER_DEFS_H
 #define _COMMON_UTILS_COMPILER_DEFS_H
 
+/**
+ * @brief   Compiler Utilities
+ * @file    compiler_defs.h
+ * @author  cprodescu
+ *
+ */
+
+
+#include <stdio.h>
 
 /* BEGIN_DECLS */
 #ifdef __cplusplus
@@ -53,17 +55,41 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 /* RESTRICT */
 #ifdef __GNUC__
-#   define RESTRICT __restrict  /* GNU specific, c/c++ */
+#   define RESTRICT __restrict  // GNU specific, c/c++
 #else
-#   define RESTRICT restrict    /* C99+ std conformant */
+#   define RESTRICT restrict    // C99+ std conformant
 #endif
 
 /* PACKED */
-#define PACKED      __attribute__ ((__packed__)) // GNU specific
+#define PACKED      __attribute__ ((__packed__))    // GNU and Clang specific
 
-#define STATIC_ASSERT(expr, msg) \
-    _Static_assert(expr, msg)   // GNU specific
+/* BREAKPOINT */
+#define BREAKPOINT  asm("int $3");  // GNU specific
 
-#define BREAKPOINT  asm("int $3"); // GNU specific
+/* QUOTEMACRO */
+#define QUOTEMACRO_(x) #x
+/// Method to quote a macro
+#define QUOTEMACRO(x) QUOTEMACRO_(x)
 
-#endif // ! _COMMON_UTILS_COMPILER_DEFS_H
+/* UNUSED */
+/// Method to notify unused variables
+#define UNUSED(x) do { (void)(x); } while (0)
+
+/* RELEASE_UNUSED */
+#ifdef NDEBUG
+#   define RELEASE_UNUSED(x) UNUSED(x)
+#else
+#   define RELEASE_UNUSED(x) (void) 0
+#endif
+
+/* FAIL_ON */
+/// Print argument and jump to fail label
+#define FAIL_ON(x) do {                                                     \
+        if (x) {                                                            \
+            fprintf(stderr, "%s:%d: "#x"\n",                                \
+                    __FILE__, __LINE__);                                    \
+            goto fail;                                                      \
+        }                                                                   \
+    } while (0)
+
+#endif  // ! _COMMON_UTILS_COMPILER_DEFS_H

@@ -42,7 +42,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "microhttpd_linux.h"               // MicroHTTPd library headers
 #include "common/utils/getSockAddrLog.hpp"  // Socket Address logging function
-#include "common/utils/macro_func.h"        // Utility Macro Functions
+#include "common/utils/compiler_defs.h"     // Utility Macro Functions
 #include "common/utils/DebugMacros.hpp"     // Utility Debug Macros
 #include "common/utils/ToString.hpp"        // Utility ToString function
 

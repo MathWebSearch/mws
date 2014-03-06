@@ -27,7 +27,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/dbc/MemCrawlDb.hpp"
 
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 
 int main() {
     using mws::types::CrawlId;

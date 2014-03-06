@@ -55,7 +55,7 @@ using std::map;
 #include "mws/types/NodeInfo.hpp"
 #include "mws/types/CmmlToken.hpp"
 #include "common/utils/DebugMacros.hpp"// Debug macros
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 
 #include "loadMwsHarvestFromFd.hpp"
 

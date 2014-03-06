@@ -39,10 +39,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <utility>
 
-#include "mws/index/IndexManager.hpp"
+#include "common/utils/compiler_defs.h"
 #include "common/utils/Path.hpp"
-#include "common/utils/macro_func.h"
 #include "common/utils/util.hpp"
+#include "mws/index/IndexManager.hpp"
 
 #include "loadMwsHarvestFromFd.hpp"
 

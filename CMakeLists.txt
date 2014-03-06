@@ -71,9 +71,15 @@ OPTION(WITH_CRAWLER            "build MWS crawlers"                    OFF )
 OPTION(WITH_DOC                "build MWS documentation"               OFF )
 OPTION(WITH_TEST               "build test suites"                     ON )
 
-SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING
-    "Choose the type of build, options are: Debug Release RelWithDebInfo
-     MinSizeRel."
+# Select build type
+SET(DEFAULT_CMAKE_BUILD_TYPE "RelWithDebInfo")
+IF(NOT CMAKE_BUILD_TYPE)
+    MESSAGE(STATUS
+            "No build type selected, defaults to ${DEFAULT_CMAKE_BUILD_TYPE}")
+    SET(CMAKE_BUILD_TYPE "${DEFAULT_CMAKE_BUILD_TYPE}")
+ENDIF(NOT CMAKE_BUILD_TYPE)
+SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING
+    "Choose the type of build: Debug Release RelWithDebInfo MinSizeRel."
     FORCE)
 
 # Debug flags

@@ -26,11 +26,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 using std::vector;
 
+#include "common/utils/compiler_defs.h"
 #include "mws/dbc/FormulaDb.hpp"
 using mws::dbc::FormulaDb;
 #include "mws/dbc/MemFormulaDb.hpp"
 using mws::dbc::MemFormulaDb;
-#include "common/utils/macro_func.h"
 #include "mws/types/NodeInfo.hpp"
 using mws::types::CrawlId;
 using mws::types::FormulaPath;

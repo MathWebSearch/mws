@@ -33,7 +33,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include "common/utils/DebugMacros.hpp"
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/types/Answer.hpp"
 
