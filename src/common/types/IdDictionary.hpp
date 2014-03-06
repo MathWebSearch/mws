@@ -38,14 +38,13 @@ template<class Key, class ValueId>
 class IdDictionary {
 private:
     typedef std::map<Key, ValueId>  _MapContainer;
-    
+
     _MapContainer   _map;
     ValueId         _nextId;
 public:
     static const ValueId KEY_NOT_FOUND = 0;
 
-    IdDictionary() :
-        _nextId(KEY_NOT_FOUND + 1)  {
+    IdDictionary() : _nextId(KEY_NOT_FOUND + 1)  {
     }
 
     int load(std::istream& in) {
@@ -66,11 +65,11 @@ public:
         return 0;
     }
 
-    int save(std::ostream& out) {
+    int save(std::ostream& out) const {
         std::vector<Key> keys;
         keys.resize(_map.size());
 
-        for (typename _MapContainer::iterator it = _map.begin();
+        for (typename _MapContainer::const_iterator it = _map.begin();
              it != _map.end();
              it++) {
 
@@ -78,11 +77,10 @@ public:
         }
 
         try {
-            Key key;
-
             for (int i = 0; i < (int)keys.size(); i++) {
                 out << keys[i] << '\0';
             }
+            out.flush();
         } catch (...) {
             return -1;
         }

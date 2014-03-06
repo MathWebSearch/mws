@@ -37,7 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // Local includes
 
 #include "common/utils/compiler_defs.h"
-#include "mws/index/encoded_token_dict.h"
+#include "mws/index/encoded_token.h"
 #include "mws/index/memsector_allocator.h"
 
 /*--------------------------------------------------------------------------*/
@@ -68,7 +68,7 @@ typedef struct inode_s inode_t;
 struct leaf_s {
     node_type_t type    : 2;  /* should be LEAF_NODE */
     uint32_t num_hits   : 30;
-    uint32_t dbid       : 32;
+    uint32_t formula_id : 32;
 } PACKED;
 typedef struct leaf_s leaf_t;
 
@@ -133,7 +133,7 @@ memsector_off_t inode_get_child(const inode_t* inode, encoded_token_t token) {
 static inline
 uint32_t inode_get_max_var(const inode_t* inode) {
     uint32_t i = 0;
-    while (inode->data[i].token.id < VAR_ID_MAX) i++;
+    while (inode->data[i].token.id <= VAR_ID_MAX) i++;
 
     return i;
 }

@@ -46,8 +46,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Typedefs
 
-namespace mws
-{
+namespace mws { namespace query {
 
 struct SearchContext
 {
@@ -58,10 +57,6 @@ struct SearchContext
     /// Qvar points in the Cmml Dfs Vector from where to backtrack. The
     /// vector starts with -1 to mark the beginning
     std::vector<int> backtrackPoints;
-    /// Qvar names
-    std::vector<std::string> qvarNames;
-    /// Qvar xpaths
-    std::vector<std::string> qvarXpaths;
 
     // Constructors and Destructors
 
@@ -70,8 +65,7 @@ struct SearchContext
       * @param expression is a pointer to a CmmlToken from which to create
       * the SearchContext instance.
       */
-    SearchContext(mws::types::CmmlToken* expression,
-                  types::MeaningDictionary *dict);
+    explicit SearchContext(const std::vector<encoded_token_t>& encodedFormula);
 
     /**
       * @brief Destructor of the SearchContext class.
@@ -96,6 +90,7 @@ struct SearchContext
 
 };
 
-}
+}  // namespace query
+}  // namespace mws
 
 #endif // _SEARCHCONTEXT_HPP

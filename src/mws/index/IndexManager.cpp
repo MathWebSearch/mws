@@ -30,6 +30,8 @@ using std::set;
 using std::stack;
 #include <string>
 using std::string;
+#include <vector>
+using std::vector;
 
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
@@ -38,6 +40,8 @@ using mws::types::CrawlId;
 using mws::types::CrawlData;
 using mws::types::FormulaId;
 using mws::types::FormulaPath;
+#include "mws/index/ExpressionEncoder.hpp"
+using mws::index::HarvestEncoder;
 
 #include "IndexManager.hpp"
 
@@ -65,6 +69,7 @@ IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
     set<FormulaId> uniqueFormulaIds;
     stack<const CmmlToken*> subtermStack;
     int numSubExpressions = 0;
+    HarvestEncoder encoder(m_meaningDictionary);
 
     subtermStack.push(cmmlToken);
     while (!subtermStack.empty()) {
@@ -77,8 +82,9 @@ IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
             subtermStack.push(*rIt);
         }
 
-        MwsIndexNode* leaf = m_index->insertData(currentSubterm,
-                                                 m_meaningDictionary);
+        vector<encoded_token_t> encodedFormula;
+        encoder.encode(currentSubterm, &encodedFormula, NULL);
+        MwsIndexNode* leaf = m_index->insertData(encodedFormula);
         FormulaId formulaId = leaf->id;
         auto ret = uniqueFormulaIds.insert(formulaId);
         if (ret.second) {

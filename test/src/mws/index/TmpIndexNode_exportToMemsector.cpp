@@ -78,7 +78,7 @@ struct Tester {
 
         case LEAF_NODE: {
             leaf_t *leaf = (leaf_t*)inode;
-            return ((tmp_node->id == leaf->dbid) &&
+            return ((tmp_node->id == leaf->formula_id) &&
                     (tmp_node->solutions == leaf->num_hits));
         }
 

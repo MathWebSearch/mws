@@ -26,8 +26,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <cerrno>
 
-#define private public
-
 #include "engine_tester.hpp"
 
 using namespace mws;
@@ -36,27 +34,16 @@ using namespace std;
 /*
 
 index: f(h,h,t): (apply,4) (f,0) (h,0) (h,0) (t,0)
-query: (Q0,0)
-
-Meanings:
-          apply -> 65
-          f -> 66
-          h -> 67
-          t -> 68
-          Q0 -> 32
+query: P       : (P,0)
 
 4 solutions expected: f, h, t, f(h,h,t)
 
 */
 static int g_num_hits;
 
+struct Tester {
 static
 MwsIndexNode* create_test_MwsIndexNode() {
-    NodeInfo apply_ni = make_pair(65, 4);
-    NodeInfo f_ni = make_pair(66, 0);
-    NodeInfo h_ni = make_pair(67, 0);
-    NodeInfo t_ni = make_pair(68, 0);
-
     MwsIndexNode* data = new MwsIndexNode();
 
     MwsIndexNode* h_node_1 = new MwsIndexNode();
@@ -69,7 +56,7 @@ MwsIndexNode* create_test_MwsIndexNode() {
 
     MwsIndexNode* apply_node_1 = new MwsIndexNode();
     apply_node_1->solutions = 1;
-    data->children.insert(make_pair(apply_ni, apply_node_1));
+    data->children.insert(make_pair(apply4_ni, apply_node_1));
 
     MwsIndexNode* t_node_1 = new MwsIndexNode();
     t_node_1->solutions = 1;
@@ -93,13 +80,14 @@ MwsIndexNode* create_test_MwsIndexNode() {
 
     return data;
 }
+};
 
 static encoded_formula_t create_test_query() {
     encoded_formula_t result;
 
     result.data = new encoded_token_t[5];
     result.size = 1;
-    result.data[0] = encoded_token(32, 0);  // Q, 0
+    result.data[0] = P_tok;
 
     return result;
 }
@@ -116,7 +104,7 @@ result_cb_return_t result_callback(void* handle,
 }
 
 int main() {
-    mws::MwsIndexNode* index = create_test_MwsIndexNode();
+    mws::MwsIndexNode* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
     FAIL_ON(query_engine_tester(index, &query, result_callback, NULL)

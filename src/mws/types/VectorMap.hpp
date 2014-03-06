@@ -22,7 +22,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define _MWS_VECTORMAP_HPP
 
 /**
-  * @brief  File containing the VectorMap class declaration
+  * @brief  Map with vector container
   * @file   VectorMap.hpp
   * @author Corneliu-Claudiu Prodescu <c.prodescu@jacobs-university.de>
   * @date   07 Jul 2011

@@ -33,6 +33,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stack>
 #include <utility>
+#include <vector>
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsAnswset.hpp"
@@ -40,10 +41,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/MeaningDictionary.hpp"
 #include "mws/types/VectorMap.hpp"
 #include "mws/index/memsector.h"
+#include "mws/index/encoded_token.h"
 #include "common/utils/util.hpp"
 
-namespace mws
-{
+namespace mws {
+
+namespace query {
+struct SearchContext;
+}  // namespace query
 
 class MwsIndexNode
 {
@@ -69,17 +74,12 @@ class MwsIndexNode
       */
     ~MwsIndexNode();
 
-    /**
-      * @brief Method to insert data into the Index Tree
-      * @param expression is the CmmlToken to be indexed.
-      * @param conn is the PageDbConn which will be used to insert the data
-      * into the database
-      * @param url is the address to be linked to the respective expression
-      * @param xpath is the xpath to be linked to the respective expression
+    /** @brief Method to insert data into the Index Tree
+      * @param encodedFormula encoded formula
       * @return leaf node corresponding to the inserted expression
       */
-    MwsIndexNode* insertData(const types::CmmlToken *expression,
-                             types::MeaningDictionary *meaningDictionary);
+    MwsIndexNode*
+    insertData(const std::vector<encoded_token_t>& encodedFormula);
 
     /**
      * @brief exportToMemsector dump index data to a memsector index
@@ -90,7 +90,7 @@ class MwsIndexNode
  protected:
     memsector_off_t exportToMemsector(memsector_alloc_header_t* alloc) const;
 
-    friend struct SearchContext;
+    friend struct query::SearchContext;
     friend struct qvarCtxt;
     ALLOW_TESTER_ACCESS;
 };

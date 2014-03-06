@@ -69,10 +69,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/IndexManager.hpp"
+#include "mws/index/ExpressionEncoder.hpp"
 
 using namespace std;
 using namespace mws;
 using namespace mws::types;
+using namespace mws::index;
 
 static MwsIndexNode* data;
 static InSocket* serverSocket;
@@ -107,11 +109,11 @@ HandleConnection(void* dataPtr)
     MwsAnswset*       result;
     OutSocket*        outSocket;
     SocketInfo        sockInfo;
-    SearchContext*    ctxt;
+    query::SearchContext* ctxt;
     int               ret;
     ControlSequence   controlSequence;
     int               fd;
-    
+
     outSocket = (OutSocket*) dataPtr;
     sockInfo  = outSocket->getInfo();
 
@@ -126,29 +128,37 @@ HandleConnection(void* dataPtr)
     fd = outSocket->getFd();
     mwsQuery = readMwsQueryFromFd(fd);
 
-    if (mwsQuery && mwsQuery->tokens.size())
-    {
+    QueryEncoder encoder(meaningDictionary);
+    vector<encoded_token_t> encodedQuery;
+    ExpressionInfo queryInfo;
+
+    if (mwsQuery && mwsQuery->tokens.size()) {
 #ifdef _APPLYRESTRICT
         mwsQuery->applyRestrictions();
 #endif
-        dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
-        ctxt   = new SearchContext(mwsQuery->tokens[0], meaningDictionary);
+        if (encoder.encode(mwsQuery->tokens[0],
+                           &encodedQuery, &queryInfo) == 0) {
+            dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
+            ctxt = new query::SearchContext(encodedQuery);
+            result = ctxt->getResult(data,
+                                     &dbQueryManger,
+                                     mwsQuery->attrResultLimitMin,
+                                     mwsQuery->attrResultMaxSize,
+                                     mwsQuery->attrResultTotalReqNr);
+            delete ctxt;
+        } else {
+            result = new MwsAnswset();
+        }
 
-        result = ctxt->getResult(data,
-                                 &dbQueryManger,
-                                 mwsQuery->attrResultLimitMin,
-                                 mwsQuery->attrResultMaxSize,
-                                 mwsQuery->attrResultTotalReqNr);
-
-        delete ctxt;
+        result->qvarNames = queryInfo.qvarNames;
+        result->qvarXpaths = queryInfo.qvarXpaths;
 
         // Sending the control sequence
         controlSequence.setFormat(mwsQuery->attrResultOutputFormat);
         controlSequence.send(outSocket->getFd());
 
         // Sending the answer with the proper format
-        switch (mwsQuery->attrResultOutputFormat)
-        {
+        switch (mwsQuery->attrResultOutputFormat) {
             case DATAFORMAT_XML:
                 ret = writeXmlAnswsetToFd(result,
                                           outSocket->getFd());
@@ -162,9 +172,7 @@ HandleConnection(void* dataPtr)
                                           outSocket->getFd());
                 break;
         }
-
-        if (ret == -1)
-        {
+        if (ret == -1) {
             fprintf(stderr, "Error while writing the Answer Set\n");
         }
 
@@ -175,7 +183,7 @@ HandleConnection(void* dataPtr)
         controlSequence.send(outSocket->getFd());
     }
 
-    delete mwsQuery; 
+    delete mwsQuery;
 
     delete outSocket;
 
@@ -288,7 +296,7 @@ int mwsDaemonLoop(const Config& config)
         acceptedSock = serverSocket->accept();
         ThreadWrapper::run(HandleConnection, acceptedSock);
     }
- 
+
     return EXIT_SUCCESS;
 }
 

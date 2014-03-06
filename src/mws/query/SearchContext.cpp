@@ -28,97 +28,61 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
-
-// Local includes
+#include <map>
+using std::map;
+#include <utility>
+using std::make_pair;
+#include <vector>
+using std::vector;
 
 #include "SearchContext.hpp"
+#include "mws/index/encoded_token.h"
+#include "mws/types/NodeInfo.hpp"
+using mws::types::FormulaId;
 
-// Namespaces
+namespace mws { namespace query {
 
-using namespace std;
-using namespace mws;
-using namespace mws::types;
+SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
+    map<MeaningId, int> indexedQvars;
+    int tokenCount = 0;
+    int qvarCount  = 0;
 
+    for (encoded_token_t encodedToken : encodedFormula) {
+        MeaningId meaningId = encodedToken.id;
 
-SearchContext::SearchContext(CmmlToken* expression, MeaningDictionary* dict)
-{
-    int                                      tokenCount;
-    map<std::string, int>                    indexedQvars;
-    map<std::string, int> :: iterator        mapIt;
-    CmmlToken::PtrList::const_reverse_iterator rIt;
-    stack<CmmlToken*>                        tokenStack;
-    CmmlToken*                               currentToken;
-    int                                      qvarCount;
-
-    tokenCount = 0;
-    qvarCount  = 0;
-
-    tokenStack.push(expression);
-    while (!tokenStack.empty())
-    {
-        currentToken = tokenStack.top();
-        tokenStack.pop();
-        MeaningId meaning_id = dict->get(currentToken->getMeaning());
-
-        // Pushing the children on the stack (in reverse order to maintain DFS)
-        for (rIt  = currentToken->getChildNodes().rbegin();
-             rIt != currentToken->getChildNodes().rend();
-             rIt ++)
-        {
-            tokenStack.push(*rIt);
-        }
-
-        // Checking if Qvar
-        if (currentToken->isQvar())
-        {
-            // Checking if qvar was not previously indexed
-            if (currentToken->getQvarName() == "")
-            {
+        if (encoded_token_is_var(encodedToken)) {  // qvar
+            if (encoded_token_is_anon_var(encodedToken)) {  // anonymous qvar
                 expr.push_back(
                         makeNodeTriple(true,
-                                       meaning_id,
+                                       meaningId,
                                        qvarCount)
                         );
                 backtrackPoints.push_back(tokenCount+1);
                 qvarCount++;
-            }
-            else
-            {
-                mapIt = indexedQvars.find(currentToken->getQvarName());
-                if (mapIt == indexedQvars.end())
-                {
-                    indexedQvars.insert(make_pair(currentToken->getQvarName(),
-                                                  qvarCount));
+            } else {  // named qvar
+                auto mapIt = indexedQvars.find(meaningId);
+                if (mapIt == indexedQvars.end()) {
+                    indexedQvars.insert(make_pair(meaningId, qvarCount));
                     expr.push_back(
                             makeNodeTriple(true,
-                                           meaning_id,
+                                           meaningId,
                                            qvarCount)
                             );
                     backtrackPoints.push_back(tokenCount+1);
                     qvarCount++;
-                    // Name / xpath book keeping
-                    qvarNames.push_back(currentToken->getTextContent());
-                    qvarXpaths.push_back(currentToken->getXpathRelative());
-                }
-                else
-                {
+                } else {
                     expr.push_back(
                             makeNodeTriple(true,
-                                           meaning_id,
+                                           meaningId,
                                            mapIt->second)
                             );
                 }
             }
-        }
-        // Otherwise just pushing the element in the DFS
-        else
-        {
+        } else {  // constant
             expr.push_back(
                     makeNodeTriple(false,
-                                   meaning_id,
-                                   currentToken->getChildNodes().size())
+                                   meaningId,
+                                   encodedToken.arity)
                     );
         }
 
@@ -154,8 +118,6 @@ SearchContext::getResult(MwsIndexNode* data,
 
     // Initializing variables
     result             = new MwsAnswset();
-    result->qvarNames  = qvarNames;
-    result->qvarXpaths = qvarXpaths;
     found              = 0;
     exprSize           = expr.size();
 
@@ -280,9 +242,9 @@ SearchContext::getResult(MwsIndexNode* data,
         if (backtrack)
         {
             // Backtracking or going to the next expression token
-            // starting with the last 
+            // starting with the last
             while (lastSolvedQvar >= 0 &&
-                    NULL == (currentNode = qvarTable[lastSolvedQvar].nextSol()) )
+                    NULL == (currentNode = qvarTable[lastSolvedQvar].nextSol()))
             {
                 lastSolvedQvar--;
             }
@@ -307,3 +269,5 @@ SearchContext::getResult(MwsIndexNode* data,
     return result;
 }
 
+}  // namespace query
+}  // namespace mws

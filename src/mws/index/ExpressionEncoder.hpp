@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+Copyright (C) 2010-2014 KWARC Group <kwarc.info>
 
 This file is part of MathWebSearch.
 
@@ -26,18 +26,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * @brief   ExpressionEncoder header
  *
  * @author  cprodescu
- * @date    Mar 10, 2012
- *
- * @todo documentation
  */
 
 /****************************************************************************/
 /* Includes                                                                 */
 /****************************************************************************/
 
+#include <string>
 #include <vector>
 
-#include "mws/index/encoded_token_dict.h"
+#include "mws/index/encoded_token.h"
 #include "mws/types/MeaningDictionary.hpp"
 #include "mws/types/CmmlToken.hpp"
 
@@ -47,15 +45,45 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mws { namespace index {
 
+struct ExpressionInfo {
+    std::vector<std::string> qvarNames;
+    std::vector<std::string> qvarXpaths;
+};
+
 class ExpressionEncoder {
  public:
     explicit ExpressionEncoder(mws::types::MeaningDictionary* dictionary);
+    virtual ~ExpressionEncoder();
 
     int encode(const mws::types::CmmlToken* expression,
-               vector<encoded_token_t> *encodedFormula);
+               std::vector<encoded_token_t> *encodedFormula,
+               ExpressionInfo* expressionInfo);
+ protected:
+    virtual MeaningId _getAnonVarOffset() const = 0;
+    virtual MeaningId _getNamedVarOffset() const = 0;
+    virtual MeaningId _getConstantEncoding(const types::Meaning& meaning) = 0;
 
- private:
     mws::types::MeaningDictionary* _meaningDictionary;
+};
+
+class HarvestEncoder : public ExpressionEncoder {
+ public:
+    explicit HarvestEncoder(mws::types::MeaningDictionary* dictionary);
+    virtual ~HarvestEncoder();
+ protected:
+    virtual MeaningId _getAnonVarOffset() const;
+    virtual MeaningId _getNamedVarOffset() const;
+    virtual MeaningId _getConstantEncoding(const types::Meaning& meaning);
+};
+
+class QueryEncoder : public ExpressionEncoder {
+ public:
+    explicit QueryEncoder(mws::types::MeaningDictionary* dictionary);
+    virtual ~QueryEncoder();
+ protected:
+    virtual MeaningId _getAnonVarOffset() const;
+    virtual MeaningId _getNamedVarOffset() const;
+    virtual MeaningId _getConstantEncoding(const types::Meaning& meaning);
 };
 
 }  // namespace index

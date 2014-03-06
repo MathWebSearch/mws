@@ -26,8 +26,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <cerrno>
 
-#define private public
-
 #include "engine_tester.hpp"
 
 using namespace mws;
@@ -36,15 +34,7 @@ using namespace std;
 /*
 
 index: f(h,h,t): (apply,4) (f,0) (h,0) (h,0) (t,0)
-query: f(h,h,t): (apply,4) (Q,0) (h,0) (h,0) (t,0)
-
-Meanings:
-          apply -> 65
-          f -> 66
-          h -> 67
-          t -> 68
-          Q -> 32
-
+query: f(h,h,t): (apply,4) (P,0) (h,0) (h,0) (t,0)
 
 1 solution expected
 
@@ -52,13 +42,9 @@ Meanings:
 static bool g_test_passed = false;
 static uint64_t g_result_leaf_id;
 
+struct Tester {
 static
 MwsIndexNode* create_test_MwsIndexNode() {
-    NodeInfo apply_ni = make_pair(65, 4);
-    NodeInfo f_ni = make_pair(66, 0);
-    NodeInfo h_ni = make_pair(67, 0);
-    NodeInfo t_ni = make_pair(68, 0);
-
     MwsIndexNode* data = new MwsIndexNode();
 
     MwsIndexNode* h_node_1 = new MwsIndexNode();
@@ -71,7 +57,7 @@ MwsIndexNode* create_test_MwsIndexNode() {
 
     MwsIndexNode* apply_node_1 = new MwsIndexNode();
     apply_node_1->solutions = 1;
-    data->children.insert(make_pair(apply_ni, apply_node_1));
+    data->children.insert(make_pair(apply4_ni, apply_node_1));
 
     MwsIndexNode* t_node_1 = new MwsIndexNode();
     t_node_1->solutions = 1;
@@ -97,17 +83,19 @@ MwsIndexNode* create_test_MwsIndexNode() {
 
     return data;
 }
+};
 
 static encoded_formula_t create_test_query() {
+    MeaningId constantId = CONSTANT_ID_MIN;
     encoded_formula_t result;
 
     result.data = new encoded_token_t[5];
     result.size = 5;
-    result.data[0] = encoded_token(65, 4);  // apply, 4
-    result.data[1] = encoded_token(32, 0);  // Q, 0
-    result.data[2] = encoded_token(67, 0);  // h, 0
-    result.data[3] = encoded_token(67, 0);  // h, 0
-    result.data[4] = encoded_token(68, 0);  // t, 0
+    result.data[0] = encoded_token(constantId, 4);      // apply, 4
+    result.data[1] = encoded_token(QVAR_ID_MIN, 0);     // P, 0
+    result.data[2] = encoded_token(++constantId, 0);    // h, 0
+    result.data[3] = encoded_token(constantId, 0);      // h, 0
+    result.data[4] = encoded_token(++constantId, 0);    // t, 0
 
     return result;
 }
@@ -121,7 +109,7 @@ result_cb_return_t result_callback(void* handle,
        is an error */
     FAIL_ON(g_test_passed);
 
-    FAIL_ON(leaf->dbid != g_result_leaf_id);
+    FAIL_ON(leaf->formula_id != g_result_leaf_id);
     FAIL_ON(leaf->num_hits != 1);
 
     g_test_passed = true;
@@ -133,7 +121,7 @@ fail:
 }
 
 int main() {
-    mws::MwsIndexNode* index = create_test_MwsIndexNode();
+    mws::MwsIndexNode* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
     return query_engine_tester(index, &query, result_callback, NULL);

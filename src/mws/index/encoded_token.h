@@ -43,11 +43,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Constants                                                                */
 /*--------------------------------------------------------------------------*/
 
-#define HVAR_ID_MIN     0
-#define HVAR_ID_MAX     31
-#define QVAR_ID_MIN     32
-#define QVAR_ID_MAX     63
-#define VAR_ID_MAX      63
+#define HVAR_ID_MIN         1
+#define HVAR_ID_MAX         32
+#define ANON_HVAR_ID_MIN    33
+#define ANON_HVAR_ID_MAX    64
+#define QVAR_ID_MIN         65
+#define QVAR_ID_MAX         96
+#define ANON_QVAR_ID_MIN    97
+#define ANON_QVAR_ID_MAX    128
+#define VAR_ID_MAX          128
+#define CONSTANT_ID_MIN     129
 
 /*--------------------------------------------------------------------------*/
 /* Type declarations                                                        */
@@ -70,23 +75,6 @@ struct encoded_token_dict_entry_s {
     memsector_off_t off;
 } PACKED;
 typedef struct encoded_token_dict_entry_s encoded_token_dict_entry_t;
-
-/**
- * @brief Encoded Token Dictionary in-memory header
- */
-struct encoded_token_dict_header_s {
-    uint32_t size;
-    encoded_token_dict_entry_t data[];
-} PACKED;
-typedef struct encoded_token_dict_header_s encoded_token_dict_header_t;
-
-/**
- * @brief Encoded Token Dictionary handle
- */
-typedef struct encoded_token_dict_handle_s {
-    char*    data;
-    uint32_t size;
-} encoded_token_dict_handle_t;
 
 /**
  * @brief Encoded formula
@@ -113,16 +101,6 @@ uint32_t encoded_token_get_id(encoded_token_t tok) {
 }
 
 static inline
-void encoded_token_set_arity(encoded_token_t *tok, uint32_t arity) {
-    tok->arity = arity;
-}
-
-static inline
-void encoded_token_set_id(encoded_token_t *tok, uint32_t id) {
-    tok->id = id;
-}
-
-static inline
 encoded_token_t encoded_token(uint32_t id, uint32_t arity) {
     encoded_token_t tok;
 
@@ -135,6 +113,12 @@ encoded_token_t encoded_token(uint32_t id, uint32_t arity) {
 static inline
 bool encoded_token_is_var(encoded_token_t token) {
     return (token.id <= VAR_ID_MAX);
+}
+
+static inline
+bool encoded_token_is_anon_var(encoded_token_t token) {
+    return (ANON_HVAR_ID_MIN <= token.id && token.id < ANON_HVAR_ID_MAX) ||
+           (ANON_QVAR_ID_MIN <= token.id && token.id < ANON_QVAR_ID_MAX);
 }
 
 END_DECLS

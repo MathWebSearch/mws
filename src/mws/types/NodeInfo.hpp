@@ -90,10 +90,7 @@ const CrawlData CRAWLDATA_NULL = CrawlData();
 
 namespace mws {
 
-// Typedefs
 
-/// Type of the node meaning
-typedef std::string Meaning;
 
 /// Type of the node meaning encoding
 typedef uint32_t    MeaningId;
@@ -105,15 +102,6 @@ typedef uint8_t     Arity;
 typedef std::pair<MeaningId, Arity> NodeInfo;
 
 // Constants
-const Meaning   MWS_QVAR_MEANING = "mws:qvar";
-
-const MeaningId MWS_MEANING_ID_QVAR    = 0;
-const MeaningId MWS_MEANING_ID_UNKNOWN = 1;
-const MeaningId MWS_MEANING_ID_START   = 2;
-
-const MeaningId MWS_URLMEANING_ID_START = 0;
-
-const Meaning MWS_URLMEANING_NO_URL       = "";
 
 }  // namespace mws
 

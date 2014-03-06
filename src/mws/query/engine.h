@@ -31,7 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "mws/index/index.h"
-#include "mws/index/encoded_token_dict.h"
+#include "mws/index/encoded_token.h"
 #include "common/utils/compiler_defs.h"
 
 /*--------------------------------------------------------------------------*/

@@ -27,7 +27,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <cerrno>
 
 #include "mws/index/MwsIndexNode.hpp"
-#include "mws/index/encoded_token_dict.h"
+#include "mws/index/encoded_token.h"
 #include "mws/query/engine.h"
 
 #include "engine_tester.hpp"
@@ -39,27 +39,14 @@ using namespace std;
 
 index: F(H,H,H): (apply,4) (F,1) (H,1) (H,1) (H,1)
 hvars: F,H
-query: Q(Q,P,h): (apply,4) (Q,1) (Q,1) (P,1) (h,1)
-qvars: Q,P
-
-Meanings: F -> 0
-          H -> 1
-
-          Q -> 32
-          P -> 33
-
-          apply -> 65
-          h -> 66
+query: Q(Q,P,h): (apply,4) (P,1) (P,1) (Q,1) (h,1)
+qvars: P,Q
 
 */
 
 struct Tester {
     static inline
     MwsIndexNode* create_test_MwsIndexNode() {
-        NodeInfo F_ni = make_pair(0, 1);
-        NodeInfo H_ni = make_pair(1, 1);
-        NodeInfo apply_ni = make_pair(65, 4);
-
         MwsIndexNode* data = new MwsIndexNode();
 
         MwsIndexNode* H_node_1 = new MwsIndexNode();
@@ -72,7 +59,7 @@ struct Tester {
 
         MwsIndexNode* apply_node_1 = new MwsIndexNode();
         apply_node_1->solutions = 1;
-        data->children.insert(make_pair(apply_ni, apply_node_1));
+        data->children.insert(make_pair(apply4_ni, apply_node_1));
 
         MwsIndexNode* F_node_2 = new MwsIndexNode();
         apply_node_1->children.insert(make_pair(F_ni, F_node_2));
@@ -96,11 +83,11 @@ static encoded_formula_t create_test_query() {
 
     result.data = new encoded_token_t[5];
     result.size = 5;
-    result.data[0] = encoded_token(65, 4);  // apply, 4
-    result.data[1] = encoded_token(32, 1);  // Q, 1
-    result.data[2] = encoded_token(32, 1);  // Q, 1
-    result.data[3] = encoded_token(33, 1);  // P, 1
-    result.data[4] = encoded_token(66, 1);  // h, 1
+    result.data[0] = apply4_tok;
+    result.data[1] = P_tok;
+    result.data[2] = P_tok;
+    result.data[3] = Q_tok;
+    result.data[4] = h_tok;
 
     return result;
 }

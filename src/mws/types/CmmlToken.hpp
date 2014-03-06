@@ -39,6 +39,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mws { namespace types {
 
+typedef std::string Meaning;
+
 /**
   * @brief Class encapsulating the properties of a ContentMathML Token
   */
@@ -87,7 +89,7 @@ public:
                                                    size_t      nBytes);
     CmmlToken*                   newChildNode();
     bool                         isRoot() const;
-    bool                         isQvar() const;
+    bool                         isVar() const;
     const std::string&           getTextContent() const;
     const PtrList&               getChildNodes() const;
     CmmlToken*                   getParentNode() const;
@@ -95,13 +97,9 @@ public:
     // Return xpath without leading root selector (useful for concatenation)
     std::string                  getXpathRelative() const;
 
-    const std::string&           getQvarName() const;
-
-
     Type                         getType() const;
     // VAR specific methods
     const std::string&           getVarName() const;
-
     // CONSTANT specific
     std::string                  getMeaning() const;
 

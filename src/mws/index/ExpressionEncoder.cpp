@@ -44,6 +44,7 @@ using std::vector;
 using mws::types::MeaningDictionary;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
+using mws::types::Meaning;
 
 /****************************************************************************/
 /* Implementation                                                           */
@@ -54,13 +55,16 @@ ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary) :
     _meaningDictionary(dictionary) {
 }
 
+ExpressionEncoder::~ExpressionEncoder() {}
 
 int
 ExpressionEncoder::encode(const CmmlToken* expression,
-                          vector<encoded_token_t>* encodedFormula) {
+                          vector<encoded_token_t>* encodedFormula,
+                          ExpressionInfo* expressionInfo) {
+    int rv = 0;
     stack<const CmmlToken*> dfs_stack;
-    MeaningDictionary namedQvarDictionary;
-    int anonQvarId = 0;
+    MeaningDictionary namedVarDictionary;
+    int anonVarId = 0;
 
     encodedFormula->clear();
 
@@ -70,19 +74,25 @@ ExpressionEncoder::encode(const CmmlToken* expression,
         dfs_stack.pop();
         encoded_token_t encoded_token;
 
-        if (token->isQvar()) {
-            string qvarName = token->getQvarName();
+        if (token->isVar()) {
+            string qvarName = token->getVarName();
             encoded_token.arity = 1;
             if (qvarName == "") {
-                encoded_token.id = anonQvarId++;
+                encoded_token.id = _getAnonVarOffset() + anonVarId;
             } else {
-                encoded_token.id = namedQvarDictionary.put(qvarName);
+                encoded_token.id = _getNamedVarOffset() +
+                        namedVarDictionary.put(qvarName);
+                if (expressionInfo != NULL) {
+                    expressionInfo->qvarNames.push_back(qvarName);
+                    expressionInfo->qvarXpaths.push_back(
+                                token->getXpathRelative());
+                }
             }
         } else {
             encoded_token.arity = token->getArity();
-            encoded_token.id = _meaningDictionary->get(token->getMeaning());
+            encoded_token.id = _getConstantEncoding(token->getMeaning());
             if (encoded_token.id == MeaningDictionary::KEY_NOT_FOUND) {
-                return -1;
+                rv = -1;
             }
         }
         encodedFormula->push_back(encoded_token);
@@ -94,7 +104,55 @@ ExpressionEncoder::encode(const CmmlToken* expression,
         }
     }
 
-    return 0;
+    return rv;
+}
+
+HarvestEncoder::HarvestEncoder(types::MeaningDictionary *dictionary) :
+    ExpressionEncoder(dictionary) {
+}
+
+HarvestEncoder::~HarvestEncoder() {}
+
+MeaningId
+HarvestEncoder::_getAnonVarOffset() const {
+    return ANON_HVAR_ID_MIN;
+}
+
+MeaningId
+HarvestEncoder::_getNamedVarOffset() const {
+    return HVAR_ID_MIN;
+}
+
+MeaningId
+HarvestEncoder::_getConstantEncoding(const Meaning& meaning) {
+    return CONSTANT_ID_MIN + _meaningDictionary->put(meaning);
+}
+
+QueryEncoder::QueryEncoder(types::MeaningDictionary *dictionary) :
+    ExpressionEncoder(dictionary) {
+}
+
+QueryEncoder::~QueryEncoder() {}
+
+MeaningId
+QueryEncoder::_getAnonVarOffset() const {
+    return ANON_HVAR_ID_MIN;
+}
+
+MeaningId
+QueryEncoder::_getNamedVarOffset() const {
+    return HVAR_ID_MIN;
+}
+
+MeaningId
+QueryEncoder::_getConstantEncoding(const Meaning& meaning) {
+    MeaningId id = _meaningDictionary->get(meaning);
+
+    if (id != MeaningDictionary::KEY_NOT_FOUND) {
+        return CONSTANT_ID_MIN + id;
+    } else {
+        return MeaningDictionary::KEY_NOT_FOUND;
+    }
 }
 
 }  // namespace index

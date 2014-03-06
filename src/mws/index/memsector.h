@@ -38,8 +38,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/compiler_defs.h"
 #include "common/utils/mmap.h"
 #include "mws/index/memsector_allocator.h"
-#include "mws/index/encoded_token_dict.h"
-#include "mws/index/encoded_url_dict.h"
+#include "mws/index/encoded_token.h"
 #include "mws/index/index.h"
 
 /*--------------------------------------------------------------------------*/
@@ -49,8 +48,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 struct memsector_header_s {
     memsector_alloc_header_t alloc_header;
     uint32_t index_header_off;
-    uint32_t encoded_token_dict_header_off;
-    uint32_t encoded_url_dict_header_off;
     uint32_t signature; // TODO
 } PACKED;
 typedef struct memsector_header_s memsector_header_t;

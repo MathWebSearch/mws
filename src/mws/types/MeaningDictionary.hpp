@@ -31,7 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include "mws/types/NodeInfo.hpp"
+#include "mws/types/CmmlToken.hpp"
 #include "common/types/IdDictionary.hpp"
 
 namespace mws { namespace types {

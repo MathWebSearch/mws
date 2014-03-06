@@ -47,13 +47,15 @@ using std::string;
 namespace mws {
 namespace types {
 
-const char root_xpath_selector[] = "/*[1]";
+
+const Meaning MWS_QVAR_MEANING = "mws:qvar";
+const char ROOT_XPATH_SELECTOR[] = "/*[1]";
 
 CmmlToken::CmmlToken(bool aMode) :
     _tag(""),
     _textContent(""),
     _parentNode(NULL),
-    _xpath(root_xpath_selector),
+    _xpath(ROOT_XPATH_SELECTOR),
     _mode(aMode) {
 }
 
@@ -127,16 +129,9 @@ CmmlToken::isRoot() const {
 
 
 bool
-CmmlToken::isQvar() const {
+CmmlToken::isVar() const {
     return (getType() == VAR);
 }
-
-
-const string&
-CmmlToken::getQvarName() const {
-    return _textContent;
-}
-
 
 CmmlToken*
 CmmlToken::getParentNode() const {
@@ -159,7 +154,7 @@ CmmlToken::getXpath() const {
 string
 CmmlToken::getXpathRelative() const {
     // xpath without initial /*[1]
-    string xpath_relative(_xpath, strlen(root_xpath_selector), string::npos);
+    string xpath_relative(_xpath, strlen(ROOT_XPATH_SELECTOR), string::npos);
 
     return xpath_relative;
 }
@@ -249,6 +244,11 @@ CmmlToken::getMeaning() const {
     }
 
     return meaning;
+}
+
+uint32_t
+CmmlToken::getArity() const {
+    return _childNodes.size();
 }
 
 bool

@@ -25,8 +25,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date   03 May 2011
   */
 
-#include <stack>
 #include <string>
+#include <vector>
 
 #include "MwsIndexNode.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
@@ -61,7 +61,7 @@ MwsIndexNode::~MwsIndexNode()
 #endif
 
     _MapType::iterator it;
-    
+
     for (it = children.begin(); it != children.end(); it ++)
     {
         delete it->second;
@@ -74,49 +74,23 @@ MwsIndexNode::~MwsIndexNode()
 
 
 MwsIndexNode*
-MwsIndexNode::insertData(const CmmlToken* expression,
-                         MeaningDictionary* meaningDictionary) {
-    stack<const CmmlToken*> processStack;
-    MwsIndexNode*     currentNode;
-    NodeInfo          currentNodeInfo;
-
-    _MapType :: iterator mapIt;
-    CmmlToken::PtrList::const_reverse_iterator rIt;
-
-    // Initializing the iterative procedure
-    processStack.push(expression);
+MwsIndexNode::insertData(const vector<encoded_token_t>& encodedFormula) {
+    MwsIndexNode* currentNode;
     currentNode = this;
 
-    while (!processStack.empty())
-    {
-        // Getting the next token and pushing it in the right node
-        const CmmlToken* currentToken = processStack.top();
-        processStack.pop();
+    for (encoded_token_t encodedToken : encodedFormula) {
+        NodeInfo nodeInfo = make_pair(encoded_token_get_id(encodedToken),
+                                      encoded_token_get_arity(encodedToken));
 
-        MeaningId meaningId = meaningDictionary->put(currentToken->getMeaning());
-        currentNodeInfo = make_pair(meaningId,
-                                    currentToken->getChildNodes().size());
-
-        mapIt = currentNode->children.find(currentNodeInfo);
+        auto mapIt = currentNode->children.find(nodeInfo);
         // If no such node exists, we create it
-        if (mapIt == currentNode->children.end())
-        {
+        if (mapIt == currentNode->children.end()) {
             pair<_MapType::iterator, bool> ret =
-                currentNode->children.insert(make_pair(currentNodeInfo,
+                currentNode->children.insert(make_pair(nodeInfo,
                                                        new MwsIndexNode()));
             currentNode = ret.first->second;
-        }
-        else
-        {
+        } else {
             currentNode = mapIt->second;
-        }
-
-        // Reverse order because we want to retrieve from the stack properly
-        for (rIt  = currentToken->getChildNodes().rbegin();
-             rIt != currentToken->getChildNodes().rend();
-             rIt ++)
-        {
-            processStack.push(*rIt);
         }
     }
 
@@ -153,7 +127,7 @@ MwsIndexNode::exportToMemsector(memsector_alloc_header_t* alloc) const {
         leaf_t *leaf = (leaf_t*) memsector_off2addr(alloc, off);
         leaf->type = LEAF_NODE;
         leaf->num_hits = this->solutions;
-        leaf->dbid = this->id;
+        leaf->formula_id = this->id;
     }
 
     return off;
