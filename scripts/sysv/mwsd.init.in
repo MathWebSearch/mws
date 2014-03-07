@@ -103,8 +103,8 @@ do_stop()
 	start-stop-daemon --stop --quiet --oknodo --retry=0/5/KILL/5 --exec $DAEMON
 	[ "$?" = 2 ] && return 2
 	# Many daemons don't delete their pidfiles when they exit.
-    rm -rf @MWS_DATA_PATH@/formula1.db
-    rm -rf @MWS_DATA_PATH@/crawl1.db
+    rm -rf @MWS_DATA_PATH@/formula.db
+    rm -rf @MWS_DATA_PATH@/crawl.db
 	return "$RETVAL"
 }
 
