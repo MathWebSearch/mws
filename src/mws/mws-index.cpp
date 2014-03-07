@@ -92,16 +92,16 @@ int main(int argc, char* argv[]) {
     }
 
     crdb = new dbc::LevCrawlDb();
-    if (crdb->create_new((output_dir + "crawl1.db").c_str()) == -1) {
-        fprintf(stderr, "crawl1 already saved");
+    if (crdb->create_new((output_dir + "crawl.db").c_str()) == -1) {
+        fprintf(stderr, "error while creating crawl database\n");
         goto failure;
     }
 
     crawlDb = crdb;
 
     fmdb = new dbc::LevFormulaDb();
-    if (fmdb->create_new((output_dir + "formula1.db").c_str()) == -1) {
-        fprintf(stderr, "formula1 already saved");
+    if (fmdb->create_new((output_dir + "formula.db").c_str()) == -1) {
+        fprintf(stderr, "error while creating formula database\n");
         goto failure;
     }
 
