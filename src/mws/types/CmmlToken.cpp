@@ -90,6 +90,14 @@ CmmlToken::addAttribute(const std::string& anAttribute,
     _attributes.insert(make_pair(anAttribute, aValue));
 }
 
+std::string
+CmmlToken::getAttribute(const std::string& anAttribute) const{
+    std::map<std::string, std::string>::const_iterator it = _attributes.find(anAttribute);
+    if (it != _attributes.end()) {
+        return it->second;
+    }
+    return "";
+}
 
 void
 CmmlToken::appendTextContent(const char* aTextContent,

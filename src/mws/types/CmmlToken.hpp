@@ -85,6 +85,7 @@ public:
     void                         setTag(const std::string& aTag);
     void                         addAttribute(const std::string& anAttribute,
                                               const std::string& aValue);
+    std::string                  getAttribute(const std::string& anAttribute) const;
     void                         appendTextContent(const char* aTextContent,
                                                    size_t      nBytes);
     CmmlToken*                   newChildNode();

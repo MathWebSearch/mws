@@ -45,6 +45,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <stack>
 
+#include <iostream>
+
 // Local includes
 
 #include "MwsDaemon.hpp"
@@ -70,6 +72,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/IndexManager.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
+#include "mws/types/MwsSignature.hpp"
 
 using namespace std;
 using namespace mws;
@@ -85,6 +88,7 @@ const string QueryType = "mws:query";
 dbc::CrawlDb* crawlDb;
 dbc::FormulaDb* formulaDb;
 MeaningDictionary* meaningDictionary;
+MwsSignature* mwsSignature;
 
 index::IndexManager* indexManager;
 
@@ -128,7 +132,8 @@ HandleConnection(void* dataPtr)
     fd = outSocket->getFd();
     mwsQuery = readMwsQueryFromFd(fd);
 
-    QueryEncoder encoder(meaningDictionary);
+    QueryEncoder encoder(meaningDictionary, mwsSignature);
+    // meaningDictionary->save(cout);
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
@@ -138,6 +143,12 @@ HandleConnection(void* dataPtr)
 #endif
         if (encoder.encode(mwsQuery->tokens[0],
                            &encodedQuery, &queryInfo) == 0) {
+
+            // DEBUG helper:
+            // for(int i=0;i<encodedQuery.size();++i) {
+            //     cout << "id: " << encodedQuery[i].id << " arity: " << encodedQuery[i].arity << " sort: " << encodedQuery[i].sort << "\n";
+            // }
+
             dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
             ctxt = new query::SearchContext(encodedQuery);
             result = ctxt->getResult(data,
@@ -225,9 +236,14 @@ int initMws(const Config& config)
 
     data = new MwsIndexNode();
     meaningDictionary = new MeaningDictionary();
+    mwsSignature = new MwsSignature(meaningDictionary);
+    if (!mwsSignature->readSignatures("../data/sortedunif/sorts.txt")) {
+        fprintf(stderr, "Error while loading sorts in the signature\n");
+    }
+    // meaningDictionary->save(cout);
 
     indexManager = new index::IndexManager(formulaDb, crawlDb, data,
-                                           meaningDictionary);
+                                           meaningDictionary, mwsSignature);
 
     ret = ThreadWrapper::init();
     if (ret)
@@ -276,6 +292,7 @@ void cleanupMws()
     delete serverSocket;
     delete indexManager;
     delete meaningDictionary;
+    delete mwsSignature;
     delete crawlDb;
     delete formulaDb;
     delete data;

@@ -50,9 +50,10 @@ namespace mws { namespace index {
 IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
                            dbc::CrawlDb* crawlDb,
                            MwsIndexNode* index,
-                           types::MeaningDictionary* meaningDictionary) :
+                           types::MeaningDictionary* meaningDictionary,
+                           types::MwsSignature* mwsSignature) :
     m_formulaDb(formulaDb), m_crawlDb(crawlDb), m_index(index),
-    m_meaningDictionary(meaningDictionary) { }
+    m_meaningDictionary(meaningDictionary), m_signature(mwsSignature) { }
 
 types::CrawlId
 IndexManager::indexCrawlData(const types::CrawlData& crawlData) {
@@ -69,7 +70,7 @@ IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
     set<FormulaId> uniqueFormulaIds;
     stack<const CmmlToken*> subtermStack;
     int numSubExpressions = 0;
-    HarvestEncoder encoder(m_meaningDictionary);
+    HarvestEncoder encoder(m_meaningDictionary, m_signature);
 
     subtermStack.push(cmmlToken);
     while (!subtermStack.empty()) {

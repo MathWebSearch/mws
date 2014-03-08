@@ -1,0 +1,53 @@
+SORTS: any complex real rational integer natural
+FUNCTION: quotient integer integer integer
+FUNCTION: exp real real
+FUNCTION: divide complex complex complex
+FUNCTION: divide real real real
+FUNCTION: divide rational rational rational
+FUNCTION: divide integer integer rational
+FUNCTION: minus real real real
+FUNCTION: minus integer integer integer
+FUNCTION: minus rational rational rational
+FUNCTION: minus complex complex complex
+FUNCTION: minus real real
+FUNCTION: minus integer integer
+FUNCTION: minus complex complex
+FUNCTION: minus rational rational
+FUNCTION: plus real real real
+FUNCTION: plus integer integer integer
+FUNCTION: plus rational rational rational
+FUNCTION: plus complex complex complex
+FUNCTION: plus real real
+FUNCTION: plus rational rational
+FUNCTION: plus integer integer
+FUNCTION: plus real real
+FUNCTION: plus integer integer
+FUNCTION: plus complex complex
+FUNCTION: plus rational rational
+FUNCTION: power complex complex complex
+FUNCTION: power real real complex
+FUNCTION: power rational rational complex
+FUNCTION: power rational integer rational
+FUNCTION: power integer integer rational
+FUNCTION: rem integer integer integer
+FUNCTION: times complex complex complex
+FUNCTION: times real real real
+FUNCTION: times rational rational rational
+FUNCTION: times integer integer integer
+FUNCTION: ln real natural real
+FUNCTION: log real natural real
+FUNCTION: sin real real
+FUNCTION: cos real real
+FUNCTION: tan real real
+FUNCTION: sec real real
+FUNCTION: csc real real
+FUNCTION: cot real real
+FUNCTION: sinh real real
+FUNCTION: sinh real real
+FUNCTION: tanh real real
+FUNCTION: sech real real
+FUNCTION: csch real real
+FUNCTION: coth real real
+FUNCTION: arcsin real real
+FUNCTION: arccos real real
+FUNCTION: arctan real real

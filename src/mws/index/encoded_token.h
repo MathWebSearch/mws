@@ -63,7 +63,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  */
 struct encoded_token_s {
     uint32_t  arity : 8;
-    uint32_t  id    : 24;
+    uint32_t  id    : 20;
+    uint32_t  sort  : 4;
 } PACKED;
 typedef struct encoded_token_s encoded_token_t;
 

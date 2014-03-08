@@ -37,6 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/index/encoded_token.h"
 #include "mws/types/MeaningDictionary.hpp"
+#include "mws/types/MwsSignature.hpp"
 #include "mws/types/CmmlToken.hpp"
 
 /****************************************************************************/
@@ -52,7 +53,7 @@ struct ExpressionInfo {
 
 class ExpressionEncoder {
  public:
-    explicit ExpressionEncoder(mws::types::MeaningDictionary* dictionary);
+    explicit ExpressionEncoder(mws::types::MeaningDictionary* dictionary, mws::types::MwsSignature* signature);
     virtual ~ExpressionEncoder();
 
     int encode(const mws::types::CmmlToken* expression,
@@ -64,11 +65,12 @@ class ExpressionEncoder {
     virtual MeaningId _getConstantEncoding(const types::Meaning& meaning) = 0;
 
     mws::types::MeaningDictionary* _meaningDictionary;
+    mws::types::MwsSignature* _signature;
 };
 
 class HarvestEncoder : public ExpressionEncoder {
  public:
-    explicit HarvestEncoder(mws::types::MeaningDictionary* dictionary);
+    explicit HarvestEncoder(mws::types::MeaningDictionary* dictionary, mws::types::MwsSignature* signature);
     virtual ~HarvestEncoder();
  protected:
     virtual MeaningId _getAnonVarOffset() const;
@@ -78,7 +80,7 @@ class HarvestEncoder : public ExpressionEncoder {
 
 class QueryEncoder : public ExpressionEncoder {
  public:
-    explicit QueryEncoder(mws::types::MeaningDictionary* dictionary);
+    explicit QueryEncoder(mws::types::MeaningDictionary* dictionary, mws::types::MwsSignature* signature);
     virtual ~QueryEncoder();
  protected:
     virtual MeaningId _getAnonVarOffset() const;

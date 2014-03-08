@@ -31,6 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/NodeInfo.hpp"
+#include "mws/types/MwsSignature.hpp"
 #include "mws/dbc/FormulaDb.hpp"
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/index/MwsIndexNode.hpp"
@@ -43,12 +44,14 @@ private:
     dbc::CrawlDb* m_crawlDb;
     MwsIndexNode* m_index;
     types::MeaningDictionary* m_meaningDictionary;
+    types::MwsSignature* m_signature;
 
 public:
     IndexManager(dbc::FormulaDb* formulaDb,
                  dbc::CrawlDb* crawlDb,
                  MwsIndexNode* index,
-                 types::MeaningDictionary* meaningDictionary);
+                 types::MeaningDictionary* meaningDictionary,
+                 types::MwsSignature* mwsSignature);
 
     /**
      * @brief index crawl data

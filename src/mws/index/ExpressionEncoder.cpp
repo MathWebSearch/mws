@@ -42,6 +42,8 @@ using std::vector;
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/types/MeaningDictionary.hpp"
 using mws::types::MeaningDictionary;
+#include "mws/types/MwsSignature.hpp"
+using mws::types::MwsSignature;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::Meaning;
@@ -51,8 +53,8 @@ using mws::types::Meaning;
 /****************************************************************************/
 namespace mws { namespace index {
 
-ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary) :
-    _meaningDictionary(dictionary) {
+ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary, MwsSignature* signature) :
+    _meaningDictionary(dictionary), _signature(signature) {
 }
 
 ExpressionEncoder::~ExpressionEncoder() {}
@@ -73,6 +75,7 @@ ExpressionEncoder::encode(const CmmlToken* expression,
         const CmmlToken* token = dfs_stack.top();
         dfs_stack.pop();
         encoded_token_t encoded_token;
+        encoded_token.sort = _signature->getSort("any");
 
         if (token->isVar()) {
             string qvarName = token->getVarName();
@@ -86,6 +89,14 @@ ExpressionEncoder::encode(const CmmlToken* expression,
                     expressionInfo->qvarNames.push_back(qvarName);
                     expressionInfo->qvarXpaths.push_back(
                                 token->getXpathRelative());
+                }
+            }
+
+            string sortAttribute;
+            if ((sortAttribute = token->getAttribute("sort")) != "") {
+                types::SortId sortId;
+                if ((sortId = _signature->getSort( sortAttribute )) != MwsSignature::SORT_NOT_FOUND) {
+                    encoded_token.sort = sortId;
                 }
             }
         } else {
@@ -107,8 +118,8 @@ ExpressionEncoder::encode(const CmmlToken* expression,
     return rv;
 }
 
-HarvestEncoder::HarvestEncoder(types::MeaningDictionary *dictionary) :
-    ExpressionEncoder(dictionary) {
+HarvestEncoder::HarvestEncoder(MeaningDictionary *dictionary, MwsSignature* signature) :
+    ExpressionEncoder(dictionary, signature) {
 }
 
 HarvestEncoder::~HarvestEncoder() {}
@@ -128,8 +139,8 @@ HarvestEncoder::_getConstantEncoding(const Meaning& meaning) {
     return CONSTANT_ID_MIN + _meaningDictionary->put(meaning);
 }
 
-QueryEncoder::QueryEncoder(types::MeaningDictionary *dictionary) :
-    ExpressionEncoder(dictionary) {
+QueryEncoder::QueryEncoder(MeaningDictionary *dictionary, MwsSignature* signature) :
+    ExpressionEncoder(dictionary, signature) {
 }
 
 QueryEncoder::~QueryEncoder() {}

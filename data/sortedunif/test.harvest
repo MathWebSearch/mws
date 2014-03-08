@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<mws:harvest xmlns:m="http://www.w3.org/1998/Math/MathML"
+             xmlns:mws="http://search.mathweb.org/ns">
+  <mws:expr url="#m1.1">
+    <apply xml:id="m1.1.3.cmml">
+      <times xml:id="m1.1.3.1.cmml"/>
+      <ci xml:id="m1.1.1.cmml">G</ci>
+      <ci xml:id="m1.1.2.cmml">L</ci>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m2.1">
+    <apply xml:id="m2.1.3.cmml">
+      <times xml:id="m2.1.3.1.cmml"/>
+      <ci xml:id="m2.1.1.cmml">G</ci>
+      <ci xml:id="m2.1.2.cmml">L</ci>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m3.1">
+    <ci xml:id="m3.1.1.cmml">X</ci>
+  </mws:expr>
+
+  <mws:expr url="#m4.1">
+    <ci xml:id="m4.1.1.cmml">L</ci>
+  </mws:expr>
+
+  <mws:expr url="#m7.1">
+    <apply xml:id="m7.1.6.cmml">
+      <interval closure="closed" xml:id="m7.1.6.1.cmml"/>
+      <cn type="integer" xml:id="m7.1.2.cmml">0</cn>
+      <ci xml:id="m7.1.4.cmml">c</ci>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m8.1">
+    <apply xml:id="m8.1.6.cmml">
+      <interval closure="closed" xml:id="m8.1.6.1.cmml"/>
+      <cn type="integer" xml:id="m8.1.2.cmml">0</cn>
+      <ci xml:id="m8.1.4.cmml">c</ci>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m10.1">
+    <apply xml:id="m10.1.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m10.1.3.1.cmml">superscript</csymbol>
+      <ci xml:id="m10.1.1.cmml">I</ci>
+      <ci xml:id="m10.1.2.1.cmml">X</ci>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m11.1">
+    <ci xml:id="m11.1.1.cmml">c</ci>
+  </mws:expr>
+  
+  <mws:expr url="#m1.1">
+    <apply xml:id="m1.1.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m1.1.3.1.cmml">superscript</csymbol>
+      <ci xml:id="m1.1.1.cmml">ℤ</ci>
+      <ci xml:id="m1.1.2.1.cmml">d</ci>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m2.1">
+    <apply xml:id="m2.1.5.cmml">
+      <in xml:id="m2.1.2.cmml"/>
+      <ci xml:id="m2.1.1.cmml">x</ci>
+      <apply xml:id="m2.1.5.1.cmml">
+        <csymbol cd="ambiguous" xml:id="m2.1.5.1.1.cmml">superscript</csymbol>
+        <ci xml:id="m2.1.3.cmml">ℤ</ci>
+        <ci xml:id="m2.1.4.1.cmml">d</ci>
+      </apply>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m3.1">
+    <ci xml:id="m3.1.1.cmml">x</ci>
+  </mws:expr>
+
+  <mws:expr url="#m4.1">
+    <apply xml:id="m4.1.1.cmml">
+      <divide xml:id="m4.1.1.1.cmml"/>
+      <cn type="integer" xml:id="m4.1.1.2.cmml">1</cn>
+      <ci xml:id="m4.1.1.3.cmml">ε</ci>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m5.1">
+    <apply xml:id="m5.1.1.cmml">
+      <divide xml:id="m5.1.1.1.cmml"/>
+      <cn type="integer" xml:id="m5.1.1.2.cmml">1</cn>
+      <apply xml:id="m5.1.1.3.cmml">
+        <csymbol cd="ambiguous" xml:id="m5.1.1.3.3.cmml">superscript</csymbol>
+        <ci xml:id="m5.1.1.3.1.cmml">ε</ci>
+        <cn type="integer" xml:id="m5.1.1.3.2.1.cmml">2</cn>
+      </apply>
+    </apply>
+  </mws:expr>
+
+  <mws:expr url="#m6.1">
+    <ci xml:id="m6.1.1.cmml">d</ci>
+  </mws:expr>
+
+  <mws:expr url="#m7.1">
+    <ci xml:id="m7.1.1.cmml">ε</ci>
+  </mws:expr>
+</mws:harvest>
