@@ -46,6 +46,8 @@ typedef std::string SortName;
 typedef uint8_t SortId;
 typedef common::types::IdDictionary<SortName, SortId> SortsDictionary;
 
+int subsetOf(SortId A, SortId B);
+
 class FunctionSignature {
 public:
     MeaningId m_functionName;

@@ -38,7 +38,9 @@ using std::vector;
 #include "SearchContext.hpp"
 #include "mws/index/encoded_token.h"
 #include "mws/types/NodeInfo.hpp"
+#include "mws/types/MwsSignature.hpp"
 using mws::types::FormulaId;
+using mws::types::SortId;
 
 namespace mws { namespace query {
 
@@ -51,12 +53,14 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
         MeaningId meaningId = encodedToken.id;
 
         if (encoded_token_is_var(encodedToken)) {  // qvar
+            SortId sortId = encodedToken.sort;
             if (encoded_token_is_anon_var(encodedToken)) {  // anonymous qvar
                 expr.push_back(
                         makeNodeTriple(true,
                                        meaningId,
                                        qvarCount)
                         );
+                qvarSorts.insert( make_pair(qvarCount, sortId) );
                 backtrackPoints.push_back(tokenCount+1);
                 qvarCount++;
             } else {  // named qvar
@@ -68,6 +72,7 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
                                            meaningId,
                                            qvarCount)
                             );
+                    qvarSorts.insert( make_pair(qvarCount, sortId) );
                     backtrackPoints.push_back(tokenCount+1);
                     qvarCount++;
                 } else {
@@ -76,6 +81,14 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
                                            meaningId,
                                            mapIt->second)
                             );
+                    map<int, SortId>::iterator it = qvarSorts.find( mapIt->second );
+                    if (it != qvarSorts.end()) {
+                        if (mws::types::subsetOf(sortId, it->second)) {
+                            it->second = sortId;
+                        }
+                    } else {
+                        qvarSorts.insert( make_pair(qvarCount, sortId) );
+                    }
                 }
             }
         } else {  // constant

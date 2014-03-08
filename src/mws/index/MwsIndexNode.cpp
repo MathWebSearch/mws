@@ -117,7 +117,7 @@ MwsIndexNode::exportToMemsector(memsector_alloc_header_t* alloc) const {
         for (auto& kv : this->children) {
             const MwsIndexNode* child = kv.second;
             inode->data[i].token =
-                    encoded_token(kv.first.first, kv.first.second);
+                    encoded_token(kv.first.first, kv.first.second, 1);
             inode->data[i].off = child->exportToMemsector(alloc);
 
             i++;

@@ -38,6 +38,10 @@ using namespace std;
 namespace mws {
 namespace types {
 
+int subsetOf(SortId A, SortId B) {
+    return A >= B;
+}
+
 FunctionSignature::FunctionSignature(MeaningId functionName, std::vector<SortId> &functionInput, SortId &functionOutput) {
     m_functionName = functionName;
     m_input = functionInput;

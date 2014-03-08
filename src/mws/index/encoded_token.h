@@ -102,11 +102,12 @@ uint32_t encoded_token_get_id(encoded_token_t tok) {
 }
 
 static inline
-encoded_token_t encoded_token(uint32_t id, uint32_t arity) {
+encoded_token_t encoded_token(uint32_t id, uint32_t arity, uint32_t sort) {
     encoded_token_t tok;
 
     tok.arity = arity;
     tok.id = id;
+    tok.sort = sort;
 
     return tok;
 }
