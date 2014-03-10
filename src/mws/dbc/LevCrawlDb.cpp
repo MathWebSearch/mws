@@ -26,6 +26,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 11 Dec 2013
   */
 
+
+#include <sys/stat.h>
+#include <sys/types.h>
+
 #include <stdexcept>
 #include <string>
 using std::string;

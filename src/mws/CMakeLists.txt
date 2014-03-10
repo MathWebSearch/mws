@@ -31,6 +31,13 @@ TARGET_LINK_LIBRARIES( mwsd
         commonutils
 )
 
+#MWS load executable
+ADD_EXECUTABLE( mwsd-load mwsd-load.cpp)
+TARGET_LINK_LIBRARIES( mwsd-load
+        mwsdaemon
+        commonutils
+)
+
 # MWS index builder
 ADD_EXECUTABLE(mws-index mws-index.cpp)
 TARGET_LINK_LIBRARIES( mws-index
@@ -40,6 +47,6 @@ TARGET_LINK_LIBRARIES( mws-index
 )
 
 # Output executables at the root of build tree
-SET_PROPERTY( TARGET mwsd mws-index
+SET_PROPERTY( TARGET mwsd mws-index mwsd-load
         PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )

@@ -1,4 +1,6 @@
-/*Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+/*
+
+Copyright (C) 2010-2013 KWARC Group <kwarc.info>
 
 This file is part of MathWebSearch.
 
@@ -17,16 +19,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief File containing the implementation of the MwsDaemon class.
-  * @file MwsDaemon.cpp
+  * @brief File containing the implementation of the MwsDaemonLoad class.
+  * @file MwsDaemonLoad.cpp
   * @author Corneliu-Claudiu Prodescu
   * @date 18 Jun 2011
   *
-  * @edited Daniel Hasegan
-  * @date 13 Aug 2012
-  *
   * @edited Radu Hambasan
-  * @date 13 Dec 2013
+  * @date 18 Feb 2014
   *
   * License: GPL v3
   */
@@ -41,32 +40,35 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <fcntl.h>              // File control operations
 #include <signal.h>
 #include <stdlib.h>
+
+#include <mws/index/index.h>
+#include <mws/query/engine.h>
+
 #include <stack>
+#include <fstream>
+#include <vector>
+#include <string>
 
 // Local includes
 
-#include "MwsDaemon.hpp"
+#include "MwsDaemonLoad.hpp"
 #include "common/socket/InSocket.hpp"
 #include "common/socket/OutSocket.hpp"
+#include "mws/types/HandlerStruct.hpp"
 #include "mws/dbc/LevFormulaDb.hpp"
 #include "mws/dbc/LevCrawlDb.hpp"
-#include "mws/dbc/MemFormulaDb.hpp"
-#include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "mws/xmlparser/readMwsQueryFromFd.hpp"
 #include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/xmlparser/writeJsonAnswsetToFd.hpp"
-#include "mws/index/MwsIndexNode.hpp"
-#include "mws/query/SearchContext.hpp"
 #include "common/types/ControlSequence.hpp"
 #include "common/thread/ThreadWrapper.hpp"
 #include "common/utils/DebugMacros.hpp"   // MWS Debug Macro Utilities
 #include "common/utils/Path.hpp"
 #include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
 #include "mws/dbc/DbQueryManager.hpp"
-#include "mws/index/IndexManager.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
 
 using namespace std;
@@ -74,7 +76,7 @@ using namespace mws;
 using namespace mws::types;
 using namespace mws::index;
 
-static MwsIndexNode* data;
+static index_handle_t* data;
 static InSocket* serverSocket;
 static sig_atomic_t run = 1;
 const string HarvestType = "mws:harvest";
@@ -83,8 +85,6 @@ const string QueryType = "mws:query";
 dbc::CrawlDb* crawlDb;
 dbc::FormulaDb* formulaDb;
 MeaningDictionary* meaningDictionary;
-
-index::IndexManager* indexManager;
 
 namespace mws { namespace daemon {
 
@@ -100,6 +100,39 @@ graceful_exit(int signum)
     }
 }
 
+static
+result_cb_return_t result_callback(void* handle,
+                                   const leaf_t * leaf) {
+    if (leaf->type != LEAF_NODE) {
+        fprintf(stderr, "Leaf callback error.");
+        return QUERY_ERROR;
+    }
+
+    HandlerStruct *handlerStruct = (HandlerStruct *) handle;
+    MwsAnswset *result = handlerStruct->result;
+    MwsQuery   *mwsQuery = handlerStruct->mwsQuery;
+    dbc::DbQueryManager* dbQueryManager = handlerStruct->dbQueryManager;
+
+    dbc::DbAnswerCallback queryCallback =
+            [result](const types::FormulaPath& formulaPath,
+                     const types::CrawlData& crawlData) {
+        mws::types::Answer* answer = new mws::types::Answer();
+        answer->data = crawlData;
+        answer->uri = formulaPath.xmlId;
+        answer->xpath = formulaPath.xpath;
+        result->answers.push_back(answer);
+        return 0;
+    };
+
+    dbQueryManager->query((FormulaId)leaf->formula_id,
+                          mwsQuery->attrResultLimitMin,
+                          mwsQuery->attrResultMaxSize,
+                          queryCallback);
+    result->total += leaf->num_hits;
+
+    return QUERY_CONTINUE;
+}
+
 static void*
 HandleConnection(void* dataPtr)
 {
@@ -107,7 +140,6 @@ HandleConnection(void* dataPtr)
     MwsAnswset*       result;
     OutSocket*        outSocket;
     SocketInfo        sockInfo;
-    query::SearchContext* ctxt;
     int               ret;
     ControlSequence   controlSequence;
     int               fd;
@@ -126,30 +158,34 @@ HandleConnection(void* dataPtr)
     fd = outSocket->getFd();
     mwsQuery = readMwsQueryFromFd(fd);
 
-    QueryEncoder encoder(meaningDictionary);
-    vector<encoded_token_t> encodedQuery;
-    ExpressionInfo queryInfo;
-
     if (mwsQuery && mwsQuery->tokens.size()) {
 #ifdef _APPLYRESTRICT
         mwsQuery->applyRestrictions();
 #endif
-        if (encoder.encode(mwsQuery->tokens[0],
-                           &encodedQuery, &queryInfo) == 0) {
-            dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
-            ctxt = new query::SearchContext(encodedQuery);
-            result = ctxt->getResult(data,
-                                     &dbQueryManger,
-                                     mwsQuery->attrResultLimitMin,
-                                     mwsQuery->attrResultMaxSize,
-                                     mwsQuery->attrResultTotalReqNr);
-            delete ctxt;
-        } else {
-            result = new MwsAnswset();
-        }
+        result = new MwsAnswset();
 
-        result->qvarNames = queryInfo.qvarNames;
-        result->qvarXpaths = queryInfo.qvarXpaths;
+        dbc::DbQueryManager* dbQueryManager =
+                new dbc::DbQueryManager(crawlDb, formulaDb);
+        QueryEncoder encoder(meaningDictionary);
+        std::vector<encoded_token_t> encFormula_vec;
+        ExpressionInfo exprInfo;
+
+        encoder.encode(mwsQuery->tokens[0], &encFormula_vec, &exprInfo);
+
+        encoded_formula_t encFormula;
+        encFormula.data = encFormula_vec.data();
+        encFormula.size = encFormula_vec.size();
+
+        result->qvarNames = exprInfo.qvarNames;
+        result->qvarXpaths = exprInfo.qvarXpaths;
+
+        HandlerStruct* handlerStruct = new HandlerStruct();
+        handlerStruct->result = result;
+        handlerStruct->mwsQuery = mwsQuery;
+        handlerStruct->dbQueryManager = dbQueryManager;
+
+        query_engine_run(data, &encFormula, result_callback, handlerStruct);
+
 
         // Sending the control sequence
         controlSequence.setFormat(mwsQuery->attrResultOutputFormat);
@@ -170,19 +206,18 @@ HandleConnection(void* dataPtr)
                                           outSocket->getFd());
                 break;
         }
+
         if (ret == -1) {
             fprintf(stderr, "Error while writing the Answer Set\n");
         }
 
+        delete handlerStruct;
         delete result;
-    }
-    else
-    {
+    } else {
         controlSequence.send(outSocket->getFd());
     }
 
     delete mwsQuery;
-
     delete outSocket;
 
     return NULL;
@@ -199,33 +234,42 @@ int initMws(const Config& config)
         return 1;
     }
 
-    if (config.useLevelDb) {
-        dbc::LevCrawlDb* crdb = new dbc::LevCrawlDb();
-        dbc::LevFormulaDb* fmdb = new dbc::LevFormulaDb();
-        string crdbPath = config.dataPath + "/crawl.db";
-        string fmdbPath = config.dataPath + "/formula.db";
+    dbc::LevCrawlDb* crdb = new dbc::LevCrawlDb();
+    dbc::LevFormulaDb* fmdb = new dbc::LevFormulaDb();
+    string crdbPath = config.dataPath + "/crawl.db";
+    string fmdbPath = config.dataPath + "/formula.db";
 
-        try {
-            crdb->create_new(crdbPath.c_str());
-            fmdb->create_new(fmdbPath.c_str());
+    try {
+        crdb->open(crdbPath.c_str());
+        fmdb->open(fmdbPath.c_str());
 
-            crawlDb = crdb;
-            formulaDb = fmdb;
-        }
-        catch(const std::exception &e) {
-            fprintf(stderr, "Initializing database: %s\n", e.what());
-            return EXIT_FAILURE;
-        }
-    } else {
-         crawlDb = new dbc::MemCrawlDb();
-         formulaDb = new dbc::MemFormulaDb();
+        crawlDb = crdb;
+        formulaDb = fmdb;
+    }
+    catch(const std::exception &e) {
+        fprintf(stderr, "Initializing database: %s\n", e.what());
+        return EXIT_FAILURE;
     }
 
-    data = new MwsIndexNode();
-    meaningDictionary = new MeaningDictionary();
+    /*
+     * Initializing data
+     */
+    string ms_path = config.dataPath + "/memsector.dat";
+    memsector_handle_t msHandle;
+    memsector_load(&msHandle, ms_path.c_str());
 
-    indexManager = new index::IndexManager(formulaDb, crawlDb, data,
-                                           meaningDictionary);
+    data = new index_handle_t;
+    *data = msHandle.index;
+
+    /*
+     * Initializing meaningDictionary
+     */
+    meaningDictionary = new MeaningDictionary();
+    std::filebuf fb;
+    std::istream os(&fb);
+    fb.open((config.dataPath + "/meaning.dat").c_str(), std::ios::in);
+    meaningDictionary->load(os);
+    fb.close();
 
     ret = ThreadWrapper::init();
     if (ret)
@@ -233,21 +277,6 @@ int initMws(const Config& config)
         fprintf(stderr, "Error while initializing thread module\n");
         clearxmlparser();
         return 1;
-    }
-
-    // load harvests
-    const vector<string>& paths = config.harvestLoadPaths;
-    vector<string> :: const_iterator it;
-
-    for (it = paths.begin(); it != paths.end(); it++)
-    {
-        AbsPath harvestPath(*it);
-        printf("Loading from %s...\n", it->c_str());
-        printf("%d expressions loaded.\n",
-                parser::loadMwsHarvestFromDirectory(indexManager, harvestPath,
-                                                    config.harvestFileExtension,
-                                                    config.recursive));
-        fflush(stdout);
     }
 
     // Starting the network side and accepting connections
@@ -272,15 +301,13 @@ void cleanupMws()
 
     clearxmlparser();
     delete serverSocket;
-    delete indexManager;
     delete meaningDictionary;
     delete crawlDb;
     delete formulaDb;
     delete data;
 }
 
-
-int mwsDaemonLoop(const Config& config)
+int mwsDaemonLoopLoad(const Config& config)
 {
     OutSocket* acceptedSock;
 

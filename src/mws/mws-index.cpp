@@ -91,8 +91,24 @@ int main(int argc, char* argv[]) {
         memsector_size = DEFAULT_MEMSECTOR_SIZE;
     }
 
+    // if the path exists
+    if (access(output_dir.c_str(), 0) == 0) {
+          struct stat status;
+          stat(output_dir.c_str(), &status);
+
+          if (status.st_mode & S_IFDIR) {
+             // Everything ok if the folder has no other files called
+             // crawl.db, level.db, memsector.dat or meaning.dat
+          } else {
+             fprintf(stderr, "The path you entered is a file");
+             goto failure;
+          }
+    } else {
+            mkdir(output_dir.c_str(), 0755);
+      }
+
     crdb = new dbc::LevCrawlDb();
-    if (crdb->create_new((output_dir + "crawl.db").c_str()) == -1) {
+    if (crdb->create_new((output_dir + "/crawl.db").c_str()) == -1) {
         fprintf(stderr, "error while creating crawl database\n");
         goto failure;
     }
@@ -100,7 +116,7 @@ int main(int argc, char* argv[]) {
     crawlDb = crdb;
 
     fmdb = new dbc::LevFormulaDb();
-    if (fmdb->create_new((output_dir + "formula.db").c_str()) == -1) {
+    if (fmdb->create_new((output_dir + "/formula.db").c_str()) == -1) {
         fprintf(stderr, "error while creating formula database\n");
         goto failure;
     }
@@ -119,14 +135,13 @@ int main(int argc, char* argv[]) {
     parser::loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
                                         harvestExtension, recursive);
     memsector_create(&mwsr,
-                     (output_dir + "memsector.dat").c_str(),
+                     (output_dir + "/memsector.dat").c_str(),
                      memsector_size);
 
     data->exportToMemsector(&mwsr);
     memsector_save(&mwsr);
 
-    fb.open((output_dir + "meaning.dat").c_str(), std::ios::out);
-
+    fb.open((output_dir + "/meaning.dat").c_str(), std::ios::out);
     meaningDictionary->save(os);
     fb.close();
 
