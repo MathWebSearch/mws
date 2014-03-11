@@ -38,20 +38,58 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <utility>                     // STL pair
 #include <vector>
+#include <iostream>
 
 // Local includes
 
 #include "mws/types/CmmlToken.hpp"     // CmmlToken class header
+#include "mws/types/MwsSignature.hpp"  // Mws Signature and solver
 #include "mws/types/MwsAnswset.hpp"    // MWS Answer set class header
 #include "mws/index/MwsIndexNode.hpp"  // MWS Index node class header
 #include "common/utils/DebugMacros.hpp"
 
 // Typedefs
 
-
-
 namespace mws
 {
+
+
+struct nodeTriple
+{
+    bool           isQvar;
+    mws::MeaningId meaningId;
+    mws::Arity     arity;
+
+};
+
+inline struct nodeTriple
+makeNodeTriple(bool isQvar, mws::MeaningId aMeaningId, mws::Arity anArity)
+{
+    struct nodeTriple result;
+
+    result.isQvar    = isQvar;
+    result.meaningId = aMeaningId;
+    result.arity     = anArity;
+
+    return result;
+}
+
+struct nodeTripleExtended : public nodeTriple {
+    mws::types::SortId sort;
+};
+
+inline struct nodeTripleExtended
+makeNodeTripleExtended(mws::MeaningId aMeaningId, mws::Arity anArity, mws::types::SortId aSort)
+{
+    struct nodeTripleExtended result;
+
+    result.isQvar    = false;
+    result.meaningId = aMeaningId;
+    result.arity     = anArity;
+    result.sort      = aSort;
+
+    return result;
+}
 
 struct qvarCtxt
 {
@@ -165,27 +203,78 @@ struct qvarCtxt
 #endif
         return currentNode;
     }
+
+    inline int isSolutionSorted(mws::types::MwsSignature* signature,
+                                mws::types::SortId sortId)
+    {
+        if (sortId == 1)
+            return 1;
+
+        std::list<
+            std::pair<qvarCtxt::mapIteratorType,
+                      qvarCtxt::mapIteratorType>
+            > :: iterator it;
+
+        std::stack< nodeTripleExtended > sortStack;
+        std::stack< int > arityLeft;
+
+        std::stack< nodeTripleExtended > auxStack;
+        std::vector< std::pair<mws::MeaningId, mws::types::SortId> > functionApplication;
+
+        // std::cout << "item: ";
+        // for(it = backtrackIterators.begin(); it != backtrackIterators.end(); it ++ ) {
+        //     std::cout << (int)it->first->first.first << " ";
+        // }
+        // std::cout << "\n";
+
+        // std::cout << "Formula " << (int)signature->getSmallestSort() << "\n";
+        for(it = backtrackIterators.begin(); it != backtrackIterators.end(); it ++ ) {
+            NodeInfo nodeInfo = it->first->first;
+            sortStack.push(makeNodeTripleExtended(
+                nodeInfo.first, nodeInfo.second,
+                (nodeInfo.second == 0)?signature->getSmallestSort():0 ));
+            if (nodeInfo.second > 0) {
+                arityLeft.push( nodeInfo.second );
+            } else {
+                bool subtractedArity = false;
+                while( !arityLeft.empty() && !subtractedArity ) {
+                    int arity = arityLeft.top();
+                    arityLeft.pop();
+                    if (arity > 1) {
+                        arityLeft.push( arity - 1 );
+                        subtractedArity = true;
+                    } else {
+                        // Evaluate expression
+                        // Pop until you get something with arity > 0
+                        // Evaluate the (apply) (func) (x) ... only to get the correct sort
+                        bool hasPositiveArity = false;
+                        do {
+                            auxStack.push( sortStack.top() );
+                            sortStack.pop();
+                            if (auxStack.top().arity > 0) {
+                                hasPositiveArity = true;
+                            }
+                        } while (!sortStack.empty() && !hasPositiveArity);
+                        functionApplication.clear();
+                        while (!auxStack.empty()) {
+                            nodeTripleExtended node = auxStack.top();
+                            std::pair<mws::MeaningId, mws::types::SortId> currentPair = std::make_pair(node.meaningId, node.sort);
+                            functionApplication.push_back(currentPair);
+                            auxStack.pop();
+                        }
+                        mws::types::SortId newSortId = signature->getSortFunctionApplication(functionApplication);
+                        sortStack.push( makeNodeTripleExtended(0, 0, newSortId) );
+                    }
+                }
+            }
+        }
+        nodeTripleExtended result = sortStack.top();
+        sortStack.pop();
+        // std::cout << "item of sort ";
+        // std::cout << (int)result.sort << " needing sort " << (int)sortId << "\n";
+        return (mws::types::subsetOf(result.sort, sortId));
+    }
 };
-
-struct nodeTriple
-{
-    bool           isQvar;
-    mws::MeaningId meaningId;
-    mws::Arity     arity;
-
-};
-    
-inline struct nodeTriple
-makeNodeTriple(bool isQvar, mws::MeaningId aMeaningId, mws::Arity anArity)
-{
-    struct nodeTriple result;
-
-    result.isQvar    = isQvar;
-    result.meaningId = aMeaningId;
-    result.arity     = anArity;
-
-    return result;
-}
 
 }
 

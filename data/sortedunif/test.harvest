@@ -1,107 +1,287 @@
 <?xml version="1.0" ?>
 <mws:harvest xmlns:m="http://www.w3.org/1998/Math/MathML"
              xmlns:mws="http://search.mathweb.org/ns">
-  <mws:expr url="#m1.1">
-    <apply xml:id="m1.1.3.cmml">
-      <times xml:id="m1.1.3.1.cmml"/>
-      <ci xml:id="m1.1.1.cmml">G</ci>
-      <ci xml:id="m1.1.2.cmml">L</ci>
-    </apply>
+
+
+<mws:data mws:data_id="6">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">ln(x)</div> <div class="published">1999</div> <div class="review-body">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m1" class="ltx_Math" alttext="\ln(x)" display="inline" xml:id="p1.1.m1.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p1.1.m1.1.cmml"><semantics xml:id="p1.1.m1.1a" xref="p1.1.m1.1.cmml"><mrow xml:id="p1.1.m1.1.5" xref="p1.1.m1.1.5.cmml"><mi xml:id="p1.1.m1.1.1" xref="p1.1.m1.1.1.cmml">ln</mi><mo xml:id="p1.1.m1.1.5a" xref="p1.1.m1.1.5.cmml">⁡</mo><mrow xml:id="p1.1.m1.1.5b" xref="p1.1.m1.1.5.cmml"><mo xml:id="p1.1.m1.1.5c" xref="p1.1.m1.1.5.cmml">(</mo><mi xml:id="p1.1.m1.1.3" xref="p1.1.m1.1.3.cmml">x</mi><mo xml:id="p1.1.m1.1.5d" xref="p1.1.m1.1.5.cmml">)</mo></mrow></mrow><annotation-xml encoding="MathML-Content" xml:id="p1.1.m1.1.cmml" xref="p1.1.m1.1"><apply xml:id="p1.1.m1.1.5.cmml" xref="p1.1.m1.1.5"><ln xml:id="p1.1.m1.1.1.cmml" xref="p1.1.m1.1.1"/><ci xml:id="p1.1.m1.1.3.cmml" xref="p1.1.m1.1.3">x</ci></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p1.1.m1.1b" xref="p1.1.m1.1.cmml">\ln(x)</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
+
+
+<mws:data mws:data_id="7">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">ln(a*b)</div> <div class="published">1999</div> <div class="review-body">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m2" class="ltx_Math" alttext="\ln(a*b)=\ln(a)+\ln(b)" display="inline" xml:id="p1.1.m2.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p1.1.m2.1.cmml"><semantics xml:id="p1.1.m2.1a" xref="p1.1.m2.1.cmml"><mrow xml:id="p1.1.m2.1.17" xref="p1.1.m2.1.17.cmml"><mrow xml:id="p1.1.m2.1.17.1" xref="p1.1.m2.1.17.1.cmml"><mi xml:id="p1.1.m2.1.1" xref="p1.1.m2.1.1.cmml">ln</mi><mo xml:id="p1.1.m2.1.17.1a" xref="p1.1.m2.1.17.1.cmml">⁡</mo><mrow xml:id="p1.1.m2.1.17.1b" xref="p1.1.m2.1.17.1.cmml"><mo xml:id="p1.1.m2.1.17.1c" xref="p1.1.m2.1.17.1.cmml">(</mo><mrow xml:id="p1.1.m2.1.17.1.1" xref="p1.1.m2.1.17.1.1.cmml"><mi xml:id="p1.1.m2.1.3" xref="p1.1.m2.1.3.cmml">a</mi><mo xml:id="p1.1.m2.1.4" xref="p1.1.m2.1.4.cmml">*</mo><mi xml:id="p1.1.m2.1.5" xref="p1.1.m2.1.5.cmml">b</mi></mrow><mo xml:id="p1.1.m2.1.17.1d" xref="p1.1.m2.1.17.1.cmml">)</mo></mrow></mrow><mo xml:id="p1.1.m2.1.7" xref="p1.1.m2.1.7.cmml">=</mo><mrow xml:id="p1.1.m2.1.17.2" xref="p1.1.m2.1.17.2.cmml"><mrow xml:id="p1.1.m2.1.17.2.1" xref="p1.1.m2.1.17.2.1.cmml"><mi xml:id="p1.1.m2.1.8" xref="p1.1.m2.1.8.cmml">ln</mi><mo xml:id="p1.1.m2.1.17.2.1a" xref="p1.1.m2.1.17.2.1.cmml">⁡</mo><mrow xml:id="p1.1.m2.1.17.2.1b" xref="p1.1.m2.1.17.2.1.cmml"><mo xml:id="p1.1.m2.1.17.2.1c" xref="p1.1.m2.1.17.2.1.cmml">(</mo><mi xml:id="p1.1.m2.1.10" xref="p1.1.m2.1.10.cmml">a</mi><mo xml:id="p1.1.m2.1.17.2.1d" xref="p1.1.m2.1.17.2.1.cmml">)</mo></mrow></mrow><mo xml:id="p1.1.m2.1.12" xref="p1.1.m2.1.12.cmml">+</mo><mrow xml:id="p1.1.m2.1.17.2.2" xref="p1.1.m2.1.17.2.2.cmml"><mi xml:id="p1.1.m2.1.13" xref="p1.1.m2.1.13.cmml">ln</mi><mo xml:id="p1.1.m2.1.17.2.2a" xref="p1.1.m2.1.17.2.2.cmml">⁡</mo><mrow xml:id="p1.1.m2.1.17.2.2b" xref="p1.1.m2.1.17.2.2.cmml"><mo xml:id="p1.1.m2.1.17.2.2c" xref="p1.1.m2.1.17.2.2.cmml">(</mo><mi xml:id="p1.1.m2.1.15" xref="p1.1.m2.1.15.cmml">b</mi><mo xml:id="p1.1.m2.1.17.2.2d" xref="p1.1.m2.1.17.2.2.cmml">)</mo></mrow></mrow></mrow></mrow><annotation-xml encoding="MathML-Content" xml:id="p1.1.m2.1.cmml" xref="p1.1.m2.1"><apply xml:id="p1.1.m2.1.17.cmml" xref="p1.1.m2.1.17"><eq xml:id="p1.1.m2.1.7.cmml" xref="p1.1.m2.1.7"/><apply xml:id="p1.1.m2.1.17.1.cmml" xref="p1.1.m2.1.17.1"><ln xml:id="p1.1.m2.1.1.cmml" xref="p1.1.m2.1.1"/><apply xml:id="p1.1.m2.1.17.1.1.cmml" xref="p1.1.m2.1.17.1.1"><times xml:id="p1.1.m2.1.4.cmml" xref="p1.1.m2.1.4"/><ci xml:id="p1.1.m2.1.3.cmml" xref="p1.1.m2.1.3">a</ci><ci xml:id="p1.1.m2.1.5.cmml" xref="p1.1.m2.1.5">b</ci></apply></apply><apply xml:id="p1.1.m2.1.17.2.cmml" xref="p1.1.m2.1.17.2"><plus xml:id="p1.1.m2.1.12.cmml" xref="p1.1.m2.1.12"/><apply xml:id="p1.1.m2.1.17.2.1.cmml" xref="p1.1.m2.1.17.2.1"><ln xml:id="p1.1.m2.1.8.cmml" xref="p1.1.m2.1.8"/><ci xml:id="p1.1.m2.1.10.cmml" xref="p1.1.m2.1.10">a</ci></apply><apply xml:id="p1.1.m2.1.17.2.2.cmml" xref="p1.1.m2.1.17.2.2"><ln xml:id="p1.1.m2.1.13.cmml" xref="p1.1.m2.1.13"/><ci xml:id="p1.1.m2.1.15.cmml" xref="p1.1.m2.1.15">b</ci></apply></apply></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p1.1.m2.1b" xref="p1.1.m2.1.cmml">\ln(a*b)=\ln(a)+\ln(b)</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
+
+
+<mws:data mws:data_id="8">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">ln(a/b)</div> <div class="published">1999</div> <div class="review-body">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m3" class="ltx_Math" alttext="\ln(a/b)=\ln(a)-\ln(b)" display="inline" xml:id="p1.1.m3.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p1.1.m3.1.cmml"><semantics xml:id="p1.1.m3.1a" xref="p1.1.m3.1.cmml"><mrow xml:id="p1.1.m3.1.17" xref="p1.1.m3.1.17.cmml"><mrow xml:id="p1.1.m3.1.17.1" xref="p1.1.m3.1.17.1.cmml"><mi xml:id="p1.1.m3.1.1" xref="p1.1.m3.1.1.cmml">ln</mi><mo xml:id="p1.1.m3.1.17.1a" xref="p1.1.m3.1.17.1.cmml">⁡</mo><mrow xml:id="p1.1.m3.1.17.1b" xref="p1.1.m3.1.17.1.cmml"><mo xml:id="p1.1.m3.1.17.1c" xref="p1.1.m3.1.17.1.cmml">(</mo><mrow xml:id="p1.1.m3.1.17.1.1" xref="p1.1.m3.1.17.1.1.cmml"><mi xml:id="p1.1.m3.1.3" xref="p1.1.m3.1.3.cmml">a</mi><mo xml:id="p1.1.m3.1.4" xref="p1.1.m3.1.4.cmml">/</mo><mi xml:id="p1.1.m3.1.5" xref="p1.1.m3.1.5.cmml">b</mi></mrow><mo xml:id="p1.1.m3.1.17.1d" xref="p1.1.m3.1.17.1.cmml">)</mo></mrow></mrow><mo xml:id="p1.1.m3.1.7" xref="p1.1.m3.1.7.cmml">=</mo><mrow xml:id="p1.1.m3.1.17.2" xref="p1.1.m3.1.17.2.cmml"><mrow xml:id="p1.1.m3.1.17.2.1" xref="p1.1.m3.1.17.2.1.cmml"><mi xml:id="p1.1.m3.1.8" xref="p1.1.m3.1.8.cmml">ln</mi><mo xml:id="p1.1.m3.1.17.2.1a" xref="p1.1.m3.1.17.2.1.cmml">⁡</mo><mrow xml:id="p1.1.m3.1.17.2.1b" xref="p1.1.m3.1.17.2.1.cmml"><mo xml:id="p1.1.m3.1.17.2.1c" xref="p1.1.m3.1.17.2.1.cmml">(</mo><mi xml:id="p1.1.m3.1.10" xref="p1.1.m3.1.10.cmml">a</mi><mo xml:id="p1.1.m3.1.17.2.1d" xref="p1.1.m3.1.17.2.1.cmml">)</mo></mrow></mrow><mo xml:id="p1.1.m3.1.12" xref="p1.1.m3.1.12.cmml">-</mo><mrow xml:id="p1.1.m3.1.17.2.2" xref="p1.1.m3.1.17.2.2.cmml"><mi xml:id="p1.1.m3.1.13" xref="p1.1.m3.1.13.cmml">ln</mi><mo xml:id="p1.1.m3.1.17.2.2a" xref="p1.1.m3.1.17.2.2.cmml">⁡</mo><mrow xml:id="p1.1.m3.1.17.2.2b" xref="p1.1.m3.1.17.2.2.cmml"><mo xml:id="p1.1.m3.1.17.2.2c" xref="p1.1.m3.1.17.2.2.cmml">(</mo><mi xml:id="p1.1.m3.1.15" xref="p1.1.m3.1.15.cmml">b</mi><mo xml:id="p1.1.m3.1.17.2.2d" xref="p1.1.m3.1.17.2.2.cmml">)</mo></mrow></mrow></mrow></mrow><annotation-xml encoding="MathML-Content" xml:id="p1.1.m3.1.cmml" xref="p1.1.m3.1"><apply xml:id="p1.1.m3.1.17.cmml" xref="p1.1.m3.1.17"><eq xml:id="p1.1.m3.1.7.cmml" xref="p1.1.m3.1.7"/><apply xml:id="p1.1.m3.1.17.1.cmml" xref="p1.1.m3.1.17.1"><ln xml:id="p1.1.m3.1.1.cmml" xref="p1.1.m3.1.1"/><apply xml:id="p1.1.m3.1.17.1.1.cmml" xref="p1.1.m3.1.17.1.1"><divide xml:id="p1.1.m3.1.4.cmml" xref="p1.1.m3.1.4"/><ci xml:id="p1.1.m3.1.3.cmml" xref="p1.1.m3.1.3">a</ci><ci xml:id="p1.1.m3.1.5.cmml" xref="p1.1.m3.1.5">b</ci></apply></apply><apply xml:id="p1.1.m3.1.17.2.cmml" xref="p1.1.m3.1.17.2"><minus xml:id="p1.1.m3.1.12.cmml" xref="p1.1.m3.1.12"/><apply xml:id="p1.1.m3.1.17.2.1.cmml" xref="p1.1.m3.1.17.2.1"><ln xml:id="p1.1.m3.1.8.cmml" xref="p1.1.m3.1.8"/><ci xml:id="p1.1.m3.1.10.cmml" xref="p1.1.m3.1.10">a</ci></apply><apply xml:id="p1.1.m3.1.17.2.2.cmml" xref="p1.1.m3.1.17.2.2"><ln xml:id="p1.1.m3.1.13.cmml" xref="p1.1.m3.1.13"/><ci xml:id="p1.1.m3.1.15.cmml" xref="p1.1.m3.1.15">b</ci></apply></apply></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p1.1.m3.1b" xref="p1.1.m3.1.cmml">\ln(a/b)=\ln(a)-\ln(b)</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
+
+
+<mws:data mws:data_id="9">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">ln(exp(x))</div> <div class="published">1999</div> <div class="review-body">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m4" class="ltx_Math" alttext="\ln(\exp(a))=a" display="inline" xml:id="p1.1.m4.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p1.1.m4.1.cmml"><semantics xml:id="p1.1.m4.1a" xref="p1.1.m4.1.cmml"><mrow xml:id="p1.1.m4.1.10" xref="p1.1.m4.1.10.cmml"><mrow xml:id="p1.1.m4.1.10.1" xref="p1.1.m4.1.10.1.cmml"><mi xml:id="p1.1.m4.1.1" xref="p1.1.m4.1.1.cmml">ln</mi><mo xml:id="p1.1.m4.1.10.1a" xref="p1.1.m4.1.10.1.cmml">⁡</mo><mrow xml:id="p1.1.m4.1.10.1b" xref="p1.1.m4.1.10.1.cmml"><mo xml:id="p1.1.m4.1.10.1c" xref="p1.1.m4.1.10.1.cmml">(</mo><mrow xml:id="p1.1.m4.1.10.1.1" xref="p1.1.m4.1.10.1.1.cmml"><mi xml:id="p1.1.m4.1.3" xref="p1.1.m4.1.3.cmml">exp</mi><mo xml:id="p1.1.m4.1.10.1.1a" xref="p1.1.m4.1.10.1.1.cmml">⁡</mo><mrow xml:id="p1.1.m4.1.10.1.1b" xref="p1.1.m4.1.10.1.1.cmml"><mo xml:id="p1.1.m4.1.10.1.1c" xref="p1.1.m4.1.10.1.1.cmml">(</mo><mi xml:id="p1.1.m4.1.5" xref="p1.1.m4.1.5.cmml">a</mi><mo xml:id="p1.1.m4.1.10.1.1d" xref="p1.1.m4.1.10.1.1.cmml">)</mo></mrow></mrow><mo xml:id="p1.1.m4.1.10.1d" xref="p1.1.m4.1.10.1.cmml">)</mo></mrow></mrow><mo xml:id="p1.1.m4.1.8" xref="p1.1.m4.1.8.cmml">=</mo><mi xml:id="p1.1.m4.1.9" xref="p1.1.m4.1.9.cmml">a</mi></mrow><annotation-xml encoding="MathML-Content" xml:id="p1.1.m4.1.cmml" xref="p1.1.m4.1"><apply xml:id="p1.1.m4.1.10.cmml" xref="p1.1.m4.1.10"><eq xml:id="p1.1.m4.1.8.cmml" xref="p1.1.m4.1.8"/><apply xml:id="p1.1.m4.1.10.1.cmml" xref="p1.1.m4.1.10.1"><ln xml:id="p1.1.m4.1.1.cmml" xref="p1.1.m4.1.1"/><apply xml:id="p1.1.m4.1.10.1.1.cmml" xref="p1.1.m4.1.10.1.1"><exp xml:id="p1.1.m4.1.3.cmml" xref="p1.1.m4.1.3"/><ci xml:id="p1.1.m4.1.5.cmml" xref="p1.1.m4.1.5">a</ci></apply></apply><ci xml:id="p1.1.m4.1.9.cmml" xref="p1.1.m4.1.9">a</ci></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p1.1.m4.1b" xref="p1.1.m4.1.cmml">\ln(\exp(a))=a</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
+
+
+<mws:data mws:data_id="14">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">deriv ln(x)</div> <div class="published">1999</div> <div class="review-body">
+          <math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m5" class="ltx_Math" alttext="\frac{d}{dx}\ln(x)=1/x" display="inline" xml:id="p1.1.m5.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p1.1.m5.1.cmml"><semantics xml:id="p1.1.m5.1a" xref="p1.1.m5.1.cmml"><mrow xml:id="p1.1.m5.1.10" xref="p1.1.m5.1.10.cmml"><mrow xml:id="p1.1.m5.1.10.1" xref="p1.1.m5.1.10.1.cmml"><mfrac xml:id="p1.1.m5.1.1" xref="p1.1.m5.1.1.cmml"><mi xml:id="p1.1.m5.1.1.2" xref="p1.1.m5.1.1.2.cmml">d</mi><mrow xml:id="p1.1.m5.1.1.3" xref="p1.1.m5.1.1.3.cmml"><mi xml:id="p1.1.m5.1.1.3.1" xref="p1.1.m5.1.1.3.1.cmml">d</mi><mo xml:id="p1.1.m5.1.1.3.3" xref="p1.1.m5.1.1.3.3.cmml">⁢</mo><mi xml:id="p1.1.m5.1.1.3.2" xref="p1.1.m5.1.1.3.2.cmml">x</mi></mrow></mfrac><mo xml:id="p1.1.m5.1.10.1.1" xref="p1.1.m5.1.10.1.1.cmml">⁢</mo><mrow xml:id="p1.1.m5.1.10.1.2" xref="p1.1.m5.1.10.1.2.cmml"><mi xml:id="p1.1.m5.1.2" xref="p1.1.m5.1.2.cmml">ln</mi><mo xml:id="p1.1.m5.1.10.1.2a" xref="p1.1.m5.1.10.1.2.cmml">⁡</mo><mrow xml:id="p1.1.m5.1.10.1.2b" xref="p1.1.m5.1.10.1.2.cmml"><mo xml:id="p1.1.m5.1.10.1.2c" xref="p1.1.m5.1.10.1.2.cmml">(</mo><mi xml:id="p1.1.m5.1.4" xref="p1.1.m5.1.4.cmml">x</mi><mo xml:id="p1.1.m5.1.10.1.2d" xref="p1.1.m5.1.10.1.2.cmml">)</mo></mrow></mrow></mrow><mo xml:id="p1.1.m5.1.6" xref="p1.1.m5.1.6.cmml">=</mo><mrow xml:id="p1.1.m5.1.10.2" xref="p1.1.m5.1.10.2.cmml"><mn xml:id="p1.1.m5.1.7" xref="p1.1.m5.1.7.cmml">1</mn><mo xml:id="p1.1.m5.1.8" xref="p1.1.m5.1.8.cmml">/</mo><mi xml:id="p1.1.m5.1.9" xref="p1.1.m5.1.9.cmml">x</mi></mrow></mrow><annotation-xml encoding="MathML-Content" xml:id="p1.1.m5.1.cmml" xref="p1.1.m5.1"><apply xml:id="p1.1.m5.1.10.cmml" xref="p1.1.m5.1.10"><eq xml:id="p1.1.m5.1.6.cmml" xref="p1.1.m5.1.6"/><apply xml:id="p1.1.m5.1.10.1.cmml" xref="p1.1.m5.1.10.1"><times xml:id="p1.1.m5.1.10.1.1.cmml" xref="p1.1.m5.1.10.1.1"/><apply xml:id="p1.1.m5.1.1.cmml" xref="p1.1.m5.1.1"><divide xml:id="p1.1.m5.1.1.1.cmml"/><ci xml:id="p1.1.m5.1.1.2.cmml" xref="p1.1.m5.1.1.2">d</ci><apply xml:id="p1.1.m5.1.1.3.cmml" xref="p1.1.m5.1.1.3"><times xml:id="p1.1.m5.1.1.3.3.cmml" xref="p1.1.m5.1.1.3.3"/><ci xml:id="p1.1.m5.1.1.3.1.cmml" xref="p1.1.m5.1.1.3.1">d</ci><ci xml:id="p1.1.m5.1.1.3.2.cmml" xref="p1.1.m5.1.1.3.2">x</ci></apply></apply><apply xml:id="p1.1.m5.1.10.1.2.cmml" xref="p1.1.m5.1.10.1.2"><ln xml:id="p1.1.m5.1.2.cmml" xref="p1.1.m5.1.2"/><ci xml:id="p1.1.m5.1.4.cmml" xref="p1.1.m5.1.4">x</ci></apply></apply><apply xml:id="p1.1.m5.1.10.2.cmml" xref="p1.1.m5.1.10.2"><divide xml:id="p1.1.m5.1.8.cmml" xref="p1.1.m5.1.8"/><cn type="integer" xml:id="p1.1.m5.1.7.cmml" xref="p1.1.m5.1.7">1</cn><ci xml:id="p1.1.m5.1.9.cmml" xref="p1.1.m5.1.9">x</ci></apply></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p1.1.m5.1b" xref="p1.1.m5.1.cmml">\frac{d}{dx}\ln(x)=1/x</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
+
+<mws:data mws:data_id="15">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">deriv ln(x/y)</div> <div class="published">1999</div> <div class="review-body">
+          <math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m6" class="ltx_Math" alttext="\frac{d}{dx}\ln(x/y)=1/{x*y}" display="inline" xml:id="p1.1.m6.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p1.1.m6.1.cmml"><semantics xml:id="p1.1.m6.1a" xref="p1.1.m6.1.cmml"><mrow xml:id="p1.1.m6.1.14" xref="p1.1.m6.1.14.cmml"><mrow xml:id="p1.1.m6.1.14.1" xref="p1.1.m6.1.14.1.cmml"><mfrac xml:id="p1.1.m6.1.1" xref="p1.1.m6.1.1.cmml"><mi xml:id="p1.1.m6.1.1.2" xref="p1.1.m6.1.1.2.cmml">d</mi><mrow xml:id="p1.1.m6.1.1.3" xref="p1.1.m6.1.1.3.cmml"><mi xml:id="p1.1.m6.1.1.3.1" xref="p1.1.m6.1.1.3.1.cmml">d</mi><mo xml:id="p1.1.m6.1.1.3.3" xref="p1.1.m6.1.1.3.3.cmml">⁢</mo><mi xml:id="p1.1.m6.1.1.3.2" xref="p1.1.m6.1.1.3.2.cmml">x</mi></mrow></mfrac><mo xml:id="p1.1.m6.1.14.1.1" xref="p1.1.m6.1.14.1.1.cmml">⁢</mo><mrow xml:id="p1.1.m6.1.14.1.2" xref="p1.1.m6.1.14.1.2.cmml"><mi xml:id="p1.1.m6.1.2" xref="p1.1.m6.1.2.cmml">ln</mi><mo xml:id="p1.1.m6.1.14.1.2a" xref="p1.1.m6.1.14.1.2.cmml">⁡</mo><mrow xml:id="p1.1.m6.1.14.1.2b" xref="p1.1.m6.1.14.1.2.cmml"><mo xml:id="p1.1.m6.1.14.1.2c" xref="p1.1.m6.1.14.1.2.cmml">(</mo><mrow xml:id="p1.1.m6.1.14.1.2.1" xref="p1.1.m6.1.14.1.2.1.cmml"><mi xml:id="p1.1.m6.1.4" xref="p1.1.m6.1.4.cmml">x</mi><mo xml:id="p1.1.m6.1.5" xref="p1.1.m6.1.5.cmml">/</mo><mi xml:id="p1.1.m6.1.6" xref="p1.1.m6.1.6.cmml">y</mi></mrow><mo xml:id="p1.1.m6.1.14.1.2d" xref="p1.1.m6.1.14.1.2.cmml">)</mo></mrow></mrow></mrow><mo xml:id="p1.1.m6.1.8" xref="p1.1.m6.1.8.cmml">=</mo><mrow xml:id="p1.1.m6.1.14.2" xref="p1.1.m6.1.14.2.cmml"><mrow xml:id="p1.1.m6.1.14.2.1" xref="p1.1.m6.1.14.2.1.cmml"><mn xml:id="p1.1.m6.1.9" xref="p1.1.m6.1.9.cmml">1</mn><mo xml:id="p1.1.m6.1.10" xref="p1.1.m6.1.10.cmml">/</mo><mi xml:id="p1.1.m6.1.11" xref="p1.1.m6.1.11.cmml">x</mi></mrow><mo xml:id="p1.1.m6.1.12" xref="p1.1.m6.1.12.cmml">*</mo><mi xml:id="p1.1.m6.1.13" xref="p1.1.m6.1.13.cmml">y</mi></mrow></mrow><annotation-xml encoding="MathML-Content" xml:id="p1.1.m6.1.cmml" xref="p1.1.m6.1"><apply xml:id="p1.1.m6.1.14.cmml" xref="p1.1.m6.1.14"><eq xml:id="p1.1.m6.1.8.cmml" xref="p1.1.m6.1.8"/><apply xml:id="p1.1.m6.1.14.1.cmml" xref="p1.1.m6.1.14.1"><times xml:id="p1.1.m6.1.14.1.1.cmml" xref="p1.1.m6.1.14.1.1"/><apply xml:id="p1.1.m6.1.1.cmml" xref="p1.1.m6.1.1"><divide xml:id="p1.1.m6.1.1.1.cmml"/><ci xml:id="p1.1.m6.1.1.2.cmml" xref="p1.1.m6.1.1.2">d</ci><apply xml:id="p1.1.m6.1.1.3.cmml" xref="p1.1.m6.1.1.3"><times xml:id="p1.1.m6.1.1.3.3.cmml" xref="p1.1.m6.1.1.3.3"/><ci xml:id="p1.1.m6.1.1.3.1.cmml" xref="p1.1.m6.1.1.3.1">d</ci><ci xml:id="p1.1.m6.1.1.3.2.cmml" xref="p1.1.m6.1.1.3.2">x</ci></apply></apply><apply xml:id="p1.1.m6.1.14.1.2.cmml" xref="p1.1.m6.1.14.1.2"><ln xml:id="p1.1.m6.1.2.cmml" xref="p1.1.m6.1.2"/><apply xml:id="p1.1.m6.1.14.1.2.1.cmml" xref="p1.1.m6.1.14.1.2.1"><divide xml:id="p1.1.m6.1.5.cmml" xref="p1.1.m6.1.5"/><ci xml:id="p1.1.m6.1.4.cmml" xref="p1.1.m6.1.4">x</ci><ci xml:id="p1.1.m6.1.6.cmml" xref="p1.1.m6.1.6">y</ci></apply></apply></apply><apply xml:id="p1.1.m6.1.14.2.cmml" xref="p1.1.m6.1.14.2"><times xml:id="p1.1.m6.1.12.cmml" xref="p1.1.m6.1.12"/><apply xml:id="p1.1.m6.1.14.2.1.cmml" xref="p1.1.m6.1.14.2.1"><divide xml:id="p1.1.m6.1.10.cmml" xref="p1.1.m6.1.10"/><cn type="integer" xml:id="p1.1.m6.1.9.cmml" xref="p1.1.m6.1.9">1</cn><ci xml:id="p1.1.m6.1.11.cmml" xref="p1.1.m6.1.11">x</ci></apply><ci xml:id="p1.1.m6.1.13.cmml" xref="p1.1.m6.1.13">y</ci></apply></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p1.1.m6.1b" xref="p1.1.m6.1.cmml">\frac{d}{dx}\ln(x/y)=1/{x*y}</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
+
+
+<mws:data mws:data_id="16">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">deriv ln(sin(x))</div> <div class="published">1999</div> <div class="review-body">
+          <math xmlns="http://www.w3.org/1998/Math/MathML" id="p1.1.m7" class="ltx_Math" alttext="\frac{d}{dx}\ln(\sin(x))=\cot(x)" display="inline" xml:id="p1.1.m7.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p1.1.m7.1.cmml"><semantics xml:id="p1.1.m7.1a" xref="p1.1.m7.1.cmml"><mrow xml:id="p1.1.m7.1.14" xref="p1.1.m7.1.14.cmml"><mrow xml:id="p1.1.m7.1.14.1" xref="p1.1.m7.1.14.1.cmml"><mfrac xml:id="p1.1.m7.1.1" xref="p1.1.m7.1.1.cmml"><mi xml:id="p1.1.m7.1.1.2" xref="p1.1.m7.1.1.2.cmml">d</mi><mrow xml:id="p1.1.m7.1.1.3" xref="p1.1.m7.1.1.3.cmml"><mi xml:id="p1.1.m7.1.1.3.1" xref="p1.1.m7.1.1.3.1.cmml">d</mi><mo xml:id="p1.1.m7.1.1.3.3" xref="p1.1.m7.1.1.3.3.cmml">⁢</mo><mi xml:id="p1.1.m7.1.1.3.2" xref="p1.1.m7.1.1.3.2.cmml">x</mi></mrow></mfrac><mo xml:id="p1.1.m7.1.14.1.1" xref="p1.1.m7.1.14.1.1.cmml">⁢</mo><mrow xml:id="p1.1.m7.1.14.1.2" xref="p1.1.m7.1.14.1.2.cmml"><mi xml:id="p1.1.m7.1.2" xref="p1.1.m7.1.2.cmml">ln</mi><mo xml:id="p1.1.m7.1.14.1.2a" xref="p1.1.m7.1.14.1.2.cmml">⁡</mo><mrow xml:id="p1.1.m7.1.14.1.2b" xref="p1.1.m7.1.14.1.2.cmml"><mo xml:id="p1.1.m7.1.14.1.2c" xref="p1.1.m7.1.14.1.2.cmml">(</mo><mrow xml:id="p1.1.m7.1.14.1.2.1" xref="p1.1.m7.1.14.1.2.1.cmml"><mi xml:id="p1.1.m7.1.4" xref="p1.1.m7.1.4.cmml">sin</mi><mo xml:id="p1.1.m7.1.14.1.2.1a" xref="p1.1.m7.1.14.1.2.1.cmml">⁡</mo><mrow xml:id="p1.1.m7.1.14.1.2.1b" xref="p1.1.m7.1.14.1.2.1.cmml"><mo xml:id="p1.1.m7.1.14.1.2.1c" xref="p1.1.m7.1.14.1.2.1.cmml">(</mo><mi xml:id="p1.1.m7.1.6" xref="p1.1.m7.1.6.cmml">x</mi><mo xml:id="p1.1.m7.1.14.1.2.1d" xref="p1.1.m7.1.14.1.2.1.cmml">)</mo></mrow></mrow><mo xml:id="p1.1.m7.1.14.1.2d" xref="p1.1.m7.1.14.1.2.cmml">)</mo></mrow></mrow></mrow><mo xml:id="p1.1.m7.1.9" xref="p1.1.m7.1.9.cmml">=</mo><mrow xml:id="p1.1.m7.1.14.2" xref="p1.1.m7.1.14.2.cmml"><mi xml:id="p1.1.m7.1.10" xref="p1.1.m7.1.10.cmml">cot</mi><mo xml:id="p1.1.m7.1.14.2a" xref="p1.1.m7.1.14.2.cmml">⁡</mo><mrow xml:id="p1.1.m7.1.14.2b" xref="p1.1.m7.1.14.2.cmml"><mo xml:id="p1.1.m7.1.14.2c" xref="p1.1.m7.1.14.2.cmml">(</mo><mi xml:id="p1.1.m7.1.12" xref="p1.1.m7.1.12.cmml">x</mi><mo xml:id="p1.1.m7.1.14.2d" xref="p1.1.m7.1.14.2.cmml">)</mo></mrow></mrow></mrow><annotation-xml encoding="MathML-Content" xml:id="p1.1.m7.1.cmml" xref="p1.1.m7.1"><apply xml:id="p1.1.m7.1.14.cmml" xref="p1.1.m7.1.14"><eq xml:id="p1.1.m7.1.9.cmml" xref="p1.1.m7.1.9"/><apply xml:id="p1.1.m7.1.14.1.cmml" xref="p1.1.m7.1.14.1"><times xml:id="p1.1.m7.1.14.1.1.cmml" xref="p1.1.m7.1.14.1.1"/><apply xml:id="p1.1.m7.1.1.cmml" xref="p1.1.m7.1.1"><divide xml:id="p1.1.m7.1.1.1.cmml"/><ci xml:id="p1.1.m7.1.1.2.cmml" xref="p1.1.m7.1.1.2">d</ci><apply xml:id="p1.1.m7.1.1.3.cmml" xref="p1.1.m7.1.1.3"><times xml:id="p1.1.m7.1.1.3.3.cmml" xref="p1.1.m7.1.1.3.3"/><ci xml:id="p1.1.m7.1.1.3.1.cmml" xref="p1.1.m7.1.1.3.1">d</ci><ci xml:id="p1.1.m7.1.1.3.2.cmml" xref="p1.1.m7.1.1.3.2">x</ci></apply></apply><apply xml:id="p1.1.m7.1.14.1.2.cmml" xref="p1.1.m7.1.14.1.2"><ln xml:id="p1.1.m7.1.2.cmml" xref="p1.1.m7.1.2"/><apply xml:id="p1.1.m7.1.14.1.2.1.cmml" xref="p1.1.m7.1.14.1.2.1"><sin xml:id="p1.1.m7.1.4.cmml" xref="p1.1.m7.1.4"/><ci xml:id="p1.1.m7.1.6.cmml" xref="p1.1.m7.1.6">x</ci></apply></apply></apply><apply xml:id="p1.1.m7.1.14.2.cmml" xref="p1.1.m7.1.14.2"><cot xml:id="p1.1.m7.1.10.cmml" xref="p1.1.m7.1.10"/><ci xml:id="p1.1.m7.1.12.cmml" xref="p1.1.m7.1.12">x</ci></apply></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p1.1.m7.1b" xref="p1.1.m7.1.cmml">\frac{d}{dx}\ln(\sin(x))=\cot(x)</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <mws:expr mws:data_id="6"  url="#url_ln(x)">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.5.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.5"><ln xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"/><ci xml:id="p2.1.m1.1.3.cmml" xref="p2.1.m1.1.3">x</ci></apply>
   </mws:expr>
 
-  <mws:expr url="#m2.1">
-    <apply xml:id="m2.1.3.cmml">
-      <times xml:id="m2.1.3.1.cmml"/>
-      <ci xml:id="m2.1.1.cmml">G</ci>
-      <ci xml:id="m2.1.2.cmml">L</ci>
-    </apply>
+  <mws:expr mws:data_id="7"  url="#url_ln(a*b)">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.7.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.7"><ln xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"/><apply xml:id="p2.1.m1.1.7.1.cmml" xref="p2.1.m1.1.7.1"><times xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4"/><ci xml:id="p2.1.m1.1.3.cmml" xref="p2.1.m1.1.3">a</ci><ci xml:id="p2.1.m1.1.5.cmml" xref="p2.1.m1.1.5">b</ci></apply></apply>
   </mws:expr>
 
-  <mws:expr url="#m3.1">
-    <ci xml:id="m3.1.1.cmml">X</ci>
+  <mws:expr mws:data_id="8"  url="#url_ln(a/b)">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.7.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.7"><ln xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"/><apply xml:id="p2.1.m1.1.7.1.cmml" xref="p2.1.m1.1.7.1"><divide xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4"/><ci xml:id="p2.1.m1.1.3.cmml" xref="p2.1.m1.1.3">a</ci><ci xml:id="p2.1.m1.1.5.cmml" xref="p2.1.m1.1.5">b</ci></apply></apply>
   </mws:expr>
 
-  <mws:expr url="#m4.1">
-    <ci xml:id="m4.1.1.cmml">L</ci>
+  <mws:expr mws:data_id="9"  url="#url_ln(exp(a))=a">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.10.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.10"><eq xml:id="p2.1.m1.1.8.cmml" xref="p2.1.m1.1.8"/><apply xml:id="p2.1.m1.1.10.1.cmml" xref="p2.1.m1.1.10.1"><ln xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"/><apply xml:id="p2.1.m1.1.10.1.1.cmml" xref="p2.1.m1.1.10.1.1"><exp xml:id="p2.1.m1.1.3.cmml" xref="p2.1.m1.1.3"/><ci xml:id="p2.1.m1.1.5.cmml" xref="p2.1.m1.1.5">a</ci></apply></apply><ci xml:id="p2.1.m1.1.9.cmml" xref="p2.1.m1.1.9">a</ci></apply>
   </mws:expr>
 
-  <mws:expr url="#m7.1">
-    <apply xml:id="m7.1.6.cmml">
-      <interval closure="closed" xml:id="m7.1.6.1.cmml"/>
-      <cn type="integer" xml:id="m7.1.2.cmml">0</cn>
-      <ci xml:id="m7.1.4.cmml">c</ci>
-    </apply>
-  </mws:expr>
-
-  <mws:expr url="#m8.1">
-    <apply xml:id="m8.1.6.cmml">
-      <interval closure="closed" xml:id="m8.1.6.1.cmml"/>
-      <cn type="integer" xml:id="m8.1.2.cmml">0</cn>
-      <ci xml:id="m8.1.4.cmml">c</ci>
-    </apply>
-  </mws:expr>
-
-  <mws:expr url="#m10.1">
-    <apply xml:id="m10.1.3.cmml">
-      <csymbol cd="ambiguous" xml:id="m10.1.3.1.cmml">superscript</csymbol>
-      <ci xml:id="m10.1.1.cmml">I</ci>
-      <ci xml:id="m10.1.2.1.cmml">X</ci>
-    </apply>
-  </mws:expr>
-
-  <mws:expr url="#m11.1">
-    <ci xml:id="m11.1.1.cmml">c</ci>
-  </mws:expr>
-  
-  <mws:expr url="#m1.1">
-    <apply xml:id="m1.1.3.cmml">
-      <csymbol cd="ambiguous" xml:id="m1.1.3.1.cmml">superscript</csymbol>
-      <ci xml:id="m1.1.1.cmml">ℤ</ci>
-      <ci xml:id="m1.1.2.1.cmml">d</ci>
-    </apply>
-  </mws:expr>
-
-  <mws:expr url="#m2.1">
-    <apply xml:id="m2.1.5.cmml">
-      <in xml:id="m2.1.2.cmml"/>
-      <ci xml:id="m2.1.1.cmml">x</ci>
-      <apply xml:id="m2.1.5.1.cmml">
-        <csymbol cd="ambiguous" xml:id="m2.1.5.1.1.cmml">superscript</csymbol>
-        <ci xml:id="m2.1.3.cmml">ℤ</ci>
-        <ci xml:id="m2.1.4.1.cmml">d</ci>
+  <mws:expr mws:data_id="14"  url="#url_d/dx(ln(x))=">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.10.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.10">
+      <eq xml:id="p2.1.m1.1.6.cmml" xref="p2.1.m1.1.6"/>
+      <apply xml:id="p2.1.m1.1.10.1.cmml" xref="p2.1.m1.1.10.1">
+      <times xml:id="p2.1.m1.1.10.1.1.cmml" xref="p2.1.m1.1.10.1.1"/>
+      <apply xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1">
+      <divide xml:id="p2.1.m1.1.1.1.cmml"/>
+      <ci xml:id="p2.1.m1.1.1.2.cmml" xref="p2.1.m1.1.1.2">d</ci>
+      <apply xml:id="p2.1.m1.1.1.3.cmml" xref="p2.1.m1.1.1.3">
+      <times xml:id="p2.1.m1.1.1.3.3.cmml" xref="p2.1.m1.1.1.3.3"/>
+      <ci xml:id="p2.1.m1.1.1.3.1.cmml" xref="p2.1.m1.1.1.3.1">d</ci>
+      <ci xml:id="p2.1.m1.1.1.3.2.cmml" xref="p2.1.m1.1.1.3.2">x</ci>
+      </apply>
+      </apply>
+      <apply xml:id="p2.1.m1.1.10.1.2.cmml" xref="p2.1.m1.1.10.1.2">
+      <ln xml:id="p2.1.m1.1.2.cmml" xref="p2.1.m1.1.2"/>
+      <ci xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4">x</ci>
+      </apply>
+      </apply>
+      <apply xml:id="p2.1.m1.1.10.2.cmml" xref="p2.1.m1.1.10.2">
+      <divide xml:id="p2.1.m1.1.8.cmml" xref="p2.1.m1.1.8"/>
+      <cn type="integer" xml:id="p2.1.m1.1.7.cmml" xref="p2.1.m1.1.7">1</cn>
+      <ci xml:id="p2.1.m1.1.9.cmml" xref="p2.1.m1.1.9">x</ci>
       </apply>
     </apply>
   </mws:expr>
 
-  <mws:expr url="#m3.1">
-    <ci xml:id="m3.1.1.cmml">x</ci>
+  <mws:expr mws:data_id="15"  url="#url_d/dx(ln(x/y))">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.16.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.16"><eq xml:id="p2.1.m1.1.8.cmml" xref="p2.1.m1.1.8"/><apply xml:id="p2.1.m1.1.16.1.cmml" xref="p2.1.m1.1.16.1"><times xml:id="p2.1.m1.1.16.1.1.cmml" xref="p2.1.m1.1.16.1.1"/><apply xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"><divide xml:id="p2.1.m1.1.1.1.cmml"/><ci xml:id="p2.1.m1.1.1.2.cmml" xref="p2.1.m1.1.1.2">d</ci><apply xml:id="p2.1.m1.1.1.3.cmml" xref="p2.1.m1.1.1.3"><times xml:id="p2.1.m1.1.1.3.3.cmml" xref="p2.1.m1.1.1.3.3"/><ci xml:id="p2.1.m1.1.1.3.1.cmml" xref="p2.1.m1.1.1.3.1">d</ci><ci xml:id="p2.1.m1.1.1.3.2.cmml" xref="p2.1.m1.1.1.3.2">x</ci></apply></apply><apply xml:id="p2.1.m1.1.16.1.2.cmml" xref="p2.1.m1.1.16.1.2"><ln xml:id="p2.1.m1.1.2.cmml" xref="p2.1.m1.1.2"/><apply xml:id="p2.1.m1.1.16.1.2.1.cmml" xref="p2.1.m1.1.16.1.2.1"><divide xml:id="p2.1.m1.1.5.cmml" xref="p2.1.m1.1.5"/><ci xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4">x</ci><ci xml:id="p2.1.m1.1.6.cmml" xref="p2.1.m1.1.6">y</ci></apply></apply></apply><apply xml:id="p2.1.m1.1.16.2.cmml" xref="p2.1.m1.1.16.2"><divide xml:id="p2.1.m1.1.10.cmml" xref="p2.1.m1.1.10"/><cn type="integer" xml:id="p2.1.m1.1.9.cmml" xref="p2.1.m1.1.9">1</cn><apply xml:id="p2.1.m1.1.16.2.1.cmml" xref="p2.1.m1.1.16.2.1"><times xml:id="p2.1.m1.1.13.cmml" xref="p2.1.m1.1.13"/><ci xml:id="p2.1.m1.1.12.cmml" xref="p2.1.m1.1.12">x</ci><ci xml:id="p2.1.m1.1.14.cmml" xref="p2.1.m1.1.14">y</ci></apply></apply></apply>
   </mws:expr>
 
-  <mws:expr url="#m4.1">
-    <apply xml:id="m4.1.1.cmml">
-      <divide xml:id="m4.1.1.1.cmml"/>
-      <cn type="integer" xml:id="m4.1.1.2.cmml">1</cn>
-      <ci xml:id="m4.1.1.3.cmml">ε</ci>
-    </apply>
+  <mws:expr mws:data_id="16"  url="#url_d/dx(ln(sin(x)))">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.14.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.14"><eq xml:id="p2.1.m1.1.9.cmml" xref="p2.1.m1.1.9"/><apply xml:id="p2.1.m1.1.14.1.cmml" xref="p2.1.m1.1.14.1"><times xml:id="p2.1.m1.1.14.1.1.cmml" xref="p2.1.m1.1.14.1.1"/><apply xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"><divide xml:id="p2.1.m1.1.1.1.cmml"/><ci xml:id="p2.1.m1.1.1.2.cmml" xref="p2.1.m1.1.1.2">d</ci><apply xml:id="p2.1.m1.1.1.3.cmml" xref="p2.1.m1.1.1.3"><times xml:id="p2.1.m1.1.1.3.3.cmml" xref="p2.1.m1.1.1.3.3"/><ci xml:id="p2.1.m1.1.1.3.1.cmml" xref="p2.1.m1.1.1.3.1">d</ci><ci xml:id="p2.1.m1.1.1.3.2.cmml" xref="p2.1.m1.1.1.3.2">x</ci></apply></apply><apply xml:id="p2.1.m1.1.14.1.2.cmml" xref="p2.1.m1.1.14.1.2"><ln xml:id="p2.1.m1.1.2.cmml" xref="p2.1.m1.1.2"/><apply xml:id="p2.1.m1.1.14.1.2.1.cmml" xref="p2.1.m1.1.14.1.2.1"><sin xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4"/><ci xml:id="p2.1.m1.1.6.cmml" xref="p2.1.m1.1.6">x</ci></apply></apply></apply><apply xml:id="p2.1.m1.1.14.2.cmml" xref="p2.1.m1.1.14.2"><cot xml:id="p2.1.m1.1.10.cmml" xref="p2.1.m1.1.10"/><ci xml:id="p2.1.m1.1.12.cmml" xref="p2.1.m1.1.12">x</ci></apply></apply>
   </mws:expr>
 
-  <mws:expr url="#m5.1">
-    <apply xml:id="m5.1.1.cmml">
-      <divide xml:id="m5.1.1.1.cmml"/>
-      <cn type="integer" xml:id="m5.1.1.2.cmml">1</cn>
-      <apply xml:id="m5.1.1.3.cmml">
-        <csymbol cd="ambiguous" xml:id="m5.1.1.3.3.cmml">superscript</csymbol>
-        <ci xml:id="m5.1.1.3.1.cmml">ε</ci>
-        <cn type="integer" xml:id="m5.1.1.3.2.1.cmml">2</cn>
-      </apply>
-    </apply>
-  </mws:expr>
-
-  <mws:expr url="#m6.1">
-    <ci xml:id="m6.1.1.cmml">d</ci>
-  </mws:expr>
-
-  <mws:expr url="#m7.1">
-    <ci xml:id="m7.1.1.cmml">ε</ci>
-  </mws:expr>
 </mws:harvest>

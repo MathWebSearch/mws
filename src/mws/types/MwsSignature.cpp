@@ -32,6 +32,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 
 #include "MwsSignature.hpp"
+#include "mws/index/encoded_token.h"
 
 using namespace std;
 
@@ -46,6 +47,18 @@ FunctionSignature::FunctionSignature(MeaningId functionName, std::vector<SortId>
     m_functionName = functionName;
     m_input = functionInput;
     m_output = functionOutput;
+}
+
+bool FunctionSignature::doesApply(vector< SortId > sorts) {
+    if (sorts.size() != m_input.size()) {
+        return false;
+    }
+    for(int i=0; i<sorts.size(); ++i) {
+        if (!subsetOf(sorts[i], m_input[i])) {
+            return false;
+        }
+    }
+    return true;
 }
 
 MwsSignature::MwsSignature(types::MeaningDictionary* meaningDictionary)
@@ -66,12 +79,50 @@ vector<string> splitLine(string line) {
 }
 
 SortId
+MwsSignature::getSmallestSort() {
+    SortId sortId = SORT_NOT_FOUND, newSortId;
+    vector<SortName>::iterator it;
+    for(it = m_sortsNames.begin(); it != m_sortsNames.end(); it++ ) {
+        newSortId = m_sortsDictionary.get(*it);
+        if (subsetOf(newSortId , sortId)) {
+            sortId = newSortId;
+        }
+    }
+    return sortId;
+}
+
+SortId
 MwsSignature::getSort(SortName sortName) {
     SortId sortId;
     if ((sortId = m_sortsDictionary.get(sortName)) != SortsDictionary::KEY_NOT_FOUND) {
         return sortId;
     }
     return SORT_NOT_FOUND;
+}
+
+SortId
+MwsSignature::getSortFunctionApplication(vector< pair<MeaningId, SortId> > function) {
+    MeaningId applyMeaningId = m_meaningDictionary->get("apply") + CONSTANT_ID_MIN;
+    if (function.size() < 2 && function[0].first != applyMeaningId) {
+        return m_sortsDictionary.get("any");
+    }
+    vector<SortId> sorts;
+    for(int i=2; i<function.size(); ++i) {
+        sorts.push_back( function[i].second );
+    }
+    SortId sortId = m_sortsDictionary.get("any"), newSortId;
+    vector<FunctionSignature>::iterator it;
+    for(it = m_functionSignatures.begin(); it != m_functionSignatures.end(); it++ ) {
+        if (it->m_functionName == function[1].first) {
+            if (it->doesApply(sorts)) {
+                newSortId = it->m_output;
+                if (subsetOf(newSortId, sortId)) {
+                    sortId = newSortId;
+                }
+            }
+        }
+    }
+    return sortId;
 }
 
 int
@@ -99,11 +150,13 @@ MwsSignature::readSignatures(string signatureFile) {
             // Add to the sorts dictionary
             for(int i=1; (unsigned int) i < args.size() ; ++i) {
                 newSortId = m_sortsDictionary.put( args[i] );
+                m_sortsNames.push_back( args[i] );
             }
         } else if (args[0] == "FUNCTION:") {
             // Get Function Id from meaning dictionary
-            MeaningId functionId = m_meaningDictionary->put(args[1]);
+            MeaningId functionId = CONSTANT_ID_MIN + m_meaningDictionary->put(args[1]);
             // Create the function input types
+            functionInput.clear();
             for(int i=2; (unsigned int) i < args.size() -1 ; ++i) {
                 newSortId = m_sortsDictionary.put( args[i] );
                 functionInput.push_back( newSortId );

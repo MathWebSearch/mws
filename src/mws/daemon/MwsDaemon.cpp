@@ -150,7 +150,7 @@ HandleConnection(void* dataPtr)
             // }
 
             dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
-            ctxt = new query::SearchContext(encodedQuery);
+            ctxt = new query::SearchContext(encodedQuery, mwsSignature);
             result = ctxt->getResult(data,
                                      &dbQueryManger,
                                      mwsQuery->attrResultLimitMin,

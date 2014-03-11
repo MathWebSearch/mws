@@ -29,12 +29,17 @@ FUNCTION: power real real complex
 FUNCTION: power rational rational complex
 FUNCTION: power rational integer rational
 FUNCTION: power integer integer rational
+FUNCTION: superscript complex complex complex
+FUNCTION: superscript real real complex
+FUNCTION: superscript rational rational complex
+FUNCTION: superscript rational integer rational
+FUNCTION: superscript integer integer rational
 FUNCTION: rem integer integer integer
 FUNCTION: times complex complex complex
 FUNCTION: times real real real
 FUNCTION: times rational rational rational
 FUNCTION: times integer integer integer
-FUNCTION: ln real natural real
+FUNCTION: ln real real
 FUNCTION: log real natural real
 FUNCTION: sin real real
 FUNCTION: cos real real

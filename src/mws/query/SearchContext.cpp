@@ -41,13 +41,17 @@ using std::vector;
 #include "mws/types/MwsSignature.hpp"
 using mws::types::FormulaId;
 using mws::types::SortId;
+using mws::types::MwsSignature;
 
 namespace mws { namespace query {
 
-SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
+SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula, MwsSignature* aMwsSignature)
+        : mwsSignature(aMwsSignature) {
+
     map<MeaningId, int> indexedQvars;
     int tokenCount = 0;
     int qvarCount  = 0;
+
 
     for (encoded_token_t encodedToken : encodedFormula) {
         MeaningId meaningId = encodedToken.id;
@@ -188,6 +192,13 @@ SearchContext::getResult(MwsIndexNode* data,
                 else
                 {
                     currentNode = qvarTable[qvarId].solve(currentNode);
+                    // Check if solution has the correct sort
+                    while(  currentNode &&
+                            !qvarTable[qvarId].isSolutionSorted(
+                                                    mwsSignature,
+                                                    qvarSorts.find(qvarId)->second) ) {
+                        currentNode = qvarTable[qvarId].nextSol();
+                    }
                     if (currentNode)
                     {
                         lastSolvedQvar = qvarId;
@@ -256,10 +267,19 @@ SearchContext::getResult(MwsIndexNode* data,
         {
             // Backtracking or going to the next expression token
             // starting with the last
-            while (lastSolvedQvar >= 0 &&
-                    NULL == (currentNode = qvarTable[lastSolvedQvar].nextSol()))
+            currentNode = NULL;
+            while (lastSolvedQvar >= 0 && currentNode == NULL)
             {
-                lastSolvedQvar--;
+                currentNode = qvarTable[lastSolvedQvar].nextSol();
+                while ( currentNode &&
+                        !qvarTable[lastSolvedQvar].isSolutionSorted(
+                                                        mwsSignature,
+                                                        qvarSorts.find(lastSolvedQvar)->second)) {
+                    currentNode = qvarTable[lastSolvedQvar].nextSol();
+                }
+                if (currentNode == NULL) {
+                    lastSolvedQvar--;
+                }
             }
 
             if (lastSolvedQvar == -1)

@@ -55,11 +55,14 @@ public:
     SortId m_output;
 
     FunctionSignature(MeaningId functionName, std::vector<SortId> &functionInput, SortId &functionOutput);
+    bool doesApply(std::vector<SortId> sorts);
 };
 
 class MwsSignature {
 public:
     static const SortId SORT_NOT_FOUND = SortsDictionary::KEY_NOT_FOUND;
+
+    std::vector<SortName> m_sortsNames;
 
     std::vector<FunctionSignature> m_functionSignatures;
     SortsDictionary m_sortsDictionary;
@@ -68,7 +71,9 @@ public:
     MwsSignature(types::MeaningDictionary* meaningDictionary);
     int readSignatures(std::string signatureFile);
 
+    SortId getSmallestSort();
     SortId getSort(SortName sortName);
+    SortId getSortFunctionApplication(std::vector< std::pair<MeaningId, SortId> > function);
 };
 
 } // namespace types

@@ -56,6 +56,8 @@ struct SearchContext
     std::vector<mws::qvarCtxt> qvarTable;
     /// Map of the required sort of each qvar
     std::map<int, mws::types::SortId> qvarSorts;
+    // Signature of the index
+    mws::types::MwsSignature* mwsSignature;
     /// Qvar points in the Cmml Dfs Vector from where to backtrack. The
     /// vector starts with -1 to mark the beginning
     std::vector<int> backtrackPoints;
@@ -67,7 +69,8 @@ struct SearchContext
       * @param expression is a pointer to a CmmlToken from which to create
       * the SearchContext instance.
       */
-    explicit SearchContext(const std::vector<encoded_token_t>& encodedFormula);
+    explicit SearchContext(const std::vector<encoded_token_t>& encodedFormula,
+                           mws::types::MwsSignature* aMwsSignature);
 
     /**
       * @brief Destructor of the SearchContext class.
