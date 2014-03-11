@@ -183,7 +183,30 @@
     </div> <div class="reviewer"/> </div> </body> </html>
 </mws:data>
 
-
+<mws:data mws:data_id="17">
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:zbl="http://zentralblatt.org" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:ltx="http://dlmf.nist.gov/LaTeXML">
+  <head>
+    <style type="text/css">
+        html{border: 0px #006699 solid;border-left-width: 15px}
+        body {margin: 15px;padding: 0px;background-color:#ffffff;color:black;
+              font-family:helvetica;font-size: 14px;line-height: 1.4em}
+        div.volume-title {font-size:24pt;text-align:center;font-weight:bold}
+        div.title {font-style:italic;font-weight:bold}
+        div.mathics {font-size:larger;font-weight:bold}
+        span.mathics-zbl {float:right}
+        div.matverw {font-size:smaller}
+        div.review {margin:5mm 5mm 5mm 5mm}
+        div.aunot {font-weight:bold}
+        div.published {font-weight:bold}
+    .number {font-style: italic; text-align:right}
+        div.reviewer{font-style:italic;text-align:right}
+      </style>
+    <title/>
+  </head>
+    <body> <div class="language">EN</div> <div class="class">54A20 54A40 03E72</div> <div class="keywords">stratified prefilter; necessity measure; probability measure; generalized filter</div> <div class="doctype">serial article</div> <div class="review"> <div class="aunot"><span class="author">Gutiérrez García,  Javier; Mardones Pérez, I.; Burton, M.H.</span> Number: <span class="number">0916.54006</span></div> <div class="title">ln(|x|)</div> <div class="published">1999</div> <div class="review-body">
+          <math xmlns="http://www.w3.org/1998/Math/MathML" id="p2.1.m1" class="ltx_Math" alttext="\ln(|x|)" display="inline" xml:id="p2.1.m1.1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.cmml"><semantics xml:id="p2.1.m1.1a" xref="p2.1.m1.1.cmml"><mrow xml:id="p2.1.m1.1.7" xref="p2.1.m1.1.7.cmml"><mi xml:id="p2.1.m1.1.1" xref="p2.1.m1.1.1.cmml">ln</mi><mo xml:id="p2.1.m1.1.7a" xref="p2.1.m1.1.7.cmml">⁡</mo><mrow xml:id="p2.1.m1.1.7b" xref="p2.1.m1.1.7.cmml"><mo xml:id="p2.1.m1.1.7c" xref="p2.1.m1.1.7.cmml">(</mo><mrow xml:id="p2.1.m1.1.7.1" xref="p2.1.m1.1.7.1.cmml"><mo fence="true" xml:id="p2.1.m1.1.7.1a" xref="p2.1.m1.1.7.1.cmml">|</mo><mi xml:id="p2.1.m1.1.4" xref="p2.1.m1.1.4.cmml">x</mi><mo fence="true" xml:id="p2.1.m1.1.7.1b" xref="p2.1.m1.1.7.1.cmml">|</mo></mrow><mo xml:id="p2.1.m1.1.7d" xref="p2.1.m1.1.7.cmml">)</mo></mrow></mrow><annotation-xml encoding="MathML-Content" xml:id="p2.1.m1.1.cmml" xref="p2.1.m1.1"><apply xml:id="p2.1.m1.1.7.cmml" xref="p2.1.m1.1.7"><ln xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"/><apply xml:id="p2.1.m1.1.7.1.cmml" xref="p2.1.m1.1.7.1"><abs xml:id="p2.1.m1.1.7.1.1.cmml"/><ci xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4">x</ci></apply></apply></annotation-xml><annotation encoding="application/x-tex" xml:id="p2.1.m1.1b" xref="p2.1.m1.1.cmml">\ln(|x|)</annotation></semantics></math>
+    </div> <div class="reviewer"/> </div> </body> </html>
+</mws:data>
 
 
 
@@ -282,6 +305,16 @@
 
   <mws:expr mws:data_id="16"  url="#url_d/dx(ln(sin(x)))">
     <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.14.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.14"><eq xml:id="p2.1.m1.1.9.cmml" xref="p2.1.m1.1.9"/><apply xml:id="p2.1.m1.1.14.1.cmml" xref="p2.1.m1.1.14.1"><times xml:id="p2.1.m1.1.14.1.1.cmml" xref="p2.1.m1.1.14.1.1"/><apply xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"><divide xml:id="p2.1.m1.1.1.1.cmml"/><ci xml:id="p2.1.m1.1.1.2.cmml" xref="p2.1.m1.1.1.2">d</ci><apply xml:id="p2.1.m1.1.1.3.cmml" xref="p2.1.m1.1.1.3"><times xml:id="p2.1.m1.1.1.3.3.cmml" xref="p2.1.m1.1.1.3.3"/><ci xml:id="p2.1.m1.1.1.3.1.cmml" xref="p2.1.m1.1.1.3.1">d</ci><ci xml:id="p2.1.m1.1.1.3.2.cmml" xref="p2.1.m1.1.1.3.2">x</ci></apply></apply><apply xml:id="p2.1.m1.1.14.1.2.cmml" xref="p2.1.m1.1.14.1.2"><ln xml:id="p2.1.m1.1.2.cmml" xref="p2.1.m1.1.2"/><apply xml:id="p2.1.m1.1.14.1.2.1.cmml" xref="p2.1.m1.1.14.1.2.1"><sin xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4"/><ci xml:id="p2.1.m1.1.6.cmml" xref="p2.1.m1.1.6">x</ci></apply></apply></apply><apply xml:id="p2.1.m1.1.14.2.cmml" xref="p2.1.m1.1.14.2"><cot xml:id="p2.1.m1.1.10.cmml" xref="p2.1.m1.1.10"/><ci xml:id="p2.1.m1.1.12.cmml" xref="p2.1.m1.1.12">x</ci></apply></apply>
+  </mws:expr>
+
+  <mws:expr mws:data_id="17"  url="#url_ln(|x|)">
+    <apply xmlns="http://www.w3.org/1998/Math/MathML" xml:id="p2.1.m1.1.7.cmml" xmlns:xml="http://www.w3.org/XML/1998/namespace" xref="p2.1.m1.1.7">
+      <ln xml:id="p2.1.m1.1.1.cmml" xref="p2.1.m1.1.1"/>
+      <apply xml:id="p2.1.m1.1.7.1.cmml" xref="p2.1.m1.1.7.1">
+      <abs xml:id="p2.1.m1.1.7.1.1.cmml"/>
+        <ci xml:id="p2.1.m1.1.4.cmml" xref="p2.1.m1.1.4">x</ci>
+      </apply>
+    </apply>
   </mws:expr>
 
 </mws:harvest>
