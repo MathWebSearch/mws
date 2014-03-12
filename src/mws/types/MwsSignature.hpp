@@ -69,11 +69,11 @@ public:
     types::MeaningDictionary* m_meaningDictionary;
 
     MwsSignature(types::MeaningDictionary* meaningDictionary);
-    int readSignatures(std::string signatureFile);
-
     SortId getSmallestSort();
     SortId getSort(SortName sortName);
     SortId getSortFunctionApplication(std::vector< std::pair<MeaningId, SortId> > function);
+
+    int readSignatures(std::string signatureFile);
 };
 
 } // namespace types

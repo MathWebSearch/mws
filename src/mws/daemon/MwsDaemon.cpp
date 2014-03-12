@@ -45,8 +45,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <stack>
 
-#include <iostream>
-
 // Local includes
 
 #include "MwsDaemon.hpp"
@@ -133,7 +131,6 @@ HandleConnection(void* dataPtr)
     mwsQuery = readMwsQueryFromFd(fd);
 
     QueryEncoder encoder(meaningDictionary, mwsSignature);
-    // meaningDictionary->save(cout);
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
@@ -143,11 +140,6 @@ HandleConnection(void* dataPtr)
 #endif
         if (encoder.encode(mwsQuery->tokens[0],
                            &encodedQuery, &queryInfo) == 0) {
-
-            // DEBUG helper:
-            // for(int i=0;i<encodedQuery.size();++i) {
-            //     cout << "id: " << encodedQuery[i].id << " arity: " << encodedQuery[i].arity << " sort: " << encodedQuery[i].sort << "\n";
-            // }
 
             dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
             ctxt = new query::SearchContext(encodedQuery, mwsSignature);
@@ -240,7 +232,6 @@ int initMws(const Config& config)
     if (!mwsSignature->readSignatures("../data/sortedunif/sorts.txt")) {
         fprintf(stderr, "Error while loading sorts in the signature\n");
     }
-    // meaningDictionary->save(cout);
 
     indexManager = new index::IndexManager(formulaDb, crawlDb, data,
                                            meaningDictionary, mwsSignature);

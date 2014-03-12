@@ -38,7 +38,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <utility>                     // STL pair
 #include <vector>
-#include <iostream>
 
 // Local includes
 
@@ -204,6 +203,11 @@ struct qvarCtxt
         return currentNode;
     }
 
+    /** @brief Method to determine if qvar is replaced by a formula of correct sort
+      * @param signature The signature of the math formulae
+      * @param sortId the required sort of the query variable
+      * @return 1 if the replacing formula has the required sort, 0 otherwise
+      */
     inline int isSolutionSorted(mws::types::MwsSignature* signature,
                                 mws::types::SortId sortId)
     {
@@ -216,26 +220,17 @@ struct qvarCtxt
             > :: iterator it;
 
         std::stack< nodeTripleExtended > sortStack;
-        std::stack< int > arityLeft;
-
         std::stack< nodeTripleExtended > auxStack;
+        std::stack< int > arityLeft;
         std::vector< std::pair<mws::MeaningId, mws::types::SortId> > functionApplication;
 
-        // std::cout << "item: ";
-        // for(it = backtrackIterators.begin(); it != backtrackIterators.end(); it ++ ) {
-        //     std::cout << (int)it->first->first.first << " ";
-        // }
-        // std::cout << "\n";
-
-        // std::cout << "Formula " << (int)signature->getSmallestSort() << "\n";
         for(it = backtrackIterators.begin(); it != backtrackIterators.end(); it ++ ) {
             NodeInfo nodeInfo = it->first->first;
             sortStack.push(makeNodeTripleExtended(
                 nodeInfo.first, nodeInfo.second,
                 (nodeInfo.second == 0)?signature->getSmallestSort():0 ));
-            if (nodeInfo.second > 0) {
-                arityLeft.push( nodeInfo.second );
-            } else {
+
+            if (nodeInfo.second == 0) {
                 bool subtractedArity = false;
                 while( !arityLeft.empty() && !subtractedArity ) {
                     int arity = arityLeft.top();
@@ -244,9 +239,7 @@ struct qvarCtxt
                         arityLeft.push( arity - 1 );
                         subtractedArity = true;
                     } else {
-                        // Evaluate expression
-                        // Pop until you get something with arity > 0
-                        // Evaluate the (apply) (func) (x) ... only to get the correct sort
+                        // We can replace a function application by a sort
                         bool hasPositiveArity = false;
                         do {
                             auxStack.push( sortStack.top() );
@@ -255,6 +248,7 @@ struct qvarCtxt
                                 hasPositiveArity = true;
                             }
                         } while (!sortStack.empty() && !hasPositiveArity);
+                        // Set up the function application of sorts
                         functionApplication.clear();
                         while (!auxStack.empty()) {
                             nodeTripleExtended node = auxStack.top();
@@ -266,12 +260,12 @@ struct qvarCtxt
                         sortStack.push( makeNodeTripleExtended(0, 0, newSortId) );
                     }
                 }
+            } else {
+                arityLeft.push( nodeInfo.second );
             }
         }
         nodeTripleExtended result = sortStack.top();
         sortStack.pop();
-        // std::cout << "item of sort ";
-        // std::cout << (int)result.sort << " needing sort " << (int)sortId << "\n";
         return (mws::types::subsetOf(result.sort, sortId));
     }
 };

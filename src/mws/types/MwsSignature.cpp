@@ -53,7 +53,7 @@ bool FunctionSignature::doesApply(vector< SortId > sorts) {
     if (sorts.size() != m_input.size()) {
         return false;
     }
-    for(int i=0; i<sorts.size(); ++i) {
+    for(unsigned int i=0; i<sorts.size(); ++i) {
         if (!subsetOf(sorts[i], m_input[i])) {
             return false;
         }
@@ -63,19 +63,6 @@ bool FunctionSignature::doesApply(vector< SortId > sorts) {
 
 MwsSignature::MwsSignature(types::MeaningDictionary* meaningDictionary)
     : m_meaningDictionary(meaningDictionary) {
-}
-
-vector<string> splitLine(string line) {
-    vector<string> result;
-    size_t pos = 0;
-    string token;
-    while ((pos = line.find(" ")) != string::npos) {
-        token = line.substr(0, pos);
-        result.push_back(token);
-        line.erase(0, pos + 1);
-    }
-    result.push_back(line);
-    return result;
 }
 
 SortId
@@ -102,12 +89,12 @@ MwsSignature::getSort(SortName sortName) {
 
 SortId
 MwsSignature::getSortFunctionApplication(vector< pair<MeaningId, SortId> > function) {
-    MeaningId applyMeaningId = m_meaningDictionary->get("apply") + CONSTANT_ID_MIN;
+    MeaningId applyMeaningId = m_meaningDictionary->get("apply") + CONSTANT_ID_MIN; // Hack
     if (function.size() < 2 && function[0].first != applyMeaningId) {
         return m_sortsDictionary.get("any");
     }
     vector<SortId> sorts;
-    for(int i=2; i<function.size(); ++i) {
+    for(unsigned int i=2; i<function.size(); ++i) {
         sorts.push_back( function[i].second );
     }
     SortId sortId = m_sortsDictionary.get("any"), newSortId;
@@ -123,6 +110,19 @@ MwsSignature::getSortFunctionApplication(vector< pair<MeaningId, SortId> > funct
         }
     }
     return sortId;
+}
+
+vector<string> splitLine(string line) {
+    vector<string> result;
+    size_t pos = 0;
+    string token;
+    while ((pos = line.find(" ")) != string::npos) {
+        token = line.substr(0, pos);
+        result.push_back(token);
+        line.erase(0, pos + 1);
+    }
+    result.push_back(line);
+    return result;
 }
 
 int
@@ -168,8 +168,6 @@ MwsSignature::readSignatures(string signatureFile) {
             // Create the function signature
             FunctionSignature functionSign(functionId, functionInput, functionOutput);
             m_functionSignatures.push_back(functionSign);
-        } else if (args[0] == "SORT-RELATION:") {
-            // Maybe later
         }
     }
 
