@@ -41,7 +41,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 #include "CrawlerDaemon.hpp"
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 
 // Config files 
 #include "config.h"

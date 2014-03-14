@@ -22,7 +22,7 @@
 #include <string.h>
 #include <sys/mman.h>
 
-#include "common/utils/macro_func.h"
+#include "common/utils/compiler_defs.h"
 
 struct fmem {
   size_t pos;
