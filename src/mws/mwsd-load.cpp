@@ -34,7 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/FlagParser.hpp"
 #include "common/utils/save_pid_file.h"
-#include "mws/daemon/MwsDaemonLoad.hpp"
+#include "mws/daemon/IndexDaemon.hpp"
 #include "mws/index/memsector.h"
 #include "config.h"
 
@@ -45,6 +45,7 @@ using common::utils::FlagParser;
 int main(int argc, char* argv[]) {
     int ret;
     mws::daemon::Config config;
+    mws::daemon::IndexDaemon daemon;
 
     // Parsing the flags
     FlagParser::addFlag('m', "mws-port",             FLAG_OPT, ARG_REQ);
@@ -116,7 +117,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    return mwsDaemonLoopLoad(config);
+    return daemon.loop(config);
 
 failure:
     return EXIT_FAILURE;

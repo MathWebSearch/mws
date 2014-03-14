@@ -34,7 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/FlagParser.hpp"
 #include "common/utils/save_pid_file.h"
-#include "mws/daemon/MwsDaemon.hpp"
+#include "mws/daemon/HarvestDaemon.hpp"
 #include "mws/index/memsector.h"
 #include "config.h"
 
@@ -45,6 +45,7 @@ using common::utils::FlagParser;
 int main(int argc, char* argv[]) {
     int ret;
     mws::daemon::Config config;
+    mws::daemon::HarvestDaemon daemon;
 
     // Parsing the flags
     FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
@@ -141,7 +142,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    return mwsDaemonLoop(config);
+    return daemon.loop(config);
 
 failure:
     return EXIT_FAILURE;

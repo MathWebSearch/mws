@@ -18,12 +18,12 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWSDAEMON_HPP
-#define _MWSDAEMON_HPP
+#ifndef _HARVEST_DAEMON_HPP
+#define _HARVEST_DAEMON_HPP
 
 /**
-  * @brief File containing the header of the MwsDaemon class.
-  * @file MwsDaemon.hpp
+  * @brief File containing the header of the HarvestDaemon class.
+  * @file HarvestDaemon.hpp
   * @author Corneliu-Claudiu Prodescu
   * @date 18 Jun 2011
   *
@@ -31,26 +31,31 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include <string>
-#include <vector>
-#include <inttypes.h>
-
-
-// TODO Doc and clean up implementation
+#include "Daemon.hpp"
+#include "mws/dbc/FormulaDb.hpp"
+#include "mws/dbc/CrawlDb.hpp"
+#include "mws/dbc/LevFormulaDb.hpp"
+#include "mws/dbc/LevCrawlDb.hpp"
+#include "mws/index/MwsIndexNode.hpp"
+#include "mws/types/MeaningDictionary.hpp"
+#include "mws/index/IndexManager.hpp"
 
 namespace mws { namespace daemon {
 
-struct Config {
-    std::vector<std::string> harvestLoadPaths;
-    bool                     recursive;
-    uint16_t                 mwsPort;
-    std::string              dataPath;
-    bool                     useLevelDb;
-    std::string              harvestFileExtension;
+class HarvestDaemon: public Daemon {
+ public :
+    HarvestDaemon();
+    ~HarvestDaemon();
+ private:
+    MwsAnswset* handleQuery(MwsQuery* query);
+    int initMws(const Config& config);
+ private:
+    index::IndexManager* indexManager;
+    types::MeaningDictionary* meaningDictionary;
+    dbc::CrawlDb* crawlDb;
+    dbc::FormulaDb* formulaDb;
+    MwsIndexNode* data;
 };
-
-int mwsDaemonLoop(const Config& config);
-
 }}
 
-#endif // _MWSDAEMON_HPP
+#endif  // _HARVEST_DAEMON_HPP

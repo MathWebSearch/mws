@@ -18,28 +18,27 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWSDAEMONLOAD_HPP
-#define _MWSDAEMONLOAD_HPP
+#ifndef _MWS_DAEMON_DAEMON_HPP
+#define _MWS_DAEMON_DAEMON_HPP
 
 /**
-  * @brief File containing the header of the MwsDaemon2 class.
-  * @file MwsDaemonLoad.hpp
-  * @author Corneliu-Claudiu Prodescu
-  * @date 18 Jun 2011
-  *
-  * @edited Radu Hambasan
-  * @date 18 Feb 2014
+  * @brief File containing the header of the Daemon class.
+  * @file Daemon.hpp
+  * @author Radu Hambasan
+  * @date 10 Mar 2014
   *
   * License: GPL v3
-  *
   */
 
-#include <inttypes.h>
-#include <string>
+#include <signal.h>
+
 #include <vector>
+#include <string>
 
-
-// TODO(cprodescu) Doc and clean up implementation
+#include "common/socket/InSocket.hpp"
+#include "common/socket/OutSocket.hpp"
+#include "mws/types/MwsAnswset.hpp"
+#include "mws/types/MwsQuery.hpp"
 
 namespace mws { namespace daemon {
 
@@ -52,9 +51,23 @@ struct Config {
     std::string              harvestFileExtension;
 };
 
-int mwsDaemonLoopLoad(const Config& config);
+class Daemon {
+ public:
+    int loop(const Config& config);
+    virtual MwsAnswset* handleQuery(MwsQuery* query) = 0;
+    Daemon();
+    virtual ~Daemon();
 
+ protected:
+    virtual int initMws(const Config& config);
+
+ protected:
+    InSocket* serverSocket;
+    sig_atomic_t run;
+    std::string HarvestType;
+    const std::string QueryType;
+};
 }  // namespace daemon
 }  // namespace mws
 
-#endif  // _MWSDAEMONLOAD_HPP
+#endif
