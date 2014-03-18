@@ -75,7 +75,7 @@ ExpressionEncoder::encode(const CmmlToken* expression,
         const CmmlToken* token = dfs_stack.top();
         dfs_stack.pop();
         encoded_token_t encoded_token;
-        encoded_token.sort = _signature->getSort("any");
+        encoded_token.sort = _signature->getLargestSort();
 
         if (token->isVar()) {
             string qvarName = token->getVarName();
@@ -91,19 +91,19 @@ ExpressionEncoder::encode(const CmmlToken* expression,
                                 token->getXpathRelative());
                 }
             }
-
-            string sortAttribute;
-            if ((sortAttribute = token->getAttribute("type")) != "") {
-                SortId sortId;
-                if ((sortId = _signature->getSort( sortAttribute )) != MwsSignature::SORT_NOT_FOUND) {
-                    encoded_token.sort = sortId;
-                }
-            }
         } else {
             encoded_token.arity = token->getArity();
             encoded_token.id = _getConstantEncoding(token->getMeaning());
             if (encoded_token.id == MeaningDictionary::KEY_NOT_FOUND) {
                 rv = -1;
+            }
+
+        }
+        string sortAttribute;
+        if ((sortAttribute = token->getAttribute("type")) != "") {
+            SortId sortId;
+            if ((sortId = _signature->getSort( sortAttribute )) != MwsSignature::SORT_NOT_FOUND) {
+                encoded_token.sort = sortId;
             }
         }
         encodedFormula->push_back(encoded_token);

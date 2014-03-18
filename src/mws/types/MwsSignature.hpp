@@ -67,6 +67,7 @@ public:
     types::MeaningDictionary* m_meaningDictionary;
 
     MwsSignature(types::MeaningDictionary* meaningDictionary);
+    SortId getLargestSort();
     SortId getSmallestSort();
     SortId getSort(SortName sortName);
     SortId getSortFunctionApplication(std::vector< std::pair<MeaningId, SortId> > function);

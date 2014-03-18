@@ -65,6 +65,12 @@ MwsSignature::MwsSignature(types::MeaningDictionary* meaningDictionary)
     : m_meaningDictionary(meaningDictionary) {
 }
 
+
+SortId
+MwsSignature::getLargestSort() {
+    return getSort("any");
+}
+
 SortId
 MwsSignature::getSmallestSort() {
     SortId sortId = SORT_NOT_FOUND, newSortId;

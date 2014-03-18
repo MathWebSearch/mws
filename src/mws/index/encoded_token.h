@@ -97,6 +97,11 @@ uint32_t encoded_token_get_arity(encoded_token_t tok) {
 }
 
 static inline
+uint32_t encoded_token_get_sort(encoded_token_t tok) {
+    return tok.sort;
+}
+
+static inline
 uint32_t encoded_token_get_id(encoded_token_t tok) {
     return tok.id;
 }

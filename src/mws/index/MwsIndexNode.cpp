@@ -79,8 +79,8 @@ MwsIndexNode::insertData(const vector<encoded_token_t>& encodedFormula) {
     currentNode = this;
 
     for (encoded_token_t encodedToken : encodedFormula) {
-        // TODO: Fix this:                                                   v
-        NodeType nodeType = make_pair(encoded_token_get_arity(encodedToken), 1);
+        NodeType nodeType = make_pair(encoded_token_get_arity(encodedToken),
+                                      encoded_token_get_sort(encodedToken));
         NodeInfo nodeInfo = make_pair(encoded_token_get_id(encodedToken),nodeType);
 
         auto mapIt = currentNode->children.find(nodeInfo);
