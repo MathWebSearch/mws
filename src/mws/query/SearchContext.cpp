@@ -60,11 +60,10 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula, MwsS
             SortId sortId = encodedToken.sort;
             if (encoded_token_is_anon_var(encodedToken)) {  // anonymous qvar
                 expr.push_back(
-                        // TODO Fix below
                         makeNodeTriple(true,
                                        meaningId,
                                        qvarCount,
-                                       1)
+                                       aMwsSignature->getLargestSort())
                         );
                 qvarSorts.insert( make_pair(qvarCount, sortId) );
                 backtrackPoints.push_back(tokenCount+1);
@@ -74,11 +73,10 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula, MwsS
                 if (mapIt == indexedQvars.end()) {
                     indexedQvars.insert(make_pair(meaningId, qvarCount));
                     expr.push_back(
-                            // TODO Fix below
                             makeNodeTriple(true,
                                            meaningId,
                                            qvarCount,
-                                           1)
+                                           aMwsSignature->getLargestSort())
                             );
                     qvarSorts.insert( make_pair(qvarCount, sortId) );
                     backtrackPoints.push_back(tokenCount+1);

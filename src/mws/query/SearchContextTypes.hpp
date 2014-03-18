@@ -211,11 +211,12 @@ struct qvarCtxt
 
         for(it = backtrackIterators.begin(); it != backtrackIterators.end(); it ++ ) {
             NodeInfo nodeInfo = it->first->first;
+            Arity nodeArity = nodeInfo.second.first;
+            SortId nodeSort = nodeInfo.second.second;
             sortStack.push(makeNodeTriple(false,
-                nodeInfo.first, nodeInfo.second.first,
-                (nodeInfo.second.first == 0)?signature->getSmallestSort():0 ));
+                nodeInfo.first, nodeArity, nodeSort));
 
-            if (nodeInfo.second.first == 0) {
+            if (nodeArity == 0) {
                 bool subtractedArity = false;
                 while( !arityLeft.empty() && !subtractedArity ) {
                     int arity = arityLeft.top();
@@ -246,7 +247,7 @@ struct qvarCtxt
                     }
                 }
             } else {
-                arityLeft.push( nodeInfo.second.first );
+                arityLeft.push( nodeArity );
             }
         }
         nodeTriple result = sortStack.top();
