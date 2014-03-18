@@ -42,8 +42,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace types {
 
-typedef std::string SortName;
-typedef uint8_t SortId;
 typedef common::types::IdDictionary<SortName, SortId> SortsDictionary;
 
 int subsetOf(SortId A, SortId B);

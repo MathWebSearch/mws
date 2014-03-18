@@ -55,7 +55,7 @@ struct SearchContext
     /// Table containing resolved Qvar and backtrack points
     std::vector<mws::qvarCtxt> qvarTable;
     /// Map of the required sort of each qvar
-    std::map<int, mws::types::SortId> qvarSorts;
+    std::map<int, mws::SortId> qvarSorts;
     // Signature of the index
     mws::types::MwsSignature* mwsSignature;
     /// Qvar points in the Cmml Dfs Vector from where to backtrack. The

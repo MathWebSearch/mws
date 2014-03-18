@@ -58,31 +58,16 @@ struct nodeTriple
     bool           isQvar;
     mws::MeaningId meaningId;
     mws::Arity     arity;
+    mws::SortId sort;
 
 };
 
 inline struct nodeTriple
-makeNodeTriple(bool isQvar, mws::MeaningId aMeaningId, mws::Arity anArity)
+makeNodeTriple(bool isQvar, mws::MeaningId aMeaningId, mws::Arity anArity, mws::SortId aSort)
 {
     struct nodeTriple result;
 
     result.isQvar    = isQvar;
-    result.meaningId = aMeaningId;
-    result.arity     = anArity;
-
-    return result;
-}
-
-struct nodeTripleExtended : public nodeTriple {
-    mws::types::SortId sort;
-};
-
-inline struct nodeTripleExtended
-makeNodeTripleExtended(mws::MeaningId aMeaningId, mws::Arity anArity, mws::types::SortId aSort)
-{
-    struct nodeTripleExtended result;
-
-    result.isQvar    = false;
     result.meaningId = aMeaningId;
     result.arity     = anArity;
     result.sort      = aSort;
@@ -142,7 +127,7 @@ struct qvarCtxt
 #endif
                 return NULL;
             }
-            totalArrity += currentPair.first->first.second - 1;
+            totalArrity += currentPair.first->first.second.first - 1;
             backtrackIterators.push_back(currentPair);
             node = currentPair.first->second;
         }
@@ -166,7 +151,7 @@ struct qvarCtxt
             mapIteratorType> currentPair;
 
         totalArrity = 0;
-        totalArrity -= backtrackIterators.back().first->first.second - 1;
+        totalArrity -= backtrackIterators.back().first->first.second.first - 1;
 
         backtrackIterators.back().first++;
         while (backtrackIterators.back().first ==
@@ -181,10 +166,10 @@ struct qvarCtxt
 #endif
                 return NULL;
             }
-            totalArrity += 1 - backtrackIterators.back().first->first.second;
+            totalArrity += 1 - backtrackIterators.back().first->first.second.first;
             backtrackIterators.back().first++;
         }
-        totalArrity += backtrackIterators.back().first->first.second - 1;
+        totalArrity += backtrackIterators.back().first->first.second.first - 1;
         // Found a valid next, now we need to complete it to the right arrity
         currentNode = backtrackIterators.back().first->second;
         while (totalArrity)
@@ -194,7 +179,7 @@ struct qvarCtxt
             backtrackIterators.push_back(currentPair);
             // Updating currentNode and arrity
             currentNode = currentPair.first->second;
-            totalArrity += currentPair.first->first.second - 1;
+            totalArrity += currentPair.first->first.second.first - 1;
         }
         // We have selected a different solution
 #ifdef TRACE_FUNC_CALLS
@@ -209,7 +194,7 @@ struct qvarCtxt
       * @return 1 if the replacing formula has the required sort, 0 otherwise
       */
     inline int isSolutionSorted(mws::types::MwsSignature* signature,
-                                mws::types::SortId sortId)
+                                mws::SortId sortId)
     {
         if (sortId == 1)
             return 1;
@@ -219,18 +204,18 @@ struct qvarCtxt
                       qvarCtxt::mapIteratorType>
             > :: iterator it;
 
-        std::stack< nodeTripleExtended > sortStack;
-        std::stack< nodeTripleExtended > auxStack;
+        std::stack< nodeTriple > sortStack;
+        std::stack< nodeTriple > auxStack;
         std::stack< int > arityLeft;
-        std::vector< std::pair<mws::MeaningId, mws::types::SortId> > functionApplication;
+        std::vector< std::pair<mws::MeaningId, mws::SortId> > functionApplication;
 
         for(it = backtrackIterators.begin(); it != backtrackIterators.end(); it ++ ) {
             NodeInfo nodeInfo = it->first->first;
-            sortStack.push(makeNodeTripleExtended(
-                nodeInfo.first, nodeInfo.second,
-                (nodeInfo.second == 0)?signature->getSmallestSort():0 ));
+            sortStack.push(makeNodeTriple(false,
+                nodeInfo.first, nodeInfo.second.first,
+                (nodeInfo.second.first == 0)?signature->getSmallestSort():0 ));
 
-            if (nodeInfo.second == 0) {
+            if (nodeInfo.second.first == 0) {
                 bool subtractedArity = false;
                 while( !arityLeft.empty() && !subtractedArity ) {
                     int arity = arityLeft.top();
@@ -251,20 +236,20 @@ struct qvarCtxt
                         // Set up the function application of sorts
                         functionApplication.clear();
                         while (!auxStack.empty()) {
-                            nodeTripleExtended node = auxStack.top();
-                            std::pair<mws::MeaningId, mws::types::SortId> currentPair = std::make_pair(node.meaningId, node.sort);
+                            nodeTriple node = auxStack.top();
+                            std::pair<mws::MeaningId, mws::SortId> currentPair = std::make_pair(node.meaningId, node.sort);
                             functionApplication.push_back(currentPair);
                             auxStack.pop();
                         }
-                        mws::types::SortId newSortId = signature->getSortFunctionApplication(functionApplication);
-                        sortStack.push( makeNodeTripleExtended(0, 0, newSortId) );
+                        mws::SortId newSortId = signature->getSortFunctionApplication(functionApplication);
+                        sortStack.push( makeNodeTriple(false, 0, 0, newSortId) );
                     }
                 }
             } else {
-                arityLeft.push( nodeInfo.second );
+                arityLeft.push( nodeInfo.second.first );
             }
         }
-        nodeTripleExtended result = sortStack.top();
+        nodeTriple result = sortStack.top();
         sortStack.pop();
         return (mws::types::subsetOf(result.sort, sortId));
     }

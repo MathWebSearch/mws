@@ -38,9 +38,9 @@ using std::vector;
 #include "SearchContext.hpp"
 #include "mws/index/encoded_token.h"
 #include "mws/types/NodeInfo.hpp"
+using mws::SortId;
 #include "mws/types/MwsSignature.hpp"
 using mws::types::FormulaId;
-using mws::types::SortId;
 using mws::types::MwsSignature;
 
 namespace mws { namespace query {
@@ -60,9 +60,11 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula, MwsS
             SortId sortId = encodedToken.sort;
             if (encoded_token_is_anon_var(encodedToken)) {  // anonymous qvar
                 expr.push_back(
+                        // TODO Fix below
                         makeNodeTriple(true,
                                        meaningId,
-                                       qvarCount)
+                                       qvarCount,
+                                       1)
                         );
                 qvarSorts.insert( make_pair(qvarCount, sortId) );
                 backtrackPoints.push_back(tokenCount+1);
@@ -72,9 +74,11 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula, MwsS
                 if (mapIt == indexedQvars.end()) {
                     indexedQvars.insert(make_pair(meaningId, qvarCount));
                     expr.push_back(
+                            // TODO Fix below
                             makeNodeTriple(true,
                                            meaningId,
-                                           qvarCount)
+                                           qvarCount,
+                                           1)
                             );
                     qvarSorts.insert( make_pair(qvarCount, sortId) );
                     backtrackPoints.push_back(tokenCount+1);
@@ -83,7 +87,8 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula, MwsS
                     expr.push_back(
                             makeNodeTriple(true,
                                            meaningId,
-                                           mapIt->second)
+                                           mapIt->second,
+                                           1)
                             );
                     map<int, SortId>::iterator it = qvarSorts.find( mapIt->second );
                     if (it != qvarSorts.end()) {
@@ -99,7 +104,8 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula, MwsS
             expr.push_back(
                     makeNodeTriple(false,
                                    meaningId,
-                                   encodedToken.arity)
+                                   encodedToken.arity,
+                                   encodedToken.sort)
                     );
         }
 
@@ -213,7 +219,7 @@ SearchContext::getResult(MwsIndexNode* data,
             {
                 mapIt = currentNode->children.find(
                         make_pair(expr[currentToken].meaningId,
-                                  expr[currentToken].arity));
+                                  make_pair(expr[currentToken].arity, expr[currentToken].sort)));
                 if (mapIt != currentNode->children.end())
                 {
                     currentNode = mapIt->second;

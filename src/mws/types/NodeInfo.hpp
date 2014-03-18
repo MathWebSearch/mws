@@ -98,8 +98,14 @@ typedef uint32_t    MeaningId;
 /// Type of the node arity
 typedef uint8_t     Arity;
 
+/// Sort names and Ids
+typedef std::string SortName;
+typedef uint8_t SortId;
+
+typedef std::pair<Arity, SortId> NodeType;
+
 /// Type of the node info
-typedef std::pair<MeaningId, Arity> NodeInfo;
+typedef std::pair<MeaningId, NodeType> NodeInfo;
 
 // Constants
 

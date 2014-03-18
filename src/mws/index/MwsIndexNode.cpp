@@ -79,8 +79,9 @@ MwsIndexNode::insertData(const vector<encoded_token_t>& encodedFormula) {
     currentNode = this;
 
     for (encoded_token_t encodedToken : encodedFormula) {
-        NodeInfo nodeInfo = make_pair(encoded_token_get_id(encodedToken),
-                                      encoded_token_get_arity(encodedToken));
+        // TODO: Fix this:                                                   v
+        NodeType nodeType = make_pair(encoded_token_get_arity(encodedToken), 1);
+        NodeInfo nodeInfo = make_pair(encoded_token_get_id(encodedToken),nodeType);
 
         auto mapIt = currentNode->children.find(nodeInfo);
         // If no such node exists, we create it
@@ -116,8 +117,9 @@ MwsIndexNode::exportToMemsector(memsector_alloc_header_t* alloc) const {
         int i = 0;
         for (auto& kv : this->children) {
             const MwsIndexNode* child = kv.second;
+            // TODO: also add sort when exporting
             inode->data[i].token =
-                    encoded_token(kv.first.first, kv.first.second, 1);
+                    encoded_token(kv.first.first, kv.first.second.first, 1);
             inode->data[i].off = child->exportToMemsector(alloc);
 
             i++;

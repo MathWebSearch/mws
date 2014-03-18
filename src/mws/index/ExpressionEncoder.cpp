@@ -94,7 +94,7 @@ ExpressionEncoder::encode(const CmmlToken* expression,
 
             string sortAttribute;
             if ((sortAttribute = token->getAttribute("type")) != "") {
-                types::SortId sortId;
+                SortId sortId;
                 if ((sortId = _signature->getSort( sortAttribute )) != MwsSignature::SORT_NOT_FOUND) {
                     encoded_token.sort = sortId;
                 }
