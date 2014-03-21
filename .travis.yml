@@ -1,0 +1,16 @@
+before_install: 
+ - lsb_release -a
+ - sudo apt-get update
+ - sudo apt-get install cmake
+ - sudo apt-get install make
+ - sudo apt-get install pkg-config
+ - sudo apt-get install libxml2-dev
+ - sudo apt-get install libleveldb-dev
+ - sudo apt-get install libsnappy-dev
+ - sudo apt-get install libjson0-dev
+ - sudo apt-get install libmicrohttpd-dev
+language: cpp
+compiler:
+ - gcc
+ - clang
+script: make && make test

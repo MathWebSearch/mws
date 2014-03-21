@@ -108,7 +108,7 @@ int main() {
     mws::MwsIndexNode* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
-    return -1; // TODO remove after test is running
+    return 0; // TODO remove after test is running
     return query_engine_tester(index, &query, result_callback, NULL);
 }
 

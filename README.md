@@ -1,32 +1,15 @@
-MathWebSearch
+MathWebSearch [![Build Status](https://secure.travis-ci.org/KWARC/mws.png?branch=master)](http://travis-ci.org/KWARC/mws)
 =============
-Last updated: 2014-01-28
-Release version: 0.6
---------------------------------------------------------------------------------
 
-Table of contents
------------------
-1.0) About
-2.0) Content
-3.0) Compiling
- 3.1) Dependencies
- 3.2) Makefile targets
-4.0) Usage
-5.0) Troubleshooting
-6.0) Credits
-7.0) License and copyrights
-8.0) Contact
-
-
-1.0) About
-----------
+About
+-----
 The MathWebSearch system (MWS) is a content-based search engine for mathematical
 formulae. It indexes  OpenMath and  MathML formulae, using a technique derived
 from automated theorem proving: Substitution Tree Indexing. The software is
 licensed under the  GNU General Public License.
 
-2.0) Content
-------------
+Content
+-------
 LICENSE         copy of the license under which this software is distributed
 README          this file, containing general information
 TODO            file containing present TODOs
@@ -40,22 +23,25 @@ src/            source code
 test/           test sources and data
 third_party/    third party sources
 
-3.0) Compiling and Testing
---------------------------
+Compiling and Testing
+---------------------
 Compiling of the source tree is automated via cmake. You can build the sources
 using the following command:
-> make
+
+	make
 
 To select which components to compile, use:
-> make config
+
+	make config
 
 To run the tests, use:
-> make test
+
+	make test
 
 For more details about these targets, see 3.2
 
-3.1) Dependencies
------------------
+Dependencies
+------------
 The core executable (mwsd) requires:
 
   - g++ (with pthread) (>= 4.4)
@@ -75,25 +61,24 @@ The Crawler executables (xhtml2harvests) requires:
 
   - libhtmlcxx-dev
   - libicu-dev
-  - libcurl3 
+  - libcurl3
   - libcurl4-gnutls-dev
 
 The doc target requires:
 
   - doxygen
 
-3.2) Makefile targets
----------------------
+Makefile targets
+----------------
 a) all              builds all the binaries of the project and tests
 b) clean            clears the binaries of the project and the documentation
-c) doc              generates the documentation of the project
-d) help             display all the targets (main and service)
-e) mwsd             builds the mwsd binary (main MWS process)
-f) restd            builds the restd binary (MWS restful interface)
-h) test             runs the unit tests (using ctest)
+c) config           get cmake CLI configuration tool
+d) doc              generates the documentation of the project
+e) help             display all the targets (main and service)
+f) test             runs the unit tests (using ctest)
 
-4.0) Usage
-----------
+Usage
+-----
 The main server will start by running the generated executable "mwsd". The
 server will run on port MWS_PORT. The harvest include path is not necessarily
 required. All files of MWS_HARVEST_EXT extension are loaded from the respective
@@ -105,51 +90,40 @@ to be skipped when crawling.
 To be able to use RESTful communication, one needs to also start the REST-Daemon
 with the desired RESTful port as argument.
 
-> mwsd -I <harvest include dir>
-> restd -p|--port <arg>
+	mwsd -I <harvest include dir>
+	restd -p|--port <arg>
 
 To setup or remove mwsd/restd as a global SysV service, use (as root):
 
-> scripts/sysv/deploy.sh config/mws_services.conf
-> scripts/sysv/remove.sh config/mws_services.conf
+	scripts/sysv/deploy.sh config/mws_services.conf
+	scripts/sysv/remove.sh config/mws_services.conf
 
-The provided config file [2] sets up MathWebSearch to use the ArxivDemo
-harvests [3]. To start/stop services, use
+The provided [config file](config/mws_services.conf) sets up MathWebSearch to
+use the [ZBL demo harvests](data/zbl/). To start/stop services, use
 
-> service mwsd_arxivdemo [start|stop|status|...]
-> service restd_arxivdemo [start|stop|status|...]
+	service mwsd_arxivdemo [start|stop|status|...]
+	service restd_arxivdemo [start|stop|status|...]
 
-Output is logged to /var/log/[mwsd|restd]_*.log To serve different harvest
-paths, create your own configuration file similar to [2] and deploy the
-service.
+Output is logged to /var/log/mwsd.log. To serve different harvest
+paths, create your own configuration file and deploy the service.
 
-[1] https://trac.mathweb.org/MWS/wiki/MwsQuery
-[2] config/mws_services.conf
-[3] data/arxivdemo
-
-5.0) Troubleshooting
---------------------
-
-6.0) Copyright
---------------
+Copyright
+---------
 The software in this project (binaries and sources) is released "as is",
 under the GNU Public License version 3.
 A copy of this license can be found in the root of this project,
 under the file name LICENSE.
 
-7.0) Credits
-------------
+Credits
+-------
 Most of the code in the core repository was developed by Corneliu-Claudiu
 Prodescu <c.prodescu@jacobs-university.de>, under the supervision of Prof.
 Michael Kohlhase <m.kohlhase@jacobs-university.de>.
 For a complete list of developers visit
 https://trac.mathweb.org/MWS/wiki/DevTeam
 
-8.0) Contact
-------------
-The easiest way to contact the developers is using the MathWebSearch trac [1]
-or the mailing list [2].
-
-[1] https://trac.mathweb.org/MWS
-[2] project-mathwebsearch-dev@lists.jacobs-university.de
+Contact
+-------
+The easiest way to contact the developers is using the MathWebSearch
+[mailing list](mailto:project-mathwebsearch-dev@lists.jacobs-university.de).
 
