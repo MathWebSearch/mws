@@ -72,7 +72,7 @@ OPTION(WITH_DOC                "build MWS documentation"               OFF )
 OPTION(WITH_TEST               "build test suites"                     ON )
 
 # Select build type
-SET(DEFAULT_CMAKE_BUILD_TYPE "RelWithDebInfo")
+SET(DEFAULT_CMAKE_BUILD_TYPE "Debug")
 IF(NOT CMAKE_BUILD_TYPE)
     MESSAGE(STATUS
             "No build type selected, defaults to ${DEFAULT_CMAKE_BUILD_TYPE}")
