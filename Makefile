@@ -32,7 +32,7 @@ clean:
 config: build/cmake_done_config
 	@ccmake build/
 
-test: build/cmake_done_config
+test: build/cmake_done_config all
 	@cd build && make --no-print-directory $@
 
 build/cmake_done_config:

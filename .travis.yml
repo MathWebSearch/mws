@@ -1,6 +1,9 @@
+env:
+
 before_install: 
  - lsb_release -a
  - sudo apt-get update
+install:
  - sudo apt-get install cmake
  - sudo apt-get install make
  - sudo apt-get install pkg-config
@@ -9,8 +12,11 @@ before_install:
  - sudo apt-get install libsnappy-dev
  - sudo apt-get install libjson0-dev
  - sudo apt-get install libmicrohttpd-dev
+
 language: cpp
 compiler:
  - gcc
  - clang
-script: make && make test
+script:
+ - make
+ - make test
