@@ -23,7 +23,7 @@
 #
 # Script used to remove MathWebSearch SysV integration
 #
-# - remove /etc/init.d/mwsd_* and /etc/init.d/restd_*
+# - remove /etc/init.d/mwsd_*
 #
 
 print_usage() {
@@ -48,13 +48,13 @@ CONFIG_FILE="$1"
     exit 1
 }
 
-# Include config
-. `readlink -f $CONFIG_FILE`
+. "$CONFIG_FILE"
 
-#
-# TODO: stop mws / restd if running
-#
+# Note that this does not stop mws if running
 rm -f /etc/init.d/mwsd_$MWS_DEPLOY_NAME
-rm -f /etc/init.d/restd_$MWS_DEPLOY_NAME
 update-rc.d -f mwsd_$MWS_DEPLOY_NAME remove
+
+# Older versions used a RESTful interface along with mwsd.
+# This ensures that is removed as well.
+rm -f /etc/init.d/restd_$MWS_DEPLOY_NAME
 update-rc.d -f restd_$MWS_DEPLOY_NAME remove

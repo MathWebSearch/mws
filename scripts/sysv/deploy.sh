@@ -23,7 +23,7 @@
 #
 # Script used to deploy MathWebSearch
 #
-# - generate /etc/init.d/mwsd_* and /etc/init.d/restd_*
+# - generate /etc/init.d/mwsd_*
 #
 
 print_usage() {
@@ -34,11 +34,6 @@ Usage: $0 <mwsd.conf>
 EOF
 }
 
-path_error() {
-  echo "$1 is invalid"
-  exit 1
-}
-
 # Reading config
 
 if [ $# -ne 1 ]; then
@@ -47,32 +42,50 @@ if [ $# -ne 1 ]; then
 fi
 
 CONFIG_FILE="$1"
+CONFIG_DIR="$(dirname $CONFIG_FILE)"
+
 
 [ -r "$CONFIG_FILE" ] || {
     echo "Error: Config file \"$CONFIG_FILE\" not readable"
     exit 1
 }
 
-# Include config
-. `readlink -f $CONFIG_FILE`
+. $CONFIG_FILE
+
+path_error() {
+  echo "$1 is invalid"
+  exit 1
+}
+
+get_path() {
+    path="$1"
+
+    dirname="$(cd "$CONFIG_DIR" && cd $(dirname "$path") && pwd -P)"
+    basename="$(basename "$path")"
+
+    canonical_path="$dirname/$basename"
+    if [ -r "$canonical_path" ]; then
+        echo "$canonical_path"
+        return 0
+    else
+        return 1
+    fi
+}
 
 # Process paths (make canonical and relative to config file directory)
-MWS_DATA_PATH="$(cd $(dirname "$CONFIG_FILE") && readlink -f "$MWS_DATA_PATH")" || path_error "MWS_DATA_PATH"
-MWS_HARVEST_PATH="$(cd $(dirname "$CONFIG_FILE") && readlink -f "$MWS_HARVEST_PATH")" || path_error "MWS_HARVEST_PATH"
-MWS_BIN_PATH="$(cd $(dirname "$CONFIG_FILE") && readlink -f "$MWS_BIN_PATH")" || path_error "MWS_BIN_PATH"
+MWS_DATA_PATH="$(get_path "$MWS_DATA_PATH")" || path_error "MWS_DATA_PATH"
+MWS_HARVEST_PATH="$(get_path "$MWS_HARVEST_PATH")" || path_error "MWS_HARVEST_PATH"
+MWS_BIN_PATH="$(get_path "$MWS_BIN_PATH")" || path_error "MWS_BIN_PATH"
 
 # Generate files from stubs
 STUBS_DIR="$(dirname $0)"
-#OUTPUT_DIR="$(dirname $0)"
 OUTPUT_DIR="/etc/init.d"
 
 MWSD_STUB="$STUBS_DIR/mwsd.init.in"
-RESTD_STUB="$STUBS_DIR/restd.init.in"
 
 MWSD_OUT="$OUTPUT_DIR/mwsd_$MWS_DEPLOY_NAME"
-RESTD_OUT="$OUTPUT_DIR/restd_$MWS_DEPLOY_NAME"
 
-cat $MWSD_STUB |    \
+cat $MWSD_STUB | \
     sed "s#@MWS_DEPLOY_NAME@#$MWS_DEPLOY_NAME#g" | \
     sed "s#@MWS_PORT@#$MWS_PORT#g" | \
     sed "s#@MWS_REST_PORT@#$MWS_REST_PORT#g" | \
@@ -84,18 +97,4 @@ chmod 755 $MWSD_OUT
 echo "Generated $MWSD_OUT"
 update-rc.d -f mwsd_$MWS_DEPLOY_NAME remove
 update-rc.d mwsd_$MWS_DEPLOY_NAME defaults
-echo "Registered with Sysvinit"
-
-cat $RESTD_STUB |    \
-    sed "s#@MWS_DEPLOY_NAME@#$MWS_DEPLOY_NAME#g" | \
-    sed "s#@MWS_PORT@#$MWS_PORT#g" | \
-    sed "s#@MWS_REST_PORT@#$MWS_REST_PORT#g" | \
-    sed "s#@MWS_DATA_PATH@#$MWS_DATA_PATH#g" | \
-    sed "s#@MWS_BIN_PATH@#$MWS_BIN_PATH#g" | \
-    sed "s#@MWS_HARVEST_PATH@#$MWS_HARVEST_PATH#g" > "$RESTD_OUT"
-
-chmod 755 $RESTD_OUT
-echo "Generated $RESTD_OUT"
-update-rc.d -f restd_$MWS_DEPLOY_NAME remove
-update-rc.d restd_$MWS_DEPLOY_NAME defaults
-echo "Registered with Sysvinit"
+echo "Registered mwsd_$MWS_DEPLOY_NAME with SysV init"
