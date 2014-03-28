@@ -58,7 +58,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/LevFormulaDb.hpp"
 #include "mws/dbc/LevCrawlDb.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
-#include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
+#include "mws/xmlparser/writeXmlAnswset.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/dbc/DbQueryManager.hpp"

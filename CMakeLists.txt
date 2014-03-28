@@ -66,7 +66,6 @@ SET(CMAKE_MODULE_PATH
 
 #      Options                 Description                             Default
 OPTION(WITH_MWS                "build MathWebSearch daemon"            ON )
-OPTION(WITH_REST               "build MWS RESTful interface daemon"    ON )
 OPTION(WITH_CRAWLER            "build MWS crawlers"                    OFF )
 OPTION(WITH_DOC                "build MWS documentation"               OFF )
 OPTION(WITH_TEST               "build test suites"                     ON )
@@ -82,10 +81,8 @@ SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING
     "Choose the type of build: Debug Release RelWithDebInfo MinSizeRel."
     FORCE)
 
-# Debug flags
-# ADD_DEFINITIONS( "-DTRACE_FUNC_CALLS" )
 # Apply restrictions
-#ADD_DEFINITIONS( "-D_APPLYRESTRICT" )
+#ADD_DEFINITIONS("-D_APPLYRESTRICT")
 
 # Build Flags
 SET(COMMON_FLAGS
@@ -115,11 +112,6 @@ IF ( WITH_MWS )
         ADD_SUBDIRECTORY( "${MWS_TSTSRC_DIR}/mws" )
     ENDIF ( WITH_TEST )
 ENDIF ( WITH_MWS )
-
-# MWS RESTful interface
-IF ( WITH_REST )
-    ADD_SUBDIRECTORY( "${MWS_SRC_DIR}/rest" )
-ENDIF ( WITH_REST )
 
 # MWS Crawlers
 IF ( WITH_CRAWLER )

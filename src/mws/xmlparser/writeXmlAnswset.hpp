@@ -18,36 +18,40 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _WRITEJSONANSWSETTOFD_HPP
-#define _WRITEJSONANSWSETTOFD_HPP
+#ifndef MWS_XMLPARSER_WRITEXMLANSWSET_HPP
+#define MWS_XMLPARSER_WRITEXMLANSWSET_HPP
 
 /**
-  * @brief   File containing the header of the writeJsonAnswsetToFd function
+  * @brief   File containing the header of the writeXmlAnswset function
   *
-  * @file    writeJsonAnswsetToFd.hpp
+  * @file    writeXmlAnswset.hpp
   * @author  Corneliu-Claudiu Prodescu
-  * @date    30 Jul 2011
+  * @date    26 Apr 2011
+  *
+  * @edited Radu Hambasan
+  * @date 20 Mar 2014
   *
   * License: GPL v3
   *
   */
 
+#include <stdio.h>
 // Local includes
 
 #include "mws/types/MwsAnswset.hpp"    // MWS Answer Set datatype header
 
-namespace mws
-{
+namespace mws {
+namespace xmlparser {
 
 /**
-  * @brief Function to write a MwsAnswset to an output file descriptor as JSON
-  * data.
-  * @param fd is the file descriptor to which to write.
+  * @brief Function to write a MwsAnswset to an output file.
+  * @param file is the file to which to write.
   * @param answset is the MWS Answer Set to be written.
   * @return the number of bytes written to fd or -1 in case of failure.
   */
-int writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd);
+int writeXmlAnswset(MwsAnswset* answset, FILE* file);
 
-}
+}  // namespace xmlparser
+}  // namespace mws
 
-#endif // _WRITEJSONANSWSETTOFD_HPP
+#endif  // MWS_XMLPARSER_WRITEXMLANSWSET_HPP

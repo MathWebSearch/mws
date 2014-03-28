@@ -31,12 +31,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <signal.h>
+#include "mws/daemon/microhttpd_linux.h"  // Linux MicroHTTPd library includes
 
 #include <vector>
 #include <string>
 
-#include "common/socket/InSocket.hpp"
-#include "common/socket/OutSocket.hpp"
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/types/MwsQuery.hpp"
 
@@ -53,7 +52,8 @@ struct Config {
 
 class Daemon {
  public:
-    int loop(const Config& config);
+    int startAsync(const Config& config);
+    void stop();
     virtual MwsAnswset* handleQuery(MwsQuery* query) = 0;
     Daemon();
     virtual ~Daemon();
@@ -61,11 +61,8 @@ class Daemon {
  protected:
     virtual int initMws(const Config& config);
 
- protected:
-    InSocket* serverSocket;
-    sig_atomic_t run;
-    std::string HarvestType;
-    const std::string QueryType;
+ private:
+    struct MHD_Daemon* _daemonHandler;
 };
 }  // namespace daemon
 }  // namespace mws

@@ -18,35 +18,39 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _READMWSQUERYFROMFD_HPP
-#define _READMWSQUERYFROMFD_HPP
+#ifndef _WRITEJSONANSWSET_HPP
+#define _WRITEJSONANSWSET_HPP
 
 /**
-  * @brief File containing the header of the readMwsQueryFromFd function
+  * @brief   File containing the header of the writeJsonAnswset function
   *
-  * @file readMwsQueryFromFd.hpp
-  * @author Corneliu-Claudiu Prodescu
-  * @date 18 Apr 2011
+  * @file    writeJsonAnswset.hpp
+  * @author  Corneliu-Claudiu Prodescu
+  * @date    30 Jul 2011
   *
+  * @edited Radu Hambasan
+  * @date 20 Mar 2014
   * License: GPL v3
   *
   */
 
+#include <stdio.h>
 // Local includes
 
-#include "mws/types/MwsQuery.hpp"      // MwsQuery datatype header
+#include "mws/types/MwsAnswset.hpp"    // MWS Answer Set datatype header
 
 namespace mws
 {
 
 /**
-  * @brief Function to read a MwsQuery from an input file descriptor.
-  * @param fd is the file descriptor from where to read.
-  * @return a pointer to a MwsQuery containing the information read or NULL in
-  * case of failure.
+  * @brief Function to write a MwsAnswset to an output file descriptor as JSON
+  * data.
+  * @param file is the file to which to write.
+  * @param answset is the MWS Answer Set to be written.
+  * @return the number of bytes written to file or -1 in case of failure.
   */
-mws::MwsQuery* readMwsQueryFromFd(int fd);
+int writeJsonAnswset(mws::MwsAnswset* answset, FILE* file);
 
 }
 
-#endif
+#endif  // _WRITEJSONANSWSET_HPP

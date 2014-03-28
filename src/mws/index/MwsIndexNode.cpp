@@ -31,7 +31,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "MwsIndexNode.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
-#include "common/utils/DebugMacros.hpp"
 #include "common/utils/compiler_defs.h"
 
 // Namespaces
@@ -56,20 +55,9 @@ MwsIndexNode::MwsIndexNode() :
 
 MwsIndexNode::~MwsIndexNode()
 {
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
-    _MapType::iterator it;
-
-    for (it = children.begin(); it != children.end(); it ++)
-    {
+    for (auto it = children.begin(); it != children.end(); it ++) {
         delete it->second;
     }
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 

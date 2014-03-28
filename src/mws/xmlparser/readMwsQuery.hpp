@@ -18,35 +18,38 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _WRITEXMLANSWSETTOFD_HPP
-#define _WRITEXMLANSWSETTOFD_HPP
+#ifndef _READMWSQUERY_HPP
+#define _READMWSQUERY_HPP
 
 /**
-  * @brief   File containing the header of the writeXmlAnswsetToFd function
+  * @brief File containing the header of the readMwsQuery function
   *
-  * @file    writeXmlAnswsetToFd.hpp
-  * @author  Corneliu-Claudiu Prodescu
-  * @date    26 Apr 2011
+  * @file readMwsQuery.hpp
+  * @author Corneliu-Claudiu Prodescu
+  * @date 18 Apr 2011
+  *
+  * @edited Radu Hambasan
+  * @date 20 Mar 2014
   *
   * License: GPL v3
   *
   */
 
-// Local includes
+#include <stdio.h>
+#include "mws/types/MwsQuery.hpp"
 
-#include "mws/types/MwsAnswset.hpp"    // MWS Answer Set datatype header
-
-namespace mws
-{
+namespace mws {
+namespace xmlparser {
 
 /**
-  * @brief Function to write a MwsAnswset to an output file descriptor.
-  * @param fd is the file descriptor to which to write.
-  * @param answset is the MWS Answer Set to be written.
-  * @return the number of bytes written to fd or -1 in case of failure.
+  * @brief Function to read a MwsQuery from an input file descriptor.
+  * @param file is the file from where to read.
+  * @return a pointer to a MwsQuery containing the information read or NULL in
+  * case of failure.
   */
-int writeXmlAnswsetToFd(mws::MwsAnswset* answset, int fd);
+mws::MwsQuery* readMwsQuery(FILE* file);
 
-}
+}  // namespace xmlparser
+}  // namespace mws
 
-#endif
+#endif  // _READMWSQUERY

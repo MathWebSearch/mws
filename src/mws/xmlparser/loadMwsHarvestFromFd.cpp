@@ -54,7 +54,6 @@ using std::map;
 #include "mws/index/IndexManager.hpp"
 #include "mws/types/NodeInfo.hpp"
 #include "mws/types/CmmlToken.hpp"
-#include "common/utils/DebugMacros.hpp"// Debug macros
 #include "common/utils/compiler_defs.h"
 
 #include "loadMwsHarvestFromFd.hpp"
@@ -182,23 +181,8 @@ void tearDownCopyToStringWriter(MwsHarvest_SaxUserData* data) {
   *
   */
 static inline int
-fdXmlInputReadCallback(void* fdPtr,
-                       char* buffer,
-                       int   len)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
-    int result;
-    result =  read(*(int*)  fdPtr,
-                   (void*)  buffer,
-                   (size_t) len);
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
-    return result;
+fdXmlInputReadCallback(void* fdPtr, char* buffer, int len) {
+    return read(*(int*)  fdPtr, (void*)  buffer, (size_t) len);
 }
 
 /**
@@ -208,21 +192,11 @@ fdXmlInputReadCallback(void* fdPtr,
   * @param user_data is a structure which holds the state of the parser.
   */
 static void
-my_endDocument(void* user_data)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
+my_endDocument(void* user_data) {
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
-    if (data->errorDetected)
-    {
-        fprintf(stderr, "Ending document due to errors\n");
+    if (data->errorDetected) {
+        PRINT_WARN("Ending document due to errors\n");
     }
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 
@@ -238,12 +212,7 @@ my_endDocument(void* user_data)
 static void
 my_startElement(void*           user_data,
                 const xmlChar*  name,
-                const xmlChar** attrs)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
+                const xmlChar** attrs) {
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
     switch (data->state) {
@@ -369,13 +338,6 @@ my_startElement(void*           user_data,
         data->unknownDepth++;
         break;
     }
-
-#if DEBUG
-    printf("Beginning of element : %s \n", name);
-#endif
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 
@@ -388,12 +350,7 @@ my_startElement(void*           user_data,
   */
 static void
 my_endElement(void*          user_data,
-              const xmlChar* name)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
+              const xmlChar* name) {
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
     switch (data->state) {
@@ -452,13 +409,6 @@ my_endElement(void*          user_data,
             data->state = data->prevState;
         break;
     }
-
-#if DEBUG
-    printf("Ending  of  element  : %s\n", (char*)name);
-#endif
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 
@@ -467,10 +417,6 @@ my_characters(void *user_data,
               const xmlChar *ch,
               int len)
 {
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
     if (data->state == MWSHARVESTSTATE_IN_MWS_EXPR &&   // Valid state
@@ -487,22 +433,13 @@ my_characters(void *user_data,
                                  strlen((const char*) encodedChars));
         xmlFree(encodedChars);
     }
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 
 static void
 my_warning(void*       user_data,
            const char* msg,
-           ...)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
+           ...) {
     va_list args;
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
@@ -511,21 +448,13 @@ my_warning(void*       user_data,
     va_start(args, msg);
     vfprintf(stderr, msg, args);
     va_end(args);
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 
 static void
 my_error(void*       user_data,
          const char* msg,
-         ...)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
+         ...) {
     va_list args;
     MwsHarvest_SaxUserData* data = (MwsHarvest_SaxUserData*) user_data;
 
@@ -539,10 +468,6 @@ my_error(void*       user_data,
     va_start(args, msg);
     vfprintf(stderr, msg, args);
     va_end(args);
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 
@@ -550,11 +475,7 @@ my_error(void*       user_data,
 static void
 my_fatalError(void*       user_data,
               const char* msg,
-              ...)
-{
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
+              ...) {
     UNUSED(user_data);
 
     va_list args;
@@ -562,10 +483,6 @@ my_fatalError(void*       user_data,
     va_start(args, msg);
     vfprintf(stderr, msg, args);
     va_end(args);
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
 }
 
 
@@ -573,10 +490,6 @@ my_fatalError(void*       user_data,
 
 pair<int,int>
 loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
     MwsHarvest_SaxUserData user_data;
     xmlSAXHandler          saxHandler;
     xmlParserCtxtPtr       ctxtPtr;
@@ -624,9 +537,6 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
     // Unlocking libXML -- to allow multi-threaded use
     xmlUnlockLibrary();
 
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
     return make_pair(ret, user_data.parsedExpr);
 }
 

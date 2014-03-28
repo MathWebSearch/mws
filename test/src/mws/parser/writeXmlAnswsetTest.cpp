@@ -19,9 +19,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief Testing for the readMwsQueryFromFd function - implementation
+  * @brief Testing for the writeXmlAnswsetToFd function - implementation
   *
-  * @file readMwsQueryFromFdTest.cpp
+  * @file writeXmlAnswsetToFd.cpp
   * @author Prodescu Corneliu-Claudiu <c.prodescu@jacobs-university.de>
   * @date 27 Apr 2011
   *
@@ -32,46 +32,39 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>                 // Primitive System datatypes
 #include <sys/stat.h>                  // POSIX File characteristics
 #include <fcntl.h>                     // File control operations
-#include <libxml/parser.h>             // LibXML parser header
 #include <string>                      // C++ String header
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "mws/xmlparser/readMwsQueryFromFd.hpp"
+#include "mws/xmlparser/writeXmlAnswset.hpp"
 #include "common/utils/compiler_defs.h"
 
-#include "config.h"
+// Macros
 
-// Namespaces
-
-using namespace std;
-using namespace mws;
+#define TMP_PATH "/tmp/"
 
 
-int main()
-{
-    MwsQuery*   result;
-    int         fd;
-    const char* xmlfile  = "MwsQuery1.xml";
-    string      xml_path = (string) MWS_TESTDATA_PATH +
-                            "/" + (string) xmlfile;
+int main() {
+    using mws::MwsAnswset;
+    using std::string;
+    using mws::types::Answer;
 
-    fd = open(xml_path.c_str(), O_RDONLY);
-    FAIL_ON(fd < 0);
+    const string xml_path = (string) TMP_PATH + "/MwsAnswset1.xml";
 
-    result = readMwsQueryFromFd(fd);
+    Answer* answer = new Answer();
+    answer->data = "lalala";
+    answer->uri = "http://foo";
+    answer->xpath = "//*[1]";
+    MwsAnswset* answset = new MwsAnswset();
+    answset->answers.push_back(answer);
 
-    FAIL_ON(result == NULL);
-    FAIL_ON(result->warnings != 0);
-    FAIL_ON(result->attrResultMaxSize != 24);
-    FAIL_ON(result->attrResultLimitMin != 1);
-    FAIL_ON(result->tokens.size() != (size_t) 1);
+    FILE* file = fopen(xml_path.c_str(), "w");
+    FAIL_ON(file == NULL);
+    FAIL_ON(mws::xmlparser::writeXmlAnswset(answset, file) != 260);
 
-    delete result;
+    delete answset;
 
-    (void) close(fd);
-
-    (void) xmlCleanupParser();
+    (void) fclose(file);
 
     return EXIT_SUCCESS;
 

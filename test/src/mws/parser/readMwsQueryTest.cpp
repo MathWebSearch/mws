@@ -19,9 +19,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief Testing for the writeXmlAnswsetToFd function - implementation
+  * @brief Testing for the readMwsQueryFromFd function - implementation
   *
-  * @file writeXmlAnswsetToFd.cpp
+  * @file readMwsQueryFromFdTest.cpp
   * @author Prodescu Corneliu-Claudiu <c.prodescu@jacobs-university.de>
   * @date 27 Apr 2011
   *
@@ -32,40 +32,46 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>                 // Primitive System datatypes
 #include <sys/stat.h>                  // POSIX File characteristics
 #include <fcntl.h>                     // File control operations
+#include <libxml/parser.h>             // LibXML parser header
 #include <string>                      // C++ String header
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
+#include "mws/xmlparser/readMwsQuery.hpp"
 #include "common/utils/compiler_defs.h"
 
-// Macros
+#include "config.h"
 
-#define TMP_PATH "/tmp/"
+// Namespaces
+
+using namespace std;
+using namespace mws;
 
 
-int main() {
-    using mws::MwsAnswset;
-    using std::string;
-    using mws::types::Answer;
+int main()
+{
+    MwsQuery*   result;
+    FILE*       file;
+    const char* xmlfile  = "MwsQuery1.xml";
+    string      xml_path = (string) MWS_TESTDATA_PATH +
+                            "/" + (string) xmlfile;
 
-    const string xml_path = (string) TMP_PATH + "/MwsAnswset1.xml";
+    file = fopen(xml_path.c_str(), "r");
+    FAIL_ON(file == NULL);
 
-    Answer* answer = new Answer();
-    answer->data = "lalala";
-    answer->uri = "http://foo";
-    answer->xpath = "//*[1]";
-    MwsAnswset* answset = new MwsAnswset();
-    answset->answers.push_back(answer);
+    result = xmlparser::readMwsQuery(file);
 
-    int fd = open(xml_path.c_str(), O_WRONLY | O_CREAT,
-            S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-    FAIL_ON(fd < 0);
-    FAIL_ON(writeXmlAnswsetToFd(answset, fd) != 0);
+    FAIL_ON(result == NULL);
+    FAIL_ON(result->warnings != 0);
+    FAIL_ON(result->attrResultMaxSize != 24);
+    FAIL_ON(result->attrResultLimitMin != 1);
+    FAIL_ON(result->tokens.size() != (size_t) 1);
 
-    delete answset;
+    delete result;
 
-    (void) close(fd);
+    fclose(file);
+
+    (void) xmlCleanupParser();
 
     return EXIT_SUCCESS;
 

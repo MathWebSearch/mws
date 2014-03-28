@@ -55,7 +55,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/MemFormulaDb.hpp"
 #include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/index/MwsIndexNode.hpp"
-#include "common/utils/DebugMacros.hpp"   // MWS Debug Macro Utilities
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/IndexManager.hpp"
 #include "mws/index/ExpressionEncoder.hpp"

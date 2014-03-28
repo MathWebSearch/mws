@@ -44,11 +44,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/CmmlToken.hpp"     // CmmlToken class header
 #include "mws/types/MwsAnswset.hpp"    // MWS Answer set class header
 #include "mws/index/MwsIndexNode.hpp"  // MWS Index node class header
-#include "common/utils/DebugMacros.hpp"
-
-// Typedefs
-
-
 
 namespace mws
 {
@@ -67,25 +62,11 @@ struct qvarCtxt
     > backtrackIterators;
     bool isSolved;
 
-    inline qvarCtxt()
-    {
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
+    inline qvarCtxt() {
         isSolved = false;
-
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
     }
 
-    inline mws::MwsIndexNode* solve(mws::MwsIndexNode* node)
-    {
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
-
+    inline mws::MwsIndexNode* solve(mws::MwsIndexNode* node) {
         int totalArrity;
         std::pair<
             mapIteratorType,
@@ -100,9 +81,6 @@ struct qvarCtxt
             if (currentPair.first == currentPair.second)
             {
                 backtrackIterators.clear();
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
                 return NULL;
             }
             totalArrity += currentPair.first->first.second - 1;
@@ -111,17 +89,11 @@ struct qvarCtxt
         }
 
         isSolved = true;
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
         return node;
     }
 
     inline mws::MwsIndexNode* nextSol()
     {
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_IN;
-#endif
         int totalArrity;
         mws::MwsIndexNode* currentNode;
         std::pair<
@@ -139,9 +111,6 @@ struct qvarCtxt
             if (backtrackIterators.empty())
             {
                 isSolved = false;
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
                 return NULL;
             }
             totalArrity += 1 - backtrackIterators.back().first->first.second;
@@ -160,9 +129,6 @@ struct qvarCtxt
             totalArrity += currentPair.first->first.second - 1;
         }
         // We have selected a different solution
-#ifdef TRACE_FUNC_CALLS
-    LOG_TRACE_OUT;
-#endif
         return currentNode;
     }
 };

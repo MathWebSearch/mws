@@ -19,14 +19,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief   File containing the implementation of the writeJsonAnswsetToFd
+  * @brief   File containing the implementation of the writeJsonAnswset
   * function
-  * @file    writeJsonAnswsetToFd.cpp
+  * @file    writeJsonAnswset.cpp
   * @author  Corneliu-Claudiu Prodescu
   * @date    30 Jul 2011
   *
   * @edited Radu Hambasan
-  * @date 05 Feb 2014
+  * @date 20 Mar 2014
   *
   * License: GPL v3
   *
@@ -34,12 +34,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <unistd.h>
 #include <json.h>
+#include <stdio.h>
 
 #include <sstream>
 #include <vector>
 #include <string>
 
-#include "writeJsonAnswsetToFd.hpp"
+#include "writeJsonAnswset.hpp"
 
 using namespace std;
 using namespace mws;
@@ -48,12 +49,11 @@ namespace mws
 {
 
 int
-writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
+writeJsonAnswset(mws::MwsAnswset* answset, FILE* file)
 {
     const char*                data;
     size_t                     data_size;
     size_t                     bytes_written;
-    string                     out;
     json_object *json_doc, *qvars, *hits;
 
     json_doc = json_object_new_object();
@@ -102,9 +102,10 @@ writeJsonAnswsetToFd(mws::MwsAnswset* answset, int fd)
 
     bytes_written = 0;
     while (bytes_written < data_size) {
-        bytes_written += write(fd,
-                               data + bytes_written,
-                               data_size - bytes_written);
+        bytes_written += fwrite(data + bytes_written,
+                               sizeof(char),
+                               data_size - bytes_written,
+                               file);
     }
 
     json_object_put(json_doc);

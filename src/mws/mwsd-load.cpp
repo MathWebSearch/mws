@@ -28,6 +28,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include <string>
 #include <vector>
@@ -40,10 +41,19 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 using std::vector;
 using std::string;
-using common::utils::FlagParser;
+
+using namespace common::utils;
+
+static volatile sig_atomic_t sigQuit = 0;
+
+static void catch_sigint(int sig) {
+    if (sig == SIGINT || sig == SIGTERM) sigQuit = 1;
+}
 
 int main(int argc, char* argv[]) {
-    int ret;
+    sigset_t              mask, old_mask;
+    struct sigaction      sa, old_sa1, old_sa2;
+    int                   ret;
     mws::daemon::Config config;
     mws::daemon::IndexDaemon daemon;
 
@@ -117,7 +127,43 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    return daemon.loop(config);
+    // Starting the daemon
+    ret = daemon.startAsync(config);
+    if (ret != 0) {
+        fprintf(stderr, "Failure while starting the daemon\n");
+        goto failure;
+    }
+
+    // Preparing the Signal Action
+    sa.sa_handler = catch_sigint;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    // Preparing the signal mask
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGINT);
+    sigaddset(&mask, SIGTERM);
+    // Block the signals and actions
+    if (sigprocmask(SIG_BLOCK, &mask, &old_mask) == -1)
+      fprintf(stderr, "sigprocmask - SIG_BLOCK");
+    if (sigaction(SIGINT, &sa, &old_sa1) == -1)
+      fprintf(stderr, "sigaction - open");
+    if (sigaction(SIGTERM, &sa, &old_sa2) == -1)
+      fprintf(stderr, "sigaction - open");
+
+    // Waiting for SIGINT / SIGTERM
+    while (!sigQuit)
+      sigsuspend(&old_mask);
+
+    // UNBLOCK the signals and actions
+    if (sigprocmask(SIG_SETMASK, &old_mask, NULL) == -1)
+      fprintf(stderr, "sigprocmask - SIG_SETMASK");
+    if (sigaction(SIGINT, &old_sa1, NULL) == -1)
+      fprintf(stderr, "sigaction - close");
+    if (sigaction(SIGINT, &old_sa2, NULL) == -1)
+      fprintf(stderr, "sigaction - close");
+
+    daemon.stop();
+    return EXIT_SUCCESS;
 
 failure:
     return EXIT_FAILURE;

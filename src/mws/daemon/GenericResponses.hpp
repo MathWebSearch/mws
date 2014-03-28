@@ -37,20 +37,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Constants
 
-const char* XML_MWS_UNREACHABLE =
-    "<?xml version=\"1.0\"?>\n"
-    "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
-    "Service unavailable</mws:info>";
-
-const char* XML_MWS_BADQUERY =
+const char* XML_MWS_BAD_QUERY =
     "<?xml version=\"1.0\"?>\n"
     "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
     "Bad query request</mws:info>";
 
-const char* XML_MWS_INTERNALERROR =
+const char* XML_MWS_SERVER_ERROR =
     "<?xml version=\"1.0\"?>\n"
     "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
-    "Internal error</mws:info>";
+    "Server error</mws:info>";
 
 const char* EMPTY_RESPONSE = "";
 
@@ -65,8 +60,8 @@ sendXmlGenericResponse(struct MHD_Connection* connection,
 #ifdef _MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_data(strlen(xmlGenericResponse),
                                              (void*) xmlGenericResponse,
-                                             false,
-                                             false);
+                                             /* must_free = */ 0,
+                                             /* must_copy = */ 0);
 #else // _MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_buffer(strlen(xmlGenericResponse),
                                                (void*) xmlGenericResponse,

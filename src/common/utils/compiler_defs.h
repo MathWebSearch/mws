@@ -82,6 +82,18 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #   define RELEASE_UNUSED(x) (void) 0
 #endif
 
+/* PRINT_WARN */
+/// Print formatted warning
+#define PRINT_WARN(x, ...) \
+    fprintf(stderr, "W: %20s | L %5d | " x, \
+            __FILE__, __LINE__, ##__VA_ARGS__)
+
+/* PRINT_LOG */
+/// Print formatted log
+#define PRINT_LOG(x, ...) \
+    fprintf(stdout, "L: %20s | L %5d | " x, \
+            __FILE__, __LINE__, ##__VA_ARGS__)
+
 /* FAIL_ON */
 /// Print argument and jump to fail label
 #define FAIL_ON(x) do {                                                     \

@@ -27,10 +27,19 @@
 SET(MODULE "mwsdaemon")
 
 # Dependencies
+FIND_PACKAGE (PkgConfig REQUIRED)
+PKG_SEARCH_MODULE( LIBMICROHTTPD libmicrohttpd REQUIRED )
 
 # Includes
+INCLUDE_DIRECTORIES(${LIBMICROHTTPD_INCLUDE_DIRS})
 
 # Flags
+IF (${LIBMICROHTTPD_VERSION} LESS 0.9.3)
+    MESSAGE(STATUS "Found MicroHTTPd ${LIBMICROHTTPD_VERSION}: deprecated mode")
+    ADD_DEFINITIONS("-D_MICROHTTPD_DEPRECATED")
+ELSE()
+    MESSAGE(STATUS "Found MicroHTTPd ${LIBMICROHTTPD_VERSION}")
+ENDIF()
 
 # Sources
 FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
@@ -38,6 +47,7 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
 # Binaries
 ADD_LIBRARY( ${MODULE} ${SOURCES} )
 TARGET_LINK_LIBRARIES(${MODULE}
+                      ${LIBMICROHTTPD_LIBRARIES}
                       mwsdbc
                       mwsindex
                       mwsquery

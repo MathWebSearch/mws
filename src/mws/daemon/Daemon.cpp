@@ -20,177 +20,320 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @brief File containing the implementation of the Daemon class.
   * @file Daemon.cpp
   * @author Radu Hambasan
-  * @date 10 Mar 2014
+  * @author Corneliu Prodescu
+  * @date 20 Mar 2014
   *
   * License: GPL v3
   */
 
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>          // Primitive System datatypes
-#include <sys/stat.h>           // POSIX File characteristics
 #include <fcntl.h>              // File control operations
 #include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>          // Primitive System datatypes
+#include <sys/stat.h>           // POSIX File characteristics
+#include <sys/socket.h>
+#include <unistd.h>
 
+#include <memory>
+using std::unique_ptr;
 #include <stack>
 #include <string>
 
-#include "common/socket/InSocket.hpp"
-#include "common/socket/OutSocket.hpp"
-#include "common/thread/ThreadWrapper.hpp"
-#include "common/utils/DebugMacros.hpp"   // MWS Debug Macro Utilities
-#include "common/utils/Path.hpp"
-#include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
+#include "common/utils/compiler_defs.h"
+#include "common/utils/memstream.h"
+#include "mws/daemon/GenericResponses.hpp"
+#include "mws/daemon/microhttpd_linux.h"
+#include "mws/query/SearchContext.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
-#include "common/types/ControlSequence.hpp"
-#include "mws/query/SearchContext.hpp"
-#include "mws/xmlparser/writeJsonAnswsetToFd.hpp"
-#include "mws/xmlparser/writeXmlAnswsetToFd.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
-#include "mws/xmlparser/readMwsQueryFromFd.hpp"
+#include "mws/xmlparser/readMwsQuery.hpp"
+using mws::xmlparser::readMwsQuery;
+#include "mws/xmlparser/writeJsonAnswset.hpp"
+#include "mws/xmlparser/writeXmlAnswset.hpp"
+using mws::xmlparser::writeXmlAnswset;
 
-#include "Daemon.hpp"
+#include "mws/daemon/Daemon.hpp"
 
 namespace mws { namespace daemon {
 
-typedef struct handler_s {
-    Daemon* daemon;
-    OutSocket* acceptedSock;
-} handler_t;
-
-Daemon::Daemon() : run(1), HarvestType("mws:harvest"), QueryType("mws:query") {
-}
-
-static void
-graceful_exit(int signum) {
-    switch (signum) {
-        case SIGINT:
-            exit(EXIT_SUCCESS);
-        case SIGTERM:
-            exit(EXIT_SUCCESS);
-    }
+Daemon::Daemon() : _daemonHandler(NULL) {
 }
 
 static void cleanupMws() {
-    // Important to clean thread module first,
-    // to wait for last connection threads to exit gracefully
-    ThreadWrapper::clean();
     clearxmlparser();
 }
 
-static void* HandleConnection(void* dataPtr) {
-    handler_t* handl = (handler_t*) dataPtr;
+class MemStream {
+    enum Mode {
+        MODE_WRITING,
+        MODE_READING_BUFFER,
+        MODE_READING_FILE
+    } _mode;
+    char* _buffer;
+    size_t _buffer_size;
+    FILE* _input;
+    FILE* _output;
 
-    MwsQuery*         mwsQuery;
-    MwsAnswset*       result;
-    OutSocket*        outSocket;
-    SocketInfo        sockInfo;
-    int               ret;
-    ControlSequence   controlSequence;
-    int               fd;
+ public:
+    struct Buffer {
+        char* data;
+        size_t size;
 
-    Daemon* instance = handl->daemon;
-    outSocket = handl->acceptedSock;
-    sockInfo  = outSocket->getInfo();
-
-    // Logging the connection
-    printf("%19s "              "%35s"    "%25s\n",
-            TimeStamp().c_str(),
-            sockInfo.hostname.c_str(),
-            sockInfo.service.c_str());
-    fflush(stdout);
-
-    // Reading the MwsQuery
-    fd = outSocket->getFd();
-    mwsQuery = readMwsQueryFromFd(fd);
-
-    if (mwsQuery && mwsQuery->tokens.size()) {
-#ifdef _APPLYRESTRICT
-        mwsQuery->applyRestrictions();
-#endif
-        // get the result
-        result = instance->handleQuery(mwsQuery);
-        // Sending the control sequence
-        controlSequence.setFormat(mwsQuery->attrResultOutputFormat);
-        controlSequence.send(outSocket->getFd());
-
-        // Sending the answer with the proper format
-        switch (mwsQuery->attrResultOutputFormat) {
-            case DATAFORMAT_XML:
-                ret = writeXmlAnswsetToFd(result,
-                                          outSocket->getFd());
-                break;
-            case DATAFORMAT_JSON:
-                ret = writeJsonAnswsetToFd(result,
-                                           outSocket->getFd());
-                break;
-            default:
-                ret = writeXmlAnswsetToFd(result,
-                                          outSocket->getFd());
-                break;
+        Buffer(char* data, size_t size) : data(data), size(size) {
         }
-        if (ret == -1) {
-            fprintf(stderr, "Error while writing the Answer Set\n");
-        }
+    };
 
-        delete result;
-    } else {
-        controlSequence.send(outSocket->getFd());
+    MemStream()
+        : _mode(MODE_WRITING), _buffer(NULL), _buffer_size(0), _output(NULL) {
+        _input = open_memstream(&_buffer, &_buffer_size);
+        assert(_input != NULL);
     }
 
-    delete handl;
-    delete mwsQuery;
-    delete outSocket;
+    ~MemStream() {
+        switch (_mode) {
+        case MODE_WRITING:
+            closeWritingMode();
+            break;
+        case MODE_READING_FILE:
+            closeReadingFileMode();
+            break;
+        case MODE_READING_BUFFER:
+            break;
+        default:
+            assert(false);
+            break;
+        }
+        assert(_input == NULL);
+        assert(_output == NULL);
+        free(_buffer);
+    }
 
-    return NULL;
+    FILE* getInput() {
+        return _input;
+    }
+
+    FILE* getOutputFile() {
+        closeWritingMode();
+        _mode = MODE_READING_FILE;
+        _output = fmemopen(_buffer, _buffer_size, "r");
+        assert(_output != NULL);
+        return _output;
+    }
+
+    Buffer getOutputBuffer() {
+        closeWritingMode();
+        _mode = MODE_READING_BUFFER;
+        return Buffer(_buffer, _buffer_size);
+    }
+
+    Buffer releaseOutputBuffer() {
+        Buffer buffer = getOutputBuffer();
+        _buffer = NULL;
+        return buffer;
+    }
+
+ private:
+    void closeWritingMode() {
+        assert(_mode == MODE_WRITING);
+        fclose(_input);
+        _input = NULL;
+    }
+
+    void closeReadingFileMode() {
+        assert(_mode == MODE_READING_FILE);
+        fclose(_output);
+        _output = NULL;
+    }
+};
+
+static int
+my_MHD_AcceptPolicyCallback(void* cls,
+                            const sockaddr* addr,
+                            socklen_t addrlen) {
+    UNUSED(cls);
+    UNUSED(addr);
+    UNUSED(addrlen);
+
+    // Accepting everything
+    return MHD_YES;
 }
+
+static int
+my_MHD_AccessHandlerCallback(void*                  cls,
+                             struct MHD_Connection* connection,
+                             const char*            url,
+                             const char*            method,
+                             const char*            version,
+                             const char*            upload_data,
+                             size_t*                upload_data_size,
+                             void**                 ptr) {
+    UNUSED(url);
+    UNUSED(version);
+
+    // On OPTIONS method request different behavior
+    if (0 == strcmp(method, MHD_HTTP_METHOD_OPTIONS)) {
+        return sendOptionsResponse(connection);
+    }
+
+    // Accept only POST requests
+    if (0 != strcmp(method, MHD_HTTP_METHOD_POST)) {
+        return MHD_NO;
+    }
+
+    // Allocate handler data
+    if (*ptr == NULL) {
+        *ptr = new MemStream();
+        return MHD_YES;
+    }
+    MemStream* memstream = (MemStream*) *ptr;
+
+    // Process data
+    if (*upload_data_size) {
+        while (*upload_data_size) {
+            size_t nbytes = fwrite(upload_data, sizeof(char), *upload_data_size,
+                                   memstream->getInput());
+            if (nbytes <= 0) {
+                delete memstream;
+                return MHD_NO;
+            }
+
+            upload_data       += nbytes;
+            *upload_data_size -= nbytes;
+        }
+        return MHD_YES;
+    }
+
+    // Parse query
+    unique_ptr<MwsQuery> mwsQuery(readMwsQuery(memstream->getOutputFile()));
+    delete memstream;
+
+    // Check if query failed or is empty
+    if (mwsQuery == NULL || mwsQuery->tokens.size() == 0) {
+        PRINT_WARN("Bad query request\n");
+        return sendXmlGenericResponse(connection, XML_MWS_BAD_QUERY,
+                                      MHD_HTTP_BAD_REQUEST);
+    }
+
+    // Process query
+#ifdef _APPLYRESTRICT
+    mwsQuery->applyRestrictions();
+#endif
+    Daemon* daemon = (Daemon*) cls;
+    unique_ptr<MwsAnswset> answset(daemon->handleQuery(mwsQuery.get()));
+    if (answset == NULL) {
+        PRINT_WARN("Error while obtaining answer set\n");
+        return sendXmlGenericResponse(connection, XML_MWS_SERVER_ERROR,
+                                      MHD_HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    // Write answer
+    int ret;
+    MemStream responseData;
+    switch (mwsQuery->attrResultOutputFormat) {
+    case DATAFORMAT_XML:
+        ret = writeXmlAnswset(answset.get(), responseData.getInput());
+        break;
+    case DATAFORMAT_JSON:
+        ret = writeJsonAnswset(answset.get(), responseData.getInput());
+        break;
+    default:
+        ret = writeXmlAnswset(answset.get(), responseData.getInput());
+        break;
+    }
+    if (ret < 0) {
+        PRINT_WARN("Error while writing the Answer Set\n");
+        return sendXmlGenericResponse(connection, XML_MWS_SERVER_ERROR,
+                                      MHD_HTTP_INTERNAL_SERVER_ERROR);
+    } else {
+        PRINT_LOG("Response of %d bytes sent.\n", ret);
+    }
+
+    // Compose and send response
+    MemStream::Buffer responseDataBuffer = responseData.releaseOutputBuffer();
+    struct MHD_Response* response;
+#ifndef _MICROHTTPD_DEPRECATED
+    response = MHD_create_response_from_buffer(responseDataBuffer.size,
+                                               responseDataBuffer.data,
+                                               MHD_RESPMEM_MUST_FREE);
+#else
+    response = MHD_create_response_from_data(responseDataBuffer.size,
+                                             responseDataBuffer.data,
+                                             /* must_free = */ 1,
+                                             /* must_copy = */ 0);
+#endif
+    switch (mwsQuery->attrResultOutputFormat) {
+    case DATAFORMAT_XML:
+        MHD_add_response_header(response, "Content-Type", "text/xml");
+        break;
+    case DATAFORMAT_JSON:
+        MHD_add_response_header(response,
+                                "Content-Type", "application/json");
+        break;
+    default:
+        MHD_add_response_header(response, "Content-Type", "text/xml");
+        break;
+    }
+    MHD_add_response_header(response, "Access-Control-Allow-Origin", "*");
+    MHD_add_response_header(response,
+                            "Cache-Control", "no-cache, must-revalidate");
+    ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
+    MHD_destroy_response(response);
+
+    return ret;
+}
+
 Daemon::~Daemon() {
-    delete serverSocket;
+    if (_daemonHandler != NULL) {
+        MHD_stop_daemon(_daemonHandler);
+    }
 }
 
-int Daemon::loop(const Config& config) {
-    if (initMws(config) != EXIT_SUCCESS)
+int Daemon::startAsync(const Config& config) {
+    if (initMws(config) != EXIT_SUCCESS) {
         return EXIT_FAILURE;
+    }
 
     atexit(cleanupMws);
 
-    while (run) {
-        handler_t* handl = new handler_t;
-        handl->daemon = this;
-        handl->acceptedSock = serverSocket->accept();
-        ThreadWrapper::run(HandleConnection, handl);
+    _daemonHandler = MHD_start_daemon(MHD_USE_THREAD_PER_CONNECTION,
+                                      config.mwsPort,
+                                      my_MHD_AcceptPolicyCallback,
+                                      NULL,
+                                      my_MHD_AccessHandlerCallback,
+                                      this,
+                                      MHD_OPTION_CONNECTION_LIMIT,
+                                      20,
+                                      MHD_OPTION_END);
+    if (_daemonHandler == NULL) {
+        return -1;
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
 
-int Daemon::initMws(const Config &config) {
-    int ret;
+void Daemon::stop() {
+    if (_daemonHandler != NULL) {
+        MHD_stop_daemon(_daemonHandler);
+        _daemonHandler = NULL;
+    }
+}
+
+int Daemon::initMws(const Config& config) {
+    UNUSED(config);  // We don't need config in the abstract class.
+    int ret = 0;
     if ((ret = initxmlparser())!= 0) {
         fprintf(stderr, "Error while initializing xmlparser module\n");
         return 1;
     }
 
-
-    ret = ThreadWrapper::init();
     if (ret) {
         fprintf(stderr, "Error while initializing thread module\n");
         clearxmlparser();
         return 1;
     }
-
-
-    // Starting the network side and accepting connections
-    serverSocket = new InSocket(config.mwsPort);
-    serverSocket->enable();
-
-    // Registering the signal handler
-    signal(SIGTERM, graceful_exit);
-    signal(SIGINT, graceful_exit);
-    signal(SIGPIPE, SIG_IGN);
 
     return ret;
 }
