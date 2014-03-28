@@ -48,4 +48,23 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // Path where to store db files and index
 #define DEFAULT_MWS_DATA_PATH           "/tmp"
 
+// MWS Query
+
+/// Number of computed hits (returned or not)
+#define MAX_QUERY_RESULT_TOTAL      12000
+#define DEFAULT_QUERY_RESULT_TOTAL  100000
+
+/// Number of requested results
+#define MAX_QUERY_RESULT_SIZE       100
+#define DEFAULT_QUERY_RESULT_SIZE   30
+
+/// Query offset
+#define MAX_QUERY_OFFSET            12000
+#define DEFAULT_QUERY_OFFSET        0
+
+/// Request total number of results
+#define DEFAULT_QUERY_TOTALREQ      true
+
+#cmakedefine APPLY_RESTRICTIONS
+
 #endif // _CONFIG_CONFIG_H

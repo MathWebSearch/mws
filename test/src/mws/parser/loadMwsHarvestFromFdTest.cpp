@@ -47,7 +47,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/MemFormulaDb.hpp"
 #include "common/utils/compiler_defs.h"
 
-#include "config.h"
+#include "build-gen/config.h"
 
 // Namespaces
 

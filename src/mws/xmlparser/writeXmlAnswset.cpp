@@ -41,10 +41,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
-#include "config.h"
 #include "common/utils/compiler_defs.h"
 #include "common/utils/ToString.hpp"
 #include "mws/xmlparser/writeXmlAnswset.hpp"
+
+#include "build-gen/config.h"
 
 #define MWSANSWSET_MAIN_NAME      "mws:answset"
 #define MWSANSWSET_ANSW_NAME      "mws:answ"

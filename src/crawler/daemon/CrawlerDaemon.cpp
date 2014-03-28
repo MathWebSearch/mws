@@ -44,7 +44,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/compiler_defs.h"
 
 // Config files 
-#include "config.h"
+#include "build-gen/config.h"
 
 // Namespaces
 using namespace std;

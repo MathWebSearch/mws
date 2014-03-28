@@ -39,7 +39,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "index/MwsIndexNode.hpp"
 #include "common/utils/FlagParser.hpp"
 #include "index/memsector.h"
-#include "./config.h"
+
+#include "build-gen/config.h"
 
 using std::string;
 using common::utils::FlagParser;

@@ -43,10 +43,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "gurl.h"
 
 // Local includes
-#include "config.h" // for location of MwsMathMLTags.txt path
+#include "common/utils/memstream.h"
 #include "crawler/utils/Page.hpp"
-#include "MwsGetMath.hpp"
-#include "memstream.h"
+#include "crawler/utils/MwsGetMath.hpp"
+
+#include "build-gen/config.h"
 
 using namespace std;
 using namespace mws;

@@ -13,7 +13,7 @@
 *.a
 
 # Build directory
-build/
+bin/
 
 # others
 .DS_Store

@@ -29,18 +29,18 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#include "common/utils/save_pid_file.h"
-#include "mws/index/memsector.h"
-#include "config.h"
 
 #include <string>
+using std::string;
 #include <vector>
+using std::vector;
 
+#include "common/utils/save_pid_file.h"
 #include "common/utils/FlagParser.hpp"
 #include "mws/daemon/HarvestDaemon.hpp"
+#include "mws/index/memsector.h"
 
-using std::vector;
-using std::string;
+#include "build-gen/config.h"
 
 using namespace common::utils;
 
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
 
     // Parsing the flags
     FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
-    FlagParser::addFlag('m', "mws-port",             FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('p', "mws-port",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('D', "data-path",            FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
@@ -92,13 +92,13 @@ int main(int argc, char* argv[]) {
     config.useLevelDb = FlagParser::hasArg('L');
 
     // mws-port
-    if (FlagParser::hasArg('m')) {
-        int mwsPort = atoi(FlagParser::getArg('m').c_str());
+    if (FlagParser::hasArg('p')) {
+        int mwsPort = atoi(FlagParser::getArg('p').c_str());
         if (mwsPort > 0 && mwsPort < (1<<16)) {
             config.mwsPort = mwsPort;
         } else {
             fprintf(stderr, "Invalid port \"%s\"\n",
-                    FlagParser::getArg('m').c_str());
+                    FlagParser::getArg('p').c_str());
             goto failure;
         }
     } else {

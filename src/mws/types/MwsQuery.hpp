@@ -43,9 +43,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/GenericTypes.hpp"  // MWS generic datatypes
 #include "common/types/DataFormat.hpp"
 
-// Config files
-#include "MwsRestrictions.hpp"          // MWS restriction constants
-#include "MwsQueryConf.hpp"
+#include "build-gen/config.h"
 
 namespace mws
 {
@@ -77,10 +75,10 @@ struct MwsQuery
     /// Default Constructor of the MwsQuery class
     MwsQuery() :
         warnings(0),
-        attrResultMaxSize(DEFAULT_MWSQUERY_MAXSIZE),
+        attrResultMaxSize(DEFAULT_QUERY_RESULT_SIZE),
         attrResultLimitMin(0),
-        attrResultTotalReq(DEFAULT_MWSQUERY_TOTALREQ),
-        attrResultTotalReqNr(DEFAULT_MWSQUERY_TOTALREQ_MAXSIZE),
+        attrResultTotalReq(DEFAULT_QUERY_TOTALREQ),
+        attrResultTotalReqNr(DEFAULT_QUERY_RESULT_TOTAL),
         attrResultOutputFormat(DATAFORMAT_DEFAULT),
         restricted(false) {
     }
@@ -94,20 +92,20 @@ struct MwsQuery
 
     void applyRestrictions()
     {
-        if (attrResultMaxSize > _MAX_QUERY_RESULTSIZE)
+        if (attrResultMaxSize > MAX_QUERY_RESULT_SIZE)
         {
             restricted = true;
-            attrResultMaxSize = _MAX_QUERY_RESULTSIZE;
+            attrResultMaxSize = MAX_QUERY_RESULT_SIZE;
         }
-        if (attrResultLimitMin > _MAX_QUERY_OFFSET)
+        if (attrResultLimitMin > MAX_QUERY_OFFSET)
         {
             restricted = true;
-            attrResultLimitMin = _MAX_QUERY_OFFSET;
+            attrResultLimitMin = MAX_QUERY_OFFSET;
         }
-        if (attrResultTotalReqNr > _MAX_QUERY_TOTALREQNR)
+        if (attrResultTotalReqNr > MAX_QUERY_RESULT_TOTAL)
         {
             restricted = true;
-            attrResultTotalReqNr = _MAX_QUERY_TOTALREQNR;
+            attrResultTotalReqNr = MAX_QUERY_RESULT_TOTAL;
         }
     }
 

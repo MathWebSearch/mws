@@ -35,8 +35,8 @@ SET( MWS_VERSION
 SET( MWS_FULL_VERSION
     ${MWS_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL} )
 
-# Project variables
-SET(PROJECT_CONFIG_DIR # Configuration headers and input files
+# Project directories
+SET(PROJECT_CONFIG_DIR
     "${PROJECT_SOURCE_DIR}/config")
 SET(MWS_SRC_DIR   # MWS sources
     "${PROJECT_SOURCE_DIR}/src" )
@@ -55,20 +55,19 @@ SET(THIRD_PARTY_DIR
 
 SET(MATHMLTAGS_PATH ${PROJECT_BINARY_DIR}/src/crawler/utils/MwsMathMLTags.txt)
 SET(GETRESPONSE_PATH ${PROJECT_BINARY_DIR}/src/crawler/daemon/GetResponse.html)
-CONFIGURE_FILE(${PROJECT_CONFIG_DIR}/config.h.in
-        ${PROJECT_BINARY_DIR}/config.h)
-
 # Add local CMake module paths
 SET(CMAKE_MODULE_PATH
     "${CMAKE_MODULE_PATH}"
     "${MWS_SCRIPT_DIR}/cmake-modules"
     "${THIRD_PARTY_DIR}/cmake-modules")
 
-#      Options                 Description                             Default
-OPTION(WITH_MWS                "build MathWebSearch daemon"            ON )
-OPTION(WITH_CRAWLER            "build MWS crawlers"                    OFF )
-OPTION(WITH_DOC                "build MWS documentation"               OFF )
-OPTION(WITH_TEST               "build test suites"                     ON )
+#      Options              Description                     Default
+OPTION(WITH_MWS             "build MathWebSearch daemon"    ON )
+OPTION(WITH_CRAWLER         "build MWS crawlers"            OFF )
+OPTION(WITH_DOC             "build MWS documentation"       OFF )
+OPTION(WITH_TEST            "build test suites"             ON )
+
+OPTION(APPLY_RESTRICTIONS   "apply restrictions to queries" OFF )
 
 # Select build type
 SET(DEFAULT_CMAKE_BUILD_TYPE "Debug")
@@ -81,10 +80,7 @@ SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING
     "Choose the type of build: Debug Release RelWithDebInfo MinSizeRel."
     FORCE)
 
-# Apply restrictions
-#ADD_DEFINITIONS("-D_APPLYRESTRICT")
-
-# Build Flags
+# Compiler flags
 SET(COMMON_FLAGS
     "-Wall -W -Wextra -Wno-flexible-array-extensions")
 SET(CMAKE_C_FLAGS
@@ -93,11 +89,14 @@ SET(CMAKE_CXX_FLAGS
     "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS} -std=c++0x")
 
 # Global include paths
-INCLUDE_DIRECTORIES( "${MWS_SRC_DIR}"               # src dir
-                     "${PROJECT_CONFIG_DIR}"        # configuration dir
-                     "${CMAKE_CURRENT_BINARY_DIR}") # generated files dir
+INCLUDE_DIRECTORIES( "${MWS_SRC_DIR}"               # source files
+                     "${CMAKE_CURRENT_BINARY_DIR}") # generated files
 
-# common libraries
+# Generate configuration file
+CONFIGURE_FILE(${PROJECT_CONFIG_DIR}/config.h.in
+        ${PROJECT_BINARY_DIR}/build-gen/config.h)
+
+# Common libraries
 ADD_SUBDIRECTORY( "${MWS_SRC_DIR}/common" )
 IF ( WITH_TEST )
     ENABLE_TESTING()

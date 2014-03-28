@@ -38,7 +38,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 #include "MwsCrawler.hpp"
-#include "rest/types/MwsConnection.hpp"
 #include "crawler/types/Robotstxt.hpp"
 #include "crawler/types/SharedQueue.hpp"
 #include "crawler/utils/MwsGetMath.hpp"
@@ -223,12 +222,6 @@ void Crawler::run(SharedQueue *sq,const char* dataDir)
  */
 void Crawler::storeMath(const char *xml)
 {
-
-    MwsConnection mwsConn;
-    mwsConn.connect();
-    mwsConn.write((void*) xml, strlen(xml) );
-    mwsConn.signalEnd();
-
     stringstream strs;
     strs << data_directory << "/harvest" << time(NULL) << ".xml";
     string fileName;

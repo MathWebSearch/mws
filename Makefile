@@ -20,24 +20,24 @@
 # Makefile --
 #
 
-all: build/cmake_done_config
-	@cd build && make --no-print-directory $@
+all: bin/cmake_done_config
+	@cd bin && make --no-print-directory $@
 
 clean:
-	@rm -rf build
+	@rm -rf bin
 
-%: build/cmake_done_config
-	@cd build && make --no-print-directory $@
+%: bin/cmake_done_config
+	@cd bin && make --no-print-directory $@
 
-config: build/cmake_done_config
-	@ccmake build/
+config: bin/cmake_done_config
+	@ccmake bin/
 
-test: build/cmake_done_config all
-	@cd build && make --no-print-directory $@
+test: bin/cmake_done_config all
+	@cd bin && make --no-print-directory $@
 
-build/cmake_done_config:
-	@mkdir -p build
-	@cd build && cmake ..
-	@touch build/cmake_done_config
+bin/cmake_done_config:
+	@mkdir -p bin
+	@cd bin && cmake ..
+	@touch bin/cmake_done_config
 
 .PHONY: all clean config test

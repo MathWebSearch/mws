@@ -85,6 +85,9 @@ FlagParser::parse(const int   argc,
     const struct option            zeroOpt = {0, 0, 0, 0};
     int                            optIndex;
 
+    // Add help flag
+    addFlag('h', "help", FLAG_OPT, ARG_NONE);
+
     // Storing program name
     _progName = argv[0];
 
@@ -116,10 +119,17 @@ FlagParser::parse(const int   argc,
 
     while ((ch = getopt_long(argc, argv,
                              optString.c_str(),
-                             &longOpts[0],
+                             longOpts.data(),
                              &optIndex))
             != -1)
     {
+        // Handle -h / --help
+        if (ch == 'h') {
+            fprintf(stdout, "%s", getUsage().c_str());
+            exit(EXIT_SUCCESS);
+        }
+
+        // Record flags (and arguments)
         if ((it = _flagOpts.find(ch))
                 != _flagOpts.end())
         {

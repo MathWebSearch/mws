@@ -218,7 +218,7 @@ my_MHD_AccessHandlerCallback(void*                  cls,
     }
 
     // Process query
-#ifdef _APPLYRESTRICT
+#ifdef APPLY_RESTRICTIONS
     mwsQuery->applyRestrictions();
 #endif
     Daemon* daemon = (Daemon*) cls;

@@ -4,9 +4,9 @@ MathWebSearch [![Build Status](https://secure.travis-ci.org/KWARC/mws.png?branch
 About
 -----
 The MathWebSearch system (MWS) is a content-based search engine for mathematical
-formulae. It indexes  OpenMath and  MathML formulae, using a technique derived
-from automated theorem proving: Substitution Tree Indexing. The software is
-licensed under the  GNU General Public License.
+formulae. It indexes MathML formulae, using a technique derived from automated
+theorem proving: Substitution Tree Indexing. The software is licensed under the
+GNU General Public License version 3.
 
 Content
 -------
@@ -27,7 +27,8 @@ using the following command:
 
 	make
 
-To select which components to compile, use:
+Binaries are built in the `bin/` directory. To select extra components to
+compile, use:
 
 	make config
 
@@ -35,12 +36,9 @@ To run the tests, use:
 
 	make test
 
-For more details about these targets, see 3.2
-
 Dependencies
 ------------
-The core executable (mwsd) requires:
-
+The core executable `mwsd` requires:
   - g++ (with pthread) (>= 4.4)
   - cmake              (>= 2.6)
   - libmicrohttpd      (>= 0.4)
@@ -51,15 +49,13 @@ The core executable (mwsd) requires:
   - libsnappy
   - libjson-c
 
-The Crawler executables (xhtml2harvests) requires:
-
+The crawler executable `xhtml2harvests` requires:
   - libhtmlcxx-dev
   - libicu-dev
   - libcurl3
   - libcurl4-gnutls-dev
 
-The doc target requires:
-
+The `doc` target requires:
   - doxygen
 
 Makefile targets
@@ -81,25 +77,33 @@ Another way to generate harvests is via `xhtml2harvests`. This takes as
 arguments XHTML documents and crawls them, creating harvests files. To
 crawl a repository of XHTML documents, use:
 
-    find . -name *.xhtml | xargs -n 10 xhtml2harvests -O /path/to/store/harvests
+    find . -name *.xhtml | xargs -n 10 bin/xhtml2harvests -O /path/to/harvests
 
-The main server will start by running the executable `mwsd`. This takes
-as argument a harvest include path which is used to load math data which
-will be served on a port via HTTP:
+The executable `mwsd` starts the main MWS server. This takes as argument a
+harvest include path which is used to load document data, and a port which
+where the data is served via HTTP. It accepts HTTP POST requests with
+[MWS Queries](https://trac.mathweb.org/MWS/wiki/MwsQuery) and returns
+[MWS Answer Sets](https://trac.mathweb.org/MWS/wiki/MwsAnswset).
 
-	mwsd -I <harvest include dir> -p <port number>
+	bin/mwsd -I <harvest include dir> -p <port number>
 
-To setup or remove mwsd as a global SysV service, use (as root):
+For additional options, see:
+
+    bin/mwsd --help
+    bin/xhtml2harvests --help
+
+To setup or remove `mwsd` as a global SysV service, use (as root):
 
 	scripts/sysv/deploy.sh config/mws_services.conf
 	scripts/sysv/remove.sh config/mws_services.conf
 
-The provided [config file](config/mws_services.conf) sets up MathWebSearch to
-use the [ZBL demo harvests](data/zbl/). To start/stop services, use
+The provided [configuration file](config/mws_services.conf) sets up
+MathWebSearch to serve the [ZBL demo harvests](data/zbl/). To start or
+stop the service, use
 
-	service mwsd_arxivdemo [start|stop|status|...]
+	service mwsd_zbldemo [start|stop|status|...]
 
-Output is logged to /var/log/mwsd.log. To serve different harvest
+Output is logged to `/var/log/mwsd_zbldemo.log`. To serve different harvest
 paths, create your own configuration file and deploy the service.
 
 Copyright

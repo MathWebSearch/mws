@@ -35,7 +35,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
-#include "crawler/utils/memstream.h"
+#include "common/utils/memstream.h"
 
 #include "MathParser.hpp"
 

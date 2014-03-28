@@ -36,7 +36,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "crawler/crawler/MwsCrawler.hpp"
 #include "common/utils/FlagParser.hpp"
 #include "common/thread/ThreadWrapper.hpp"
-#include "config.h"
+
+#include "build-gen/config.h"
 
 using namespace std;
 using namespace common::utils;

@@ -28,9 +28,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 
 // Local includes
-#include "Robotstxt.hpp"
+#include "common/utils/memstream.h"
 #include "crawler/utils/Page.hpp"
-#include "crawler/utils/memstream.h"
+#include "Robotstxt.hpp"
 
 // Third Party includes
 #include "gurl.h"

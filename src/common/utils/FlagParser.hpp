@@ -91,6 +91,9 @@ public:
       * @param argc the argument count
       * @param argv the array of C strings containing the arguments
       * @return 0 on success and non-zero on failure.
+      *
+      * Note that this method will print usage and exit if the "help/h" flag
+      * is present
       */
     static int parse(const int   argc,
                      char* const argv[]);

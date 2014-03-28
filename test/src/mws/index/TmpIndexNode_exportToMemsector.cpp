@@ -39,7 +39,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
 
-#include "config.h"
+#include "build-gen/config.h"
 
 #define DEFAULT_TMP_MEMSECTOR_PATH  "/tmp/test.memsector"
 #define DEFAULT_MEMSECTOR_SIZE      200 * 1024 * 1024

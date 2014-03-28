@@ -31,16 +31,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <signal.h>
 
 #include <string>
+using std::string;
 #include <vector>
+using std::vector;
 
 #include "common/utils/FlagParser.hpp"
 #include "common/utils/save_pid_file.h"
 #include "mws/daemon/IndexDaemon.hpp"
 #include "mws/index/memsector.h"
-#include "config.h"
 
-using std::vector;
-using std::string;
+#include "build-gen/config.h"
 
 using namespace common::utils;
 
