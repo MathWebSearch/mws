@@ -101,6 +101,7 @@ typedef uint8_t     Arity;
 /// Sort names and Ids
 typedef std::string SortName;
 typedef uint8_t SortId;
+#define UNIVERSAL_SORT "any"
 
 typedef std::pair<Arity, SortId> NodeType;
 

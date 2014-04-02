@@ -1,4 +1,4 @@
-SORTS: any complex real rational integer natural
+SORTS: complex real rational integer natural
 FUNCTION: quotient integer integer integer
 FUNCTION: exp real real
 FUNCTION: divide complex complex complex

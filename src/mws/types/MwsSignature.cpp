@@ -63,12 +63,15 @@ bool FunctionSignature::doesApply(vector< SortId > sorts) {
 
 MwsSignature::MwsSignature(types::MeaningDictionary* meaningDictionary)
     : m_meaningDictionary(meaningDictionary) {
+
+    m_sortsDictionary.put( UNIVERSAL_SORT );
+    m_sortsNames.push_back( UNIVERSAL_SORT );
 }
 
 
 SortId
 MwsSignature::getLargestSort() {
-    return getSort("any");
+    return getSort( UNIVERSAL_SORT );
 }
 
 SortId
@@ -97,13 +100,13 @@ SortId
 MwsSignature::getSortFunctionApplication(vector< pair<MeaningId, SortId> > function) {
     MeaningId applyMeaningId = m_meaningDictionary->get("apply") + CONSTANT_ID_MIN; // Hack
     if (function.size() < 2 && function[0].first != applyMeaningId) {
-        return m_sortsDictionary.get("any");
+        return m_sortsDictionary.get( UNIVERSAL_SORT );
     }
     vector<SortId> sorts;
     for(unsigned int i=2; i<function.size(); ++i) {
         sorts.push_back( function[i].second );
     }
-    SortId sortId = m_sortsDictionary.get("any"), newSortId;
+    SortId sortId = m_sortsDictionary.get( UNIVERSAL_SORT ), newSortId;
     vector<FunctionSignature>::iterator it;
     for(it = m_functionSignatures.begin(); it != m_functionSignatures.end(); it++ ) {
         if (it->m_functionName == function[1].first) {
@@ -133,12 +136,14 @@ vector<string> splitLine(string line) {
 
 int
 MwsSignature::readSignatures(string signatureFile) {
+    if (signatureFile == "") {
+        return 0;
+    }
 
     SortId              newSortId;
     vector<SortId>      functionInput;
     SortId              functionOutput;
     vector<string>      args;
-
 
     ifstream _fstream;
     _fstream.open(signatureFile);

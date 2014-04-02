@@ -229,8 +229,13 @@ int initMws(const Config& config)
     data = new MwsIndexNode();
     meaningDictionary = new MeaningDictionary();
     mwsSignature = new MwsSignature(meaningDictionary);
-    if (!mwsSignature->readSignatures("../data/sortedunif/sorts.txt")) {
-        fprintf(stderr, "Error while loading sorts in the signature\n");
+    if (config.signatureFile != "") {
+        fprintf(stderr, "Loading signature file from %s ... ", config.signatureFile.c_str());
+        if (!mwsSignature->readSignatures(config.signatureFile)) {
+            fprintf(stderr, "Error while reading signature file. \nUsing no signature\n");
+        } else {
+            fprintf(stderr, "loaded \n");
+        }
     }
 
     indexManager = new index::IndexManager(formulaDb, crawlDb, data,

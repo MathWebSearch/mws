@@ -47,6 +47,7 @@ struct Config {
     std::string              dataPath;
     bool                     useLevelDb;
     std::string              harvestFileExtension;
+    std::string              signatureFile;
 };
 
 int mwsDaemonLoop(const Config& config);

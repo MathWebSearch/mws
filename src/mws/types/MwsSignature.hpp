@@ -57,14 +57,15 @@ public:
 };
 
 class MwsSignature {
-public:
-    static const SortId SORT_NOT_FOUND = SortsDictionary::KEY_NOT_FOUND;
-
+private:
     std::vector<SortName> m_sortsNames;
 
     std::vector<FunctionSignature> m_functionSignatures;
     SortsDictionary m_sortsDictionary;
     types::MeaningDictionary* m_meaningDictionary;
+
+public:
+    static const SortId SORT_NOT_FOUND = SortsDictionary::KEY_NOT_FOUND;
 
     MwsSignature(types::MeaningDictionary* meaningDictionary);
     SortId getLargestSort();

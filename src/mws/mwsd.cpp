@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('r', "recursive",            FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('L', "leveldb",              FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('s', "signature-file",       FLAG_OPT, ARG_REQ);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
@@ -118,6 +119,15 @@ int main(int argc, char* argv[]) {
             goto failure;
         }
     }
+
+    // sort signature (\Sigma) file
+    if (FlagParser::hasArg('s')) {
+        config.signatureFile = FlagParser::getArg('s');
+    } else {
+        fprintf(stderr, "Using no signature\n");
+        config.signatureFile = "";
+    }
+
 
 #ifndef __APPLE__
     // daemon
