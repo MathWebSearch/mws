@@ -10,25 +10,27 @@ GNU General Public License version 3.
 
 Content
 -------
-* `LICENSE` copy of the license under which this software is distributed
-* `TODO` project TODOs which have not materialized into tickets
-* `CMakeLists.txt`  cmake build script
-* `data/` data used for demo running MWS
-* `doc/` documentation and design
+* `config/` configuration files
+* `data/` data used to run a MWS demo
 * `scripts/` utility scripts
 * `src/` source code
 * `test/` test source code and data
 * `third_party/` third party source code
+* `CMakeLists.txt` CMake build script
+* `LICENSE` copy of the license under which this software is distributed
+* `Makefile` build makefile
+* `README.md` documentation overview about the project
+* `TODO` project TODOs which have not materialized into tickets
 
 Compiling and Testing
 ---------------------
-Compiling of the source tree is automated via cmake. You can build the sources
+Compiling of the source tree is automated via CMake. You can build the sources
 using the following command:
 
 	make
 
-Binaries are built in the `bin/` directory. To select extra components to
-compile, use:
+Binaries are built in the `bin/` directory, while documentation in `bin/docs`.
+To select or de-select which components to compile, use:
 
 	make config
 
@@ -38,24 +40,25 @@ To run the tests, use:
 
 Dependencies
 ------------
-The core executable `mwsd` requires:
+To build this software, one needs:
   - g++ (with pthread) (>= 4.4)
   - cmake              (>= 2.6)
-  - libmicrohttpd      (>= 0.4)
   - make
   - pkg-config
+
+The core MathWebSearch executables require:
+  - libmicrohttpd      (>= 0.4)
   - libxml2
   - libleveldb
   - libsnappy
   - libjson-c
 
-The crawler executable `xhtml2harvests` requires:
+The crawler executables require:
   - libhtmlcxx-dev
   - libicu-dev
-  - libcurl3
   - libcurl4-gnutls-dev
 
-The `doc` target requires:
+The documentation target requires:
   - doxygen
 
 Makefile targets

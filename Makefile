@@ -20,24 +20,32 @@
 # Makefile --
 #
 
-all: bin/cmake_done_config
+all: bin/cmake_bootstrap_success
 	@cd bin && make --no-print-directory $@
 
 clean:
 	@rm -rf bin
 
-%: bin/cmake_done_config
-	@cd bin && make --no-print-directory $@
-
-config: bin/cmake_done_config
+config: bin/CMakeCache.txt
 	@ccmake bin/
 
-test: bin/cmake_done_config all
+test: bin/cmake_bootstrap_success all
 	@cd bin && make --no-print-directory $@
 
-bin/cmake_done_config:
+# CMake setup
+bin/CMakeCache.txt:
+	@mkdir -p bin
+	-@cd bin && cmake ..
+
+# CMake successful setup
+bin/cmake_bootstrap_success:
 	@mkdir -p bin
 	@cd bin && cmake ..
-	@touch bin/cmake_done_config
+	@touch bin/cmake_bootstrap_success
+
+# Forward targets to cmake generated makefile
+%: bin/cmake_bootstrap_success
+	@cd bin && make --no-print-directory $@
 
 .PHONY: all clean config test
+.SECONDARY: bin/cmake_bootstrap_success

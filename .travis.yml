@@ -7,11 +7,14 @@ install:
  - sudo apt-get install cmake
  - sudo apt-get install make
  - sudo apt-get install pkg-config
+ - sudo apt-get install libmicrohttpd-dev
  - sudo apt-get install libxml2-dev
  - sudo apt-get install libleveldb-dev
  - sudo apt-get install libsnappy-dev
  - sudo apt-get install libjson0-dev
- - sudo apt-get install libmicrohttpd-dev
+ - sudo apt-get install libhtmlcxx-dev
+ - sudo apt-get install libicu-dev
+ - sudo apt-get install libcurl4-*-dev
 
 language: cpp
 compiler:

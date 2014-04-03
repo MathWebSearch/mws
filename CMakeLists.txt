@@ -63,9 +63,8 @@ SET(CMAKE_MODULE_PATH
 
 #      Options              Description                     Default
 OPTION(WITH_MWS             "build MathWebSearch daemon"    ON )
-OPTION(WITH_CRAWLER         "build MWS crawlers"            OFF )
+OPTION(WITH_CRAWLER         "build MWS crawlers"            ON )
 OPTION(WITH_DOC             "build MWS documentation"       OFF )
-OPTION(WITH_TEST            "build test suites"             ON )
 
 OPTION(APPLY_RESTRICTIONS   "apply restrictions to queries" OFF )
 
@@ -96,20 +95,16 @@ INCLUDE_DIRECTORIES( "${MWS_SRC_DIR}"               # source files
 CONFIGURE_FILE(${PROJECT_CONFIG_DIR}/config.h.in
         ${PROJECT_BINARY_DIR}/build-gen/config.h)
 
+ENABLE_TESTING()
+
 # Common libraries
 ADD_SUBDIRECTORY( "${MWS_SRC_DIR}/common" )
-IF ( WITH_TEST )
-    ENABLE_TESTING()
-    ADD_SUBDIRECTORY( "${MWS_TSTSRC_DIR}/common" )
-ENDIF ( WITH_TEST )
+ADD_SUBDIRECTORY( "${MWS_TSTSRC_DIR}/common" )
 
 # MWS daemon
 IF ( WITH_MWS )
     ADD_SUBDIRECTORY( "${MWS_SRC_DIR}/mws" )
-    IF ( WITH_TEST )
-        ENABLE_TESTING()
-        ADD_SUBDIRECTORY( "${MWS_TSTSRC_DIR}/mws" )
-    ENDIF ( WITH_TEST )
+    ADD_SUBDIRECTORY( "${MWS_TSTSRC_DIR}/mws" )
 ENDIF ( WITH_MWS )
 
 # MWS Crawlers
