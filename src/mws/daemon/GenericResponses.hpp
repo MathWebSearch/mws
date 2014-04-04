@@ -57,16 +57,16 @@ sendXmlGenericResponse(struct MHD_Connection* connection,
     struct MHD_Response* response;
     int                  ret;
 
-#ifdef _MICROHTTPD_DEPRECATED
+#ifdef MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_data(strlen(xmlGenericResponse),
                                              (void*) xmlGenericResponse,
                                              /* must_free = */ 0,
                                              /* must_copy = */ 0);
-#else // _MICROHTTPD_DEPRECATED
+#else // MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_buffer(strlen(xmlGenericResponse),
                                                (void*) xmlGenericResponse,
                                                MHD_RESPMEM_PERSISTENT);
-#endif // _MICROHTTPD_DEPRECATED
+#endif // MICROHTTPD_DEPRECATED
     MHD_add_response_header(response,
                             "Content-Type", "text/xml");
     ret = MHD_queue_response(connection,
@@ -83,16 +83,16 @@ sendOptionsResponse(struct MHD_Connection* connection)
     struct MHD_Response* response;
     int                  ret;
 
-#ifdef _MICROHTTPD_DEPRECATED
+#ifdef MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_data(strlen(EMPTY_RESPONSE),
                                              (void*) EMPTY_RESPONSE,
                                              false,
                                              false);
-#else // _MICROHTTPD_DEPRECATED
+#else // MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_buffer(strlen(EMPTY_RESPONSE),
                                                (void*) EMPTY_RESPONSE,
                                                MHD_RESPMEM_PERSISTENT);
-#endif // _MICROHTTPD_DEPRECATED
+#endif // MICROHTTPD_DEPRECATED
     MHD_add_response_header(response,
                             "Content-Type", "text/plain");
     MHD_add_response_header(response,

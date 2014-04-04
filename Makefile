@@ -24,7 +24,7 @@ all: bin/cmake_bootstrap_success
 	@cd bin && make --no-print-directory $@
 
 clean:
-	@rm -rf bin
+	@rm -rf bin/ build/
 
 config: bin/CMakeCache.txt
 	@ccmake bin/

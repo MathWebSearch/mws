@@ -254,7 +254,7 @@ my_MHD_AccessHandlerCallback(void*                  cls,
     // Compose and send response
     MemStream::Buffer responseDataBuffer = responseData.releaseOutputBuffer();
     struct MHD_Response* response;
-#ifndef _MICROHTTPD_DEPRECATED
+#ifndef MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_buffer(responseDataBuffer.size,
                                                responseDataBuffer.data,
                                                MHD_RESPMEM_MUST_FREE);

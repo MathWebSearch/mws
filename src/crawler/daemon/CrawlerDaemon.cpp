@@ -64,16 +64,16 @@ cd_SendPageThroughConnection (struct MHD_Connection *connection, const char *pag
     int ret;
     struct MHD_Response *response;
 
-#ifndef _MICROHTTPD_DEPRECATED
+#ifndef MICROHTTPD_DEPRECATED
     response =
             MHD_create_response_from_buffer (strlen (page), (void *) page,
                                              MHD_RESPMEM_PERSISTENT);
-#else // _MICROHTTPD_DEPRECATED
+#else // MICROHTTPD_DEPRECATED
     response = MHD_create_response_from_data(strlen(page),
                                              (void*) page,
                                              MHD_NO,
                                              MHD_NO);
-#endif // _MICROHTTPD_DEPRECATED
+#endif // MICROHTTPD_DEPRECATED
     if (!response)
         return MHD_NO;
 
