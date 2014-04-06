@@ -68,8 +68,6 @@ struct MwsQuery_SaxUserData
     types::CmmlToken*              currentToken;
     /// The root of the token being currently parsed
     types::CmmlToken*              currentTokenRoot;
-    /// The stack containing the parent CMML Tokens
-    std::stack<types::CmmlToken*>  processStack;
     /// State of the parsing
     mws::MwsQueryState           state;
     /// State of the parsing before going into an unknown state

@@ -92,8 +92,6 @@ struct MwsHarvest_SaxUserData
     types::CmmlToken*               currentToken;
     /// The root of the token being currently parsed
     types::CmmlToken*               currentTokenRoot;
-
-    types::CmmlToken*               math;
     /// State of the parsing before going into an unknown state
     MwsHarvestState         prevState;
     /// True if an XML structural error is detected
@@ -121,7 +119,6 @@ struct MwsHarvest_SaxUserData
         unknownDepth(0),
         currentToken(NULL),
         currentTokenRoot(NULL),
-        math(NULL),
         prevState(MWSHARVESTSTATE_DEFAULT),
         errorDetected(false),
         parsedExpr(0),
