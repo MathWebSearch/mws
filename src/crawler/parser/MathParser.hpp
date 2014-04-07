@@ -21,13 +21,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Function to extract MathML formulas from a website
  * coded in HTML or XHTML
- * @file MathParser.hpp
  *
- * date: 15 Aug 2012
+ * @file MathParser.hpp
+ * @date 15 Aug 2012
  */
 #ifndef _CRAWLER_PARSER_MATHPARSER_HPP
 #define _CRAWLER_PARSER_MATHPARSER_HPP
 
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -40,10 +41,13 @@ namespace parser {
  * @param data_id
  *
  * @return vector of harvest data and expressions
+ *
+ * @throw runtime_error with the message
  */
 std::vector<std::string> getHarvestFromDocument(const string& content,
                                                 const string& url,
-                                                const int data_id);
+                                                const int data_id)
+throw (std::runtime_error);
 
 }  // namespace parser
 }  // namespace crawler

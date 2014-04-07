@@ -29,6 +29,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * License: GPL v3
   */
 
+#include <stdexcept>
 #include <string>
 #include <functional>
 
@@ -41,7 +42,7 @@ namespace common { namespace utils {
 bool hasSuffix(const std::string& str, const std::string& suffix);
 
 std::string
-getFileContents(const std::string& path);
+getFileContents(const std::string& path) throw (std::runtime_error);
 
 typedef std::function<int (const std::string& fullPath,
                            const std::string& directoryPartialPath)>

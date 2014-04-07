@@ -43,6 +43,7 @@ using namespace std;
 #include "crawler/parser/MathParser.hpp"
 using namespace crawler::parser;
 
+#include "common/utils/compiler_defs.h"
 #include "common/utils/FlagParser.hpp"
 #include "common/utils/util.hpp"
 using namespace common::utils;
@@ -89,30 +90,26 @@ int main(int argc, char *argv[])
         const vector<string>& files = FlagParser::getParams();
         int data_id = 0;
         for (const string& file : files) {
-            string url = root + file;
-            string content = getFileContents(file.c_str());
-            vector<string> elements =
-                    getHarvestFromDocument(content, url, data_id);
-
-            if (elements.size() == 0) {
-                fprintf(stderr, "%s: %s: Could not find any Content MathML\n",
-                        argv[0], file.c_str());
-                continue;
+            const string url = root + file;
+            try {
+                const string content = getFileContents(file.c_str());
+                vector<string> elements =
+                        getHarvestFromDocument(content, url, data_id);
+                PRINT_LOG("Parsed %s: %zd math elements\n",
+                          url.c_str(), elements.size());
+                for (const string& element : elements) {
+                    fputs(element.c_str(), harvest);
+                }
+            } catch (exception& e) {
+                PRINT_WARN("%s\n", e.what());
             }
-
-
-            for (const string& element : elements) {
-                fputs(element.c_str(), harvest);
-            }
-
-            ++data_id;
+            data_id++;
         }
     }
     fputs("</mws:harvest>\n", harvest);
-
     fclose(harvest);
 
-    printf("Generated harvest %s\n", harvest_templ);
+    PRINT_LOG("Written harvest %s\n", harvest_templ);
     return EXIT_SUCCESS;
 
 failure:

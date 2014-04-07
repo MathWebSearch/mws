@@ -59,23 +59,24 @@ bool hasSuffix(const std::string& str, const std::string& suffix) {
 }
 
 std::string
-getFileContents(const std::string& path) {
-    string contents;
-
+getFileContents(const std::string& path) throw (runtime_error) {
     try {
-        ifstream in(path, std::ios::in | std::ios::binary);
-        if (in.good()) {
-            in.seekg(0, std::ios::end);
-            contents.resize(in.tellg());
-            in.seekg(0, std::ios::beg);
-            in.read(&contents[0], contents.size());
-            in.close();
-        }
+        string contents;
+        ifstream file;
+        file.exceptions(ifstream::failbit | ifstream::badbit);
+        // Find file size
+        file.open(path, std::ios::in | std::ios::binary);
+        file.seekg(0, std::ios::end);
+        contents.resize(file.tellg());
+        // Rewind file
+        file.seekg(0, std::ios::beg);
+        // Read into string
+        file.read(&contents[0], contents.size());
+        file.close();
+        return contents;
     } catch (...) {
-        throw runtime_error(strerror(errno));
+        throw runtime_error(path + ": " + strerror(errno));
     }
-
-    return contents;
 }
 
 struct FileData {
