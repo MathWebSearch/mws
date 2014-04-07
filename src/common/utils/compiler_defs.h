@@ -29,7 +29,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-
 #include <stdio.h>
 
 /* BEGIN_DECLS */
@@ -64,12 +63,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define PACKED      __attribute__ ((__packed__))    // GNU and Clang specific
 
 /* BREAKPOINT */
-#define BREAKPOINT  asm("int $3");  // GNU specific
-
-/* QUOTEMACRO */
-#define QUOTEMACRO_(x) #x
-/// Method to quote a macro
-#define QUOTEMACRO(x) QUOTEMACRO_(x)
+#define BREAKPOINT  asm("int $3");  // Platform specific
 
 /* UNUSED */
 /// Method to notify unused variables
@@ -89,14 +83,22 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
             __FILE__, __LINE__, ##__VA_ARGS__)
 
 /* PRINT_LOG */
+extern int verbose;
 /// Print formatted log
-#define PRINT_LOG(x, ...) \
-    fprintf(stdout, "L: %20s | L %5d | " x, \
-            __FILE__, __LINE__, ##__VA_ARGS__)
+#define PRINT_LOG(fmt, ...)                                                 \
+    do {                                                                    \
+        if (verbose) {                                                      \
+            fprintf(stdout, "L: %20s | L %5d | " fmt,                       \
+                    __FILE__, __LINE__, ##__VA_ARGS__);                     \
+        } else {                                                            \
+            fprintf(stdout, fmt, ##__VA_ARGS__);                            \
+        }                                                                   \
+    } while (0)
 
 /* FAIL_ON */
 /// Print argument and jump to fail label
-#define FAIL_ON(x) do {                                                     \
+#define FAIL_ON(x)                                                          \
+    do {                                                                    \
         if (x) {                                                            \
             fprintf(stderr, "%s:%d: "#x"\n",                                \
                     __FILE__, __LINE__);                                    \

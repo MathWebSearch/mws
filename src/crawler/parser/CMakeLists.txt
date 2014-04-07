@@ -39,5 +39,4 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       ${LIBXML2_LIBRARIES}
-                      crawlerutils
                       )

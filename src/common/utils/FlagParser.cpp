@@ -47,6 +47,8 @@ using namespace std;
 
 // Static declarations
 
+int verbose;
+
 namespace common { namespace utils {
 
 string                     FlagParser::_progName;
@@ -54,7 +56,6 @@ map<char, FlagOpt>         FlagParser::_flagOpts;
 map<char, vector<string> > FlagParser::_parsedArgs;
 vector<string>             FlagParser::_params;
 int                        FlagParser::_minNumParams = -1;
-
 
 void
 FlagParser::addFlag(const char    aShortOpt,
@@ -85,8 +86,9 @@ FlagParser::parse(const int   argc,
     const struct option            zeroOpt = {0, 0, 0, 0};
     int                            optIndex;
 
-    // Add help flag
+    // Add help and verbose flags
     addFlag('h', "help", FLAG_OPT, ARG_NONE);
+    addFlag('v', "verbose", FLAG_OPT, ARG_NONE);
 
     // Storing program name
     _progName = argv[0];
@@ -127,6 +129,12 @@ FlagParser::parse(const int   argc,
         if (ch == 'h') {
             fprintf(stdout, "%s", getUsage().c_str());
             exit(EXIT_SUCCESS);
+        }
+
+        // Handle -v / --verbose
+        if (ch == 'v') {
+            fprintf(stdout, "%s: verbose mode\n", argv[0]);
+            verbose = true;
         }
 
         // Record flags (and arguments)

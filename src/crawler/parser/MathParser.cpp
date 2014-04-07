@@ -28,6 +28,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
+#include <libxml/HTMLparser.h>
 #include <string.h>
 
 #include <string>
@@ -36,13 +37,14 @@ using std::string;
 using std::vector;
 
 #include "common/utils/memstream.h"
+#include "common/utils/compiler_defs.h"
 
 #include "MathParser.hpp"
 
 namespace crawler {
 namespace parser {
 
-static xmlDocPtr getXMLDoc(const char *buffer);
+static xmlDocPtr getXMLDoc(const char* url, const char *buffer, int size);
 static xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const xmlChar *xpath);
 static bool isValidXml(const string& xml);
 static void cleanContentMath(xmlNode* xmlNode);
@@ -51,18 +53,20 @@ static void renameXmlIdAttributes(xmlNode* xmlNode);
 static string xmlNodeToString(xmlDocPtr doc, xmlNode* xmlNode);
 
 const xmlChar MATHML_NAMESPACE[] = "http://www.w3.org/1998/Math/MathML";
-const xmlChar XPATH_CONTENT_MATH[] = "//m:math/m:semantics"
-        "/m:annotation-xml[@encoding='MathML-Content']/*";
+const xmlChar XPATH_CONTENT_MATH[] =
+        "//m:math/m:semantics/m:annotation-xml[@encoding='MathML-Content']/* |"
+        "//math/semantics/annotation-xml[@encoding='MathML-Content']/*";
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
 
-vector<std::string> getHarvestFromXhtml(const string& xhtml,
-                                        const int data_id) {
+vector<std::string> getHarvestFromDocument(const string& xhtml,
+                                           const string& url,
+                                           const int data_id) {
     vector<string> harvestExpressions;
 
-    xmlDocPtr doc = getXMLDoc(xhtml.c_str());
+    xmlDocPtr doc = getXMLDoc(url.c_str(), xhtml.c_str(), xhtml.size());
     if (doc != NULL) {
         xmlXPathObjectPtr result = getXMLNodeset(doc, XPATH_CONTENT_MATH);
 
@@ -110,17 +114,28 @@ vector<std::string> getHarvestFromXhtml(const string& xhtml,
 /*--------------------------------------------------------------------------*/
 
 static
-xmlDocPtr getXMLDoc(const char *buffer) {
-    int size = strlen(buffer);
+xmlDocPtr getXMLDoc(const char* url, const char *buffer, int size) {
     xmlDocPtr doc;
-    doc = xmlParseMemory(buffer, size);
 
-    if (doc == NULL) {
-        fprintf(stderr, "Document not parsed successfully. \n");
-        return NULL;
+    // Try as XHTML
+    doc = xmlReadMemory(buffer, size, url,
+            /* encoding = */ NULL,
+            XML_PARSE_NOWARNING | XML_PARSE_NOERROR);
+    if (doc != NULL) {
+        PRINT_LOG("Parsed XHTML %s\n", url);
+        return doc;
     }
 
-    return doc;
+    // Try as HTML
+    doc = htmlCtxtReadMemory(htmlNewParserCtxt(), buffer, size, url,
+            /* encoding = */ NULL,
+            HTML_PARSE_RECOVER | HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
+    if (doc != NULL) {
+        PRINT_LOG("Parsed HTML %s\n", url);
+        return doc;
+    }
+
+    return NULL;
 }
 
 static

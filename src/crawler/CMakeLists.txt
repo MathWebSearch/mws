@@ -27,8 +27,8 @@ ADD_SUBDIRECTORY( utils )               # crawlerutils
 INCLUDE_DIRECTORIES( "${GOOGLEURL_INCLUDES}" )
 
 # MWS stand-alone xhtml harvester
-ADD_EXECUTABLE( xhtml2harvests xhtml2harvests.cpp )
-TARGET_LINK_LIBRARIES( xhtml2harvests
+ADD_EXECUTABLE( docs2harvest docs2harvest.cpp )
+TARGET_LINK_LIBRARIES( docs2harvest
     crawlerutils
     crawlerparser
     crawlertypes
@@ -50,6 +50,6 @@ TARGET_LINK_LIBRARIES(crawlerd
 )
 
 # Output executables at the root of build tree
-SET_PROPERTY( TARGET xhtml2harvests crawlerd
+SET_PROPERTY( TARGET docs2harvest crawlerd
         PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )

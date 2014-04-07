@@ -31,20 +31,22 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 
-
-
-namespace crawler { namespace parser {
+namespace crawler {
+namespace parser {
 
 /**
- * @param xhtml XHTML content
- * @param url URL of the XHTML content to be attributed to the harvested
- * expressions
- * @return vector of harvested expressions
+ * @param content HTML or XHTML content
+ * @param url URL of the HTML or XHTML
+ * @param data_id
+ *
+ * @return vector of harvest data and expressions
  */
-std::vector<std::string> getHarvestFromXhtml(const std::string& xhtml,
-                                             const int data_id);
+std::vector<std::string> getHarvestFromDocument(const string& content,
+                                                const string& url,
+                                                const int data_id);
 
-} }
+}  // namespace parser
+}  // namespace crawler
 
 
 #endif // _CRAWLER_PARSER_MATHPARSER_HPP
