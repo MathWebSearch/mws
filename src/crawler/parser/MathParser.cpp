@@ -80,11 +80,14 @@ vector<string> getHarvestFromDocument(const string& xhtml,
         if (result != NULL) {
             xmlNodeSetPtr nodeSet = result->nodesetval;
             if (!xmlXPathNodeSetIsEmpty(nodeSet)) {
-                xmlNodePtr full_document = xmlDocGetRootElement(doc);
+                // Save escaped document as data
+                xmlChar* encodedData =
+                        xmlEncodeSpecialChars(doc, BAD_CAST xhtml.c_str());
                 string dataExpression = "<mws:data mws:data_id=\"" +
                         std::to_string(data_id) + "\">\n" +
-                        xmlNodeToString(doc, full_document) +
+                        (string) ((char*) encodedData) +
                         "</mws:data>\n";
+                xmlFree(encodedData);
                 harvestExpressions.push_back(dataExpression);
 
 
@@ -92,12 +95,14 @@ vector<string> getHarvestFromDocument(const string& xhtml,
                     xmlNode* cmmlNode = nodeSet->nodeTab[i];
                     xmlNode* math = getMathNodeFromContentMathNode(cmmlNode);
                     const xmlChar *id = xmlGetProp(math, BAD_CAST "id");
+                    string expressionUrl = "#" +
+                            ((id != NULL) ? string((char*)id) : "");
 
                     sanitizeMathML(doc, cmmlNode);
                     cleanContentMath(cmmlNode);
 
                     const string harvestExpression =
-                            "<mws:expr url=\"#" + string((char*)id) +
+                            "<mws:expr url=\"" + expressionUrl +
                             "\" mws:data_id=\"" + std::to_string(data_id) +
                             "\">\n" + xmlNodeToString(doc, cmmlNode) +
                             "</mws:expr>\n";
@@ -219,7 +224,7 @@ string xmlNodeToString(xmlDocPtr doc, xmlNode *xmlNode) {
     xmlElemDump(stream, doc, xmlNode);
     fclose(stream);
 
-    string content = (string) buf;;
+    string content = (string) buf;
     free(buf);
 
     return content;
