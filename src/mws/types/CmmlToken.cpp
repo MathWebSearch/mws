@@ -236,11 +236,8 @@ CmmlToken::getMeaning() const {
     string meaning;
     if (_tag == MWS_QVAR_MEANING) {
         meaning = MWS_QVAR_MEANING;
-    } else if (_tag == "apply" || _textContent.empty()) {
-        meaning = _tag;
     } else {
-        // to avoid ambiguity between <ci>eq</ci> and <m:eq/>
-        meaning = "#" + _textContent;
+        meaning = _tag + "#" + _textContent;
     }
 
     return meaning;
