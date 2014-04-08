@@ -188,7 +188,7 @@ FlagParser::parse(const int   argc,
         fprintf(stderr, "%s: No params are allowed\n", argv[0]);
         goto failure;
     } else if (_minNumParams > 0 && _params.size() < (size_t) _minNumParams) {
-        fprintf(stderr, "%s: At least %d params are requiered\n",
+        fprintf(stderr, "%s: At least %d params are required\n",
                 argv[0], _minNumParams);
         goto failure;
     }

@@ -33,30 +33,36 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <errno.h>
 #include <string.h>
 
+#include <stdexcept>
+using std::exception;
 #include <string>
+using std::string;
 #include <vector>
-#include <queue>
-#include <set>
-#include <fstream>
-using namespace std;
+using std::vector;
 
 #include "crawler/parser/MathParser.hpp"
-using namespace crawler::parser;
+using crawler::parser::Harvest;
+using crawler::parser::getHarvestFromDocument;
+using crawler::parser::cleanupMathParser;
 
 #include "common/utils/compiler_defs.h"
 #include "common/utils/FlagParser.hpp"
+using common::utils::FlagParser;
 #include "common/utils/util.hpp"
-using namespace common::utils;
+using common::utils::getFileContents;
 
+const char DEFAULT_OUTPUT_DIRECTORY[] = ".";
+const char DEFAULT_DOCUMENT_URI_XPATH[] =
+        "//*[local-name()='span' and @class='number']";
 
-int main(int argc, char *argv[])
-{
-    string outdir = ".";
-    string root   = "";
-    FILE* harvest = NULL;
+int main(int argc, char *argv[]) {
+    string outputDirectory = DEFAULT_OUTPUT_DIRECTORY;
+    string documentUriXpath = DEFAULT_DOCUMENT_URI_XPATH;
+    bool saveData = true;
 
-    FlagParser::addFlag('O', "outdir",  FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('R', "root",    FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('o', "output-directory",  FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('x', "document-uri-xpath", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('n', "no-data", FLAG_OPT, ARG_NONE);
     FlagParser::setMinNumParams(1);
 
     if (FlagParser::parse(argc, argv) != 0) {
@@ -64,20 +70,25 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    if (FlagParser::hasArg('O')) outdir = FlagParser::getArg('O');
-    if (FlagParser::hasArg('R')) root = FlagParser::getArg('R');
+    if (FlagParser::hasArg('O')) outputDirectory = FlagParser::getArg('o');
+    if (FlagParser::hasArg('x')) documentUriXpath = FlagParser::getArg('x');
+    saveData = !FlagParser::hasArg('n');
 
+    PRINT_LOG("Using output directory %s\n", outputDirectory.c_str());
+    PRINT_LOG("Using document title xpath %s\n", documentUriXpath.c_str());
+    atexit(cleanupMathParser);
 
-    string harvest_templ_str = outdir + "/harvest_XXXXXX.harvest";
-    char* harvest_templ = strdup(harvest_templ_str.c_str());
-    int harvest_fd = mkstemps(harvest_templ, /* suffixlen = */ 8);
-    if (harvest_fd < 0) {
+    string harvestPathTemplate = outputDirectory + "/harvest_XXXXXX.harvest";
+    char* harvestPath = strdup(harvestPathTemplate.c_str());
+    FILE* harvestOutStream = NULL;
+    int harvestFd = mkstemps(harvestPath, /* suffixlen = */ 8);
+    if (harvestFd < 0) {
         perror("mkstemp");
         goto failure;
     }
 
-    harvest = fdopen(harvest_fd, "w");
-    if (harvest == NULL) {
+    harvestOutStream = fdopen(harvestFd, "w");
+    if (harvestOutStream == NULL) {
         perror("fdopen");
         goto failure;
     }
@@ -85,35 +96,36 @@ int main(int argc, char *argv[])
     fputs("<?xml version=\"1.0\" ?>\n"
           "<mws:harvest xmlns:m=\"http://www.w3.org/1998/Math/MathML\"\n"
           "             xmlns:mws=\"http://search.mathweb.org/ns\">\n",
-          harvest);
+          harvestOutStream);
     {
         const vector<string>& files = FlagParser::getParams();
         int data_id = 0;
         for (const string& file : files) {
-            const string url = root + file;
             try {
                 const string content = getFileContents(file.c_str());
-                vector<string> elements =
-                        getHarvestFromDocument(content, url, data_id);
-                PRINT_LOG("Parsed %s: %zd math elements\n",
-                          url.c_str(), elements.size());
-                for (const string& element : elements) {
-                    fputs(element.c_str(), harvest);
+                Harvest harvest = getHarvestFromDocument(
+                            content, data_id, documentUriXpath, saveData);
+                fputs(harvest.dataElement.c_str(), harvestOutStream);
+                for (const string& element : harvest.contentMathElements) {
+                    fputs(element.c_str(), harvestOutStream);
                 }
+                PRINT_LOG("Parsed %s: %zd math elements\n",
+                          file.c_str(), harvest.contentMathElements.size());
             } catch (exception& e) {
-                PRINT_WARN("%s\n", e.what());
+                PRINT_WARN("Parsing %s: %s\n", file.c_str(), e.what());
             }
             data_id++;
         }
     }
-    fputs("</mws:harvest>\n", harvest);
-    fclose(harvest);
+    fputs("</mws:harvest>\n", harvestOutStream);
+    fclose(harvestOutStream);
 
-    PRINT_LOG("Written harvest %s\n", harvest_templ);
+    PRINT_LOG("Written harvest %s\n", harvestPath);
+
     return EXIT_SUCCESS;
 
 failure:
-    if (harvest) fclose(harvest);
+    if (harvestOutStream) fclose(harvestOutStream);
 
     return EXIT_FAILURE;
 }

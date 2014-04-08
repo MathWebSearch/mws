@@ -35,6 +35,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace crawler {
 namespace parser {
 
+struct Harvest {
+    std::string dataElement;
+    std::vector<std::string> contentMathElements;
+};
+
 /**
  * @param content HTML or XHTML content
  * @param url URL of the HTML or XHTML
@@ -44,10 +49,17 @@ namespace parser {
  *
  * @throw runtime_error with the message
  */
-std::vector<std::string> getHarvestFromDocument(const string& content,
-                                                const string& url,
-                                                const int data_id)
+Harvest getHarvestFromDocument(const std::string& content,
+                               const int data_id,
+                               const std::string& title_xpath,
+                               bool save_data)
 throw (std::runtime_error);
+
+/**
+ * @brief cleanupMathParser should be called at the end of the process to
+ * release all libxml global resources
+ */
+void cleanupMathParser();
 
 }  // namespace parser
 }  // namespace crawler
