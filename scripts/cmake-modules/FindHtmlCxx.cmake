@@ -16,46 +16,45 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
+# Find htmlcxx headers and libraries.
 #
-# JSON_FOUND - system has LibJson
-# JSON_INCLUDE_DIRS - Json include directory
-# JSON_LIBRARIES - Link these to use Json
+#  HTMLCXX_INCLUDE_DIRS - where to find htmlcxx/html/tree.h, etc.
+#  HTMLCXX_LIBRARIES    - List of libraries when using HTMLCXX.
+#  HTMLCXX_FOUND        - True if HTMLCXX found.
 
-IF (JSON_INCLUDE_DIRS AND JSON_LIBRARIES)
-    SET(JSON_FIND_QUIETLY TRUE)
-ENDIF (JSON_INCLUDE_DIRS AND JSON_LIBRARIES)
+IF (HTMLCXX_INCLUDE_DIRS AND HTMLCXX_LIBRARIES)
+    SET(HTMLCXX_FIND_QUIETLY TRUE)
+ENDIF (HTMLCXX_INCLUDE_DIRS AND HTMLCXX_LIBRARIES)
 
 FIND_PACKAGE (PkgConfig QUIET)
 IF (PKGCONFIG_FOUND)
-    PKG_CHECK_MODULES(PC_JSON QUIET json)
+    PKG_CHECK_MODULES(PC_HTMLCXX QUIET htmlcxx)
 ENDIF (PKGCONFIG_FOUND)
 
-FIND_PATH(JSON_INCLUDE_DIRS
+FIND_PATH(HTMLCXX_INCLUDE_DIRS
     NAMES
-        json.h
-    PATH_SUFFIXES
-        json
+        htmlcxx/html/tree.h
     PATHS
-        ${PC_JSON_INCLUDE_DIRS}
-        /usr/include
+        ${PC_HTMLCXX_INCLUDE_DIRS}
         /usr/local/include
-        $ENV{JSON}
-        $ENV{JSON}/include
+        /usr/include
+        $ENV{HTMLCXX}
+        $ENV{HTMLCXX}/include
     )
 
-FIND_LIBRARY(JSON_LIBRARIES
+FIND_LIBRARY(HTMLCXX_LIBRARIES
     NAMES
-        json-c json
+        htmlcxx
     PATHS
-        ${PC_JSON_LIBRARY_DIRS}
-        /usr/lib
+        ${PC_HTMLCXX_LIBRARY_DIRS}
         /usr/local/lib
-        $ENV{JSON}
-        $ENV{JSON}/lib
+        /usr/lib
+        $ENV{HTMLCXX}
+        $ENV{HTMLCXX}/lib
     )
 
 # handle the QUIETLY and REQUIRED arguments and set *_FOUND
 INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(JSON DEFAULT_MSG JSON_LIBRARIES JSON_INCLUDE_DIRS)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(HTMLCXX DEFAULT_MSG HTMLCXX_LIBRARIES HTMLCXX_INCLUDE_DIRS)
 
-MARK_AS_ADVANCED(JSON_INCLUDE_DIRS JSON_LIBRARIES)
+MARK_AS_ADVANCED(HTMLCXX_INCLUDE_DIRS HTMLCXX_LIBRARIES)
