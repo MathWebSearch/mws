@@ -42,7 +42,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include "common/utils/compiler_defs.h"
-#include "common/utils/ToString.hpp"
 #include "mws/xmlparser/writeXmlAnswset.hpp"
 
 #include "build-gen/config.h"
@@ -125,12 +124,12 @@ int writeXmlAnswset(MwsAnswset* answset, FILE* file) {
         fprintf(stderr, "Error at xmlTextWriterWriteAttribute\n");
     } else if ((ret = xmlTextWriterWriteAttribute(writerPtr,
                     BAD_CAST "size",
-                    BAD_CAST ToString(answset->answers.size()).c_str()))
+                    BAD_CAST std::to_string(answset->answers.size()).c_str()))
             == -1) {
         fprintf(stderr, "Error at xmlTextWriterWriteAttribute\n");
     } else if ((ret = xmlTextWriterWriteAttribute(writerPtr,
                     BAD_CAST "total",
-                    BAD_CAST ToString(answset->total).c_str()))
+                    BAD_CAST std::to_string(answset->total).c_str()))
             == -1) {
         fprintf(stderr, "Error at xmlTextWriterWriteAttribute\n");
     } else {

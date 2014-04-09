@@ -39,8 +39,6 @@ using std::stringstream;
 #include <string>
 using std::string;
 
-#include "common/utils/ToString.hpp"
-
 #include "CmmlToken.hpp"
 
 
@@ -116,7 +114,7 @@ CmmlToken::newChildNode() {
     result = new CmmlToken(_mode);
     _childNodes.push_back(result);
     result->_parentNode = this;
-    result->_xpath = _xpath + "/*[" + ToString(_childNodes.size()) + "]";
+    result->_xpath = _xpath + "/*[" + std::to_string(_childNodes.size()) + "]";
 
     return result;
 }

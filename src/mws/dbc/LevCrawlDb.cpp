@@ -34,7 +34,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 using std::string;
 
-#include "common/utils/ToString.hpp"
 #include "common/types/Parcelable.hpp"
 using common::types::ParcelAllocator;
 using common::types::ParcelEncoder;
@@ -84,7 +83,7 @@ int LevCrawlDb::create_new(const char* path) {
 types::CrawlId LevCrawlDb::putData(const types::CrawlData& crawlData)
 throw (std::exception) {
     types::CrawlId crawlId = ++mNextCrawlId;
-    string crawlId_str = ToString(crawlId);
+    string crawlId_str = std::to_string(crawlId);
 
     ParcelAllocator allocator;
     allocator.reserve(crawlData);
@@ -105,7 +104,7 @@ throw (std::exception) {
 
 const types::CrawlData LevCrawlDb::getData(const types::CrawlId& crawlId)
 throw (std::exception) {
-    string crawlId_str = ToString(crawlId);
+    string crawlId_str = std::to_string(crawlId);
     string retrieved_str;
     mws::types::CrawlData retrieved;
 
