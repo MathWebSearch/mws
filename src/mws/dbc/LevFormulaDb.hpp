@@ -30,25 +30,22 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdlib.h>
 
+#include <string>
 #include <leveldb/db.h>
 
-#include <string>
-
-#include "FormulaDb.hpp"
-
+#include "mws/dbc/FormulaDb.hpp"
 #include "mws/types/NodeInfo.hpp"
 
-
 namespace mws { namespace dbc {
-
 
 class LevFormulaDb : public FormulaDb {
  public:
     LevFormulaDb();
     virtual ~LevFormulaDb();
 
-    int open(const char* path);
-    int create_new(const char* path);
+    void open(const char* path) throw (std::runtime_error);
+    void create_new(const char* path, bool deleteIfExists)
+    throw (std::runtime_error);
 
     virtual int insertFormula(const types::FormulaId&   formulaId,
                               const types::CrawlId&     crawlId,

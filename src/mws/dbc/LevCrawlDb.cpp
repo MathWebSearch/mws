@@ -31,8 +31,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>
 
 #include <stdexcept>
+using std::runtime_error;
 #include <string>
 using std::string;
+#include <leveldb/db.h>
+using leveldb::DB;
+using leveldb::Options;
+using leveldb::Status;
+using leveldb::DestroyDB;
 
 #include "common/types/Parcelable.hpp"
 using common::types::ParcelAllocator;
@@ -54,7 +60,7 @@ LevCrawlDb::~LevCrawlDb() {
     delete mDatabase;
 }
 
-int LevCrawlDb::open(const char* path) {
+void LevCrawlDb::open(const char* path) throw (runtime_error) {
     leveldb::Options options;
     options.create_if_missing = false;
     leveldb::Status status =
@@ -63,21 +69,21 @@ int LevCrawlDb::open(const char* path) {
     if (!status.ok()) {
         throw std::runtime_error(string(path) + " not found.");
     }
-    return EXIT_SUCCESS;
 }
 
-int LevCrawlDb::create_new(const char* path) {
-    leveldb::Options options;
+void LevCrawlDb::create_new(const char* path, bool deleteIfExists)
+throw (runtime_error) {
+    if (deleteIfExists) {
+        (void) DestroyDB(path, Options());
+    }
+
+    Options options;
     options.error_if_exists = true;
     options.create_if_missing = true;
-    leveldb::Status status =
-        leveldb::DB::Open(options, path, &mDatabase);
+    Status status = DB::Open(options, path, &mDatabase);
     if (!status.ok()) {
         throw std::runtime_error(status.ToString());
     }
-
-
-    return EXIT_SUCCESS;
 }
 
 types::CrawlId LevCrawlDb::putData(const types::CrawlData& crawlData)

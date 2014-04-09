@@ -27,26 +27,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * This executable build a math web search index and saves it.
   */
 
+#include <stdexcept>
+using std::exception;
 #include <string>
+using std::string;
 #include <fstream>
 
-#include "types/MeaningDictionary.hpp"
-#include "xmlparser/loadMwsHarvestFromFd.hpp"
-#include "dbc/LevCrawlDb.hpp"
-#include "dbc/LevFormulaDb.hpp"
-#include "dbc/MemCrawlDb.hpp"
-#include "dbc/MemFormulaDb.hpp"
-#include "index/MwsIndexNode.hpp"
 #include "common/utils/FlagParser.hpp"
-#include "index/memsector.h"
+using common::utils::FlagParser;
+#include "mws/dbc/LevCrawlDb.hpp"
+#include "mws/dbc/LevFormulaDb.hpp"
+#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/memsector.h"
+#include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
+#include "mws/types/MeaningDictionary.hpp"
 
 #include "build-gen/config.h"
 
-using std::string;
-using common::utils::FlagParser;
-using namespace mws;
+const uint32_t DEFAULT_MEMSECTOR_SIZE = (500 * 1024 * 1024);
 
-#define DEFAULT_MEMSECTOR_SIZE  (500 * 1024 * 1024)
+using namespace mws;
 
 int main(int argc, char* argv[]) {
     string output_dir;
@@ -57,8 +57,6 @@ int main(int argc, char* argv[]) {
 
     dbc::CrawlDb*             crawlDb;
     dbc::FormulaDb*           formulaDb;
-    dbc::LevCrawlDb*          crdb;
-    dbc::LevFormulaDb*        fmdb;
     MwsIndexNode*             data;
     types::MeaningDictionary* meaningDictionary;
     index::IndexManager*      indexManager;
@@ -96,36 +94,33 @@ int main(int argc, char* argv[]) {
 
     // if the path exists
     if (access(output_dir.c_str(), 0) == 0) {
-          struct stat status;
-          stat(output_dir.c_str(), &status);
+        struct stat status;
+        stat(output_dir.c_str(), &status);
 
-          if (status.st_mode & S_IFDIR) {
-             // Everything ok if the folder has no other files called
-             // crawl.db, level.db, memsector.dat or meaning.dat
-          } else {
-             fprintf(stderr, "The path you entered is a file");
-             goto failure;
-          }
+        if (status.st_mode & S_IFDIR) {
+            // Everything ok if the folder has no other files called
+            // crawl.db, level.db, memsector.dat or meaning.dat
+        } else {
+            fprintf(stderr, "The path you entered is a file");
+            goto failure;
+        }
     } else {
-            mkdir(output_dir.c_str(), 0755);
-      }
-
-    crdb = new dbc::LevCrawlDb();
-    if (crdb->create_new((output_dir + "/crawl.db").c_str()) == -1) {
-        fprintf(stderr, "error while creating crawl database\n");
-        goto failure;
+        mkdir(output_dir.c_str(), 0755);
     }
 
-    crawlDb = crdb;
-
-    fmdb = new dbc::LevFormulaDb();
-    if (fmdb->create_new((output_dir + "/formula.db").c_str()) == -1) {
-        fprintf(stderr, "error while creating formula database\n");
+    try {
+        dbc::LevCrawlDb* crawlLevDb = new dbc::LevCrawlDb();
+        crawlLevDb->create_new((output_dir + "/crawl.db").c_str(),
+                               /* deleteIfExists = */ false);
+        crawlDb = crawlLevDb;
+        dbc::LevFormulaDb* formulaLevDb = new dbc::LevFormulaDb();
+        formulaLevDb->create_new((output_dir + "/formula.db").c_str(),
+                                 /* deleteIfExists = */ false);
+        formulaDb = formulaLevDb;
+    } catch (exception& e) {
+        PRINT_WARN("%s\n", e.what());
         goto failure;
     }
-
-    formulaDb = fmdb;
-
 
     data = new MwsIndexNode();
     meaningDictionary = new types::MeaningDictionary();

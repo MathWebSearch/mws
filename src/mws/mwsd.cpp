@@ -58,15 +58,16 @@ int main(int argc, char* argv[]) {
     mws::daemon::HarvestDaemon daemon;
 
     // Parsing the flags
-    FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
-    FlagParser::addFlag('p', "mws-port",             FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('D', "data-path",            FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('r', "recursive",            FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('L', "leveldb",              FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('c', "enable-ci-renaming",   FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('I', "include-harvest-path",    FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('p', "mws-port",                FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('D', "data-path",               FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('i', "pid-file",                FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('l', "log-file",                FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('r', "recursive",               FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('L', "leveldb",                 FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('c', "enable-ci-renaming",      FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('f', "delete-old-data",         FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
@@ -133,6 +134,9 @@ int main(int argc, char* argv[]) {
             goto failure;
         }
     }
+
+    // should delete old data
+    config.deleteOldData = FlagParser::hasArg('f');
 
 #ifndef __APPLE__
     // daemon

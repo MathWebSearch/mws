@@ -31,7 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <signal.h>
-#include "mws/daemon/microhttpd_linux.h"  // Linux MicroHTTPd library includes
+#include "mws/daemon/microhttpd_linux.h"
 
 #include <vector>
 #include <string>
@@ -50,6 +50,7 @@ struct Config {
     bool                     useLevelDb;
     std::string              harvestFileExtension;
     index::IndexingOptions   indexingOptions;
+    bool                     deleteOldData;
 };
 
 class Daemon {

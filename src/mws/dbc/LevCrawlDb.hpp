@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 #ifndef _MWS_DBC_LEVCRAWLDB_HPP
 #define _MWS_DBC_LEVCRAWLDB_HPP
 
@@ -28,13 +29,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 11 Dec 2013
   */
 
+
+#include <stdexcept>
+#include <string>
 #include <leveldb/db.h>
 
-#include <string>
-
+#include "mws/dbc/CrawlDb.hpp"
 #include "mws/types/NodeInfo.hpp"
-
-#include "CrawlDb.hpp"
 
 namespace mws {
 namespace dbc {
@@ -44,8 +45,9 @@ class LevCrawlDb : public CrawlDb {
     LevCrawlDb();
     virtual ~LevCrawlDb();
 
-    int open(const char* path);
-    int create_new(const char* path);
+    void open(const char* path) throw (std::runtime_error);
+    void create_new(const char* path, bool deleteIfExists)
+    throw (std::runtime_error);
 
     /**
      * @brief insert crawled data

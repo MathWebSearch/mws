@@ -28,15 +28,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 
 #include <stdexcept>
+using std::runtime_error;
 #include <string>
 using std::string;
-
-#include "LevFormulaDb.hpp"
+#include <leveldb/db.h>
+using leveldb::DestroyDB;
+using leveldb::DB;
+using leveldb::Options;
+using leveldb::Status;
 
 #include "common/types/Parcelable.hpp"
 using common::types::ParcelAllocator;
 using common::types::ParcelEncoder;
 using common::types::ParcelDecoder;
+#include "mws/dbc/LevFormulaDb.hpp"
 #include "mws/types/NodeInfo.hpp"
 using mws::types::CrawlData;
 
@@ -49,29 +54,29 @@ LevFormulaDb::~LevFormulaDb() {
     delete mDatabase;
 }
 
-int LevFormulaDb::open(const char* path) {
-    leveldb::Options options;
+void LevFormulaDb::open(const char* path) throw (runtime_error) {
+    Options options;
     options.create_if_missing = false;
-    leveldb::Status status = leveldb::DB::Open(options, path, &mDatabase);
+    Status status = DB::Open(options, path, &mDatabase);
 
     if (!status.ok()) {
-        throw std::runtime_error(status.ToString());
+        throw runtime_error(status.ToString());
     }
-
-    return EXIT_SUCCESS;
 }
 
-int LevFormulaDb::create_new(const char* path) {
-    leveldb::Options options;
-    options.error_if_exists = true;
-    options.create_if_missing = true;
-
-    leveldb::Status status = leveldb::DB::Open(options, path, &mDatabase);
-    if (!status.ok()) {
-        throw std::runtime_error(status.ToString());
+void LevFormulaDb::create_new(const char* path, bool deleteIfExists)
+throw (runtime_error) {
+    if (deleteIfExists) {
+        (void) DestroyDB(path, Options());
     }
 
-    return EXIT_SUCCESS;
+    Options options;
+    options.error_if_exists = true;
+    options.create_if_missing = true;
+    Status status = DB::Open(options, path, &mDatabase);
+    if (!status.ok()) {
+        throw runtime_error(status.ToString());
+    }
 }
 
 

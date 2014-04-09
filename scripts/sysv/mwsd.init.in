@@ -37,13 +37,14 @@ NAME=mwsd_@MWS_DEPLOY_NAME@
 PIDFILE=/var/run/$NAME.pid
 DAEMON="@MWS_BIN_PATH@/mwsd"
 DAEMON_ARGS="
-    -d \
     -I @MWS_HARVEST_PATH@ \
     -D @MWS_DATA_PATH@ \
     --leveldb \
+    --delete-old-data \
     --pid-file $PIDFILE \
     --log-file /var/log/$NAME.log \
     --mws-port @MWS_PORT@ \
+    --daemonize \
     @MWS_DAEMON_EXTRA_ARGS@
 "
 SCRIPTNAME=/etc/init.d/$NAME

@@ -110,14 +110,14 @@ int HarvestDaemon::initMws(const Config& config) {
         string fmdbPath = config.dataPath + "/formula.db";
 
         try {
-            crdb->create_new(crdbPath.c_str());
-            fmdb->create_new(fmdbPath.c_str());
+            crdb->create_new(crdbPath.c_str(), config.deleteOldData);
+            fmdb->create_new(fmdbPath.c_str(), config.deleteOldData);
 
             crawlDb = crdb;
             formulaDb = fmdb;
         }
         catch(const std::exception &e) {
-            fprintf(stderr, "Initializing database: %s\n", e.what());
+            PRINT_WARN("Initializing database: %s\n", e.what());
             return EXIT_FAILURE;
         }
     } else {
