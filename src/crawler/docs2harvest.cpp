@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    if (FlagParser::hasArg('O')) outputDirectory = FlagParser::getArg('o');
+    if (FlagParser::hasArg('o')) outputDirectory = FlagParser::getArg('o');
     if (FlagParser::hasArg('x')) documentUriXpath = FlagParser::getArg('x');
     saveData = !FlagParser::hasArg('n');
 
