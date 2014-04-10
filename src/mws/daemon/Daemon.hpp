@@ -38,6 +38,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/types/MwsQuery.hpp"
+#include "mws/index/IndexManager.hpp"
 
 namespace mws { namespace daemon {
 
@@ -48,6 +49,7 @@ struct Config {
     std::string              dataPath;
     bool                     useLevelDb;
     std::string              harvestFileExtension;
+    index::IndexingOptions   indexingOptions;
 };
 
 class Daemon {
@@ -60,7 +62,7 @@ class Daemon {
 
  protected:
     virtual int initMws(const Config& config);
-
+    Config _config;
  private:
     struct MHD_Daemon* _daemonHandler;
 };

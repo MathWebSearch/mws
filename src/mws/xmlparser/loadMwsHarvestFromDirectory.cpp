@@ -43,7 +43,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/Path.hpp"
 #include "common/utils/util.hpp"
 #include "mws/index/IndexManager.hpp"
-
+using mws::index::IndexingOptions;
 #include "loadMwsHarvestFromFd.hpp"
 
 
@@ -62,8 +62,8 @@ loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
     int totalLoaded = 0;
 
     common::utils::FileCallback fileCallback =
-            [&totalLoaded, indexManager, extension](const std::string& path,
-                                                    const std::string& prefix) {
+            [&totalLoaded, indexManager, extension]
+            (const std::string& path, const std::string& prefix) {
         UNUSED(prefix);
         if (common::utils::hasSuffix(path, extension)) {
             printf("Loading %s... ", path.c_str());

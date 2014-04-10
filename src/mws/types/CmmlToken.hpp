@@ -93,6 +93,7 @@ public:
     const std::string&           getTextContent() const;
     const PtrList&               getChildNodes() const;
     CmmlToken*                   getParentNode() const;
+    const std::string&           getTag() const;
     const std::string&           getXpath() const;
     // Return xpath without leading root selector (useful for concatenation)
     std::string                  getXpathRelative() const;

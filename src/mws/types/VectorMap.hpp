@@ -32,10 +32,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 // System includes
-
 #include <utility>                     // STL utilities (std::air)
 #include <vector>                      // STL vector container
 
+#include "common/utils/util.hpp"
 namespace mws
 {
 
@@ -60,8 +60,8 @@ private:
     // Data Members
 private:
     _VectorContainer                                          _data;
-
     // Methods
+    ALLOW_TESTER_ACCESS;
 public:
     inline size_t size() const {
         return _data.size();

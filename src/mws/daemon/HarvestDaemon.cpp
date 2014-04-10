@@ -78,7 +78,8 @@ MwsAnswset* HarvestDaemon::handleQuery(MwsQuery *mwsQuery) {
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
-    if (encoder.encode(mwsQuery->tokens[0],
+    if (encoder.encode(_config.indexingOptions,
+                       mwsQuery->tokens[0],
                        &encodedQuery, &queryInfo) == 0) {
         dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
         ctxt = new query::SearchContext(encodedQuery);
@@ -128,7 +129,8 @@ int HarvestDaemon::initMws(const Config& config) {
     meaningDictionary = new MeaningDictionary();
 
     indexManager = new index::IndexManager(formulaDb, crawlDb, data,
-                                           meaningDictionary);
+                                           meaningDictionary,
+                                           config.indexingOptions);
 
     ret = ThreadWrapper::init();
 

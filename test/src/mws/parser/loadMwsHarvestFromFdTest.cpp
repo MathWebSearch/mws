@@ -75,9 +75,11 @@ int main()
     dbc::MemFormulaDb formulaDb;
     MwsIndexNode data;
     types::MeaningDictionary meaningDictionary;
+    index::IndexingOptions indexingOptions;
+    indexingOptions.renameCi = false;
     index::IndexManager indexManager(&formulaDb, &crawlDb, &data,
-                                     &meaningDictionary);
-
+                                     &meaningDictionary,
+                                     indexingOptions);
     FAIL_ON(initxmlparser() != 0);
 
     for(HarvestData harvest : harvests) {

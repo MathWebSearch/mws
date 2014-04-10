@@ -52,6 +52,7 @@ using std::vector;
 using std::map;
 
 #include "mws/index/IndexManager.hpp"
+using mws::index::IndexingOptions;
 #include "mws/types/NodeInfo.hpp"
 #include "mws/types/CmmlToken.hpp"
 #include "common/utils/compiler_defs.h"
@@ -73,8 +74,7 @@ using namespace mws::types;
 namespace mws {
 namespace parser {
 
-enum MwsHarvestState
-{
+enum MwsHarvestState {
     MWSHARVESTSTATE_DEFAULT,
     MWSHARVESTSTATE_IN_MWS_HARVEST,
     MWSHARVESTSTATE_IN_MWS_EXPR,
@@ -82,18 +82,17 @@ enum MwsHarvestState
     MWSHARVESTSTATE_UNKNOWN
 };
 
-struct MwsHarvest_SaxUserData
-{
+struct MwsHarvest_SaxUserData {
     MwsHarvestState state;     //!< Parse state machine state
     int unknownDepth;               //!< Depth of XML tree in unknown state
     map<string, CrawlId> localIdToCrawlIds;
 
     /// The token which is currently being parsed
-    types::CmmlToken*               currentToken;
+    types::CmmlToken*            currentToken;
     /// The root of the token being currently parsed
-    types::CmmlToken*               currentTokenRoot;
+    types::CmmlToken*            currentTokenRoot;
     /// State of the parsing before going into an unknown state
-    MwsHarvestState         prevState;
+    MwsHarvestState              prevState;
     /// True if an XML structural error is detected
     bool                         errorDetected;
     /// Number of correctly parsed expressions
@@ -113,7 +112,6 @@ struct MwsHarvest_SaxUserData
     std::string                  data;
 
     std::string localId;
-
     MwsHarvest_SaxUserData() :
         state(MWSHARVESTSTATE_DEFAULT),
         unknownDepth(0),
@@ -124,7 +122,6 @@ struct MwsHarvest_SaxUserData
         parsedExpr(0),
         warnings(0),
         exprUri("") {
-
     }
 };
 

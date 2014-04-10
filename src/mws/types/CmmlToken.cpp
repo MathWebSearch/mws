@@ -106,6 +106,11 @@ CmmlToken::getTextContent() const {
     return _textContent;
 }
 
+const string&
+CmmlToken::getTag() const {
+    return _tag;
+}
+
 
 CmmlToken*
 CmmlToken::newChildNode() {

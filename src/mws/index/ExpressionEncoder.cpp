@@ -41,6 +41,7 @@ using std::vector;
 
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/types/MeaningDictionary.hpp"
+#include "mws/index/IndexManager.hpp"
 using mws::types::MeaningDictionary;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
@@ -52,13 +53,16 @@ using mws::types::Meaning;
 namespace mws { namespace index {
 
 ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary) :
-    _meaningDictionary(dictionary) {
+    _meaningDictionary(dictionary),
+    _ciTranslationCounter(0) {
 }
 
-ExpressionEncoder::~ExpressionEncoder() {}
+ExpressionEncoder::~ExpressionEncoder() {
+}
 
 int
-ExpressionEncoder::encode(const CmmlToken* expression,
+ExpressionEncoder::encode(const IndexingOptions& options,
+                          const CmmlToken* expression,
                           vector<encoded_token_t>* encodedFormula,
                           ExpressionInfo* expressionInfo) {
     int rv = 0;
@@ -90,7 +94,11 @@ ExpressionEncoder::encode(const CmmlToken* expression,
             }
         } else {
             encoded_token.arity = token->getArity();
-            encoded_token.id = _getConstantEncoding(token->getMeaning());
+            if (options.renameCi && token->getTag() == "ci") {
+                encoded_token.id = _getCiMeaning((token));
+            } else {
+                encoded_token.id = _getConstantEncoding(token->getMeaning());
+            }
             if (encoded_token.id == MeaningDictionary::KEY_NOT_FOUND) {
                 rv = -1;
             }
@@ -105,6 +113,34 @@ ExpressionEncoder::encode(const CmmlToken* expression,
     }
 
     return rv;
+}
+
+MeaningId ExpressionEncoder::_getCiMeaning(const CmmlToken* token) {
+    Meaning tokMeaning = token->getMeaning();
+    CmmlToken* tokParent = token->getParentNode();
+
+    // check if we should not rename this ci
+    if ((tokMeaning == "#P") ||
+        (tokMeaning == "#p") ||
+        // the content must have only 1 char:
+        (tokMeaning.length() > 2 + token->getTag().length()) ||
+        // make sure this is not the 1st child of apply
+        ((tokParent != NULL) &&
+          (tokParent->getTag() == "apply") &&
+          (tokParent->getChildNodes().front()) == token)) {
+        return _getConstantEncoding(tokMeaning);
+    }
+
+    auto ciTableIt = _ciTranslations.find(tokMeaning);
+    string translatedMeaning;
+    if (ciTableIt == _ciTranslations.end()) {
+        translatedMeaning = "~" + std::to_string(++_ciTranslationCounter);
+        _ciTranslations.insert(make_pair(tokMeaning, translatedMeaning));
+    } else {
+       translatedMeaning = ciTableIt->second;
+    }
+
+    return _getConstantEncoding(translatedMeaning);
 }
 
 HarvestEncoder::HarvestEncoder(types::MeaningDictionary *dictionary) :

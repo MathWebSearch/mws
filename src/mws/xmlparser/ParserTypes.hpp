@@ -65,7 +65,7 @@ struct MwsQuery_SaxUserData
     /// Depth of the parse tree in unknown state
     int                          unknownDepth;
     /// The token which is currently being parsed
-    types::CmmlToken*              currentToken;
+    types::CmmlToken*            currentToken;
     /// The root of the token being currently parsed
     types::CmmlToken*              currentTokenRoot;
     /// State of the parsing

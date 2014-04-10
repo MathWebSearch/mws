@@ -111,7 +111,8 @@ MwsAnswset* IndexDaemon::handleQuery(MwsQuery* mwsQuery) {
     std::vector<encoded_token_t> encFormula_vec;
     ExpressionInfo exprInfo;
 
-    encoder.encode(mwsQuery->tokens[0], &encFormula_vec, &exprInfo);
+    encoder.encode(_config.indexingOptions, mwsQuery->tokens[0],
+                   &encFormula_vec, &exprInfo);
     encoded_formula_t encFormula;
     encFormula.data = encFormula_vec.data();
     encFormula.size = encFormula_vec.size();

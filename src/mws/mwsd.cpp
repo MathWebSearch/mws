@@ -65,6 +65,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('r', "recursive",            FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('L', "leveldb",              FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('c', "enable-ci-renaming",   FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
@@ -90,6 +91,9 @@ int main(int argc, char* argv[]) {
 
     // leveldb
     config.useLevelDb = FlagParser::hasArg('L');
+
+    // ci renaming
+    config.indexingOptions.renameCi = FlagParser::hasArg('c');
 
     // mws-port
     if (FlagParser::hasArg('p')) {

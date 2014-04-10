@@ -52,7 +52,7 @@ namespace parser {
   * the number of successfully loaded entries.
   */
 std::pair<int, int>
-loadMwsHarvestFromFd(mws::index::IndexManager* indexManager, int fd);
+loadMwsHarvestFromFd(index::IndexManager* indexManager, int fd);
 
 
 int loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,

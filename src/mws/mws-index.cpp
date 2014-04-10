@@ -62,6 +62,7 @@ int main(int argc, char* argv[]) {
     MwsIndexNode*             data;
     types::MeaningDictionary* meaningDictionary;
     index::IndexManager*      indexManager;
+    index::IndexingOptions    indexingOptions;
     std::filebuf              fb;
     std::ostream os(&fb);
 
@@ -70,6 +71,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('r', "recursive",               FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('s', "memsector-size",          FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('c', "enable-ci-renaming",   FLAG_OPT, ARG_NONE);
 
     string harvestExtension = "harvest";
     if (FlagParser::hasArg('e')) {
@@ -85,7 +87,7 @@ int main(int argc, char* argv[]) {
 
     harvest_path = FlagParser::getArg('I');
     output_dir   = FlagParser::getArg('d');
-
+    indexingOptions.renameCi = FlagParser::hasArg('c');
     if (FlagParser::hasArg('s')) {
         memsector_size = atoi(FlagParser::getArg('s').c_str());
     } else {
@@ -131,7 +133,8 @@ int main(int argc, char* argv[]) {
     indexManager = new index::IndexManager(formulaDb,
                                            crawlDb,
                                            data,
-                                           meaningDictionary);
+                                           meaningDictionary,
+                                           indexingOptions);
 
     parser::loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
                                         harvestExtension, recursive);

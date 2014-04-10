@@ -106,6 +106,7 @@ int main(int argc, char* argv[]) {
     MwsIndexNode* data;
     types::MeaningDictionary* meaningDictionary;
     index::IndexManager* indexManager;
+    index::IndexingOptions indexingOptions;
     string harvest_path;
     string tmp_memsector_path;
     uint32_t memsector_size;
@@ -113,6 +114,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('s', "memsector-size",          FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('I', "include-harvest-path",    FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('O', "tmp-memsector-path",      FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('c', "enable-ci-renaming",      FLAG_OPT, ARG_REQ);
 
     if (FlagParser::parse(argc, argv) != 0) {
         fprintf(stderr, "%s", FlagParser::getUsage().c_str());
@@ -150,12 +152,20 @@ int main(int argc, char* argv[]) {
         tmp_memsector_path = DEFAULT_TMP_MEMSECTOR_PATH;
     }
 
+    if (FlagParser::hasArg('c')) {
+        indexingOptions.renameCi = true;
+    } else {
+        fprintf(stderr, "Not renaming ci\n");
+        indexingOptions.renameCi = false;
+    }
+
     crawlDb = new dbc::MemCrawlDb();
     formulaDb = new dbc::MemFormulaDb();
     data = new MwsIndexNode();
     meaningDictionary = new types::MeaningDictionary();
-    indexManager =
-            new index::IndexManager(formulaDb,crawlDb, data, meaningDictionary);
+    indexManager = new index::IndexManager(formulaDb, crawlDb,
+                                           data, meaningDictionary,
+                                           indexingOptions);
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(tmp_memsector_path.c_str()) != 0 && errno != ENOENT);

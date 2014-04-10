@@ -322,7 +322,7 @@ void Daemon::stop() {
 }
 
 int Daemon::initMws(const Config& config) {
-    UNUSED(config);  // We don't need config in the abstract class.
+    _config = config;
     int ret = 0;
     if ((ret = initxmlparser())!= 0) {
         fprintf(stderr, "Error while initializing xmlparser module\n");

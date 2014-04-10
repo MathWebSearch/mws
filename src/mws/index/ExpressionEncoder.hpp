@@ -34,8 +34,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "mws/index/encoded_token.h"
+#include "mws/index/IndexManager.hpp"
 #include "mws/types/MeaningDictionary.hpp"
 #include "mws/types/CmmlToken.hpp"
 
@@ -55,7 +57,8 @@ class ExpressionEncoder {
     explicit ExpressionEncoder(mws::types::MeaningDictionary* dictionary);
     virtual ~ExpressionEncoder();
 
-    int encode(const mws::types::CmmlToken* expression,
+    int encode(const IndexingOptions& options,
+               const mws::types::CmmlToken* expression,
                std::vector<encoded_token_t> *encodedFormula,
                ExpressionInfo* expressionInfo);
  protected:
@@ -63,7 +66,11 @@ class ExpressionEncoder {
     virtual MeaningId _getNamedVarOffset() const = 0;
     virtual MeaningId _getConstantEncoding(const types::Meaning& meaning) = 0;
 
+    MeaningId _getCiMeaning(const mws::types::CmmlToken* token);
+
     mws::types::MeaningDictionary* _meaningDictionary;
+    std::unordered_map<std::string, std::string> _ciTranslations;
+    uint32_t _ciTranslationCounter;
 };
 
 class HarvestEncoder : public ExpressionEncoder {

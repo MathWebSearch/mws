@@ -37,18 +37,24 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mws { namespace index {
 
+struct IndexingOptions {
+    bool renameCi;
+};
+
 class IndexManager {
 private:
     dbc::FormulaDb* m_formulaDb;
     dbc::CrawlDb* m_crawlDb;
     MwsIndexNode* m_index;
     types::MeaningDictionary* m_meaningDictionary;
+    index::IndexingOptions m_indexingOptions;
 
 public:
     IndexManager(dbc::FormulaDb* formulaDb,
                  dbc::CrawlDb* crawlDb,
                  MwsIndexNode* index,
-                 types::MeaningDictionary* meaningDictionary);
+                 types::MeaningDictionary* meaningDictionary,
+                 const index::IndexingOptions& indexingOptions);
 
     /**
      * @brief index crawl data
