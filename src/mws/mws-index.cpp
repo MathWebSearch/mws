@@ -23,8 +23,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @brief mws-index executable
   * @author Radu Hambasan
   * @date 18 Jan 2014
-  *
-  * This executable build a math web search index and saves it.
   */
 
 #include <stdexcept>

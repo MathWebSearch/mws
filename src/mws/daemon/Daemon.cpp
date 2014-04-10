@@ -325,12 +325,12 @@ int Daemon::initMws(const Config& config) {
     _config = config;
     int ret = 0;
     if ((ret = initxmlparser())!= 0) {
-        fprintf(stderr, "Error while initializing xmlparser module\n");
+        PRINT_WARN("Error while initializing xmlparser module\n");
         return 1;
     }
 
     if (ret) {
-        fprintf(stderr, "Error while initializing thread module\n");
+        PRINT_WARN("Error while initializing thread module\n");
         clearxmlparser();
         return 1;
     }

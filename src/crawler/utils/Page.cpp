@@ -25,17 +25,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * date: 28 Oct 2012
  */
 
-// System includes
 #include <string>
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include <gurl.h>
 #include <htmlcxx/html/ParserDom.h>
 #include <htmlcxx/html/tree.h>
 
-// Third Party includes
-#include "gurl.h"
+#include "common/utils/compiler_defs.h"
 
-// Local includes
 #include "Page.hpp"
 
 // Namespaces
@@ -86,7 +84,7 @@ void Page::downloadContent()
 
     if (!curl)
     {
-        fprintf(stderr,"CURL: Cannot Initialize CURL\n");
+        PRINT_WARN("CURL: Cannot Initialize CURL\n");
         return ;
     }
     string strUrl = getUrl();
@@ -107,7 +105,7 @@ void Page::downloadContent()
         downloadedHeader = 1;
     }
     else
-        fprintf(stderr,"CURL: Cannot Download page because: \n  %s \n",errorstr);
+        PRINT_WARN("CURL: Cannot Download page because: \n  %s \n",errorstr);
 
     curl_easy_cleanup(curl);
 }
@@ -121,7 +119,7 @@ void Page::downloadHeader()
     curl = curl_easy_init();
     if (!curl)
     {
-        fprintf(stderr,"CURL: Cannot Initialize CURL\n");
+        PRINT_WARN("CURL: Cannot Initialize CURL\n");
         return ;
     }
     string strUrl = getUrl();
@@ -137,7 +135,7 @@ void Page::downloadHeader()
         downloadedHeader = 1;
     }
     else
-        fprintf(stderr,"CURL: Cannot download header of page!\n");
+        PRINT_WARN("CURL: Cannot download header of page!\n");
 
     curl_easy_cleanup(curl);
 }

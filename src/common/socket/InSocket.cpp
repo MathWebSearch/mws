@@ -41,6 +41,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstring>                      // C string -- memset()
 #include "InSocket.hpp"                 // InSocket prototypes
 
+#include "common/utils/compiler_defs.h"
+
 /****************************************************************************/
 /* Implementation                                                           */
 /****************************************************************************/
@@ -115,7 +117,7 @@ int InSocket::enable()
     return 0;
 
 fail:
-    fprintf(stderr, "%s failed\n", __func__);
+    PRINT_WARN("%s failed\n", __func__);
     if (_fd > 0) close(_fd);
     return -1;
 }

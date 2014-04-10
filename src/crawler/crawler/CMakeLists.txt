@@ -42,5 +42,6 @@ TARGET_LINK_LIBRARIES(${MODULE}
                       crawlertypes
                       crawlerutils
                       commontypes
-                      commonsocket)
+                      commonsocket
+                      commonutils)
 

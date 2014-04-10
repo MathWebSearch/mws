@@ -28,6 +28,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 
 // Local includes
+#include "common/utils/compiler_defs.h"
 #include "common/utils/memstream.h"
 #include "crawler/utils/Page.hpp"
 #include "Robotstxt.hpp"
@@ -50,7 +51,7 @@ Robotstxt::Robotstxt(GURL aStartUrl) {
     string rob = robotsPage.getContent();
     if (rob == "")
     {
-        fprintf(stderr,"Error downloading the Robots page!\n");
+        PRINT_WARN("Error downloading the Robots page!\n");
         return ;
     }
 

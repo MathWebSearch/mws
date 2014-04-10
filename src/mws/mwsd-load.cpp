@@ -77,30 +77,30 @@ int main(int argc, char* argv[]) {
         if (mwsPort > 0 && mwsPort < (1<<16)) {
             config.mwsPort = mwsPort;
         } else {
-            fprintf(stderr, "Invalid port \"%s\"\n",
-                    FlagParser::getArg('m').c_str());
+            PRINT_WARN("Invalid port \"%s\"\n",
+                       FlagParser::getArg('m').c_str());
             goto failure;
         }
     } else {
-        fprintf(stderr, "Using default mws port %d\n", DEFAULT_MWS_PORT);
+        PRINT_LOG("Using default mws port %d\n", DEFAULT_MWS_PORT);
         config.mwsPort = DEFAULT_MWS_PORT;
     }
 
     // index-path
-        config.dataPath = FlagParser::getArg('I').c_str();
+    config.dataPath = FlagParser::getArg('I').c_str();
 
     // log-file
     if (FlagParser::hasArg('l')) {
-        fprintf(stderr, "Redirecting output to %s\n",
-                FlagParser::getArg('l').c_str());
+        PRINT_LOG("Redirecting output to %s\n",
+                  FlagParser::getArg('l').c_str());
         if (freopen(FlagParser::getArg('l').c_str(), "w", stderr) == NULL) {
-            fprintf(stderr, "ERROR: Unable to redirect stderr to %s\n",
-                    FlagParser::getArg('l').c_str());
+            PRINT_WARN("ERROR: Unable to redirect stderr to %s\n",
+                       FlagParser::getArg('l').c_str());
             goto failure;
         }
         if (freopen(FlagParser::getArg('l').c_str(), "w", stdout) == NULL) {
-            fprintf(stderr, "ERROR: Unable to redirect stdout to %s\n",
-                    FlagParser::getArg('l').c_str());
+            PRINT_WARN("ERROR: Unable to redirect stdout to %s\n",
+                       FlagParser::getArg('l').c_str());
             goto failure;
         }
     }
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
         // Daemonizing
         ret = ::daemon(0, /* noclose = */ FlagParser::hasArg('l'));
         if (ret != 0) {
-            fprintf(stderr, "Error while daemonizing\n");
+            PRINT_WARN("Error while daemonizing\n");
             goto failure;
         }
     }
@@ -121,8 +121,8 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('i')) {
         ret = save_pid_file(FlagParser::getArg('i').c_str());
         if (ret != 0) {
-            fprintf(stderr, "ERROR: Unable to save pidfile %s\n",
-                    FlagParser::getArg('i').c_str());
+            PRINT_WARN("ERROR: Unable to save pidfile %s\n",
+                       FlagParser::getArg('i').c_str());
             goto failure;
         }
     }
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
     // Starting the daemon
     ret = daemon.startAsync(config);
     if (ret != 0) {
-        fprintf(stderr, "Failure while starting the daemon\n");
+        PRINT_WARN("Failure while starting the daemon\n");
         goto failure;
     }
 
@@ -144,23 +144,23 @@ int main(int argc, char* argv[]) {
     sigaddset(&mask, SIGTERM);
     // Block the signals and actions
     if (sigprocmask(SIG_BLOCK, &mask, &old_mask) == -1)
-      fprintf(stderr, "sigprocmask - SIG_BLOCK");
+        PRINT_WARN("sigprocmask - SIG_BLOCK");
     if (sigaction(SIGINT, &sa, &old_sa1) == -1)
-      fprintf(stderr, "sigaction - open");
+        PRINT_WARN("sigaction - open");
     if (sigaction(SIGTERM, &sa, &old_sa2) == -1)
-      fprintf(stderr, "sigaction - open");
+        PRINT_WARN("sigaction - open");
 
     // Waiting for SIGINT / SIGTERM
     while (!sigQuit)
-      sigsuspend(&old_mask);
+        sigsuspend(&old_mask);
 
     // UNBLOCK the signals and actions
     if (sigprocmask(SIG_SETMASK, &old_mask, NULL) == -1)
-      fprintf(stderr, "sigprocmask - SIG_SETMASK");
+        PRINT_WARN("sigprocmask - SIG_SETMASK");
     if (sigaction(SIGINT, &old_sa1, NULL) == -1)
-      fprintf(stderr, "sigaction - close");
+        PRINT_WARN("sigaction - close");
     if (sigaction(SIGINT, &old_sa2, NULL) == -1)
-      fprintf(stderr, "sigaction - close");
+        PRINT_WARN("sigaction - close");
 
     daemon.stop();
     return EXIT_SUCCESS;

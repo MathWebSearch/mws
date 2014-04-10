@@ -75,7 +75,7 @@ static
 result_cb_return_t result_callback(void* handle,
                                    const leaf_t * leaf) {
     if (leaf->type != LEAF_NODE) {
-        fprintf(stderr, "Leaf callback error.");
+        PRINT_WARN("Leaf callback error.");
         return QUERY_ERROR;
     }
 
@@ -146,7 +146,7 @@ int IndexDaemon::initMws(const Config& config) {
         formulaDb = fmdb;
     }
     catch(const std::exception &e) {
-        fprintf(stderr, "Initializing database: %s\n", e.what());
+        PRINT_WARN("Initializing database: %s\n", e.what());
         return EXIT_FAILURE;
     }
 

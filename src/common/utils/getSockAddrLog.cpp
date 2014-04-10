@@ -35,6 +35,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>                      // C++ string header
 #include <sys/socket.h>                // C main socket headers
 
+#include "common/utils/compiler_defs.h"
+
 // Local includes
 
 #include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
@@ -66,7 +68,7 @@ getSockAddrLog(const sockaddr* sockAddr,
                       0);
     if (ret != 0)
     {
-        fprintf(stderr, "Error at getnameinfo: %s\n",
+        PRINT_WARN("Error at getnameinfo: %s\n",
                 gai_strerror(ret));
     }
     else

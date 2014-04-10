@@ -36,11 +36,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>                  // Datatypes: size_t, socklen_t
 #include <unistd.h>                     // write()
 #include <netdb.h>                      // struct hostent, gethostbyname
-#include <cerrno>                       // C errno codes
+#include <errno.h>
 #include <unistd.h>
+#include <stdio.h>
 
-#include <cstdio>                       // C standard I/O
-#include "OutSocket.hpp"                // OutSocket class definition
+#include "common/utils/compiler_defs.h"
+#include "common/socket/OutSocket.hpp"
+
 
 /****************************************************************************/
 /* Constants                                                                */
@@ -143,7 +145,7 @@ int OutSocket::enable()
     return 0;
 
 fail:
-    fprintf(stderr, "%s failed\n", __func__);
+    PRINT_WARN("%s failed\n", __func__);
     if (this->_isOpen)
     {
         close(this->_fd);
@@ -173,7 +175,7 @@ int OutSocket::write(const void* pAddr, int nrBytes)
     return len;
 
 fail:
-    fprintf(stderr, "%s failed\n", __func__);
+    PRINT_WARN("%s failed\n", __func__);
     return -1;
 }
 
@@ -197,7 +199,7 @@ int OutSocket::read(void* pAddr, int nrBytes)
     return len;
 
 fail:
-    fprintf(stderr, "%s failed\n", __func__);
+    PRINT_WARN("%s failed\n", __func__);
     return -1;
 }
 
@@ -208,7 +210,7 @@ int OutSocket::getFd() const
 
     return this->_fd;
 fail:
-    fprintf(stderr, "%s failed\n", __func__);
+    PRINT_WARN("%s failed\n", __func__);
     return -1;
 }
 
@@ -238,7 +240,7 @@ SocketInfo OutSocket::getInfo() const
     return info;
 
 fail:
-    fprintf(stderr, "%s failed\n", __func__);
+    PRINT_WARN("%s failed\n", __func__);
     info.hostname = SOCKET_INFO_UNKNOWN;
     info.service  = SOCKET_INFO_UNKNOWN;
 
@@ -260,7 +262,7 @@ OutSocket* buildAcceptedConnection(int aFd)
     return outsock;
 
 fail:
-    fprintf(stderr, "%s failed\n", __func__);
+    PRINT_WARN("%s failed\n", __func__);
     delete outsock;
     return NULL;
 }

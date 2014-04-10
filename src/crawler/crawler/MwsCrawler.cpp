@@ -42,6 +42,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "crawler/types/SharedQueue.hpp"
 #include "crawler/utils/MwsGetMath.hpp"
 #include "crawler/utils/Page.hpp"
+#include "common/utils/compiler_defs.h"
 
 // Third Party includes
 #include "gurl.h"
@@ -96,7 +97,7 @@ void Crawler::addURLStart( string urlstart )
     URL_START = GURL(urlstart);
     if (!URL_START.is_valid())
     {
-        fprintf(stderr,"The Starting URL is not valid!\n");
+        PRINT_WARN("The Starting URL is not valid!\n");
         return ;
     }
     rtxt = new Robotstxt(URL_START);
@@ -110,7 +111,7 @@ void Crawler::addCrawlerCount(int cnt)
 {
     if (cnt < 0)
     {
-        fprintf(stderr,"The count is less than 0 ... we use infinite instead\n");
+        PRINT_WARN("The count is less than 0 ... we use infinite instead\n");
         return ;
     }
     MAX_URLS_TO_CRAWL = cnt;
@@ -138,7 +139,7 @@ void Crawler::addDataDirectory( const char* dataDir)
 void Crawler::start() {
 
     if (!receivedProperties) {
-        fprintf(stderr,"You didn't give the Crawler any properties!\n");
+        PRINT_WARN("You didn't give the Crawler any properties!\n");
         return ;
     }
 

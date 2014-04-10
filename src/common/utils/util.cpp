@@ -136,7 +136,7 @@ static int getPathsInDirectory(const std::string& directoryPath,
     return 0;
 
 fail:
-    fprintf(stderr, "%s\n", directoryPath.c_str());
+    PRINT_WARN("%s\n", directoryPath.c_str());
     return -1;
 }
 

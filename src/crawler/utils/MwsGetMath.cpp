@@ -39,10 +39,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
-// Third Party
 #include "gurl.h"
 
-// Local includes
+#include "common/utils/compiler_defs.h"
 #include "common/utils/memstream.h"
 #include "crawler/utils/Page.hpp"
 #include "crawler/utils/MwsGetMath.hpp"
@@ -166,7 +165,7 @@ xmlDocPtr get_XMLDoc (const char *buffer) {
     doc = xmlParseMemory(buffer,size);
 
     if (doc == NULL ) {
-        fprintf(stderr,"Document not parsed successfully. \n");
+        PRINT_WARN("Document not parsed successfully. \n");
         return NULL;
     }
 
@@ -193,7 +192,7 @@ xmlXPathObjectPtr get_XMLNodeset (xmlDocPtr doc, const xmlChar *xpath){
     xmlChar *prefix = (xmlChar*) "m";
     xmlChar *href = (xmlChar*) "http://www.w3.org/1998/Math/MathML";
     if(xmlXPathRegisterNs(context, prefix , href) != 0) {
-        fprintf(stderr,"Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", prefix, href);
+        PRINT_WARN("Error: unable to register NS with prefix=\"%s\" and href=\"%s\"\n", prefix, href);
         return NULL;
     }
 
@@ -263,7 +262,7 @@ void store_mathml_tags()
     is.open (MATHMLTAGS_PATH, ios::binary);
     if (is.fail())
     {
-        fprintf(stderr,"Error while opening MathML file from: %s.\n",MATHMLTAGS_PATH);
+        PRINT_WARN("Error while opening MathML file from: %s.\n",MATHMLTAGS_PATH);
         exit(1);
     }
     is.seekg (0, ios::end);

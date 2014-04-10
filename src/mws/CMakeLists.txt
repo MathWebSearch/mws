@@ -42,8 +42,10 @@ TARGET_LINK_LIBRARIES( mwsd-load
 ADD_EXECUTABLE(mws-index mws-index.cpp)
 TARGET_LINK_LIBRARIES( mws-index
        commonutils
+       mwsdbc
+       mwsindex
        mwsxmlparser
-       # TODO may need additional
+       mwstypes
 )
 
 # Output executables at the root of build tree

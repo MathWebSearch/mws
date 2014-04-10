@@ -80,7 +80,7 @@ Another way to generate harvests is via `docs2harvest`. This takes as
 arguments XHTML documents and crawls them, creating harvests files. To
 crawl a repository of XHTML documents, use:
 
-    find . -name *.xhtml | xargs -n 10 bin/docs2harvest -O /path/to/harvests
+    find . -name *.xhtml | xargs -n 10 bin/docs2harvest -o /path/to/harvests
 
 The executable `mwsd` starts the main MWS server. This takes as argument a
 harvest include path which is used to load document data, and a port which

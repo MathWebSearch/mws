@@ -22,7 +22,7 @@ memstream_grow(struct memstream *ms, size_t newsize)
 		buf = realloc(*ms->cp, newsize + 1);
 		if (buf != NULL) {
 #ifdef DEBUG
-			fprintf(stderr, "MS: %p growing from %zd to %zd\n",
+			PRINT_WARN("MS: %p growing from %zd to %zd\n",
 			    ms, *ms->lenp, newsize);
 #endif
 			memset(buf + *ms->lenp + 1, 0, newsize - *ms->lenp);
@@ -46,7 +46,7 @@ memstream_read(void *cookie, char *buf, int len)
 	memcpy(buf, *ms->cp + ms->offset, tocopy);
 	ms->offset += tocopy;
 #ifdef DEBUG
-	fprintf(stderr, "MS: read(%p, %d) = %d\n", ms, len, tocopy);
+	PRINT_WARN("MS: read(%p, %d) = %d\n", ms, len, tocopy);
 #endif
 	return (tocopy);
 }
@@ -65,7 +65,7 @@ memstream_write(void *cookie, const char *buf, int len)
 	memcpy(*ms->cp + ms->offset, buf, tocopy);
 	ms->offset += tocopy;
 #ifdef DEBUG
-	fprintf(stderr, "MS: write(%p, %d) = %d\n", ms, len, tocopy);
+	PRINT_WARN("MS: write(%p, %d) = %d\n", ms, len, tocopy);
 #endif
 	return (tocopy);
 }
@@ -94,7 +94,7 @@ memstream_seek(void *cookie, fpos_t pos, int whence)
 		break;
 	}
 #ifdef DEBUG
-	fprintf(stderr, "MS: seek(%p, %zd, %d) %zd -> %zd\n", ms, pos, whence,
+	PRINT_WARN("MS: seek(%p, %zd, %d) %zd -> %zd\n", ms, pos, whence,
 	    old, ms->offset);
 #endif
 	return (ms->offset);

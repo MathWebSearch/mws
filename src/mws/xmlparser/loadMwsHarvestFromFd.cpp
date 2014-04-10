@@ -151,11 +151,11 @@ int setupCopyToStringWriter(MwsHarvest_SaxUserData* data) {
                                           &data->buffer,
                                           NULL))
             == NULL) {
-        fprintf(stderr, "Error while creating the OutputBuffer\n");
+        PRINT_WARN("Error while creating the OutputBuffer\n");
         return -1;
     } else if ((data->stringWriter = xmlNewTextWriter(outPtr))
                == NULL) {
-        fprintf(stderr, "Error while creating the XML Writer\n");
+        PRINT_WARN("Error while creating the XML Writer\n");
         return -1;
     }
 
@@ -217,7 +217,11 @@ my_startElement(void*           user_data,
             // Parsing the attributes
             while (NULL != attrs && NULL != attrs[0])
             {
-                // NO ATTRIBUTES EXPECTED TODO HANDLE THEM
+                if (strncmp((char*)attrs[0], "xmlns:", 6) == 0) {
+                    /* ignore namespaces */
+                } else {
+                    PRINT_WARN("Unexpected attribute \"%s\"\n", attrs[0]);
+                }
                 attrs = &attrs[2];
             }
         } else {
@@ -242,11 +246,11 @@ my_startElement(void*           user_data,
                            MWSHARVEST_EXPR_ATTR_XMLID_NAME) == 0) {
                     data->exprUri = reinterpret_cast<const char*>(attrs[1]);
                 } else if (strcmp(reinterpret_cast<const char*>(attrs[0]),
-                          MWSHARVEST_EXPR_ATTR_LOCALID_NAME) == 0) {
+                                  MWSHARVEST_EXPR_ATTR_LOCALID_NAME) == 0) {
                     data->localId = reinterpret_cast<const char*>(attrs[1]);
                 } else {
                     // Invalid attribute
-                    fprintf(stderr, "Unexpected attribute \"%s\"\n", attrs[0]);
+                    PRINT_WARN("Unexpected attribute \"%s\"\n", attrs[0]);
                 }
 
                 attrs = &attrs[2];
@@ -254,10 +258,10 @@ my_startElement(void*           user_data,
             if (data->localId != "" &&
                     (data->localIdToCrawlIds.find(data->localId) ==
                      data->localIdToCrawlIds.end())) {
-                fprintf(stderr, "%s \"%s\" does not point to any %s element\n",
-                        MWSHARVEST_DATA_ATTR_LOCALID_NAME,
-                        data->localId.c_str(),
-                        MWSHARVEST_DATA_NAME);
+                PRINT_WARN("%s \"%s\" does not point to any %s element\n",
+                           MWSHARVEST_DATA_ATTR_LOCALID_NAME,
+                           data->localId.c_str(),
+                           MWSHARVEST_DATA_NAME);
                 data->localId = "";
             }
         } else if (strcmp(reinterpret_cast<const char*>(name),
@@ -270,7 +274,7 @@ my_startElement(void*           user_data,
                     data->localId = reinterpret_cast<const char*>(attrs[1]);
                 } else {
                     // Invalid attribute
-                    fprintf(stderr, "Unexpected attribute \"%s\"\n", attrs[0]);
+                    PRINT_WARN("Unexpected attribute \"%s\"\n", attrs[0]);
                 }
 
                 attrs = &attrs[2];
@@ -278,9 +282,9 @@ my_startElement(void*           user_data,
 
             // Check if localId exists
             if (data->localId == "") {
-                fprintf(stderr, "Ignoring %s element without %s attribute.\n",
-                        MWSHARVEST_DATA_NAME,
-                        MWSHARVEST_DATA_ATTR_LOCALID_NAME);
+                PRINT_WARN("Ignoring %s element without %s attribute.\n",
+                           MWSHARVEST_DATA_NAME,
+                           MWSHARVEST_DATA_ATTR_LOCALID_NAME);
                 // Saving the state
                 data->prevState = data->state;
                 // Going to an unkown state
@@ -292,7 +296,7 @@ my_startElement(void*           user_data,
                 data->copyDepth = 1;
             }
         } else {
-            fprintf(stderr, "Ignoring %s element\n", name);
+            PRINT_WARN("Ignoring %s element\n", name);
             // Saving the state
             data->prevState = data->state;
             // Going to an unkown state
@@ -349,8 +353,8 @@ my_endElement(void*          user_data,
 
     switch (data->state) {
     case MWSHARVESTSTATE_DEFAULT:
-        fprintf(stderr, "Unexpected Default State for end element \"%s\"",
-                reinterpret_cast<const char*>(name));
+        PRINT_WARN("Unexpected Default State for end element \"%s\"",
+                   reinterpret_cast<const char*>(name));
         assert(false);
         break;
 
@@ -515,12 +519,12 @@ loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
                                          &fd,
                                          XML_CHAR_ENCODING_UTF8))
             == NULL) {
-        fprintf(stderr, "Error while creating the ParserContext\n");
+        PRINT_WARN("Error while creating the ParserContext\n");
     }
     // Parsing the document
     else if ((ret = xmlParseDocument(ctxtPtr))
              == -1) {
-        fprintf(stderr, "Parsing XML document failed\n");
+        PRINT_WARN("Parsing XML document failed\n");
     }
 
     // Freeing the parser context

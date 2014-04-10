@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('c', "enable-ci-renaming",      FLAG_OPT, ARG_REQ);
 
     if (FlagParser::parse(argc, argv) != 0) {
-        fprintf(stderr, "%s", FlagParser::getUsage().c_str());
+        PRINT_WARN("%s", FlagParser::getUsage().c_str());
         goto fail;
     }
 
@@ -126,12 +126,12 @@ int main(int argc, char* argv[]) {
         if (size > 0 && size < UINT32_MAX) {
             memsector_size = size;
         } else {
-            fprintf(stderr, "Invalid size \"%s\"\n",
+            PRINT_WARN("Invalid size \"%s\"\n",
                     FlagParser::getArg('s').c_str());
             goto fail;
         }
     } else {
-        fprintf(stderr, "Using default memsector size %d\n",
+        PRINT_WARN("Using default memsector size %d\n",
                 DEFAULT_MEMSECTOR_SIZE);
         memsector_size = DEFAULT_MEMSECTOR_SIZE;
     }
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('I')) {
         harvest_path = FlagParser::getArg('I');
     } else {
-        fprintf(stderr, "Using default include harvest path %s\n",
+        PRINT_WARN("Using default include harvest path %s\n",
                 DEFAULT_HARVEST_PATH);
         harvest_path = DEFAULT_HARVEST_PATH;
     }
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('O')) {
         tmp_memsector_path = FlagParser::getArg('O');
     } else {
-        fprintf(stderr, "Using default temporary memsector path %s\n",
+        PRINT_WARN("Using default temporary memsector path %s\n",
                 DEFAULT_TMP_MEMSECTOR_PATH);
         tmp_memsector_path = DEFAULT_TMP_MEMSECTOR_PATH;
     }
@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('c')) {
         indexingOptions.renameCi = true;
     } else {
-        fprintf(stderr, "Not renaming ci\n");
+        PRINT_WARN("Not renaming ci\n");
         indexingOptions.renameCi = false;
     }
 

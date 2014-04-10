@@ -50,4 +50,5 @@ TARGET_LINK_LIBRARIES(${MODULE}
                       ${CURL_LIBRARIES}
                       ${HTMLCXX_LIBRARIES}
                       ${GOOGLEURL_LIBRARIES}
+                      commonutils
                       )
