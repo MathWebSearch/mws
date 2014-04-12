@@ -1,0 +1,280 @@
+#!/bin/sh -e
+
+# Install constants
+PREFIX=@CMAKE_INSTALL_PREFIX@
+SYSCONFDIR=@SYSCONFDIR@
+LOCALSTATEDIR=/var/lib/mws
+
+# Initialize our own variables:
+harvest_path=""
+port="9090"
+
+show_help() {
+progname=`basename $0`
+cat << EOF
+Usage:
+    $progname create [-p <port>] -i <harvest_path> <name> [<extra_args>]
+        create configuration for mws deployment
+          -p <port>           port used to run mwsd
+          -i <harvest_path>   path from where to load math harvests
+
+    $progname list
+        list available configurations
+
+    $progname test <name>
+        run mwsd configuration in test mode
+
+    $progname enable <name>
+        enable configuration
+
+    $progname disable <name>
+        disable configuration
+
+    $progname remove <name>
+        remove configuration
+
+    $progname help
+        display this help message
+
+EOF
+}
+
+# utilities
+get_path() {
+    path="$1"
+    dirname="$(cd $(dirname "$path") && pwd -P)"
+    basename="$(basename "$path")"
+    canonical_path="$dirname/$basename"
+    if [ -r "$canonical_path" ]; then
+        echo "$canonical_path"
+        return 0
+    else
+        return 1
+    fi
+}
+
+#
+# list
+#
+perform_list() {
+    echo "Available configurations:"
+    for config_file in $(cd $PREFIX/$SYSCONFDIR/configs && ls); do
+        echo " $config_file"
+    done
+}
+
+#
+# create
+#
+perform_create() {
+OPTIND=1
+while getopts "p:i:f" opt; do
+    case "$opt" in
+    p)
+        port=$OPTARG
+        ;;
+    i)
+        harvest_path=$OPTARG
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+[ "$1" = "--" ] && shift
+
+# get name
+if [ $# -lt 1 ]; then
+    echo "<name> expected"
+    show_help
+    exit 1
+fi
+name="$1"
+shift
+
+# get extra arguments
+extra_args="$@"
+
+if [ -z "$harvest_path" ]; then
+    echo "<harvest_path> is mandatory"
+    show_help
+    exit 1
+fi
+canonical_harvest_path=`get_path $harvest_path` || {
+    echo "Invalid path $harvest_path"
+    exit 1
+}
+
+output_dir="$PREFIX/$SYSCONFDIR/configs"
+
+install -d "$output_dir"
+install -d "$LOCALSTATEDIR/${name}"
+cat > "$output_dir/${name}" << EOF
+# Configuration file for the service mwsd_${name}
+# logs will be placed in /var/log/mwsd_${name}.log
+# and data to /var/lib/mws/${name}
+
+# HTTP listen port
+MWS_PORT=${port}
+
+# Path from where to load harvests
+MWS_HARVEST_PATH="${canonical_harvest_path}"
+
+# Extra command-line arguments to be passed to mwsd
+MWS_DAEMON_EXTRA_ARGS="${extra_args}"
+EOF
+echo Created MathWebSearch configuration ${name}
+}
+
+perform_test() {
+    if [ $# -lt 1 ]; then
+        echo "<name> expected"
+        show_help
+        exit 1
+    fi
+    name="$1"
+
+    PATH=$PREFIX/bin:$PATH
+
+    # include configuration
+    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
+    [ -r $config_file ] || {
+        echo "No such configuration ${name}"
+        exit 1
+    }
+    . $config_file
+
+    # run mwsd in test mode
+    echo Testing configuration ${name}...
+    MWSD_ARGS="
+        --include-harvest-path $MWS_HARVEST_PATH \
+        --mws-port $MWS_PORT \
+        $MWS_DAEMON_EXTRA_ARGS
+    "
+    mwsd $MWSD_ARGS
+}
+
+perform_enable() {
+    if [ $# -lt 1 ]; then
+        echo "<name> expected"
+        show_help
+        exit 1
+    fi
+    name="$1"
+
+    PATH=$PREFIX/bin:$PATH
+
+    # include configuration
+    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
+    [ -r $config_file ] || {
+        echo "No such configuration ${name}"
+        exit 1
+    }
+    . $config_file
+
+    echo Creating /etc/init.d/mwsd_$name
+    install -m 0755 $PREFIX/$SYSCONFDIR/mwsd-service \
+        /etc/init.d/mwsd_$name
+
+    echo Enabling service mwsd_$name
+    update-rc.d mwsd_$name defaults
+
+    echo Starting service mwsd_$name
+    service mwsd_$name start
+}
+
+perform_disable() {
+    if [ $# -lt 1 ]; then
+        echo "<name> expected"
+        show_help
+        exit 1
+    fi
+    name="$1"
+
+    PATH=$PREFIX/bin:$PATH
+
+    # include configuration
+    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
+    [ -r $config_file ] || {
+        echo "No such configuration ${name}"
+        exit 1
+    }
+    . $config_file
+
+    [ -r /etc/init.d/mwsd_$name ] || {
+        echo Configuration $name is not enabled
+        exit 1
+    }
+
+    # stop service
+    echo Stopping service mwsd_$name
+    service mwsd_$name stop
+    # disable as a service
+    echo Disabling service mwsd_$name
+    rm -f /etc/init.d/mwsd_$name
+    update-rc.d -f mwsd_$name remove
+}
+
+perform_remove() {
+    if [ $# -lt 1 ]; then
+        echo "<name> expected"
+        show_help
+        exit 1
+    fi
+    name="$1"
+
+    PATH=$PREFIX/bin:$PATH
+
+    # include configuration
+    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
+    [ -r $config_file ] || {
+        echo "No such configuration ${name}"
+        exit 1
+    }
+    . $config_file
+
+    perform_disable $name
+
+    echo Removing configuration $config_file
+    rm $config_file
+}
+
+# Handle initial arguments
+
+# action should be provided
+if [ $# -eq 0 ]; then
+    echo Action expected
+    show_help
+    exit 1
+fi
+
+action="$1"
+shift
+case "$action" in
+    create)
+        perform_create $@
+        ;;
+    list)
+        perform_list
+        ;;
+    test)
+        perform_test $@
+        ;;
+    enable)
+        perform_enable $@
+        ;;
+    disable)
+        perform_disable $@
+        ;;
+    remove)
+        perform_remove $@
+        ;;
+    help)
+        show_help
+        exit 0
+        ;;
+    *)
+        echo Unknown action \"$action\"
+        show_help
+        exit 1
+        ;;
+esac

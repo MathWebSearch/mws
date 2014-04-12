@@ -30,6 +30,7 @@ TARGET_LINK_LIBRARIES( mwsd
         mwsdaemon
         commonutils
 )
+INSTALL(TARGETS mwsd DESTINATION bin)
 
 #MWS load executable
 ADD_EXECUTABLE( mwsd-load mwsd-load.cpp)

@@ -38,6 +38,11 @@ To run the tests, use:
 
 	make test
 
+Finally, install the binaries using:
+
+    make install
+
+
 Dependencies
 ------------
 To build this software, one needs:
@@ -69,6 +74,7 @@ Makefile targets
 * `doc` generates the documentation of the project
 * `test` runs project tests
 * `help` display the complete list of targets
+* `install` installs `mwsd`, `docs2harvest`, `mws-config` on your system
 
 Usage
 -----
@@ -94,20 +100,20 @@ For additional options, see:
 
     bin/mwsd --help
     bin/docs2harvest --help
+    bin/mws-config help
 
 To setup or remove `mwsd` as a global SysV service, use (as root):
 
-	scripts/sysv/deploy.sh config/mws_services.conf
-	scripts/sysv/remove.sh config/mws_services.conf
+    mws-config create -p 9090 -i data/zbl zbldemo
+    mws-config enable zbldemo
 
-The provided [configuration file](config/mws_services.conf) sets up
-MathWebSearch to serve the [ZBL demo harvests](data/zbl/). To start or
-stop the service, use
+This sets up MathWebSearch to serve the [ZBL demo harvests](data/zbl/) on
+port 9090. To monitor, start or stop the service, use
 
 	service mwsd_zbldemo [start|stop|status|...]
 
 Output is logged to `/var/log/mwsd_zbldemo.log`. To serve different harvest
-paths, create your own configuration file and deploy the service.
+paths, create your own configurations and deploy the service.
 
 Copyright
 ---------

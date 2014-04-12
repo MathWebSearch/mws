@@ -35,7 +35,8 @@ SET( MWS_VERSION
 SET( MWS_FULL_VERSION
     ${MWS_VERSION}.${${PROJECT_NAME}_PATCH_LEVEL} )
 
-# Project directories
+
+SET(SCRIPTS_DIR "${PROJECT_SOURCE_DIR}/scripts")
 SET(PROJECT_CONFIG_DIR
     "${PROJECT_SOURCE_DIR}/config")
 SET(MWS_SRC_DIR   # MWS sources
@@ -48,8 +49,6 @@ SET(MWS_TSTSRC_DIR # MWS Test sources directory
     "${MWS_TST_DIR}/src" )
 SET(MWS_TSTDAT_DIR # MWS Test data directory
     "${MWS_TST_DIR}/data" )
-SET(MWS_SCRIPT_DIR # MWS Scripts directory
-    "${PROJECT_SOURCE_DIR}/scripts" )
 SET(THIRD_PARTY_DIR
     "${PROJECT_SOURCE_DIR}/third_party")
 
@@ -58,15 +57,14 @@ SET(GETRESPONSE_PATH ${PROJECT_BINARY_DIR}/src/crawler/daemon/GetResponse.html)
 # Add local CMake module paths
 SET(CMAKE_MODULE_PATH
     "${CMAKE_MODULE_PATH}"
-    "${MWS_SCRIPT_DIR}/cmake-modules"
+    "${SCRIPTS_DIR}/cmake-modules"
     "${THIRD_PARTY_DIR}/cmake-modules")
 
 #      Options              Description                     Default
+OPTION(APPLY_RESTRICTIONS   "apply restrictions to queries" OFF )
 OPTION(WITH_MWS             "build MathWebSearch daemon"    ON )
 OPTION(WITH_CRAWLER         "build MWS crawlers"            ON )
 OPTION(WITH_DOC             "build MWS documentation"       OFF )
-
-OPTION(APPLY_RESTRICTIONS   "apply restrictions to queries" OFF )
 
 # Select build type
 SET(DEFAULT_CMAKE_BUILD_TYPE "Debug")
@@ -78,6 +76,13 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING
     "Choose the type of build: Debug Release RelWithDebInfo MinSizeRel."
     FORCE)
+
+# System configuration directory
+SET(SYSCONFDIR "/etc/mws" CACHE
+    STRING "System configuration directory")
+
+SET(LOCALSTATEDIR "/var/lib/mws" CACHE
+    STRING "Local state directory")
 
 # Compiler flags
 SET(COMMON_FLAGS
@@ -94,6 +99,18 @@ INCLUDE_DIRECTORIES( "${MWS_SRC_DIR}"               # source files
 # Generate configuration file
 CONFIGURE_FILE(${PROJECT_CONFIG_DIR}/config.h.in
         ${PROJECT_BINARY_DIR}/build-gen/config.h)
+
+CONFIGURE_FILE(${SCRIPTS_DIR}/mws-config.in
+    mws-config @ONLY)
+INSTALL(PROGRAMS ${PROJECT_BINARY_DIR}/mws-config
+    DESTINATION bin)
+
+CONFIGURE_FILE(${SCRIPTS_DIR}/mwsd-service.in
+    mwsd-service @ONLY)
+INSTALL(PROGRAMS ${PROJECT_BINARY_DIR}/mwsd-service
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/${SYSCONFDIR})
+INSTALL(CODE
+    "FILE(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/${SYSCONFDIR}/configs)")
 
 ENABLE_TESTING()
 

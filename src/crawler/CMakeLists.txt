@@ -34,6 +34,7 @@ TARGET_LINK_LIBRARIES( docs2harvest
     crawlertypes
     commonutils
 )
+INSTALL(TARGETS docs2harvest DESTINATION bin)
 
 # MWS crawler daemon
 ADD_EXECUTABLE( crawlerd crawlerd.cpp )
