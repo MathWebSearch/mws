@@ -54,6 +54,42 @@ get_path() {
     fi
 }
 
+get_config() {
+    name="$1"
+    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
+    if [ -r "$config_file" ]; then
+        echo "$config_file"
+        return 0
+    else
+        return 1
+    fi
+}
+
+get_name() {
+    if [ $# -ge 1 ]; then
+        echo "$1"
+        return 0
+    else
+        return 1
+    fi
+}
+
+config_is_enabled() {
+    name="$1"
+    [ -r /etc/init.d/mwsd_$name ]
+}
+
+error_no_such_config() {
+    echo No such configuration \""${name}"\"
+    exit 1
+}
+
+error_name_expected() {
+    echo "<name> expected"
+    show_help
+    exit 1
+}
+
 #
 # list
 #
@@ -127,22 +163,11 @@ echo Created MathWebSearch configuration ${name}
 }
 
 perform_test() {
-    if [ $# -lt 1 ]; then
-        echo "<name> expected"
-        show_help
-        exit 1
-    fi
-    name="$1"
-
-    PATH=$PREFIX/bin:$PATH
+    name="`get_name "$@"`" || error_name_expected
 
     # include configuration
-    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
-    [ -r $config_file ] || {
-        echo "No such configuration ${name}"
-        exit 1
-    }
-    . $config_file
+    config_file="`get_config "$name"`" || error_no_such_config "$name"
+    . "$config_file"
 
     # run mwsd in test mode
     echo Testing configuration ${name}...
@@ -151,30 +176,36 @@ perform_test() {
         --mws-port $MWS_PORT \
         $MWS_DAEMON_EXTRA_ARGS
     "
+    PATH=$PREFIX/bin:$PATH
     mwsd $MWSD_ARGS
 }
 
 perform_enable() {
-    if [ $# -lt 1 ]; then
-        echo "<name> expected"
-        show_help
-        exit 1
-    fi
-    name="$1"
-
-    PATH=$PREFIX/bin:$PATH
+    name="`get_name "$@"`" || error_name_expected
 
     # include configuration
-    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
-    [ -r $config_file ] || {
-        echo "No such configuration ${name}"
-        exit 1
-    }
-    . $config_file
+    config_file="`get_config "$name"`" || error_no_such_config "$name"
+    . "$config_file"
 
-    echo Creating /etc/init.d/mwsd_$name
-    install -m 0755 $PREFIX/$SYSCONFDIR/mwsd-service \
-        /etc/init.d/mwsd_$name
+    if config_is_enabled "$name"; then
+        echo Configuration \""$name"\" is already enabled
+        exit 0
+    fi
+
+    target=/etc/init.d/mwsd_$name
+    echo Creating $target
+    cat - $PREFIX/$SYSCONFDIR/mwsd-service.sh > $target << EOF
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          mwsd_$name
+# Required-Start:    \$remote_fs \$syslog
+# Required-Stop:     \$remote_fs \$syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       This starts the MathWebSearch daemon
+### END INIT INFO
+EOF
+    chmod +x $target
 
     echo Enabling service mwsd_$name
     update-rc.d mwsd_$name defaults
@@ -184,55 +215,33 @@ perform_enable() {
 }
 
 perform_disable() {
-    if [ $# -lt 1 ]; then
-        echo "<name> expected"
-        show_help
-        exit 1
-    fi
-    name="$1"
-
-    PATH=$PREFIX/bin:$PATH
+    name="`get_name "$@"`" || error_name_expected
 
     # include configuration
-    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
-    [ -r $config_file ] || {
-        echo "No such configuration ${name}"
-        exit 1
-    }
-    . $config_file
+    config_file="`get_config "$name"`" || error_no_such_config "$name"
+    . "$config_file"
 
-    [ -r /etc/init.d/mwsd_$name ] || {
-        echo Configuration $name is not enabled
-        exit 1
-    }
+    if config_is_enabled "$name"; then
+        echo Stopping service mwsd_$name
+        service mwsd_$name stop
 
-    echo Stopping service mwsd_$name
-    service mwsd_$name stop
-
-    echo Disabling service mwsd_$name
-    rm -f /etc/init.d/mwsd_$name
-    update-rc.d -f mwsd_$name remove
+        echo Disabling service mwsd_$name
+        rm -f /etc/init.d/mwsd_$name
+        update-rc.d -f mwsd_$name remove
+    else
+        echo Configuration \""$name"\" is already disabled
+        exit 0
+    fi
 }
 
 perform_remove() {
-    if [ $# -lt 1 ]; then
-        echo "<name> expected"
-        show_help
-        exit 1
-    fi
-    name="$1"
-
-    PATH=$PREFIX/bin:$PATH
+    name="`get_name "$@"`" || error_name_expected
 
     # include configuration
-    config_file="$PREFIX/$SYSCONFDIR/configs/$name"
-    [ -r $config_file ] || {
-        echo "No such configuration ${name}"
-        exit 1
-    }
-    . $config_file
+    config_file="`get_config "$name"`" || error_no_such_config "$name"
+    . "$config_file"
 
-    if [ -r /etc/init.d/mwsd_$name ]; then
+    if config_is_enabled "$name"; then
         echo Stopping service mwsd_$name
         service mwsd_$name stop
 
