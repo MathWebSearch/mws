@@ -17,6 +17,7 @@ Usage:
         create configuration for mws deployment
           -p <port>           port used to run mwsd
           -i <harvest_path>   path from where to load math harvests
+          <extra_args>        extra arguments passed to mws daemon
 
     $progname list
         list available configurations
@@ -205,10 +206,9 @@ perform_disable() {
         exit 1
     }
 
-    # stop service
     echo Stopping service mwsd_$name
     service mwsd_$name stop
-    # disable as a service
+
     echo Disabling service mwsd_$name
     rm -f /etc/init.d/mwsd_$name
     update-rc.d -f mwsd_$name remove
@@ -232,7 +232,14 @@ perform_remove() {
     }
     . $config_file
 
-    perform_disable $name
+    if [ -r /etc/init.d/mwsd_$name ]; then
+        echo Stopping service mwsd_$name
+        service mwsd_$name stop
+
+        echo Disabling service mwsd_$name
+        rm -f /etc/init.d/mwsd_$name
+        update-rc.d -f mwsd_$name remove
+    fi
 
     echo Removing configuration $config_file
     rm $config_file
