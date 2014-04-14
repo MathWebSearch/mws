@@ -61,13 +61,13 @@ SET(CMAKE_MODULE_PATH
     "${THIRD_PARTY_DIR}/cmake-modules")
 
 #      Options              Description                     Default
-OPTION(APPLY_RESTRICTIONS   "apply restrictions to queries" OFF )
+OPTION(APPLY_RESTRICTIONS   "apply restrictions to queries" ON )
 OPTION(WITH_MWS             "build MathWebSearch daemon"    ON )
 OPTION(WITH_CRAWLER         "build MWS crawlers"            ON )
 OPTION(WITH_DOC             "build MWS documentation"       OFF )
 
 # Select build type
-SET(DEFAULT_CMAKE_BUILD_TYPE "Debug")
+SET(DEFAULT_CMAKE_BUILD_TYPE "Release")
 IF(NOT CMAKE_BUILD_TYPE)
     MESSAGE(STATUS
             "No build type selected, defaults to ${DEFAULT_CMAKE_BUILD_TYPE}")
