@@ -107,8 +107,13 @@ To setup or remove `mwsd` as a global SysV service, use (as root):
     mws-config create -p 9090 -i data/zbl zbldemo
     mws-config enable zbldemo
 
-This sets up MathWebSearch to serve the [ZBL demo harvests](data/zbl/) on
-port 9090. To monitor, start or stop the service, use
+An alternative option is to create a custom config and deploy it using
+
+    scripts/sysv/deploy.sh scripts/sysv/example.conf
+
+Both of these methods will deploy MathWebSearch to serve the
+[ZBL demo harvests](data/zbl/) on port 9090. To monitor, start or stop
+the service, use
 
 	service mwsd_zbldemo [start|stop|status|...]
 
