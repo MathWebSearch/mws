@@ -105,8 +105,7 @@ SearchContext::getResult(MwsIndexNode* data,
                          dbc::DbQueryManager* dbQueryManger,
                          unsigned int offset,
                          unsigned int size,
-                         unsigned int maxTotal)
-{
+                         unsigned int maxTotal) {
     MwsAnswset*   result;
     MwsIndexNode* currentNode;
     MwsIndexNode::_MapType::iterator mapIt;
@@ -126,32 +125,25 @@ SearchContext::getResult(MwsIndexNode* data,
     lastSolvedQvar = -1;     // Last qvar that was solved
 
     // Checking the arguments
-    if (offset + size > maxTotal)
-    {
-        if (maxTotal <= offset)
-        {
+    if (offset + size > maxTotal) {
+        if (maxTotal <= offset) {
             size = 0;
-        }
-        else
-        {
+        } else {
             size = maxTotal - offset;
         }
     }
 
     // Retrieving the solutions
-    while (found < maxTotal)
-    {
+    while (found < maxTotal) {
         // By default not backtracking
         backtrack = false;
 
         // Evaluating current token and deciding if to go ahead or backtrack
         if (currentToken < exprSize)
         {
-            if (expr[currentToken].isQvar)
-            {
+            if (expr[currentToken].isQvar) {
                 int qvarId = expr[currentToken].arity;
-                if (qvarTable[qvarId].isSolved)
-                {
+                if (qvarTable[qvarId].isSolved) {
                     std::list<
                         std::pair<qvarCtxt::mapIteratorType,
                                   qvarCtxt::mapIteratorType>
@@ -161,19 +153,14 @@ SearchContext::getResult(MwsIndexNode* data,
                          it ++)
                     {
                         mapIt = currentNode->children.find(it->first->first);
-                        if (mapIt != currentNode->children.end())
-                        {
+                        if (mapIt != currentNode->children.end()) {
                             currentNode = mapIt->second;
-                        }
-                        else
-                        {
+                        } else {
                             backtrack = true;
                             break;
                         }
                     }
-                }
-                else
-                {
+                } else {
                     currentNode = qvarTable[qvarId].solve(currentNode);
                     if (currentNode)
                     {
@@ -184,24 +171,17 @@ SearchContext::getResult(MwsIndexNode* data,
                         backtrack = true;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 mapIt = currentNode->children.find(
                         make_pair(expr[currentToken].meaningId,
                                   expr[currentToken].arity));
-                if (mapIt != currentNode->children.end())
-                {
+                if (mapIt != currentNode->children.end()) {
                     currentNode = mapIt->second;
-                }
-                else
-                {
+                } else {
                     backtrack = true;
                 }
             }
-        }
-        else
-        {
+        } else {
             // Handling the solutions
             if (found < size + offset &&
                 found + currentNode->solutions > offset)
@@ -239,8 +219,7 @@ SearchContext::getResult(MwsIndexNode* data,
             backtrack = true;
         }
 
-        if (backtrack)
-        {
+        if (backtrack) {
             // Backtracking or going to the next expression token
             // starting with the last
             while (lastSolvedQvar >= 0 &&
@@ -249,18 +228,13 @@ SearchContext::getResult(MwsIndexNode* data,
                 lastSolvedQvar--;
             }
 
-            if (lastSolvedQvar == -1)
-            {
+            if (lastSolvedQvar == -1) {
                 // No more solutions
                 break;
-            }
-            else
-            {
+            } else {
                 currentToken = backtrackPoints[lastSolvedQvar];
             }
-        }
-        else
-        {
+        } else {
             currentToken++;
         }
     }
