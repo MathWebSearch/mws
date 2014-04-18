@@ -40,7 +40,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
-#include "mws/index/MwsIndexNode.hpp"
 
 #include "SearchContextTypes.hpp"
 
@@ -48,24 +47,31 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mws { namespace query {
 
-struct SearchContext
-{
+struct SearchContext {
+private:
+    struct NodeTriple {
+        bool           isQvar;
+        mws::MeaningId meaningId;
+        mws::Arity     arity;
+        NodeTriple(bool isQvar, mws::MeaningId aMeaningId, mws::Arity anArity);
+    };
+
+    int mQvarCount;
     /// Vector containing the DFS traversal of the query expression
-    std::vector<nodeTriple> expr;
-    /// Table containing resolved Qvar and backtrack points
-    std::vector<mws::qvarCtxt> qvarTable;
+    std::vector<NodeTriple> expr;
     /// Qvar points in the Cmml Dfs Vector from where to backtrack. The
     /// vector starts with -1 to mark the beginning
     std::vector<int> backtrackPoints;
 
-    // Constructors and Destructors
+public:
 
     /**
       * @brief Constructor of the SearchContext class.
       * @param expression is a pointer to a CmmlToken from which to create
       * the SearchContext instance.
       */
-    explicit SearchContext(const std::vector<encoded_token_t>& encodedFormula);
+    explicit
+    SearchContext(const std::vector<encoded_token_t>& encodedFormula);
 
     /**
       * @brief Destructor of the SearchContext class.
@@ -82,7 +88,8 @@ struct SearchContext
       * without returning).
       * @return an answer set with the corresponding results.
       */
-    mws::MwsAnswset* getResult(mws::MwsIndexNode* aNode,
+    template<class Accessor>
+    mws::MwsAnswset* getResult(typename Accessor::Root* aNode,
                                dbc::DbQueryManager* dbQueryManager,
                                unsigned int anOffset,
                                unsigned int aSize,

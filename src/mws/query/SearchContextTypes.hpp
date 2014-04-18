@@ -36,7 +36,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <list>
 #include <map>
 #include <string>
-#include <utility>                     // STL pair
+#include <utility>
 #include <vector>
 
 // Local includes
@@ -45,41 +45,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/MwsAnswset.hpp"    // MWS Answer set class header
 #include "mws/index/MwsIndexNode.hpp"  // MWS Index node class header
 
-namespace mws
-{
+namespace mws {
 
-struct qvarCtxt
-{
-    typedef
-    mws::MwsIndexNode::_MapType::iterator
-    mapIteratorType;
+template<class Accessor>
+struct qvarCtxt {
+    typedef typename Accessor::Iterator MapIterator;
 
-    std::list<
-        std::pair<
-            mapIteratorType,
-            mapIteratorType
-        >
-    > backtrackIterators;
+    std::list<std::pair<MapIterator,MapIterator> > backtrackIterators;
     bool isSolved;
 
     inline qvarCtxt() {
         isSolved = false;
     }
 
-    inline mws::MwsIndexNode* solve(mws::MwsIndexNode* node) {
-        int totalArrity;
-        std::pair<
-            mapIteratorType,
-            mapIteratorType> currentPair;
+    inline typename Accessor::Node* solve(typename Accessor::Node* node) {
+        int totalArrity = 1;
 
-        totalArrity = 1;
-
-        while (totalArrity)
-        {
-            currentPair = make_pair(node->children.begin(),
-                                    node->children.end());
-            if (currentPair.first == currentPair.second)
-            {
+        while (totalArrity > 0) {
+            auto currentPair = make_pair(Accessor::getChildrenBegin(node),
+                                         Accessor::getChildrenEnd(node));
+            if (currentPair.first == currentPair.second) {
                 backtrackIterators.clear();
                 return NULL;
             }
@@ -92,21 +77,13 @@ struct qvarCtxt
         return node;
     }
 
-    inline mws::MwsIndexNode* nextSol()
-    {
-        int totalArrity;
-        mws::MwsIndexNode* currentNode;
-        std::pair<
-            mapIteratorType,
-            mapIteratorType> currentPair;
-
-        totalArrity = 0;
+    inline typename Accessor::Node* nextSol() {
+        int totalArrity = 0;
         totalArrity -= backtrackIterators.back().first->first.second - 1;
 
         backtrackIterators.back().first++;
         while (backtrackIterators.back().first ==
-                backtrackIterators.back().second)
-        {
+               backtrackIterators.back().second) {
             backtrackIterators.pop_back();
             if (backtrackIterators.empty())
             {
@@ -118,11 +95,12 @@ struct qvarCtxt
         }
         totalArrity += backtrackIterators.back().first->first.second - 1;
         // Found a valid next, now we need to complete it to the right arrity
-        currentNode = backtrackIterators.back().first->second;
+        typename Accessor::Node* currentNode =
+                backtrackIterators.back().first->second;
         while (totalArrity)
         {
-            currentPair = make_pair(currentNode->children.begin(),
-                                    currentNode->children.end());
+            auto currentPair = make_pair(currentNode->children.begin(),
+                                         currentNode->children.end());
             backtrackIterators.push_back(currentPair);
             // Updating currentNode and arrity
             currentNode = currentPair.first->second;
@@ -132,26 +110,6 @@ struct qvarCtxt
         return currentNode;
     }
 };
-
-struct nodeTriple
-{
-    bool           isQvar;
-    mws::MeaningId meaningId;
-    mws::Arity     arity;
-
-};
-    
-inline struct nodeTriple
-makeNodeTriple(bool isQvar, mws::MeaningId aMeaningId, mws::Arity anArity)
-{
-    struct nodeTriple result;
-
-    result.isQvar    = isQvar;
-    result.meaningId = aMeaningId;
-    result.arity     = anArity;
-
-    return result;
-}
 
 }
 

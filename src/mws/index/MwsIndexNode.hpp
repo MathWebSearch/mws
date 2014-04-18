@@ -45,14 +45,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/util.hpp"
 
 namespace mws {
+namespace index {
+struct TmpIndexAccessor;
+}
 
-namespace query {
-struct SearchContext;
-}  // namespace query
-
-class MwsIndexNode
-{
- private:
+class MwsIndexNode {
+ public:
     typedef mws::VectorMap<NodeInfo, MwsIndexNode*> _MapType;
     /// Map of children MwsIndex Nodes
     _MapType children;
@@ -90,8 +88,8 @@ class MwsIndexNode
  protected:
     memsector_off_t exportToMemsector(memsector_alloc_header_t* alloc) const;
 
-    friend struct query::SearchContext;
-    friend struct qvarCtxt;
+    friend struct mws::index::TmpIndexAccessor;
+
     ALLOW_TESTER_ACCESS;
 };
 

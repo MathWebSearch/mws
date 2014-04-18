@@ -54,7 +54,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/LevCrawlDb.hpp"
 #include "mws/dbc/MemFormulaDb.hpp"
 #include "mws/dbc/MemCrawlDb.hpp"
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndexAccessor.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/IndexManager.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
@@ -83,7 +83,7 @@ MwsAnswset* HarvestDaemon::handleQuery(MwsQuery *mwsQuery) {
                        &encodedQuery, &queryInfo) == 0) {
         dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
         ctxt = new query::SearchContext(encodedQuery);
-        result = ctxt->getResult(data,
+        result = ctxt->getResult<TmpIndexAccessor>(data,
                                  &dbQueryManger,
                                  mwsQuery->attrResultLimitMin,
                                  mwsQuery->attrResultMaxSize,

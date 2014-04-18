@@ -35,14 +35,22 @@ using std::make_pair;
 #include <vector>
 using std::vector;
 
-#include "SearchContext.hpp"
+#include "mws/query/SearchContext.hpp"
 #include "mws/index/encoded_token.h"
 #include "mws/types/NodeInfo.hpp"
+#include "mws/index/TmpIndexAccessor.hpp"
 using mws::types::FormulaId;
 
-namespace mws { namespace query {
+namespace mws {
+namespace query {
 
-SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
+SearchContext::NodeTriple::
+NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity)
+    : isQvar(isQvar), meaningId(aMeaningId), arity(anArity) {
+}
+
+SearchContext::
+SearchContext(const vector<encoded_token_t>& encodedFormula) {
     map<MeaningId, int> indexedQvars;
     int tokenCount = 0;
     int qvarCount  = 0;
@@ -52,45 +60,28 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
 
         if (encoded_token_is_var(encodedToken)) {  // qvar
             if (encoded_token_is_anon_var(encodedToken)) {  // anonymous qvar
-                expr.push_back(
-                        makeNodeTriple(true,
-                                       meaningId,
-                                       qvarCount)
-                        );
+                expr.push_back(NodeTriple(true, meaningId, qvarCount));
                 backtrackPoints.push_back(tokenCount+1);
                 qvarCount++;
             } else {  // named qvar
                 auto mapIt = indexedQvars.find(meaningId);
                 if (mapIt == indexedQvars.end()) {
                     indexedQvars.insert(make_pair(meaningId, qvarCount));
-                    expr.push_back(
-                            makeNodeTriple(true,
-                                           meaningId,
-                                           qvarCount)
-                            );
+                    expr.push_back(NodeTriple(true, meaningId, qvarCount));
                     backtrackPoints.push_back(tokenCount+1);
                     qvarCount++;
                 } else {
-                    expr.push_back(
-                            makeNodeTriple(true,
-                                           meaningId,
-                                           mapIt->second)
-                            );
+                    expr.push_back(NodeTriple(true, meaningId, mapIt->second));
                 }
             }
         } else {  // constant
-            expr.push_back(
-                    makeNodeTriple(false,
-                                   meaningId,
-                                   encodedToken.arity)
-                    );
+            expr.push_back(NodeTriple(false, meaningId, encodedToken.arity));
         }
 
         tokenCount++;
     }
 
-    // Initializing the qvarTable
-    qvarTable.resize(qvarCount);
+    mQvarCount = qvarCount;
 }
 
 
@@ -99,16 +90,21 @@ SearchContext::~SearchContext()
     // Nothing to do here
 }
 
-
+template<class Accessor>
 MwsAnswset*
-SearchContext::getResult(MwsIndexNode* data,
+SearchContext::getResult(typename Accessor::Root* data,
                          dbc::DbQueryManager* dbQueryManger,
                          unsigned int offset,
                          unsigned int size,
                          unsigned int maxTotal) {
+    // Table containing resolved Qvar and backtrack points
+    std::vector<mws::qvarCtxt<Accessor> > qvarTable;
+    // Initializing the qvarTable
+    qvarTable.resize(mQvarCount);
+
     MwsAnswset*   result;
-    MwsIndexNode* currentNode;
-    MwsIndexNode::_MapType::iterator mapIt;
+    typename Accessor::Node* currentNode;
+    typename Accessor::Iterator mapIt;
     int           currentToken;     // iterator for the expr
     int           exprSize;
     unsigned int  found;            // # of found matches
@@ -139,19 +135,13 @@ SearchContext::getResult(MwsIndexNode* data,
         backtrack = false;
 
         // Evaluating current token and deciding if to go ahead or backtrack
-        if (currentToken < exprSize)
-        {
+        if (currentToken < exprSize) {
             if (expr[currentToken].isQvar) {
                 int qvarId = expr[currentToken].arity;
                 if (qvarTable[qvarId].isSolved) {
-                    std::list<
-                        std::pair<qvarCtxt::mapIteratorType,
-                                  qvarCtxt::mapIteratorType>
-                        > :: iterator it;
-                    for (it  = qvarTable[qvarId].backtrackIterators.begin();
+                    for (auto it  = qvarTable[qvarId].backtrackIterators.begin();
                          it != qvarTable[qvarId].backtrackIterators.end();
-                         it ++)
-                    {
+                         it ++) {
                         mapIt = currentNode->children.find(it->first->first);
                         if (mapIt != currentNode->children.end()) {
                             currentNode = mapIt->second;
@@ -173,8 +163,8 @@ SearchContext::getResult(MwsIndexNode* data,
                 }
             } else {
                 mapIt = currentNode->children.find(
-                        make_pair(expr[currentToken].meaningId,
-                                  expr[currentToken].arity));
+                            make_pair(expr[currentToken].meaningId,
+                                          expr[currentToken].arity));
                 if (mapIt != currentNode->children.end()) {
                     currentNode = mapIt->second;
                 } else {
@@ -242,6 +232,15 @@ SearchContext::getResult(MwsIndexNode* data,
 
     return result;
 }
+
+// Declare specializations
+template MwsAnswset*
+SearchContext::
+getResult<index::TmpIndexAccessor>(index::TmpIndexAccessor::Root* data,
+dbc::DbQueryManager* dbQueryManger,
+unsigned int offset,
+unsigned int size,
+unsigned int maxTotal);
 
 }  // namespace query
 }  // namespace mws

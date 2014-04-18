@@ -98,7 +98,6 @@ typedef uint32_t    MeaningId;
 /// Type of the node arity
 typedef uint8_t     Arity;
 
-/// Type of the node info
 typedef std::pair<MeaningId, Arity> NodeInfo;
 
 // Constants
