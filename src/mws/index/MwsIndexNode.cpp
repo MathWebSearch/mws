@@ -67,14 +67,11 @@ MwsIndexNode::insertData(const vector<encoded_token_t>& encodedFormula) {
     currentNode = this;
 
     for (encoded_token_t encodedToken : encodedFormula) {
-        NodeInfo nodeInfo = make_pair(encoded_token_get_id(encodedToken),
-                                      encoded_token_get_arity(encodedToken));
-
-        auto mapIt = currentNode->children.find(nodeInfo);
+        auto mapIt = currentNode->children.find(encodedToken);
         // If no such node exists, we create it
         if (mapIt == currentNode->children.end()) {
             pair<_MapType::iterator, bool> ret =
-                currentNode->children.insert(make_pair(nodeInfo,
+                currentNode->children.insert(make_pair(encodedToken,
                                                        new MwsIndexNode()));
             currentNode = ret.first->second;
         } else {
@@ -104,8 +101,7 @@ MwsIndexNode::exportToMemsector(memsector_alloc_header_t* alloc) const {
         int i = 0;
         for (auto& kv : this->children) {
             const MwsIndexNode* child = kv.second;
-            inode->data[i].token =
-                    encoded_token(kv.first.first, kv.first.second);
+            inode->data[i].token = kv.first;
             inode->data[i].off = child->exportToMemsector(alloc);
 
             i++;

@@ -33,7 +33,7 @@ using std::string;
 using common::types::ParcelAllocator;
 using common::types::ParcelEncoder;
 using common::types::ParcelDecoder;
-#include "mws/types/NodeInfo.hpp"
+#include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaPath;
 
 /*

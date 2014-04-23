@@ -48,31 +48,14 @@ struct Tester {
     static inline
     MwsIndexNode* create_test_MwsIndexNode() {
         MwsIndexNode* data = new MwsIndexNode();
+        MwsIndexNode* leaf;
 
-        MwsIndexNode* H_node_1 = new MwsIndexNode();
-        H_node_1->solutions = 1;
-        data->children.insert(make_pair(H_ni, H_node_1));
-
-        MwsIndexNode* F_node_1 = new MwsIndexNode();
-        F_node_1->solutions = 1;
-        data->children.insert(make_pair(F_ni, F_node_1));
-
-        MwsIndexNode* apply_node_1 = new MwsIndexNode();
-        apply_node_1->solutions = 1;
-        data->children.insert(make_pair(apply4_ni, apply_node_1));
-
-        MwsIndexNode* F_node_2 = new MwsIndexNode();
-        apply_node_1->children.insert(make_pair(F_ni, F_node_2));
-
-        MwsIndexNode* H_node_3 = new MwsIndexNode();
-        F_node_2->children.insert(make_pair(H_ni, H_node_3));
-
-        MwsIndexNode* H_node_4 = new MwsIndexNode();
-        H_node_3->children.insert(make_pair(H_ni, H_node_4));
-
-        MwsIndexNode* H_node_5 = new MwsIndexNode();
-        H_node_5->solutions = 1;
-        H_node_4->children.insert(make_pair(H_ni, H_node_5));
+        leaf = data->insertData({F_tok});
+        leaf->solutions++;
+        leaf = data->insertData({H_tok});
+        leaf->solutions++;
+        leaf = data->insertData({apply4_tok, F_tok, H_tok, H_tok, H_tok});
+        leaf->solutions++;
 
         return data;
     }

@@ -25,6 +25,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <cerrno>
+#include <vector>
+
+#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/encoded_token.h"
 
 #include "engine_tester.hpp"
 
@@ -46,40 +50,18 @@ struct Tester {
 static
 MwsIndexNode* create_test_MwsIndexNode() {
     MwsIndexNode* data = new MwsIndexNode();
+    MwsIndexNode* leaf;
 
-    MwsIndexNode* h_node_1 = new MwsIndexNode();
-    h_node_1->solutions = 1;
-    data->children.insert(make_pair(h_ni, h_node_1));
-
-    MwsIndexNode* f_node_1 = new MwsIndexNode();
-    f_node_1->solutions = 1;
-    data->children.insert(make_pair(f_ni, f_node_1));
-
-    MwsIndexNode* apply_node_1 = new MwsIndexNode();
-    apply_node_1->solutions = 1;
-    data->children.insert(make_pair(apply4_ni, apply_node_1));
-
-    MwsIndexNode* t_node_1 = new MwsIndexNode();
-    t_node_1->solutions = 1;
-    data->children.insert(make_pair(t_ni, t_node_1));
-
-    MwsIndexNode* f_node_2 = new MwsIndexNode();
-    f_node_2->solutions = 1;
-    apply_node_1->children.insert(make_pair(f_ni, f_node_2));
-
-    MwsIndexNode* h_node_3 = new MwsIndexNode();
-    h_node_3->solutions = 1;
-    f_node_2->children.insert(make_pair(h_ni, h_node_3));
-
-    MwsIndexNode* h_node_4 = new MwsIndexNode();
-    h_node_4->solutions = 1;
-    h_node_3->children.insert(make_pair(h_ni, h_node_4));
-
-    MwsIndexNode* t_node_5 = new MwsIndexNode();
-    t_node_5->solutions = 1;
-    h_node_4->children.insert(make_pair(t_ni, t_node_5));
+    leaf = data->insertData({f_tok});
+    leaf->solutions++;
+    leaf = data->insertData({t_tok});
+    leaf->solutions++;
+    leaf = data->insertData({h_tok});
+    leaf->solutions++;
+    leaf = data->insertData({apply4_tok, f_tok, h_tok, h_tok, t_tok});
+    leaf->solutions++;
     /* save expected result leafId */
-    g_result_leaf_id = t_node_5->id;
+    g_result_leaf_id = leaf->id;
 
     return data;
 }
@@ -109,6 +91,7 @@ result_cb_return_t result_callback(void* handle,
     FAIL_ON(g_test_passed);
 
     FAIL_ON(leaf->formula_id != g_result_leaf_id);
+    printf("%d\n", (int)leaf->num_hits);
     FAIL_ON(leaf->num_hits != 1);
 
     g_test_passed = true;

@@ -45,38 +45,16 @@ struct Tester {
 static
 MwsIndexNode* create_test_MwsIndexNode() {
     MwsIndexNode* data = new MwsIndexNode();
+    MwsIndexNode* leaf;
 
-    MwsIndexNode* h_node_1 = new MwsIndexNode();
-    h_node_1->solutions = 1;
-    data->children.insert(make_pair(h_ni, h_node_1));
-
-    MwsIndexNode* f_node_1 = new MwsIndexNode();
-    f_node_1->solutions = 1;
-    data->children.insert(make_pair(f_ni, f_node_1));
-
-    MwsIndexNode* apply_node_1 = new MwsIndexNode();
-    apply_node_1->solutions = 1;
-    data->children.insert(make_pair(apply4_ni, apply_node_1));
-
-    MwsIndexNode* t_node_1 = new MwsIndexNode();
-    t_node_1->solutions = 1;
-    data->children.insert(make_pair(t_ni, t_node_1));
-
-    MwsIndexNode* f_node_2 = new MwsIndexNode();
-    f_node_2->solutions = 1;
-    apply_node_1->children.insert(make_pair(f_ni, f_node_2));
-
-    MwsIndexNode* h_node_3 = new MwsIndexNode();
-    h_node_3->solutions = 1;
-    f_node_2->children.insert(make_pair(h_ni, h_node_3));
-
-    MwsIndexNode* h_node_4 = new MwsIndexNode();
-    h_node_4->solutions = 1;
-    h_node_3->children.insert(make_pair(h_ni, h_node_4));
-
-    MwsIndexNode* t_node_5 = new MwsIndexNode();
-    t_node_5->solutions = 1;
-    h_node_4->children.insert(make_pair(t_ni, t_node_5));
+    leaf = data->insertData({f_tok});
+    leaf->solutions++;
+    leaf = data->insertData({t_tok});
+    leaf->solutions++;
+    leaf = data->insertData({h_tok});
+    leaf->solutions++;
+    leaf = data->insertData({apply4_tok, f_tok, h_tok, h_tok, t_tok});
+    leaf->solutions++;
 
     return data;
 }
@@ -87,7 +65,7 @@ static encoded_formula_t create_test_query() {
 
     result.data = new encoded_token_t[5];
     result.size = 5;
-    result.data[0] = apply4_tok;     // apply, 4
+    result.data[0] = apply4_tok;
     result.data[1] = f_tok;
     result.data[2] = P_tok;
     result.data[3] = P_tok;

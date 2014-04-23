@@ -41,7 +41,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/MeaningDictionary.hpp"
 using mws::MeaningId;
 #include "mws/types/NodeInfo.hpp"
-using mws::NodeInfo;
 
 /*--------------------------------------------------------------------------*/
 /* Constants                                                                */
@@ -96,12 +95,6 @@ fail:
     return EXIT_FAILURE;
 }
 
-static inline
-NodeInfo nodeInfoFromEncodedToken(encoded_token_t encoded_token) {
-    return std::make_pair(encoded_token_get_id(encoded_token),
-                          encoded_token_get_arity(encoded_token));
-}
-
 // Constants
 MeaningId constantId = CONSTANT_ID_MIN;
 encoded_token_t apply4_tok  = encoded_token(constantId++, 4);
@@ -109,15 +102,10 @@ encoded_token_t f_tok       = encoded_token(constantId++, 0);
 encoded_token_t h_tok       = encoded_token(constantId++, 0);
 encoded_token_t t_tok       = encoded_token(constantId++, 0);
 
-NodeInfo apply4_ni  = nodeInfoFromEncodedToken(apply4_tok);
-NodeInfo f_ni       = nodeInfoFromEncodedToken(f_tok);
-NodeInfo h_ni       = nodeInfoFromEncodedToken(h_tok);
-NodeInfo t_ni       = nodeInfoFromEncodedToken(t_tok);
-
 // Hvars
 MeaningId hvarId = HVAR_ID_MIN;
-NodeInfo F_ni = std::make_pair(hvarId++, 0);
-NodeInfo H_ni = std::make_pair(hvarId++, 0);
+encoded_token_t F_tok = encoded_token(hvarId++, 0);
+encoded_token_t H_tok = encoded_token(hvarId++, 0);
 
 // Qvars
 MeaningId qvarId = QVAR_ID_MIN;

@@ -42,7 +42,9 @@ namespace mws
 template<class T>
 struct Comparator
 {
-    static int compare(const T&, const T&);
+    static inline int compare(const T& t1, const T& t2) {
+        return memcmp(&t1, &t2, sizeof(t1));
+    }
 };
 
 
@@ -175,29 +177,6 @@ public:
         return _data.end();
     }
 };
-
-template<>
-inline int
-Comparator<NodeInfo>::compare(const NodeInfo& n1, const NodeInfo& n2)
-{
-    if (n1.second > n2.second)
-    {
-        return 1;
-    }
-    else if (n1.second == n2.second)
-    {
-        if (n1.first > n2.first)
-            return 1;
-        else if (n1.first == n2.first)
-            return 0;
-        else
-            return -1;
-    }
-    else
-    {
-        return -1;
-    }
-}
 
 }
 

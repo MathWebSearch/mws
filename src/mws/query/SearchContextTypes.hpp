@@ -68,7 +68,7 @@ struct qvarCtxt {
                 backtrackIterators.clear();
                 return NULL;
             }
-            totalArrity += currentPair.first->first.second - 1;
+            totalArrity += currentPair.first->first.arity - 1;
             backtrackIterators.push_back(currentPair);
             node = currentPair.first->second;
         }
@@ -79,7 +79,7 @@ struct qvarCtxt {
 
     inline typename Accessor::Node* nextSol() {
         int totalArrity = 0;
-        totalArrity -= backtrackIterators.back().first->first.second - 1;
+        totalArrity -= backtrackIterators.back().first->first.arity - 1;
 
         backtrackIterators.back().first++;
         while (backtrackIterators.back().first ==
@@ -90,10 +90,10 @@ struct qvarCtxt {
                 isSolved = false;
                 return NULL;
             }
-            totalArrity += 1 - backtrackIterators.back().first->first.second;
+            totalArrity += 1 - backtrackIterators.back().first->first.arity;
             backtrackIterators.back().first++;
         }
-        totalArrity += backtrackIterators.back().first->first.second - 1;
+        totalArrity += backtrackIterators.back().first->first.arity - 1;
         // Found a valid next, now we need to complete it to the right arrity
         typename Accessor::Node* currentNode =
                 backtrackIterators.back().first->second;
@@ -104,7 +104,7 @@ struct qvarCtxt {
             backtrackIterators.push_back(currentPair);
             // Updating currentNode and arrity
             currentNode = currentPair.first->second;
-            totalArrity += currentPair.first->first.second - 1;
+            totalArrity += currentPair.first->first.arity - 1;
         }
         // We have selected a different solution
         return currentNode;

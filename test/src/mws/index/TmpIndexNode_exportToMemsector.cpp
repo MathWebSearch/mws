@@ -59,8 +59,8 @@ struct Tester {
             if (tmp_node->children.size() != inode->size) return false;
             int i = 0;
             for (auto& kv : tmp_node->children) {
-                MeaningId           meaningId  = kv.first.first;
-                Arity               arity      = kv.first.second;
+                MeaningId           meaningId  = kv.first.id;
+                Arity               arity      = kv.first.arity;
                 const MwsIndexNode* child_node = kv.second;
 
                 if (meaningId != inode->data[i].token.id) return false;

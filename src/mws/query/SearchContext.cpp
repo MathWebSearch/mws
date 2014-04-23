@@ -163,7 +163,7 @@ SearchContext::getResult(typename Accessor::Root* data,
                 }
             } else {
                 mapIt = currentNode->children.find(
-                            make_pair(expr[currentToken].meaningId,
+                            encoded_token(expr[currentToken].meaningId,
                                           expr[currentToken].arity));
                 if (mapIt != currentNode->children.end()) {
                     currentNode = mapIt->second;

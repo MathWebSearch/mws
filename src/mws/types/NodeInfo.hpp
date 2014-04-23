@@ -22,8 +22,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define _MWS_TYPES_NODEINFO_HPP
 
 /**
-  * @brief  File containing type declarations for NodeInfo
-  * @file   NodeInfo.hpp
+  * @brief  FormulaId and FormulaPath type definitions
+  * @file   FormulaPath.hpp
   * @author Corneliu-Claudiu Prodescu <c.prodescu@jacobs-university.de>
   * @date   07 Jul 2011
   *
@@ -97,10 +97,6 @@ typedef uint32_t    MeaningId;
 
 /// Type of the node arity
 typedef uint8_t     Arity;
-
-typedef std::pair<MeaningId, Arity> NodeInfo;
-
-// Constants
 
 }  // namespace mws
 
