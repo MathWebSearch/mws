@@ -36,11 +36,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 
 #include "common/utils/compiler_defs.h"
+#include "mws/index/encoded_token.h"
 #include "mws/index/MwsIndexNode.hpp"
 #include "mws/query/engine.h"
-#include "mws/types/MeaningDictionary.hpp"
-using mws::MeaningId;
-#include "mws/types/NodeInfo.hpp"
 
 /*--------------------------------------------------------------------------*/
 /* Constants                                                                */

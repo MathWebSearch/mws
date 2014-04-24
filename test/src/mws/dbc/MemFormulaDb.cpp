@@ -27,12 +27,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using std::vector;
 
 #include "common/utils/compiler_defs.h"
+#include "mws/dbc/CrawlDb.hpp"
+using mws::dbc::CrawlId;
 #include "mws/dbc/FormulaDb.hpp"
 using mws::dbc::FormulaDb;
 #include "mws/dbc/MemFormulaDb.hpp"
 using mws::dbc::MemFormulaDb;
-#include "mws/types/NodeInfo.hpp"
-using mws::types::CrawlId;
+#include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaPath;
 
 struct FormulaInfo {

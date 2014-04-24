@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_TYPES_NODEINFO_HPP
-#define _MWS_TYPES_NODEINFO_HPP
+#ifndef _MWS_TYPES_FORMULAPATH_HPP
+#define _MWS_TYPES_FORMULAPATH_HPP
 
 /**
   * @brief  FormulaId and FormulaPath type definitions
@@ -44,8 +44,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace types {
 
-typedef uint32_t FormulaId;     ///< Formula Id corresponding to a leaf node
+/**
+ * @brief Formula Id corresponding to a leaf node
+ */
+typedef uint32_t FormulaId;
 
+/**
+ * @brief Formula Path
+ */
 struct FormulaPath : public common::types::Parcelable {
     std::string xmlId;
     std::string xpath;
@@ -79,25 +85,7 @@ struct FormulaPath : public common::types::Parcelable {
     }
 };
 
-typedef uint32_t CrawlId;   ///< Crawled data Id
-const CrawlId CRAWLID_NULL = 0;
-
-typedef std::string CrawlData;
-const CrawlData CRAWLDATA_NULL = CrawlData();
-
 }  // namespace types
 }  // namespace mws
 
-namespace mws {
-
-
-
-/// Type of the node meaning encoding
-typedef uint32_t    MeaningId;
-
-/// Type of the node arity
-typedef uint8_t     Arity;
-
-}  // namespace mws
-
-#endif  // _MWS_TYPES_NODEINFO_HPP
+#endif  // _MWS_TYPES_FORMULAPATH_HPP

@@ -58,6 +58,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Type declarations                                                        */
 /*--------------------------------------------------------------------------*/
 
+/// Token meaning encoding
+typedef uint32_t    MeaningId;
+
+/// Token arity
+typedef uint32_t    Arity;
+
 /**
  * @brief CmmlToken encoding as uint32_t
  */
@@ -91,17 +97,17 @@ typedef struct encoded_formula_s {
 BEGIN_DECLS
 
 static inline
-uint32_t encoded_token_get_arity(encoded_token_t tok) {
+Arity encoded_token_get_arity(encoded_token_t tok) {
     return tok.arity;
 }
 
 static inline
-uint32_t encoded_token_get_id(encoded_token_t tok) {
+MeaningId encoded_token_get_id(encoded_token_t tok) {
     return tok.id;
 }
 
 static inline
-encoded_token_t encoded_token(uint32_t id, uint32_t arity) {
+encoded_token_t encoded_token(MeaningId id, Arity arity) {
     encoded_token_t tok;
 
     tok.arity = arity;

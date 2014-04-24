@@ -27,9 +27,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <map>
 #include <stdexcept>
-
-#include "mws/types/NodeInfo.hpp"
-using mws::types::CRAWLID_NULL;
+#include <string>
+using std::to_string;
 
 #include "MemCrawlDb.hpp"
 
@@ -41,27 +40,27 @@ MemCrawlDb::MemCrawlDb() : mNextCrawlId(CRAWLID_NULL) {
 
 }
 
-types::CrawlId
-MemCrawlDb::putData(const types::CrawlData& crawlData)
+CrawlId
+MemCrawlDb::putData(const CrawlData& crawlData)
 throw (std::exception) {
-    const types::CrawlId crawlId = ++mNextCrawlId;
+    const CrawlId crawlId = ++mNextCrawlId;
     auto ret = mData.insert(make_pair(crawlId, crawlData));
     if (!ret.second) {
         throw std::runtime_error("Duplicate entry at crawlId = " +
-                                 std::to_string(crawlId));
+                                 to_string(crawlId));
     }
 
     return crawlId;
 }
 
-const types::CrawlData MemCrawlDb::getData(const types::CrawlId& crawlId)
+const CrawlData MemCrawlDb::getData(const CrawlId& crawlId)
 throw (std::exception) {
     auto it = mData.find(crawlId);
     if (it != mData.end()) {
         return it->second;
     } else {
         throw runtime_error("No data corresponding to crawlId = " +
-                            std::to_string(crawlId));
+                            to_string(crawlId));
     }
 }
 

@@ -29,8 +29,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "FormulaDb.hpp"
 
-#include "mws/types/NodeInfo.hpp"
-
 #include <map>
 #include <vector>
 
@@ -40,7 +38,7 @@ namespace mws { namespace dbc {
 class MemFormulaDb : public FormulaDb {
 public:
     virtual int insertFormula(const types::FormulaId&   formulaId,
-                              const types::CrawlId&     crawlId,
+                              const CrawlId&     crawlId,
                               const types::FormulaPath& formulaPath);
 
     virtual int queryFormula(const types::FormulaId& formulaId,
@@ -49,7 +47,7 @@ public:
                              QueryCallback           queryCallback);
 private:
     struct FormulaInfo {
-        types::CrawlId crawlId;
+        CrawlId crawlId;
         types::FormulaPath formulaPath;
     };
 

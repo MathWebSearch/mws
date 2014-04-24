@@ -38,7 +38,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/index/encoded_token.h"
 #include "mws/index/IndexManager.hpp"
-#include "mws/types/MeaningDictionary.hpp"
+#include "mws/index/MeaningDictionary.hpp"
 #include "mws/types/CmmlToken.hpp"
 
 /****************************************************************************/
@@ -54,11 +54,11 @@ struct ExpressionInfo {
 
 class ExpressionEncoder {
  public:
-    explicit ExpressionEncoder(mws::types::MeaningDictionary* dictionary);
+    explicit ExpressionEncoder(MeaningDictionary* dictionary);
     virtual ~ExpressionEncoder();
 
     int encode(const IndexingOptions& options,
-               const mws::types::CmmlToken* expression,
+               const types::CmmlToken* expression,
                std::vector<encoded_token_t> *encodedFormula,
                ExpressionInfo* expressionInfo);
  protected:
@@ -68,14 +68,14 @@ class ExpressionEncoder {
 
     MeaningId _getCiMeaning(const mws::types::CmmlToken* token);
 
-    mws::types::MeaningDictionary* _meaningDictionary;
+    MeaningDictionary* _meaningDictionary;
     std::unordered_map<std::string, std::string> _ciTranslations;
     uint32_t _ciTranslationCounter;
 };
 
 class HarvestEncoder : public ExpressionEncoder {
  public:
-    explicit HarvestEncoder(mws::types::MeaningDictionary* dictionary);
+    explicit HarvestEncoder(MeaningDictionary* dictionary);
     virtual ~HarvestEncoder();
  protected:
     virtual MeaningId _getAnonVarOffset() const;
@@ -85,7 +85,7 @@ class HarvestEncoder : public ExpressionEncoder {
 
 class QueryEncoder : public ExpressionEncoder {
  public:
-    explicit QueryEncoder(mws::types::MeaningDictionary* dictionary);
+    explicit QueryEncoder(MeaningDictionary* dictionary);
     virtual ~QueryEncoder();
  protected:
     virtual MeaningId _getAnonVarOffset() const;

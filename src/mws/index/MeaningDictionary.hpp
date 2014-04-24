@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_TYPES_MEANINGDICTIONARY_HPP
-#define _MWS_TYPES_MEANINGDICTIONARY_HPP
+#ifndef _MWS_INDEX_MEANINGDICTIONARY_HPP
+#define _MWS_INDEX_MEANINGDICTIONARY_HPP
 
 /**
   * @brief  Meaning Dictionary Class
@@ -31,14 +31,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include "mws/types/CmmlToken.hpp"
 #include "common/types/IdDictionary.hpp"
+#include "mws/types/CmmlToken.hpp"
+#include "mws/index/encoded_token.h"
 
-namespace mws { namespace types {
+namespace mws { namespace index {
 
-typedef common::types::IdDictionary<Meaning, MeaningId> MeaningDictionary;
+typedef common::types::IdDictionary<types::Meaning, MeaningId>
+MeaningDictionary;
 
 }  // namespace types
 }  // namesapce mws
 
-#endif // _MWS_TYPES_MEANINGDICTIONARY_HPP
+#endif  // _MWS_INDEX_MEANINGDICTIONARY_HPP

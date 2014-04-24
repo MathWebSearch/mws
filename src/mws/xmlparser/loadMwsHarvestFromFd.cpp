@@ -51,9 +51,10 @@ using std::vector;
 #include <map>
 using std::map;
 
+#include "mws/dbc/CrawlDb.hpp"
+using mws::dbc::CrawlId;
 #include "mws/index/IndexManager.hpp"
 using mws::index::IndexingOptions;
-#include "mws/types/NodeInfo.hpp"
 #include "mws/types/CmmlToken.hpp"
 #include "common/utils/compiler_defs.h"
 

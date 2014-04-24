@@ -29,11 +29,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <functional>
 
-#include "mws/types/NodeInfo.hpp"
+#include "mws/types/FormulaPath.hpp"
+#include "mws/dbc/CrawlDb.hpp"
 
 namespace mws { namespace dbc {
 
-typedef std::function<int (const mws::types::CrawlId&,
+typedef std::function<int (const CrawlId&,
                            const mws::types::FormulaPath&)> QueryCallback;
 
 class FormulaDb {
@@ -48,8 +49,8 @@ public:
      * formula
      * @return 0 on success and -1 on failure.
      */
-    virtual int insertFormula(const mws::types::FormulaId&   formulaId,
-                              const mws::types::CrawlId&     crawlId,
+    virtual int insertFormula(const mws::types::FormulaId& formulaId,
+                              const CrawlId& crawlId,
                               const mws::types::FormulaPath& formulaPath) = 0;
 
     /**

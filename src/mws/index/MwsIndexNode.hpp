@@ -35,14 +35,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include <vector>
 
+#include "common/utils/util.hpp"
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsAnswset.hpp"
-#include "mws/types/NodeInfo.hpp"
-#include "mws/types/MeaningDictionary.hpp"
 #include "mws/types/VectorMap.hpp"
-#include "mws/index/memsector.h"
 #include "mws/index/encoded_token.h"
-#include "common/utils/util.hpp"
+#include "mws/index/memsector.h"
+#include "mws/index/MeaningDictionary.hpp"
 
 namespace mws {
 namespace index {

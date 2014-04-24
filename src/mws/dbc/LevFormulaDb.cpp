@@ -42,8 +42,6 @@ using common::types::ParcelAllocator;
 using common::types::ParcelEncoder;
 using common::types::ParcelDecoder;
 #include "mws/dbc/LevFormulaDb.hpp"
-#include "mws/types/NodeInfo.hpp"
-using mws::types::CrawlData;
 
 namespace mws { namespace dbc {
 
@@ -82,7 +80,7 @@ throw (runtime_error) {
 
 int
 LevFormulaDb::insertFormula(const types::FormulaId&   formulaId,
-                            const types::CrawlId&     crawlId,
+                            const CrawlId&     crawlId,
                             const types::FormulaPath& formulaPath) {
     ++mCounter;
 
@@ -132,7 +130,7 @@ LevFormulaDb::queryFormula(const types::FormulaId &formulaId,
         std::string crawlId_str;
         decoder.decode(&crawlId_str);
 
-        types::CrawlId crawlId = strtoul(crawlId_str.data(), NULL, 0);
+        CrawlId crawlId = strtoul(crawlId_str.data(), NULL, 0);
         types::FormulaPath formulaPath;
         decoder.decode(&formulaPath);
 

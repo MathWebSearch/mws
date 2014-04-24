@@ -35,11 +35,15 @@ using std::make_pair;
 #include <vector>
 using std::vector;
 
-#include "mws/query/SearchContext.hpp"
 #include "mws/index/encoded_token.h"
-#include "mws/types/NodeInfo.hpp"
 #include "mws/index/TmpIndexAccessor.hpp"
+using mws::index::TmpIndexAccessor;
+#include "mws/types/FormulaPath.hpp"
+using mws::types::FormulaPath;
 using mws::types::FormulaId;
+#include "mws/dbc/CrawlDb.hpp"
+using mws::dbc::CrawlData;
+#include "mws/query/SearchContext.hpp"
 
 namespace mws {
 namespace query {
@@ -186,8 +190,8 @@ SearchContext::getResult(typename Accessor::Root* data,
                     dbMaxSize = size;
                 }
                 dbc::DbAnswerCallback callback =
-                        [result](const types::FormulaPath& formulaPath,
-                                 const types::CrawlData& crawlData) {
+                        [result](const FormulaPath& formulaPath,
+                                 const CrawlData& crawlData) {
                     mws::types::Answer* answer = new mws::types::Answer();
                     answer->data = crawlData;
                     answer->uri = formulaPath.xmlId;
@@ -236,7 +240,7 @@ SearchContext::getResult(typename Accessor::Root* data,
 // Declare specializations
 template MwsAnswset*
 SearchContext::
-getResult<index::TmpIndexAccessor>(index::TmpIndexAccessor::Root* data,
+getResult<index::TmpIndexAccessor>(TmpIndexAccessor::Root* data,
 dbc::DbQueryManager* dbQueryManger,
 unsigned int offset,
 unsigned int size,

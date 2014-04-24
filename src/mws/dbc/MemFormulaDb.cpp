@@ -32,7 +32,7 @@ namespace mws { namespace dbc {
 
 int
 MemFormulaDb::insertFormula(const types::FormulaId&   formulaId,
-                            const types::CrawlId&     crawlId,
+                            const CrawlId&     crawlId,
                             const types::FormulaPath& formulaPath) {
     MemFormulaDb::FormulaInfo formulaInfo;
 

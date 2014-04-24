@@ -51,9 +51,9 @@ struct SearchContext {
 private:
     struct NodeTriple {
         bool           isQvar;
-        mws::MeaningId meaningId;
-        mws::Arity     arity;
-        NodeTriple(bool isQvar, mws::MeaningId aMeaningId, mws::Arity anArity);
+        MeaningId meaningId;
+        Arity     arity;
+        NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity);
     };
 
     int mQvarCount;

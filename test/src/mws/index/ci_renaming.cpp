@@ -42,11 +42,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 
+#include "mws/dbc/MemCrawlDb.hpp"
+#include "mws/dbc/MemFormulaDb.hpp"
+#include "mws/index/MeaningDictionary.hpp"
+using mws::index::MeaningDictionary;
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
-#include "mws/dbc/MemCrawlDb.hpp"
-#include "mws/dbc/MemFormulaDb.hpp"
 #include "common/utils/compiler_defs.h"
 
 #include "build-gen/config.h"
@@ -71,7 +73,7 @@ struct Tester {
         dbc::MemCrawlDb crawlDb;
         dbc::MemFormulaDb formulaDb;
         MwsIndexNode data;
-        types::MeaningDictionary meaningDictionary;
+        MeaningDictionary meaningDictionary;
         index::IndexingOptions indexingOptions;
         indexingOptions.renameCi = true;
         index::IndexManager indexManager(&formulaDb, &crawlDb, &data,

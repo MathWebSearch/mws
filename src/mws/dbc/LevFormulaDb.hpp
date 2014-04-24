@@ -34,7 +34,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <leveldb/db.h>
 
 #include "mws/dbc/FormulaDb.hpp"
-#include "mws/types/NodeInfo.hpp"
 
 namespace mws { namespace dbc {
 
@@ -48,7 +47,7 @@ class LevFormulaDb : public FormulaDb {
     throw (std::runtime_error);
 
     virtual int insertFormula(const types::FormulaId&   formulaId,
-                              const types::CrawlId&     crawlId,
+                              const CrawlId&     crawlId,
                               const types::FormulaPath& formulaPath);
 
     virtual int queryFormula(const types::FormulaId& formulaId,

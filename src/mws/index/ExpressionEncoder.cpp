@@ -39,13 +39,12 @@ using std::unordered_map;
 #include <vector>
 using std::vector;
 
-#include "mws/index/ExpressionEncoder.hpp"
-#include "mws/types/MeaningDictionary.hpp"
-#include "mws/index/IndexManager.hpp"
-using mws::types::MeaningDictionary;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::Meaning;
+#include "mws/index/ExpressionEncoder.hpp"
+#include "mws/index/MeaningDictionary.hpp"
+#include "mws/index/IndexManager.hpp"
 
 /****************************************************************************/
 /* Implementation                                                           */
@@ -143,7 +142,7 @@ MeaningId ExpressionEncoder::_getCiMeaning(const CmmlToken* token) {
     return _getConstantEncoding(translatedMeaning);
 }
 
-HarvestEncoder::HarvestEncoder(types::MeaningDictionary *dictionary) :
+HarvestEncoder::HarvestEncoder(MeaningDictionary *dictionary) :
     ExpressionEncoder(dictionary) {
 }
 
@@ -164,7 +163,7 @@ HarvestEncoder::_getConstantEncoding(const Meaning& meaning) {
     return CONSTANT_ID_MIN + _meaningDictionary->put(meaning);
 }
 
-QueryEncoder::QueryEncoder(types::MeaningDictionary *dictionary) :
+QueryEncoder::QueryEncoder(MeaningDictionary *dictionary) :
     ExpressionEncoder(dictionary) {
 }
 

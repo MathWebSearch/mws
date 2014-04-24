@@ -41,7 +41,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/dbc/LevFormulaDb.hpp"
 #include "mws/dbc/LevCrawlDb.hpp"
-#include "mws/types/MeaningDictionary.hpp"
+#include "mws/index/MeaningDictionary.hpp"
 #include "mws/index/IndexManager.hpp"
 
 namespace mws { namespace daemon {
@@ -57,7 +57,7 @@ class IndexDaemon : public Daemon {
     index_handle_t* data;
     dbc::CrawlDb* crawlDb;
     dbc::FormulaDb* formulaDb;
-    types::MeaningDictionary* meaningDictionary;
+    index::MeaningDictionary* meaningDictionary;
 };
 }  // namespace daemon
 }  // namespace mws

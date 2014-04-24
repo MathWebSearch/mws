@@ -26,14 +26,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 
 #include "mws/dbc/MemCrawlDb.hpp"
+using mws::dbc::CrawlId;
+using mws::dbc::CrawlData;
+using mws::dbc::CrawlDb;
+using mws::dbc::MemCrawlDb;
 
 #include "common/utils/compiler_defs.h"
 
 int main() {
-    using mws::types::CrawlId;
-    using mws::types::CrawlData;
-    using mws::dbc::CrawlDb;
-    using mws::dbc::MemCrawlDb;
 
     CrawlDb* crawlDb = new MemCrawlDb();
     CrawlData crawlData = "foobar";

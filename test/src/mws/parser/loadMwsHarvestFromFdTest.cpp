@@ -40,6 +40,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 
+#include "mws/index/MeaningDictionary.hpp"
+using mws::index::MeaningDictionary;
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
@@ -74,7 +76,7 @@ int main()
     dbc::MemCrawlDb crawlDb;
     dbc::MemFormulaDb formulaDb;
     MwsIndexNode data;
-    types::MeaningDictionary meaningDictionary;
+    MeaningDictionary meaningDictionary;
     index::IndexingOptions indexingOptions;
     indexingOptions.renameCi = false;
     index::IndexManager indexManager(&formulaDb, &crawlDb, &data,

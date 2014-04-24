@@ -30,7 +30,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include "mws/types/CmmlToken.hpp"
-#include "mws/types/NodeInfo.hpp"
 #include "mws/dbc/FormulaDb.hpp"
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/index/MwsIndexNode.hpp"
@@ -46,22 +45,22 @@ private:
     dbc::FormulaDb* m_formulaDb;
     dbc::CrawlDb* m_crawlDb;
     MwsIndexNode* m_index;
-    types::MeaningDictionary* m_meaningDictionary;
+    index::MeaningDictionary* m_meaningDictionary;
     index::IndexingOptions m_indexingOptions;
 
 public:
     IndexManager(dbc::FormulaDb* formulaDb,
                  dbc::CrawlDb* crawlDb,
                  MwsIndexNode* index,
-                 types::MeaningDictionary* meaningDictionary,
-                 const index::IndexingOptions& indexingOptions);
+                 MeaningDictionary* meaningDictionary,
+                 const IndexingOptions& indexingOptions);
 
     /**
      * @brief index crawl data
      * @param crawlData URL and opaque data given in the crawled harvest
      * @return Identifier of the crawled data
      */
-    types::CrawlId indexCrawlData(const types::CrawlData& crawlData);
+    dbc::CrawlId indexCrawlData(const dbc::CrawlData& crawlData);
 
     /**
      * @brief index content math formula
@@ -72,7 +71,7 @@ public:
      */
     int indexContentMath(const types::CmmlToken* cmmlToken,
                          const std::string xmlId,
-                         const types::CrawlId& crawlId = types::CRAWLID_NULL);
+                         const dbc::CrawlId& crawlId = dbc::CRAWLID_NULL);
 };
 
 } }

@@ -37,37 +37,36 @@ using std::unordered_map;
 
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
-#include "mws/types/NodeInfo.hpp"
-using mws::types::CrawlId;
-using mws::types::CrawlData;
+#include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaId;
 using mws::types::FormulaPath;
+#include "mws/dbc/CrawlDb.hpp"
+using mws::dbc::CrawlId;
+using mws::dbc::CrawlData;
 #include "mws/index/ExpressionEncoder.hpp"
-using mws::index::HarvestEncoder;
-
-#include "IndexManager.hpp"
+#include "mws/index/IndexManager.hpp"
 
 namespace mws { namespace index {
 
 IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
                            dbc::CrawlDb* crawlDb,
                            MwsIndexNode* index,
-                           types::MeaningDictionary* meaningDictionary,
+                           MeaningDictionary* meaningDictionary,
                            const IndexingOptions& indexingOptions) :
     m_formulaDb(formulaDb), m_crawlDb(crawlDb), m_index(index),
     m_meaningDictionary(meaningDictionary),
     m_indexingOptions(indexingOptions) {
 }
 
-types::CrawlId
-IndexManager::indexCrawlData(const types::CrawlData& crawlData) {
+CrawlId
+IndexManager::indexCrawlData(const CrawlData& crawlData) {
     return m_crawlDb->putData(crawlData);
 }
 
 int
 IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
                                const std::string xmlId,
-                               const types::CrawlId& crawlId) {
+                               const CrawlId& crawlId) {
     assert(cmmlToken != NULL);
     // Using a stack to insert all subterms by
     // going depth first through the CmmlToken

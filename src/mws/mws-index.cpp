@@ -37,8 +37,9 @@ using common::utils::FlagParser;
 #include "mws/dbc/LevFormulaDb.hpp"
 #include "mws/index/MwsIndexNode.hpp"
 #include "mws/index/memsector.h"
+#include "mws/index/MeaningDictionary.hpp"
+using mws::index::MeaningDictionary;
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
-#include "mws/types/MeaningDictionary.hpp"
 
 #include "build-gen/config.h"
 
@@ -56,7 +57,7 @@ int main(int argc, char* argv[]) {
     dbc::CrawlDb*             crawlDb;
     dbc::FormulaDb*           formulaDb;
     MwsIndexNode*             data;
-    types::MeaningDictionary* meaningDictionary;
+    MeaningDictionary* meaningDictionary;
     index::IndexManager*      indexManager;
     index::IndexingOptions    indexingOptions;
     std::filebuf              fb;
@@ -121,7 +122,7 @@ int main(int argc, char* argv[]) {
     }
 
     data = new MwsIndexNode();
-    meaningDictionary = new types::MeaningDictionary();
+    meaningDictionary = new MeaningDictionary();
 
     indexManager = new index::IndexManager(formulaDb,
                                            crawlDb,

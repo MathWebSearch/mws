@@ -33,7 +33,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/MwsIndexNode.hpp"
 #include "mws/index/memsector.h"
 #include "mws/index/IndexManager.hpp"
-#include "mws/types/MeaningDictionary.hpp"
+#include "mws/index/MeaningDictionary.hpp"
+using mws::index::MeaningDictionary;
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "common/utils/compiler_defs.h"
 #include "common/utils/FlagParser.hpp"
@@ -104,7 +105,7 @@ int main(int argc, char* argv[]) {
     dbc::CrawlDb* crawlDb;
     dbc::FormulaDb* formulaDb;
     MwsIndexNode* data;
-    types::MeaningDictionary* meaningDictionary;
+    MeaningDictionary* meaningDictionary;
     index::IndexManager* indexManager;
     index::IndexingOptions indexingOptions;
     string harvest_path;
@@ -162,7 +163,7 @@ int main(int argc, char* argv[]) {
     crawlDb = new dbc::MemCrawlDb();
     formulaDb = new dbc::MemFormulaDb();
     data = new MwsIndexNode();
-    meaningDictionary = new types::MeaningDictionary();
+    meaningDictionary = new MeaningDictionary();
     indexManager = new index::IndexManager(formulaDb, crawlDb,
                                            data, meaningDictionary,
                                            indexingOptions);

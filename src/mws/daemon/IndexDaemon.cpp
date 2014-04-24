@@ -63,6 +63,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
+#include "mws/dbc/CrawlDb.hpp"
+using mws::dbc::CrawlData;
 
 using namespace std;
 using namespace mws;
@@ -85,8 +87,8 @@ result_cb_return_t result_callback(void* handle,
     dbc::DbQueryManager* dbQueryManager = handlerStruct->dbQueryManager;
 
     dbc::DbAnswerCallback queryCallback =
-            [result](const types::FormulaPath& formulaPath,
-                     const types::CrawlData& crawlData) {
+            [result](const FormulaPath& formulaPath,
+                     const CrawlData& crawlData) {
         mws::types::Answer* answer = new mws::types::Answer();
         answer->data = crawlData;
         answer->uri = formulaPath.xmlId;

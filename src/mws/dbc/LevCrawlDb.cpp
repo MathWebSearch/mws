@@ -44,11 +44,8 @@ using leveldb::DestroyDB;
 using common::types::ParcelAllocator;
 using common::types::ParcelEncoder;
 using common::types::ParcelDecoder;
-#include "mws/types/NodeInfo.hpp"
-using mws::types::CrawlData;
-using mws::types::CRAWLID_NULL;
-
-#include "LevCrawlDb.hpp"
+#include "mws/dbc/CrawlDb.hpp"
+#include "mws/dbc/LevCrawlDb.hpp"
 
 
 namespace mws { namespace dbc {
@@ -86,9 +83,9 @@ throw (runtime_error) {
     }
 }
 
-types::CrawlId LevCrawlDb::putData(const types::CrawlData& crawlData)
+CrawlId LevCrawlDb::putData(const CrawlData& crawlData)
 throw (std::exception) {
-    types::CrawlId crawlId = ++mNextCrawlId;
+    CrawlId crawlId = ++mNextCrawlId;
     string crawlId_str = std::to_string(crawlId);
 
     ParcelAllocator allocator;
@@ -108,11 +105,11 @@ throw (std::exception) {
     return crawlId;
 }
 
-const types::CrawlData LevCrawlDb::getData(const types::CrawlId& crawlId)
+const CrawlData LevCrawlDb::getData(const CrawlId& crawlId)
 throw (std::exception) {
     string crawlId_str = std::to_string(crawlId);
     string retrieved_str;
-    mws::types::CrawlData retrieved;
+    CrawlData retrieved;
 
     auto status =
         mDatabase->Get(leveldb::ReadOptions(), crawlId_str, &retrieved_str);

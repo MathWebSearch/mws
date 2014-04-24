@@ -35,7 +35,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <leveldb/db.h>
 
 #include "mws/dbc/CrawlDb.hpp"
-#include "mws/types/NodeInfo.hpp"
 
 namespace mws {
 namespace dbc {
@@ -55,7 +54,7 @@ class LevCrawlDb : public CrawlDb {
      * @param crawlData data associated with the crawl element
      *
      */
-    virtual types::CrawlId putData(const types::CrawlData& crawlData)
+    virtual CrawlId putData(const CrawlData& crawlData)
     throw (std::exception);
 
     /**
@@ -64,12 +63,12 @@ class LevCrawlDb : public CrawlDb {
      * @return CrawlData corresponding to crawlId
      * @throw NotFound or I/O exceptions
      */
-    virtual const types::CrawlData getData(const types::CrawlId& crawlId)
+    virtual const CrawlData getData(const CrawlId& crawlId)
     throw (std::exception);
 
  private:
     leveldb::DB* mDatabase;
-    types::CrawlId mNextCrawlId;
+    CrawlId mNextCrawlId;
 };
 
 }  // namespace dbc

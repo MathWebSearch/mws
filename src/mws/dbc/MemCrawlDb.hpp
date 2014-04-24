@@ -29,8 +29,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <map>
 
-#include "mws/types/NodeInfo.hpp"
-
 #include "CrawlDb.hpp"
 
 namespace mws { namespace dbc {
@@ -45,7 +43,7 @@ public:
      * @param crawlData data associated with the crawl element
      *
      */
-    virtual types::CrawlId putData(const types::CrawlData& crawlData)
+    virtual CrawlId putData(const CrawlData& crawlData)
     throw (std::exception);
 
     /**
@@ -54,12 +52,12 @@ public:
      * @return CrawlData corresponding to crawlId
      * @throw NotFound or I/O exceptions
      */
-    virtual const types::CrawlData getData(const types::CrawlId& crawlId)
+    virtual const CrawlData getData(const CrawlId& crawlId)
     throw (std::exception);
 
 private:
-    std::map<types::CrawlId, types::CrawlData> mData;
-    types::CrawlId mNextCrawlId;
+    std::map<CrawlId, CrawlData> mData;
+    CrawlId mNextCrawlId;
 };
 
 } }
