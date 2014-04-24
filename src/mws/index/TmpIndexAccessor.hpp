@@ -37,7 +37,9 @@ struct TmpIndexAccessor {
     typedef MwsIndexNode Node;
     typedef MwsIndexNode::_MapType::iterator Iterator;
 
-    //static MeaningId
+    static Node* getRootNode(Root* root) {
+        return root;
+    }
 
     static Iterator getChildrenBegin(Node* node) {
         return node->children.begin();
@@ -45,6 +47,27 @@ struct TmpIndexAccessor {
 
     static Iterator getChildrenEnd(Node* node) {
         return node->children.end();
+    }
+
+    static encoded_token_t getToken(const Iterator& it) {
+        return it->first;
+    }
+
+    static Arity getArity(const Iterator& it) {
+        return it->first.arity;
+    }
+
+    static Node* getNode(const Iterator& it) {
+        return it->second;
+    }
+
+    static Node* getChild(Node* node, encoded_token_t token) {
+        auto it = node->children.find(token);
+        if (it == node->children.end()) {
+            return NULL;
+        } else {
+            return it->second;
+        }
     }
 };
 

@@ -49,7 +49,6 @@ struct TmpIndexAccessor;
 }
 
 class MwsIndexNode {
- public:
     typedef mws::VectorMap<encoded_token_t, MwsIndexNode*> _MapType;
     /// Map of children MwsIndex Nodes
     _MapType children;

@@ -103,26 +103,12 @@ SearchContext::getResult(typename Accessor::Root* data,
                          unsigned int maxTotal) {
     // Table containing resolved Qvar and backtrack points
     std::vector<mws::qvarCtxt<Accessor> > qvarTable;
-    // Initializing the qvarTable
-    qvarTable.resize(mQvarCount);
 
-    MwsAnswset*   result;
-    typename Accessor::Node* currentNode;
-    typename Accessor::Iterator mapIt;
-    int           currentToken;     // iterator for the expr
-    int           exprSize;
-    unsigned int  found;            // # of found matches
-    int           lastSolvedQvar;
-    bool          backtrack;
-
-    // Initializing variables
-    result             = new MwsAnswset();
-    found              = 0;
-    exprSize           = expr.size();
-
-    currentToken   = 0;      // Current token from expr vector
-    currentNode    = data;   // Current MwsIndexNode
-    lastSolvedQvar = -1;     // Last qvar that was solved
+    MwsAnswset* result = new MwsAnswset;
+    size_t currentToken = 0;            // index for the expression vector
+    unsigned int  found = 0;            // # of found matches
+    int lastSolvedQvar = -1;            // last qvar that was solved
+    typename Accessor::Node* currentNode = Accessor::getRootNode(data);
 
     // Checking the arguments
     if (offset + size > maxTotal) {
@@ -133,45 +119,42 @@ SearchContext::getResult(typename Accessor::Root* data,
         }
     }
 
+    // Initializing the qvarTable
+    qvarTable.resize(mQvarCount);
+
     // Retrieving the solutions
     while (found < maxTotal) {
         // By default not backtracking
-        backtrack = false;
+        bool backtrack = false;
 
         // Evaluating current token and deciding if to go ahead or backtrack
-        if (currentToken < exprSize) {
+        if (currentToken < expr.size()) {
             if (expr[currentToken].isQvar) {
                 int qvarId = expr[currentToken].arity;
                 if (qvarTable[qvarId].isSolved) {
                     for (auto it  = qvarTable[qvarId].backtrackIterators.begin();
                          it != qvarTable[qvarId].backtrackIterators.end();
                          it ++) {
-                        mapIt = currentNode->children.find(it->first->first);
-                        if (mapIt != currentNode->children.end()) {
-                            currentNode = mapIt->second;
-                        } else {
+                        currentNode = TmpIndexAccessor::getChild(currentNode,
+                                    TmpIndexAccessor::getToken(it->first));
+                        if (currentNode == NULL) {
                             backtrack = true;
                             break;
                         }
                     }
                 } else {
                     currentNode = qvarTable[qvarId].solve(currentNode);
-                    if (currentNode)
-                    {
+                    if (currentNode != NULL) {
                         lastSolvedQvar = qvarId;
-                    }
-                    else
-                    {
+                    } else {
                         backtrack = true;
                     }
                 }
             } else {
-                mapIt = currentNode->children.find(
+                currentNode = TmpIndexAccessor::getChild(currentNode,
                             encoded_token(expr[currentToken].meaningId,
                                           expr[currentToken].arity));
-                if (mapIt != currentNode->children.end()) {
-                    currentNode = mapIt->second;
-                } else {
+                if (currentNode == NULL) {
                     backtrack = true;
                 }
             }
