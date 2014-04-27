@@ -38,6 +38,8 @@ using std::vector;
 #include "mws/index/encoded_token.h"
 #include "mws/index/TmpIndexAccessor.hpp"
 using mws::index::TmpIndexAccessor;
+#include "mws/index/IndexAccessor.hpp"
+using mws::index::IndexAccessor;
 #include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaPath;
 using mws::types::FormulaId;
@@ -94,21 +96,21 @@ SearchContext::~SearchContext()
     // Nothing to do here
 }
 
-template<class Accessor>
+template<class A /* Accessor */>
 MwsAnswset*
-SearchContext::getResult(typename Accessor::Root* data,
+SearchContext::getResult(typename A::Index* index,
                          dbc::DbQueryManager* dbQueryManger,
                          unsigned int offset,
                          unsigned int size,
                          unsigned int maxTotal) {
     // Table containing resolved Qvar and backtrack points
-    std::vector<mws::qvarCtxt<Accessor> > qvarTable;
+    std::vector<mws::qvarCtxt<A> > qvarTable;
 
     MwsAnswset* result = new MwsAnswset;
     size_t currentToken = 0;            // index for the expression vector
     unsigned int  found = 0;            // # of found matches
     int lastSolvedQvar = -1;            // last qvar that was solved
-    typename Accessor::Node* currentNode = Accessor::getRootNode(data);
+    typename A::Node* currentNode = A::getRootNode(index);
 
     // Checking the arguments
     if (offset + size > maxTotal) {
@@ -135,15 +137,15 @@ SearchContext::getResult(typename Accessor::Root* data,
                     for (auto it  = qvarTable[qvarId].backtrackIterators.begin();
                          it != qvarTable[qvarId].backtrackIterators.end();
                          it ++) {
-                        currentNode = TmpIndexAccessor::getChild(currentNode,
-                                    TmpIndexAccessor::getToken(it->first));
+                        encoded_token_t token = A::getToken(it->first);
+                        currentNode = A::getChild(index, currentNode, token);
                         if (currentNode == NULL) {
                             backtrack = true;
                             break;
                         }
                     }
                 } else {
-                    currentNode = qvarTable[qvarId].solve(currentNode);
+                    currentNode = qvarTable[qvarId].solve(index, currentNode);
                     if (currentNode != NULL) {
                         lastSolvedQvar = qvarId;
                     } else {
@@ -151,9 +153,10 @@ SearchContext::getResult(typename Accessor::Root* data,
                     }
                 }
             } else {
-                currentNode = TmpIndexAccessor::getChild(currentNode,
-                            encoded_token(expr[currentToken].meaningId,
-                                          expr[currentToken].arity));
+                encoded_token_t token =
+                        encoded_token(expr[currentToken].meaningId,
+                                      expr[currentToken].arity);
+                currentNode = A::getChild(index, currentNode, token);
                 if (currentNode == NULL) {
                     backtrack = true;
                 }
@@ -161,7 +164,7 @@ SearchContext::getResult(typename Accessor::Root* data,
         } else {
             // Handling the solutions
             if (found < size + offset &&
-                found + currentNode->solutions > offset)
+                found + A::getHitsCount(currentNode) > offset)
             {
                 unsigned dbOffset;
                 unsigned dbMaxSize;
@@ -183,11 +186,11 @@ SearchContext::getResult(typename Accessor::Root* data,
                     return 0;
                 };
 
-                dbQueryManger->query((FormulaId)currentNode->id, dbOffset,
+                dbQueryManger->query(A::getFormulaId(currentNode), dbOffset,
                                      dbMaxSize, callback);
             }
 
-            found += currentNode->solutions;
+            found += A::getHitsCount(currentNode);
 
             // making sure we haven't surpassed maxTotal
             if (found > maxTotal) found = maxTotal;
@@ -200,7 +203,8 @@ SearchContext::getResult(typename Accessor::Root* data,
             // Backtracking or going to the next expression token
             // starting with the last
             while (lastSolvedQvar >= 0 &&
-                    NULL == (currentNode = qvarTable[lastSolvedQvar].nextSol()))
+                    NULL == (currentNode =
+                             qvarTable[lastSolvedQvar].nextSol(index)))
             {
                 lastSolvedQvar--;
             }
@@ -221,9 +225,18 @@ SearchContext::getResult(typename Accessor::Root* data,
 }
 
 // Declare specializations
+
 template MwsAnswset*
 SearchContext::
-getResult<index::TmpIndexAccessor>(TmpIndexAccessor::Root* data,
+getResult<TmpIndexAccessor>(TmpIndexAccessor::Index* index,
+dbc::DbQueryManager* dbQueryManger,
+unsigned int offset,
+unsigned int size,
+unsigned int maxTotal);
+
+template MwsAnswset*
+SearchContext::
+getResult<IndexAccessor>(IndexAccessor::Index* index,
 dbc::DbQueryManager* dbQueryManger,
 unsigned int offset,
 unsigned int size,

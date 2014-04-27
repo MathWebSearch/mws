@@ -89,7 +89,7 @@ public:
       * @return an answer set with the corresponding results.
       */
     template<class Accessor>
-    mws::MwsAnswset* getResult(typename Accessor::Root* aNode,
+    mws::MwsAnswset* getResult(typename Accessor::Index* aNode,
                                dbc::DbQueryManager* dbQueryManager,
                                unsigned int anOffset,
                                unsigned int aSize,

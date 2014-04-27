@@ -46,6 +46,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace index {
 struct TmpIndexAccessor;
+class IndexManager;
 }
 
 class MwsIndexNode {
@@ -54,12 +55,11 @@ class MwsIndexNode {
     _MapType children;
     /// Id of the next node to be created
     static unsigned long long nextNodeId;
- public:
     /// Id of the MwsIndexNode
     const unsigned long long id;
     /// Number of solutions associated with this node
     unsigned int solutions;
-
+public:
     /**
       * @brief Default constructor of the MwsIndexSubst class
       */
@@ -87,6 +87,7 @@ class MwsIndexNode {
     memsector_off_t exportToMemsector(memsector_alloc_header_t* alloc) const;
 
     friend struct mws::index::TmpIndexAccessor;
+    friend class mws::index::IndexManager;
 
     ALLOW_TESTER_ACCESS;
 };

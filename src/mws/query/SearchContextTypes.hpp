@@ -58,7 +58,8 @@ struct qvarCtxt {
         isSolved = false;
     }
 
-    inline typename Accessor::Node* solve(typename Accessor::Node* node) {
+    inline typename Accessor::Node* solve(typename Accessor::Index* index,
+                                          typename Accessor::Node* node) {
         int totalArrity = 1;
         while (totalArrity > 0) {
             typename Accessor::Iterator begin =
@@ -71,16 +72,16 @@ struct qvarCtxt {
             }
             backtrackIterators.push_back(std::make_pair(begin,end));
             totalArrity += Accessor::getArity(begin) - 1;
-            node = Accessor::getNode(begin);
+            node = Accessor::getNode(index, begin);
         }
 
         isSolved = true;
         return node;
     }
 
-    inline typename Accessor::Node* nextSol() {
+    inline typename Accessor::Node* nextSol(typename Accessor::Index* index) {
         int totalArrity = 0;
-        totalArrity -= backtrackIterators.back().first->first.arity - 1;
+        totalArrity -= Accessor::getArity(backtrackIterators.back().first) - 1;
 
         backtrackIterators.back().first++;
         while (backtrackIterators.back().first ==
@@ -94,10 +95,10 @@ struct qvarCtxt {
                     1 - Accessor::getArity(backtrackIterators.back().first);
             backtrackIterators.back().first++;
         }
-        totalArrity += backtrackIterators.back().first->first.arity - 1;
+        totalArrity += Accessor::getArity(backtrackIterators.back().first) - 1;
         // Found a valid next, now we need to complete it to the right arrity
         typename Accessor::Node* currentNode =
-                backtrackIterators.back().first->second;
+                Accessor::getNode(index, backtrackIterators.back().first);
         while (totalArrity) {
             typename Accessor::Iterator begin =
                     Accessor::getChildrenBegin(currentNode);
@@ -105,7 +106,7 @@ struct qvarCtxt {
                     Accessor::getChildrenEnd(currentNode);
             backtrackIterators.push_back(std::make_pair(begin,end));
             // Updating currentNode and arrity
-            currentNode = Accessor::getNode(begin);
+            currentNode = Accessor::getNode(index, begin);
             totalArrity += Accessor::getArity(begin) - 1;
         }
         // We have selected a different solution
