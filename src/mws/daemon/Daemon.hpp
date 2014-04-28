@@ -51,6 +51,9 @@ struct Config {
     std::string              harvestFileExtension;
     index::IndexingOptions   indexingOptions;
     bool                     deleteOldData;
+    bool                     useExperimentalQueryEngine;
+
+    Config();
 };
 
 class Daemon {

@@ -28,9 +28,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
+#include <list>
+using std::list;
 #include <map>
 using std::map;
 #include <utility>
+using std::pair;
 using std::make_pair;
 #include <vector>
 using std::vector;
@@ -49,6 +52,73 @@ using mws::dbc::CrawlData;
 
 namespace mws {
 namespace query {
+
+template<class Accessor>
+struct qvarCtxt {
+    typedef typename Accessor::Iterator MapIterator;
+
+    list<pair<MapIterator, MapIterator> > backtrackIterators;
+    bool isSolved;
+
+    inline qvarCtxt() {
+        isSolved = false;
+    }
+
+    inline typename Accessor::Node* solve(typename Accessor::Index* index,
+                                          typename Accessor::Node* node) {
+        int totalArrity = 1;
+        while (totalArrity > 0) {
+            typename Accessor::Iterator begin =
+                    Accessor::getChildrenBegin(node);
+            typename Accessor::Iterator end =
+                    Accessor::getChildrenEnd(node);
+            if (begin == end) {
+                backtrackIterators.clear();
+                return NULL;
+            }
+            backtrackIterators.push_back(std::make_pair(begin, end));
+            totalArrity += Accessor::getArity(begin) - 1;
+            node = Accessor::getNode(index, begin);
+        }
+
+        isSolved = true;
+        return node;
+    }
+
+    inline typename Accessor::Node* nextSol(typename Accessor::Index* index) {
+        int totalArrity = 0;
+        totalArrity -= Accessor::getArity(backtrackIterators.back().first) - 1;
+
+        backtrackIterators.back().first++;
+        while (backtrackIterators.back().first ==
+               backtrackIterators.back().second) {
+            backtrackIterators.pop_back();
+            if (backtrackIterators.empty()) {
+                isSolved = false;
+                return NULL;
+            }
+            totalArrity +=
+                    1 - Accessor::getArity(backtrackIterators.back().first);
+            backtrackIterators.back().first++;
+        }
+        totalArrity += Accessor::getArity(backtrackIterators.back().first) - 1;
+        // Found a valid next, now we need to complete it to the right arrity
+        typename Accessor::Node* currentNode =
+                Accessor::getNode(index, backtrackIterators.back().first);
+        while (totalArrity) {
+            typename Accessor::Iterator begin =
+                    Accessor::getChildrenBegin(currentNode);
+            typename Accessor::Iterator end =
+                    Accessor::getChildrenEnd(currentNode);
+            backtrackIterators.push_back(std::make_pair(begin, end));
+            // Updating currentNode and arrity
+            currentNode = Accessor::getNode(index, begin);
+            totalArrity += Accessor::getArity(begin) - 1;
+        }
+        // We have selected a different solution
+        return currentNode;
+    }
+};
 
 SearchContext::NodeTriple::
 NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity)
@@ -104,7 +174,7 @@ SearchContext::getResult(typename A::Index* index,
                          unsigned int size,
                          unsigned int maxTotal) {
     // Table containing resolved Qvar and backtrack points
-    std::vector<mws::qvarCtxt<A> > qvarTable;
+    vector<qvarCtxt<A> > qvarTable;
 
     MwsAnswset* result = new MwsAnswset;
     size_t currentToken = 0;            // index for the expression vector
@@ -134,7 +204,7 @@ SearchContext::getResult(typename A::Index* index,
             if (expr[currentToken].isQvar) {
                 int qvarId = expr[currentToken].arity;
                 if (qvarTable[qvarId].isSolved) {
-                    for (auto it  = qvarTable[qvarId].backtrackIterators.begin();
+                    for (auto it = qvarTable[qvarId].backtrackIterators.begin();
                          it != qvarTable[qvarId].backtrackIterators.end();
                          it ++) {
                         encoded_token_t token = A::getToken(it->first);

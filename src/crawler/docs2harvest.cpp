@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-/** 
+/**
  *  @file docs2harvest.cpp
  *  @author Corneliu C Prodescu <cprodescu@gmail.com>
  *

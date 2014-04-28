@@ -59,6 +59,7 @@ class MwsIndexNode {
     const unsigned long long id;
     /// Number of solutions associated with this node
     unsigned int solutions;
+
 public:
     /**
       * @brief Default constructor of the MwsIndexSubst class

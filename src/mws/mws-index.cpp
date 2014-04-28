@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     std::filebuf              fb;
     std::ostream os(&fb);
 
-    FlagParser::addFlag('d', "output-directory",        FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('o', "output-directory",        FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('I', "include-harvest-path",    FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('r', "recursive",               FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('s', "memsector-size",          FLAG_OPT, ARG_REQ);
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
     }
 
     harvest_path = FlagParser::getArg('I');
-    output_dir   = FlagParser::getArg('d');
+    output_dir   = FlagParser::getArg('o');
     indexingOptions.renameCi = FlagParser::hasArg('c');
     if (FlagParser::hasArg('s')) {
         memsector_size = atoi(FlagParser::getArg('s').c_str());

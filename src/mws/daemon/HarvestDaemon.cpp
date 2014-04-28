@@ -71,7 +71,7 @@ using namespace mws::index;
 namespace mws { namespace daemon {
 
 MwsAnswset* HarvestDaemon::handleQuery(MwsQuery *mwsQuery) {
-    MwsAnswset*       result;
+    MwsAnswset* result;
     query::SearchContext* ctxt;
 
     QueryEncoder encoder(meaningDictionary);

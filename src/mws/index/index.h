@@ -109,7 +109,7 @@ memsector_off_t inode_get_child(const inode_t* inode, encoded_token_t token) {
     left = 0;
     right = inode->size - 1;
 
-    while(left <= right) {
+    while (left <= right) {
         int32_t center = left + (right - left) / 2;
         int result = memcmp(&inode->data[center].token, &token, sizeof(token));
         if (result > 0) {

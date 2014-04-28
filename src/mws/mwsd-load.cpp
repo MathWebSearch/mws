@@ -36,13 +36,12 @@ using std::string;
 using std::vector;
 
 #include "common/utils/FlagParser.hpp"
+using common::utils::FlagParser;
 #include "common/utils/save_pid_file.h"
 #include "mws/daemon/IndexDaemon.hpp"
 #include "mws/index/memsector.h"
 
 #include "build-gen/config.h"
-
-using namespace common::utils;
 
 static volatile sig_atomic_t sigQuit = 0;
 
@@ -59,6 +58,7 @@ int main(int argc, char* argv[]) {
 
     // Parsing the flags
     FlagParser::addFlag('m', "mws-port",             FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('x', "experimental-query-engine", FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('I', "index-path",           FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
@@ -85,6 +85,8 @@ int main(int argc, char* argv[]) {
         PRINT_LOG("Using default mws port %d\n", DEFAULT_MWS_PORT);
         config.mwsPort = DEFAULT_MWS_PORT;
     }
+
+    config.useExperimentalQueryEngine = FlagParser::hasArg('x');
 
     // index-path
     config.dataPath = FlagParser::getArg('I').c_str();

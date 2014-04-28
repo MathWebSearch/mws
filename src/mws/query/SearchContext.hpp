@@ -37,18 +37,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <list>
 
+#include "mws/dbc/DbQueryManager.hpp"
+#include "mws/index/encoded_token.h"
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsAnswset.hpp"
-#include "mws/dbc/DbQueryManager.hpp"
-
-#include "SearchContextTypes.hpp"
-
-// Typedefs
 
 namespace mws { namespace query {
 
-struct SearchContext {
-private:
+class SearchContext {
     struct NodeTriple {
         bool           isQvar;
         MeaningId meaningId;
@@ -64,14 +60,12 @@ private:
     std::vector<int> backtrackPoints;
 
 public:
-
     /**
       * @brief Constructor of the SearchContext class.
       * @param expression is a pointer to a CmmlToken from which to create
       * the SearchContext instance.
       */
-    explicit
-    SearchContext(const std::vector<encoded_token_t>& encodedFormula);
+    explicit SearchContext(const std::vector<encoded_token_t>& encodedFormula);
 
     /**
       * @brief Destructor of the SearchContext class.

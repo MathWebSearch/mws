@@ -38,55 +38,67 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>          // Primitive System datatypes
 #include <sys/stat.h>           // POSIX File characteristics
 #include <fcntl.h>              // File control operations
-#include <signal.h>
 #include <stdlib.h>
 
-#include <mws/index/index.h>
-#include <mws/query/engine.h>
-
-#include <stack>
-#include <fstream>
-#include <vector>
 #include <string>
+using std::string;
+#include <vector>
+using std::vector;
+#include <fstream>
+using std::filebuf;
+using std::istream;
+using std::ios;
+#include <stdexcept>
+using std::exception;
 
-// Local includes
-
-#include "IndexDaemon.hpp"
-#include "common/socket/InSocket.hpp"
-#include "common/socket/OutSocket.hpp"
-#include "mws/types/HandlerStruct.hpp"
+#include "mws/dbc/CrawlDb.hpp"
+using mws::dbc::CrawlData;
 #include "mws/dbc/LevFormulaDb.hpp"
+using mws::dbc::LevFormulaDb;
 #include "mws/dbc/LevCrawlDb.hpp"
+using mws::dbc::LevCrawlDb;
+#include "mws/dbc/DbQueryManager.hpp"
+using mws::dbc::DbQueryManager;
+using mws::dbc::DbAnswerCallback;
+#include "mws/index/index.h"
+#include "mws/index/ExpressionEncoder.hpp"
+using mws::index::QueryEncoder;
+using mws::index::ExpressionInfo;
+#include "mws/index/MeaningDictionary.hpp"
+using mws::index::MeaningDictionary;
+#include "mws/index/IndexAccessor.hpp"
+using mws::index::IndexAccessor;
+#include "mws/query/SearchContext.hpp"
+using mws::query::SearchContext;
+#include "mws/query/engine.h"
+#include "mws/types/FormulaPath.hpp"
+using mws::types::FormulaId;
+using mws::types::FormulaPath;
 #include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "mws/xmlparser/writeXmlAnswset.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
-#include "mws/dbc/DbQueryManager.hpp"
-#include "mws/index/ExpressionEncoder.hpp"
-#include "mws/dbc/CrawlDb.hpp"
-using mws::dbc::CrawlData;
 
-using namespace std;
-using namespace mws;
-using namespace mws::types;
-using namespace mws::index;
+#include "mws/daemon/IndexDaemon.hpp"
 
 namespace mws { namespace daemon {
 
+struct HandlerStruct {
+    MwsAnswset*     result;
+    MwsQuery*       mwsQuery;
+    DbQueryManager* dbQueryManager;
+};
+
 static
-result_cb_return_t result_callback(void* handle,
+result_cb_return_t result_callback(void* _ctxt,
                                    const leaf_t * leaf) {
-    if (leaf->type != LEAF_NODE) {
-        PRINT_WARN("Leaf callback error.");
-        return QUERY_ERROR;
-    }
+    assert(leaf->type == LEAF_NODE);
 
-    HandlerStruct *handlerStruct = (HandlerStruct *) handle;
-    MwsAnswset *result = handlerStruct->result;
-    MwsQuery   *mwsQuery = handlerStruct->mwsQuery;
-    dbc::DbQueryManager* dbQueryManager = handlerStruct->dbQueryManager;
-
-    dbc::DbAnswerCallback queryCallback =
+    HandlerStruct *ctxt = reinterpret_cast<HandlerStruct *>(_ctxt);
+    MwsAnswset* result = ctxt->result;
+    MwsQuery* mwsQuery = ctxt->mwsQuery;
+    DbQueryManager* dbQueryManager = ctxt->dbQueryManager;
+    DbAnswerCallback queryCallback =
             [result](const FormulaPath& formulaPath,
                      const CrawlData& crawlData) {
         mws::types::Answer* answer = new mws::types::Answer();
@@ -106,37 +118,47 @@ result_cb_return_t result_callback(void* handle,
     return QUERY_CONTINUE;
 }
 
-MwsAnswset* IndexDaemon::handleQuery(MwsQuery* mwsQuery) {
-    MwsAnswset* result = new MwsAnswset();
-    dbc::DbQueryManager dbQueryManager(crawlDb, formulaDb);
+MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
+    MwsAnswset* result = new MwsAnswset;
     QueryEncoder encoder(meaningDictionary);
-    std::vector<encoded_token_t> encFormula_vec;
-    ExpressionInfo exprInfo;
+    vector<encoded_token_t> encodedQuery;
+    ExpressionInfo queryInfo;
 
-    encoder.encode(_config.indexingOptions, mwsQuery->tokens[0],
-                   &encFormula_vec, &exprInfo);
-    encoded_formula_t encFormula;
-    encFormula.data = encFormula_vec.data();
-    encFormula.size = encFormula_vec.size();
+    if (encoder.encode(_config.indexingOptions,
+                       query->tokens[0],
+                       &encodedQuery, &queryInfo) == 0) {
+        DbQueryManager dbQueryManager(crawlDb, formulaDb);
+        if (_config.useExperimentalQueryEngine) {
+            HandlerStruct ctxt;
+            ctxt.result = result;
+            ctxt.mwsQuery = query;
+            ctxt.dbQueryManager = &dbQueryManager;
 
-    HandlerStruct* handlerStruct = new HandlerStruct();
-    handlerStruct->result = result;
-    handlerStruct->mwsQuery = mwsQuery;
-    handlerStruct->dbQueryManager = &dbQueryManager;
+            encoded_formula_t encodedFormula;
+            encodedFormula.data = encodedQuery.data(),
+            encodedFormula.size = encodedQuery.size();
 
-    query_engine_run(data, &encFormula, result_callback, handlerStruct);
+            query_engine_run(data, &encodedFormula, result_callback, &ctxt);
+        } else {
+            SearchContext ctxt(encodedQuery);
+            result = ctxt.getResult<IndexAccessor>(data,
+                                                   &dbQueryManager,
+                                                   query->attrResultLimitMin,
+                                                   query->attrResultMaxSize,
+                                                   query->attrResultTotalReqNr);
+        }
+    }
 
-    result->qvarNames = exprInfo.qvarNames;
-    result->qvarXpaths = exprInfo.qvarXpaths;
+    result->qvarNames = queryInfo.qvarNames;
+    result->qvarXpaths = queryInfo.qvarXpaths;
 
     return result;
 }
 
-
 int IndexDaemon::initMws(const Config& config) {
     int ret = Daemon::initMws(config);
-    dbc::LevCrawlDb* crdb = new dbc::LevCrawlDb();
-    dbc::LevFormulaDb* fmdb = new dbc::LevFormulaDb();
+    LevCrawlDb* crdb = new LevCrawlDb();
+    LevFormulaDb* fmdb = new LevFormulaDb();
     string crdbPath = config.dataPath + "/crawl.db";
     string fmdbPath = config.dataPath + "/formula.db";
 
@@ -147,7 +169,7 @@ int IndexDaemon::initMws(const Config& config) {
         crawlDb = crdb;
         formulaDb = fmdb;
     }
-    catch(const std::exception &e) {
+    catch(const exception &e) {
         PRINT_WARN("Initializing database: %s\n", e.what());
         return EXIT_FAILURE;
     }
@@ -166,9 +188,9 @@ int IndexDaemon::initMws(const Config& config) {
      * Initializing meaningDictionary
      */
     meaningDictionary = new MeaningDictionary();
-    std::filebuf fb;
-    std::istream os(&fb);
-    fb.open((config.dataPath + "/meaning.dat").c_str(), std::ios::in);
+    filebuf fb;
+    istream os(&fb);
+    fb.open((config.dataPath + "/meaning.dat").c_str(), ios::in);
     meaningDictionary->load(os);
     fb.close();
 

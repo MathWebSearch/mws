@@ -59,6 +59,9 @@ using mws::xmlparser::writeXmlAnswset;
 
 namespace mws { namespace daemon {
 
+Config::Config() : useExperimentalQueryEngine(false) {
+}
+
 Daemon::Daemon() : _daemonHandler(NULL) {
 }
 
