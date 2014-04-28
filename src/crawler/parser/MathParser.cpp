@@ -149,9 +149,11 @@ xmlDocPtr parseDoc(const char *buffer, int size) {
     }
 
     // Try as HTML
-    doc = htmlCtxtReadMemory(htmlNewParserCtxt(), buffer, size, "",
+    htmlParserCtxtPtr htmlPtr = htmlNewParserCtxt();
+    doc = htmlCtxtReadMemory(htmlPtr, buffer, size, "",
                              /* encoding = */ NULL, HTML_PARSE_RECOVER |
                              HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
+    htmlFreeParserCtxt(htmlPtr);
     if (doc != NULL) {
         return doc;
     }
@@ -180,9 +182,10 @@ xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const xmlChar *xpath) {
 static
 void renameXmlIdAttributes(xmlNode* node) {
     // Rename attribute id to local_id
-    const xmlChar* id = xmlGetProp(node, BAD_CAST "id");
+    xmlChar* id = xmlGetProp(node, BAD_CAST "id");
     xmlSetProp(node, BAD_CAST "local_id", id);
     xmlUnsetProp(node, BAD_CAST "id");
+    xmlFree(id);
 
     // Recurse through child nodes
     xmlNodePtr curr = node->children;
@@ -241,17 +244,20 @@ xmlNode* getMathNodeFromContentMathNode(xmlNode* content_math_node) {
 static string getDocumentUri(xmlDocPtr doc, string document_uri_xpath) {
     xmlXPathObjectPtr result =
             getXMLNodeset(doc, BAD_CAST document_uri_xpath.c_str());
-    if (result != NULL) {
-        xmlNodeSetPtr nodeSet = result->nodesetval;
-        if (!xmlXPathNodeSetIsEmpty(nodeSet) && nodeSet->nodeNr == 1) {
-            xmlNode* node = nodeSet->nodeTab[0];
-            xmlChar* content = xmlNodeGetContent(node);
-            return string((char*) content);
-        }
-        xmlXPathFreeObject(result);
+    if (result == NULL) {
+        return "";
     }
-
-    return "";
+    xmlNodeSetPtr nodeSet = result->nodesetval;
+    if (xmlXPathNodeSetIsEmpty(nodeSet)) {
+        xmlXPathFreeObject(result);
+        return "";
+    }
+    xmlNode* node = nodeSet->nodeTab[0];
+    xmlChar* content = xmlNodeGetContent(node);
+    xmlXPathFreeObject(result);
+    string ret = string((char*) content);
+    xmlFree(content);
+    return ret;
 }
 
 }  // namespace parser

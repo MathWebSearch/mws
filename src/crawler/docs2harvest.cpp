@@ -122,10 +122,12 @@ int main(int argc, char *argv[]) {
 
     PRINT_LOG("Written harvest %s\n", harvestPath);
 
+    free(harvestPath);
     return EXIT_SUCCESS;
 
 failure:
     if (harvestOutStream) fclose(harvestOutStream);
+    free(harvestPath);
 
     return EXIT_FAILURE;
 }
