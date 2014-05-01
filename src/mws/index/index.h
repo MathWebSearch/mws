@@ -92,14 +92,24 @@ typedef struct index_handle_s {
 BEGIN_DECLS
 
 static inline
-memsector_off_t inode_alloc(memsector_alloc_header_t* alloc, uint32_t size) {
-    return memsector_alloc(alloc, sizeof(inode_t) +
-                                  size * sizeof(encoded_token_dict_entry_t));
+uint32_t inode_size(uint32_t num_children) {
+    return sizeof(inode_t) + num_children * sizeof(encoded_token_dict_entry_t);
+}
+
+static inline
+uint32_t leaf_size(void) {
+    return sizeof(leaf_t);
+}
+
+static inline
+memsector_off_t inode_alloc(memsector_alloc_header_t* alloc,
+                            uint32_t num_children) {
+    return memsector_alloc(alloc, inode_size(num_children));
 }
 
 static inline
 memsector_off_t leaf_alloc(memsector_alloc_header_t* alloc) {
-    return memsector_alloc(alloc, sizeof(leaf_t));
+    return memsector_alloc(alloc, leaf_size());
 }
 
 static inline

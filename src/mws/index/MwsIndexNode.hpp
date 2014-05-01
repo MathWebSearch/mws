@@ -78,6 +78,8 @@ public:
     MwsIndexNode*
     insertData(const std::vector<encoded_token_t>& encodedFormula);
 
+    uint64_t getMemsectorSize() const;
+
     /**
      * @brief exportToMemsector dump index data to a memsector index
      * @param mswr memsector writer handle

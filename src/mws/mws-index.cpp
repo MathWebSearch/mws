@@ -40,10 +40,9 @@ using common::utils::FlagParser;
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
 #include "mws/xmlparser/processMwsHarvest.hpp"
+using mws::parser::loadMwsHarvestFromDirectory;
 
 #include "build-gen/config.h"
-
-const uint32_t DEFAULT_MEMSECTOR_SIZE = (500 * 1024 * 1024);
 
 using namespace mws;
 
@@ -66,7 +65,6 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('o', "output-directory",        FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('I', "include-harvest-path",    FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('r', "recursive",               FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('s', "memsector-size",          FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('c', "enable-ci-renaming",   FLAG_OPT, ARG_NONE);
 
@@ -85,11 +83,6 @@ int main(int argc, char* argv[]) {
     harvest_path = FlagParser::getArg('I');
     output_dir   = FlagParser::getArg('o');
     indexingOptions.renameCi = FlagParser::hasArg('c');
-    if (FlagParser::hasArg('s')) {
-        memsector_size = atoi(FlagParser::getArg('s').c_str());
-    } else {
-        memsector_size = DEFAULT_MEMSECTOR_SIZE;
-    }
 
     // if the path exists
     if (access(output_dir.c_str(), 0) == 0) {
@@ -124,16 +117,13 @@ int main(int argc, char* argv[]) {
     data = new MwsIndexNode();
     meaningDictionary = new MeaningDictionary();
 
-    indexManager = new index::IndexManager(formulaDb,
-                                           crawlDb,
-                                           data,
-                                           meaningDictionary,
-                                           indexingOptions);
+    indexManager = new index::IndexManager(formulaDb, crawlDb, data,
+                                           meaningDictionary, indexingOptions);
+    loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
+                                harvestExtension, recursive);
 
-    parser::loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
-                                        harvestExtension, recursive);
-    memsector_create(&mwsr,
-                     (output_dir + "/memsector.dat").c_str(),
+    memsector_size = data->getMemsectorSize();
+    memsector_create(&mwsr, (output_dir + "/memsector.dat").c_str(),
                      memsector_size);
 
     data->exportToMemsector(&mwsr);

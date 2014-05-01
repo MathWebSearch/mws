@@ -19,21 +19,18 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
- * @brief   Memory sector handle
+ * @brief   Memory sector
  * @file    memsector.c
  * @date    01 Feb 2013
  *
  * License: GPLv3
  */
 
-// System includes
-
 #include <stdint.h>
 #include <string.h>
 
-// Local includes
-
-#include "memsector.h"
+#include "common/utils/mmap.h"
+#include "mws/index/memsector.h"
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
@@ -42,19 +39,22 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 int memsector_create(memsector_writer_t *msw,
                      const char *path,
                      uint32_t size) {
+    size_t real_size = sizeof(memsector_header_t) + size;
     int status;
 
     /* create and mmap memsector file */
-    status = mmap_create(path, size,
+    status = mmap_create(path, real_size,
                          MAP_SHARED,
                          &msw->mmap_handle);
     if (status == -1) return -1;
 
-    /* initialize memory allocator */
+    /* initialize header */
     memsector_header_t ms;
-
     ms.alloc_header.curr_offset = sizeof(memsector_header_t);
-    ms.alloc_header.end_offset = size;
+    ms.alloc_header.end_offset = real_size;
+    ms.index_header_off = memsector_alloc_get_curr_off(&ms.alloc_header);
+
+    /* copy header to memsector file */
     memcpy(msw->mmap_handle.start_addr, &ms, sizeof(memsector_header_t));
     msw->ms_header = (memsector_header_t*) msw->mmap_handle.start_addr;
 

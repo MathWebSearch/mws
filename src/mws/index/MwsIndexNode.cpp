@@ -81,11 +81,22 @@ MwsIndexNode::insertData(const vector<encoded_token_t>& encodedFormula) {
     return currentNode;
 }
 
+uint64_t
+MwsIndexNode::getMemsectorSize() const {
+    uint64_t size = 0;
 
-struct mws_data {
-    MwsIndexNode* node;
-    unsigned      arity;
-};
+    if (children.size() > 0) {
+        size += inode_size(children.size());
+        for (auto& kv : children) {
+            const MwsIndexNode* child = kv.second;
+            size += child->getMemsectorSize();
+        }
+    } else {
+        size += leaf_size();
+    }
+
+    return size;
+}
 
 memsector_off_t
 MwsIndexNode::exportToMemsector(memsector_alloc_header_t* alloc) const {
@@ -118,9 +129,7 @@ MwsIndexNode::exportToMemsector(memsector_alloc_header_t* alloc) const {
 
 void
 MwsIndexNode::exportToMemsector(memsector_writer_t* mswr) const {
-    (void) mswr_index_begin(mswr);
-    memsector_alloc_header_t* alloc = mswr_get_alloc(mswr);
-    this->exportToMemsector(alloc);
+    this->exportToMemsector(mswr_get_alloc(mswr));
 }
 
 }

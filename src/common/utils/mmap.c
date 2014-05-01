@@ -41,11 +41,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
 
+static inline
+size_t round_to_page_size(size_t size) {
+    const size_t PAGE_MASK = (1L<<12) - 1;
+    return (size + PAGE_MASK) & (~PAGE_MASK);
+}
+
 int mmap_create(const char* path, off_t size, int flags, mmap_handle_t* mmap_handle) {
     int fd = -1;
     char* mapped_region;
     int oflags;
     int prot;
+
+    /* round up size to page boundary */
+    size = round_to_page_size(size);
 
     /* setting open/mmap flags */
     prot   = PROT_READ | PROT_WRITE;

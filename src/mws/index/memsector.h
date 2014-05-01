@@ -109,19 +109,6 @@ memsector_alloc_header_t* ms_get_alloc(memsector_handle_t* ms) {
     return ms->alloc;
 }
 
-/**
- * Prepare the memsector to begin writing the index
- */
-static inline
-void mswr_index_begin(memsector_writer_t* RESTRICT mswr) {
-    memsector_header_t*       ms    = mswr->ms_header;
-    memsector_alloc_header_t* alloc = &ms->alloc_header;
-
-    /* set index header offset */
-    memsector_off_t index_off = memsector_alloc_get_curr_off(alloc);
-    ms->index_header_off = index_off;
-}
-
 END_DECLS
 
 #endif // __MWS_INDEX_MEMSECTOR_H

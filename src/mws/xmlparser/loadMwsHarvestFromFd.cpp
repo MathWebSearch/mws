@@ -34,21 +34,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using std::string;
 #include <vector>
 using std::vector;
-#include <map>
-using std::map;
+#include <utility>
+using std::pair;
+
 
 #include "mws/dbc/CrawlDb.hpp"
 using mws::dbc::CrawlId;
 #include "mws/index/IndexManager.hpp"
 using mws::index::IndexingOptions;
 #include "mws/types/CmmlToken.hpp"
+using mws::types::CmmlToken;
 #include "common/utils/compiler_defs.h"
 
-#include "processMwsHarvest.hpp"
+#include "mws/xmlparser/processMwsHarvest.hpp"
 
-using namespace std;
-using namespace mws::types;
-using namespace mws::dbc;
 using mws::index::IndexManager;
 
 namespace mws {
@@ -68,14 +67,10 @@ HarvestIndexer::HarvestIndexer(index::IndexManager *indexManager) :
     indexManager(indexManager) {
 }
 
-int HarvestIndexer::processExpression(const CmmlToken *tok,
-                                      const string &exprUri,
-                                      const uint32_t &crawlId) {
-    if (crawlId == CRAWLID_NULL) {
-        return indexManager->indexContentMath(tok, exprUri);
-    } else {
-        return indexManager->indexContentMath(tok, exprUri, crawlId);
-    }
+int HarvestIndexer::processExpression(const CmmlToken* token,
+                                      const string& exprUri,
+                                      const uint32_t& crawlId) {
+    return indexManager->indexContentMath(token, exprUri, crawlId);
 }
 
 CrawlId HarvestIndexer::processData(const string &data) {

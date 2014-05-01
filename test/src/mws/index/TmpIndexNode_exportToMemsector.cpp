@@ -43,7 +43,6 @@ using common::utils::FlagParser;
 #include "build-gen/config.h"
 
 #define DEFAULT_TMP_MEMSECTOR_PATH  "/tmp/test.memsector"
-#define DEFAULT_MEMSECTOR_SIZE      200 * 1024 * 1024
 #define DEFAULT_HARVEST_PATH        MWS_TESTDATA_PATH
 
 using namespace std;
@@ -110,37 +109,21 @@ int main(int argc, char* argv[]) {
     index::IndexingOptions indexingOptions;
     string harvest_path;
     string tmp_memsector_path;
-    uint32_t memsector_size;
+    uint64_t memsector_size;
 
-    FlagParser::addFlag('s', "memsector-size",          FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('I', "include-harvest-path",    FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('O', "tmp-memsector-path",      FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('c', "enable-ci-renaming",      FLAG_OPT, ARG_REQ);
 
     if (FlagParser::parse(argc, argv) != 0) {
-        PRINT_WARN("%s", FlagParser::getUsage().c_str());
+        PRINT_LOG("%s", FlagParser::getUsage().c_str());
         goto fail;
-    }
-
-    if (FlagParser::hasArg('s')) {
-        int64_t size = strtoll(FlagParser::getArg('s').c_str(), NULL, 10);
-        if (size > 0 && size < UINT32_MAX) {
-            memsector_size = size;
-        } else {
-            PRINT_WARN("Invalid size \"%s\"\n",
-                    FlagParser::getArg('s').c_str());
-            goto fail;
-        }
-    } else {
-        PRINT_WARN("Using default memsector size %d\n",
-                DEFAULT_MEMSECTOR_SIZE);
-        memsector_size = DEFAULT_MEMSECTOR_SIZE;
     }
 
     if (FlagParser::hasArg('I')) {
         harvest_path = FlagParser::getArg('I');
     } else {
-        PRINT_WARN("Using default include harvest path %s\n",
+        PRINT_LOG("Using default include harvest path %s\n",
                 DEFAULT_HARVEST_PATH);
         harvest_path = DEFAULT_HARVEST_PATH;
     }
@@ -148,7 +131,7 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('O')) {
         tmp_memsector_path = FlagParser::getArg('O');
     } else {
-        PRINT_WARN("Using default temporary memsector path %s\n",
+        PRINT_LOG("Using default temporary memsector path %s\n",
                 DEFAULT_TMP_MEMSECTOR_PATH);
         tmp_memsector_path = DEFAULT_TMP_MEMSECTOR_PATH;
     }
@@ -156,7 +139,7 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('c')) {
         indexingOptions.renameCi = true;
     } else {
-        PRINT_WARN("Not renaming ci\n");
+        PRINT_LOG("Not renaming ci\n");
         indexingOptions.renameCi = false;
     }
 
@@ -176,9 +159,11 @@ int main(int argc, char* argv[]) {
                                                 ".harvest",
                                                 /* recursive = */ false) <= 0);
 
+    memsector_size = data->getMemsectorSize();
     FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str(),
                              memsector_size) != 0);
-    printf("Memsector %s created\n", tmp_memsector_path.c_str());
+    printf("Memsector %s of %d Kb created\n",
+           tmp_memsector_path.c_str(), (int) memsector_size / 1024);
     
     data->exportToMemsector(&mswr);
     printf("Index exported to memsector\n");
