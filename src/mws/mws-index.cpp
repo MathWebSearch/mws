@@ -39,7 +39,7 @@ using common::utils::FlagParser;
 #include "mws/index/memsector.h"
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
-#include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
+#include "mws/xmlparser/processMwsHarvest.hpp"
 
 #include "build-gen/config.h"
 

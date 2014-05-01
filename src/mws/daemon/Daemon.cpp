@@ -48,7 +48,7 @@ using std::unique_ptr;
 #include "mws/query/SearchContext.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
-#include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
+#include "mws/xmlparser/processMwsHarvest.hpp"
 #include "mws/xmlparser/readMwsQuery.hpp"
 using mws::xmlparser::readMwsQuery;
 #include "mws/xmlparser/writeJsonAnswset.hpp"

@@ -44,7 +44,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/util.hpp"
 #include "mws/index/IndexManager.hpp"
 using mws::index::IndexingOptions;
-#include "loadMwsHarvestFromFd.hpp"
+#include "processMwsHarvest.hpp"
 
 
 // Namespaces

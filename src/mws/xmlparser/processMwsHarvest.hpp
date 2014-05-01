@@ -45,6 +45,35 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace parser {
 
+class HarvestProcessor {
+ public:
+    /**
+     * crawlId might be CRAWLID_NULL if there was no data associated
+     * with the expression, or processData() did not return a crawlId
+     * @brief called when an expr element has been parsed
+     * @param CmmlToken corresponding to the parsed expr
+     * @param exprUri
+     * @param crawlId of data associated with this expression
+     * @return 0 if expr was processed successfully, different otherwise
+     */
+    virtual int processExpression(const types::CmmlToken* tok,
+                                  const std::string& exprUri,
+                                  const uint32_t& crawlId) = 0;
+    /**
+     * crawlId might be CRAWLID_NULL if there was no data associated
+     * with the expression, or processData() did not return a crawlId
+     * @brief called when a data element has been parsed
+     * @param data contained in the data element
+     * @return a CrawlId, if the expressions are linked with data,\
+     * CRAWLID_NULL otherwise
+     */
+    virtual dbc::CrawlId processData(const std::string& data) = 0;
+    virtual ~HarvestProcessor() {}
+};
+
+std::pair<int, int>
+processMwsHarvest(int fd, HarvestProcessor* harvestProcessor);
+
 /** @brief Function to load a MwsHarvest in from a file descriptor.
   * @param indexManager
   * @param fd is the file descriptor from where to read.

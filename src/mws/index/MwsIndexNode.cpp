@@ -30,7 +30,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MwsIndexNode.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
-#include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
 #include "common/utils/compiler_defs.h"
 
 // Namespaces

@@ -74,7 +74,7 @@ using mws::query::SearchContext;
 #include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaId;
 using mws::types::FormulaPath;
-#include "mws/xmlparser/loadMwsHarvestFromFd.hpp"
+#include "mws/xmlparser/processMwsHarvest.hpp"
 #include "mws/xmlparser/writeXmlAnswset.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
