@@ -25,6 +25,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 18 Jan 2014
   */
 
+#include <inttypes.h>
+
 #include <stdexcept>
 using std::exception;
 #include <string>
@@ -51,7 +53,7 @@ int main(int argc, char* argv[]) {
     memsector_writer_t mwsr;
     string harvest_path;
     int ret;
-    int64_t memsector_size;
+    uint64_t memsector_size;
 
     dbc::CrawlDb*             crawlDb;
     dbc::FormulaDb*           formulaDb;
@@ -123,6 +125,7 @@ int main(int argc, char* argv[]) {
                                 harvestExtension, recursive);
 
     memsector_size = data->getMemsectorSize();
+    PRINT_LOG("Compressing index to %" PRIu64 "Kb...\n", memsector_size / 1024);
     memsector_create(&mwsr, (output_dir + "/memsector.dat").c_str(),
                      memsector_size);
 
@@ -138,6 +141,8 @@ int main(int argc, char* argv[]) {
     delete data;
     delete meaningDictionary;
     delete indexManager;
+
+    PRINT_LOG("Index saved to %s\n", output_dir.c_str());
 
     return EXIT_SUCCESS;
 

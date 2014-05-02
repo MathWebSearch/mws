@@ -25,6 +25,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <errno.h>
 #include <unistd.h>
+#include <inttypes.h>
 
 #include <string>
 
@@ -162,13 +163,11 @@ int main(int argc, char* argv[]) {
     memsector_size = data->getMemsectorSize();
     FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str(),
                              memsector_size) != 0);
-    printf("Memsector %s of %d Kb created\n",
-           tmp_memsector_path.c_str(), (int) memsector_size / 1024);
+    printf("Memsector %s of %" PRIu64 " Kb created\n",
+           tmp_memsector_path.c_str(), memsector_size / 1024ULL);
     
     data->exportToMemsector(&mswr);
     printf("Index exported to memsector\n");
-    printf("Space used: %d Kb\n",
-           memsector_size_inuse(&mswr.ms_header->alloc_header) / 1024);
 
     FAIL_ON(memsector_save(&mswr) != 0);
     printf("Memsector saved\n");

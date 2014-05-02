@@ -33,6 +33,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Includes                                                                 */
 /*--------------------------------------------------------------------------*/
 
+#include <inttypes.h>
+
 #include <utility>
 
 #include "common/utils/compiler_defs.h"
@@ -69,7 +71,8 @@ int query_engine_tester(mws::MwsIndexNode* data,
 
     data->exportToMemsector(&mswr);
     printf("Index exported to memsector\n");
-    printf("Space used: %d\n", memsector_size_inuse(&mswr.ms_header->alloc_header));
+    printf("Space used: %" PRIu64 "\n",
+           memsector_size_inuse(&mswr.ms_header->alloc_header));
 
     FAIL_ON(memsector_save(&mswr) != 0);
     printf("Memsector saved\n");

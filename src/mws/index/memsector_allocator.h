@@ -66,7 +66,7 @@ memsector_off_t memsector_alloc_get_curr_off(
 }
 
 static inline
-uint32_t memsector_size_inuse(const memsector_alloc_header_t* alloc) {
+uint64_t memsector_size_inuse(const memsector_alloc_header_t* alloc) {
     return alloc->curr_offset;
 }
 

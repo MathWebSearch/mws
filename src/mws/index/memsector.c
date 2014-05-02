@@ -32,6 +32,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/mmap.h"
 #include "mws/index/memsector.h"
 
+#include "crc32/crc32.h"
+
+/*--------------------------------------------------------------------------*/
+/* Local methods                                                            */
+/*--------------------------------------------------------------------------*/
+
+static uint32_t memsector_get_checksum(const memsector_header_t* memsector);
+
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
@@ -62,24 +70,34 @@ int memsector_create(memsector_writer_t *msw,
 }
 
 int memsector_save(memsector_writer_t *msw) {
+    msw->ms_header->checksum = memsector_get_checksum(msw->ms_header);
     return mmap_unload(&msw->mmap_handle);
 }
 
 int memsector_load(memsector_handle_t *ms, const char *path) {
     int status;
 
-    // mmap_handle
+    // load memory map
     status = mmap_load(path, MAP_SHARED, &ms->mmap_handle);
-    if (status == -1) return -1;
+    if (status == -1) {
+        return -1;
+    }
 
-    // alloc
-    memsector_header_t* memsector_header =
+    // initialize allocator header
+    memsector_header_t* memsector =
             (memsector_header_t*) ms->mmap_handle.start_addr;
-    ms->alloc = &memsector_header->alloc_header;
+    ms->alloc = &memsector->alloc_header;
+
+    // check data integrity
+    if (memsector->checksum != memsector_get_checksum(memsector)) {
+        PRINT_WARN("Memsector %s is corrupted (checksum mismatch)\n", path);
+        mmap_unload(&ms->mmap_handle);
+        return -1;
+    }
 
     // index handle
     index_header_t* index_header = (index_header_t*)
-            memsector_off2addr(ms->alloc, memsector_header->index_header_off);
+            memsector_off2addr(ms->alloc, memsector->index_header_off);
     ms->index.alloc = ms->alloc;
     ms->index.root  = &index_header->root;
 
@@ -92,4 +110,25 @@ int memsector_unload(memsector_handle_t* ms) {
 
 int memsector_remove(memsector_handle_t *ms) {
     return mmap_remove(&ms->mmap_handle);
+}
+
+/*--------------------------------------------------------------------------*/
+/* Local implementation                                                     */
+/*--------------------------------------------------------------------------*/
+
+static uint32_t memsector_get_checksum(const memsector_header_t* memsector) {
+    uint32_t checksum = 0;
+
+    /* hash allocator header */
+    checksum = crc32(checksum, &memsector->alloc_header,
+                     sizeof(memsector_alloc_header_t));
+
+    /* hash index data */
+    const void* index_start = memsector_off2addr(&memsector->alloc_header,
+                                                 memsector->index_header_off);
+    size_t index_size = memsector_size_inuse(&memsector->alloc_header)
+            - sizeof(memsector_header_t);
+    checksum = crc32(checksum, index_start, index_size);
+
+    return checksum;
 }

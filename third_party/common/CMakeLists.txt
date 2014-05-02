@@ -16,31 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
-# src/mws/index/CMakeLists.txt --
-#
-# 30 Jan 2013
-# c.prodescu@jacobs-university.de
-#
+# 3rd party libraries
 
-# Module name
-SET(MODULE "mwsindex")
-
-# Dependencies
-
-# Includes
-INCLUDE_DIRECTORIES(${CRC32_INCLUDES})
-
-# Flags
-
-# Sources
-FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*.h")
-
-# Binaries
-ADD_LIBRARY( ${MODULE} ${SOURCES} )
-TARGET_LINK_LIBRARIES(${MODULE}
-                      mwstypes
-                      mwsdbc # TODO remove after transition to index
-                      commonutils
-                      ${CRC32_LIBRARIES}
-)
+# Google URL
+ADD_SUBDIRECTORY(crc32)
+SET(CRC32_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/crc32" PARENT_SCOPE)
+SET(CRC32_LIBRARIES crc32 PARENT_SCOPE)

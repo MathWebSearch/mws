@@ -117,6 +117,7 @@ ENABLE_TESTING()
 # Common libraries
 ADD_SUBDIRECTORY( "${MWS_SRC_DIR}/common" )
 ADD_SUBDIRECTORY( "${MWS_TSTSRC_DIR}/common" )
+ADD_SUBDIRECTORY( "${THIRD_PARTY_DIR}/common" )
 
 # MWS daemon
 IF ( WITH_MWS )
