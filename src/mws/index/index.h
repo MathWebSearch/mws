@@ -57,7 +57,7 @@ typedef enum node_type_e {
  */
 struct inode_s {
     node_type_t type    : 2;  /* should be INTERNAL_NODE */
-    uint32_t    size    : 30;
+    uint64_t    size    : 62;
     encoded_token_dict_entry_t data[];
 } PACKED;
 typedef struct inode_s inode_t;

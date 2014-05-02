@@ -47,8 +47,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 struct memsector_header_s {
     memsector_alloc_header_t alloc_header;
-    uint32_t index_header_off;
-    uint32_t signature; // TODO
+    memsector_off_t index_header_off;
+    uint32_t checksum;
 } PACKED;
 typedef struct memsector_header_s memsector_header_t;
 

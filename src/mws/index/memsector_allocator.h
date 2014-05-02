@@ -43,12 +43,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Compact offset pointer
  */
-typedef int32_t memsector_off_t;
-#define MEMSECTOR_OFF_NULL  (memsector_off_t) -1
+typedef uint32_t memsector_off_t;
+#define MEMSECTOR_OFF_NULL      0UL
+#define MEMSECTOR_ALLOC_UNIT    8ULL
 
 struct memsector_alloc_header_s {
-    uint32_t curr_offset;
-    uint32_t end_offset;
+    uint64_t curr_offset;
+    uint64_t end_offset;
 } PACKED;
 typedef struct memsector_alloc_header_s memsector_alloc_header_t;
 
@@ -59,20 +60,9 @@ typedef struct memsector_alloc_header_s memsector_alloc_header_t;
 BEGIN_DECLS
 
 static inline
-memsector_off_t memsector_alloc(memsector_alloc_header_t *alloc,
-                                uint32_t nbytes) {
-    assert(alloc->end_offset - alloc->curr_offset >= nbytes);
-
-    memsector_off_t result = alloc->curr_offset;
-    alloc->curr_offset += nbytes;
-
-    return result;
-}
-
-static inline
-void* memsector_off2addr(const memsector_alloc_header_t* alloc,
-                         memsector_off_t off) {
-    return (void*) (((char*)alloc) + off);
+memsector_off_t memsector_alloc_get_curr_off(
+        const memsector_alloc_header_t* alloc) {
+    return alloc->curr_offset / MEMSECTOR_ALLOC_UNIT;
 }
 
 static inline
@@ -81,8 +71,20 @@ uint32_t memsector_size_inuse(const memsector_alloc_header_t* alloc) {
 }
 
 static inline
-uint32_t memsector_alloc_get_curr_off(const memsector_alloc_header_t* alloc) {
-    return alloc->curr_offset;
+memsector_off_t memsector_alloc(memsector_alloc_header_t *alloc,
+                                uint64_t nbytes) {
+    assert(alloc->end_offset - alloc->curr_offset >= nbytes);
+    assert(alloc->curr_offset % MEMSECTOR_ALLOC_UNIT == 0);
+    memsector_off_t result = memsector_alloc_get_curr_off(alloc);
+    alloc->curr_offset += nbytes;
+
+    return result;
+}
+
+static inline
+void* memsector_off2addr(const memsector_alloc_header_t* alloc,
+                         memsector_off_t off) {
+    return (void*) (((char*)alloc) + MEMSECTOR_ALLOC_UNIT * off);
 }
 
 END_DECLS
