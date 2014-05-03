@@ -25,8 +25,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 18 Jan 2014
   */
 
-#include <inttypes.h>
 
+#include <cinttypes>
 #include <stdexcept>
 using std::exception;
 #include <string>

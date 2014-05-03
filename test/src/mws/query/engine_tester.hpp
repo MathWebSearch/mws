@@ -33,8 +33,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Includes                                                                 */
 /*--------------------------------------------------------------------------*/
 
-#include <inttypes.h>
-
+#include <cinttypes>
 #include <utility>
 
 #include "common/utils/compiler_defs.h"

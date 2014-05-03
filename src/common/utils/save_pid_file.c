@@ -23,10 +23,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * @brief save_pid_file implementation
  */
 
+#define __STDC_FORMAT_MACROS  // ensure inttypes.h defines PRIu64
+#include <inttypes.h>
+#include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <inttypes.h>
 
 #include "common/utils/compiler_defs.h"
 

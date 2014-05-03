@@ -25,9 +25,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <errno.h>
 #include <unistd.h>
-#include <inttypes.h>
 
+#include <cinttypes>
 #include <string>
+using std::string;
 
 #include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/dbc/MemFormulaDb.hpp"
@@ -46,7 +47,6 @@ using common::utils::FlagParser;
 #define DEFAULT_TMP_MEMSECTOR_PATH  "/tmp/test.memsector"
 #define DEFAULT_HARVEST_PATH        MWS_TESTDATA_PATH
 
-using namespace std;
 using namespace mws;
 
 const memsector_alloc_header_t *alloc;
