@@ -26,104 +26,123 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
-#include <libxml/xpath.h>
-#include <libxml/xpathInternals.h>
-#include <libxml/HTMLparser.h>
 #include <string.h>
+#include <assert.h>
 
+#include <algorithm>
+using std::unique;
+using std::replace_if;
 #include <string>
 using std::string;
+using std::to_string;
+#include <sstream>
+using std::stringstream;
 #include <vector>
 using std::vector;
 #include <stdexcept>
 using std::runtime_error;
+#include <functional>
+using std::function;
 
 #include "common/utils/memstream.h"
 #include "common/utils/compiler_defs.h"
+#include "common/utils/util.hpp"
+using common::utils::removeDuplicateSpaces;
 
-#include "MathParser.hpp"
+#include "crawler/parser/XmlParser.hpp"
+#include "crawler/parser/MathParser.hpp"
 
 namespace crawler {
 namespace parser {
 
-/**
- * @brief parse HTML or XML document
- * @param url URL of the document
- * @param buffer document data
- * @param size document size
- * @return document tree on success, NULL on failure
- */
-static xmlDocPtr parseDoc(const char *buffer, int size);
-static string getDocumentUri(xmlDocPtr doc, string document_uri_xpath);
-static xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const xmlChar *xpath);
 static void cleanContentMath(xmlNode* node);
-static void renameXmlIdAttributes(xmlNode* node);
-static string xmlNodeToString(xmlDocPtr doc, xmlNode* node);
-static xmlNode* getMathNodeFromContentMathNode(xmlNode* content_math_node);
 
-const xmlChar XPATH_CONTENT_MATH[] =
-        "//*[local-name()='math']/*[local-name()='semantics']"
-        "/*[local-name()='annotation-xml' and @encoding='MathML-Content']/*";
+const char XPATH_MATHML[] = "//*[local-name()='math']";
+const char XPATH_CONTENT_MATH[] =
+        "descendant::*[@encoding='MathML-Content']/*";
+
+const bool DEFAULT_SHOULD_SAVE_DATA = true;
+const char DEFAULT_DOCUMENT_URI_XPATH[] =
+        "//*[local-name()='span' and @class='number']";
+const char DEFAULT_TEXT_WITH_MATH_XPATH[] =
+        "//*[local-name()='div' and @class='review-body']";
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
 
-Harvest getHarvestFromDocument(const string& content,
-                               const int data_id,
-                               const string& document_uri_xpath,
-                               bool save_data) throw (runtime_error) {
-    Harvest harvest;
-    xmlDocPtr doc = parseDoc(content.c_str(), content.size());
-    if (doc != NULL) {
-        string documentUrl = getDocumentUri(doc, document_uri_xpath);
-        xmlXPathObjectPtr result = getXMLNodeset(doc, XPATH_CONTENT_MATH);
-        if (result != NULL) {
-            xmlNodeSetPtr nodeSet = result->nodesetval;
-            if (!xmlXPathNodeSetIsEmpty(nodeSet)) {
-                if (save_data) {
-                    // Save escaped document as data
-                    xmlChar* encodedData =
-                            xmlEncodeSpecialChars(doc,
-                                                  BAD_CAST content.c_str());
-                    harvest.dataElement = "<mws:data mws:data_id=\"" +
-                            std::to_string(data_id) + "\">\n" +
-                            (string) ((char*) encodedData) +
-                            "</mws:data>\n";
-                    xmlFree(encodedData);
-                }
+HarvesterConfiguration::HarvesterConfiguration()
+    : shouldSaveData(DEFAULT_SHOULD_SAVE_DATA),
+      documentIdXpath(DEFAULT_DOCUMENT_URI_XPATH),
+      textWithMathXpath(DEFAULT_TEXT_WITH_MATH_XPATH) {
+}
 
-
-                for (int i = 0; i < nodeSet->nodeNr; ++i) {
-                    xmlNode* cmmlNode = nodeSet->nodeTab[i];
-                    xmlNode* math = getMathNodeFromContentMathNode(cmmlNode);
-                    const xmlChar *id = xmlGetProp(math, BAD_CAST "id");
-                    string expressionUrl = documentUrl + "#" +
-                            ((id != NULL) ? string((char*)id) : "");
-
-                    // Rename xml:id attributes to local_id
-                    renameXmlIdAttributes(math);
-                    cleanContentMath(cmmlNode);
-
-                    string harvestExpression = "<mws:expr url=\"" +
-                            expressionUrl + "\" ";
-                    if (save_data) {
-                        harvestExpression += "mws:data_id=\"" +
-                                std::to_string(data_id) +"\"";
-                    }
-                    harvestExpression += ">\n"
-                            + xmlNodeToString(doc, cmmlNode) + "</mws:expr>\n";
-                    harvest.contentMathElements.push_back(harvestExpression);
-
-                    xmlFree((void*) id);
-                }
-            }
-            xmlXPathFreeObject(result);
-        }
-        xmlFreeDoc(doc);
-    } else {
-        throw runtime_error("XML/HTML parse error");
+string HarvesterConfiguration::toString() const {
+    stringstream stream;
+    stream << "shouldSaveData   : " << (shouldSaveData ? "true\n" : "false\n");
+    stream << "documentIdXpath  : " << documentIdXpath << "\n";
+    stream << "textWithMathXpath: " << textWithMathXpath << "\n";
+    for (HarvesterConfiguration::MetadataItem item : metadataItems) {
+        stream << "metadata." << item.name << " : " << item.xpath << "\n";
     }
+    return stream.str();
+}
+
+Harvest createHarvestFromDocument(const string& content,
+                                  const HarvesterConfiguration& config) {
+    Harvest harvest;
+    stringstream data;
+    xmlDocPtr doc = parseDocument(content.c_str(), content.size());
+    const string documentId = getTextByXpath(doc, config.documentIdXpath);
+
+    if (config.shouldSaveData) {
+        data << "<mws:data mws:data_id=\"" << config.data_id << "\">\n";
+        data << "<id>" << documentId << "</id>\n";
+        data << "<text>"
+             << getTextByXpath(doc, config.textWithMathXpath) << "</text>\n";
+        for (HarvesterConfiguration::MetadataItem item : config.metadataItems) {
+            data << "<" << item.name << ">" << getTextByXpath(doc, item.xpath)
+                 << "</" << item.name << ">\n";
+        }
+    }
+
+    processXpathResults(doc, XPATH_MATHML, [&](xmlNode* mathNode) {
+        const xmlChar *xmlId = xmlGetProp(mathNode, BAD_CAST "id");
+        if (xmlId == NULL) {
+            PRINT_WARN("Discarding math element without identifier\n");
+            return;
+        }
+        string id((char*) xmlId);
+        xmlFree((void*) xmlId);
+
+        xmlNode* cmmlNode = getNodeByXpath(doc, XPATH_CONTENT_MATH, mathNode);
+        if (cmmlNode == NULL) {
+            PRINT_WARN("Discarding math element #%s without ContentMath\n",
+                       id.c_str());
+            return;
+        }
+
+        if (config.shouldSaveData) {
+            data << "<math local_id=\"" << id << "\">"
+                 << getEscapedXmlFromNode(doc, mathNode) << "</math>\n";
+        }
+        cleanContentMath(cmmlNode);
+
+        stringstream expression;
+        expression << "<mws:expr url=\"" << documentId << "#" << id << "\"";
+        if (config.shouldSaveData) {
+            expression << " mws:data_id=\"" << config.data_id << "\"";
+        }
+        expression << ">" << getXmlFromNode(doc, cmmlNode) << "</mws:expr>\n";
+        harvest.contentMathElements.push_back(expression.str());
+    });
+
+    if (config.shouldSaveData) {
+        data << "</mws:data>\n";
+        harvest.dataElement = data.str();
+    }
+
+    xmlFreeDoc(doc);
 
     return harvest;
 }
@@ -136,73 +155,15 @@ void cleanupMathParser() {
 /* Local implementation                                                     */
 /*--------------------------------------------------------------------------*/
 
-static
-xmlDocPtr parseDoc(const char *buffer, int size) {
-    xmlDocPtr doc;
-
-    // Try as XHTML
-    doc = xmlReadMemory(buffer, size, "",
-                        /* encoding = */ NULL,
-                        XML_PARSE_NOWARNING | XML_PARSE_NOERROR);
-    if (doc != NULL) {
-        return doc;
-    }
-
-    // Try as HTML
-    htmlParserCtxtPtr htmlPtr = htmlNewParserCtxt();
-    doc = htmlCtxtReadMemory(htmlPtr, buffer, size, "",
-                             /* encoding = */ NULL, HTML_PARSE_RECOVER |
-                             HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
-    htmlFreeParserCtxt(htmlPtr);
-    if (doc != NULL) {
-        return doc;
-    }
-
-    return NULL;
-}
-
-static
-xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const xmlChar *xpath) {
-    xmlXPathContextPtr context = xmlXPathNewContext(doc);
-    if (context == NULL) {
-        PRINT_WARN("xmlXPathNewContext failed");
-        return NULL;
-    }
-
-    xmlXPathObjectPtr result = xmlXPathEvalExpression(xpath, context);
-    xmlXPathFreeContext(context);
-    if (result == NULL) {
-        PRINT_WARN("xmlXPathEvalExpression failed");
-        return NULL;
-    }
-
-    return result;
-}
-
-static
-void renameXmlIdAttributes(xmlNode* node) {
-    // Rename attribute id to local_id
-    xmlChar* id = xmlGetProp(node, BAD_CAST "id");
-    xmlSetProp(node, BAD_CAST "local_id", id);
-    xmlUnsetProp(node, BAD_CAST "id");
-    xmlFree(id);
-
-    // Recurse through child nodes
-    xmlNodePtr curr = node->children;
-    while (curr != NULL) {
-        renameXmlIdAttributes(curr);
-        curr = curr->next;
-    }
-}
-
 /**
  * @brief remove redundant attributes from ContentMath
  * @param xmlNode
  */
 static
 void cleanContentMath(xmlNode* node) {
+    assert(node != NULL);
     // Remove id and xref attributes
-    xmlUnsetProp(node, BAD_CAST "local_id");
+    xmlUnsetProp(node, BAD_CAST "id");
     xmlUnsetProp(node, BAD_CAST "xref");
 
     // Remove namespace from name
@@ -214,50 +175,6 @@ void cleanContentMath(xmlNode* node) {
         cleanContentMath(curr);
         curr = curr->next;
     }
-}
-
-/**
-  * @brief get the content of an xmlNode from document doc
-  * @param doc
-  * @param xmlNode
-  */
-static
-string xmlNodeToString(xmlDocPtr doc, xmlNode *node) {
-    char* buf;
-    size_t size;
-    FILE *stream = open_memstream(&buf, &size);
-    xmlElemDump(stream, doc, node);
-    fclose(stream);
-
-    string content = (string) buf;
-    free(buf);
-
-    return content;
-}
-
-static
-xmlNode* getMathNodeFromContentMathNode(xmlNode* content_math_node) {
-    // See XPATH_CONTENT_MATH
-    return content_math_node->parent->parent->parent;
-}
-
-static string getDocumentUri(xmlDocPtr doc, string document_uri_xpath) {
-    xmlXPathObjectPtr result =
-            getXMLNodeset(doc, BAD_CAST document_uri_xpath.c_str());
-    if (result == NULL) {
-        return "";
-    }
-    xmlNodeSetPtr nodeSet = result->nodesetval;
-    if (xmlXPathNodeSetIsEmpty(nodeSet)) {
-        xmlXPathFreeObject(result);
-        return "";
-    }
-    xmlNode* node = nodeSet->nodeTab[0];
-    xmlChar* content = xmlNodeGetContent(node);
-    xmlXPathFreeObject(result);
-    string ret = string((char*) content);
-    xmlFree(content);
-    return ret;
 }
 
 }  // namespace parser

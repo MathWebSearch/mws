@@ -40,6 +40,22 @@ struct Harvest {
     std::vector<std::string> contentMathElements;
 };
 
+struct HarvesterConfiguration {
+    struct MetadataItem {
+        std::string name;
+        std::string xpath;
+    };
+
+    HarvesterConfiguration();
+    std::string toString() const;
+
+    bool shouldSaveData;
+    std::string data_id;
+    std::string documentIdXpath;
+    std::string textWithMathXpath;
+    std::vector<MetadataItem> metadataItems;
+};
+
 /**
  * @param content HTML or XHTML content
  * @param url URL of the HTML or XHTML
@@ -47,13 +63,10 @@ struct Harvest {
  *
  * @return vector of harvest data and expressions
  *
- * @throw runtime_error with the message
+ * @throw runtime_error when HTML/XHTML parsing fails
  */
-Harvest getHarvestFromDocument(const std::string& content,
-                               const int data_id,
-                               const std::string& title_xpath,
-                               bool save_data)
-throw (std::runtime_error);
+Harvest createHarvestFromDocument(const std::string& content,
+                                  const HarvesterConfiguration& config);
 
 /**
  * @brief cleanupMathParser should be called at the end of the process to

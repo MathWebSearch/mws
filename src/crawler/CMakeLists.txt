@@ -24,7 +24,8 @@ ADD_SUBDIRECTORY( types )               # crawlertypes
 ADD_SUBDIRECTORY( utils )               # crawlerutils
 
 # Includes
-INCLUDE_DIRECTORIES( "${GOOGLEURL_INCLUDES}" )
+INCLUDE_DIRECTORIES("${GOOGLEURL_INCLUDES}")
+INCLUDE_DIRECTORIES("${JSON_INCLUDE_DIRS}")
 
 # MWS stand-alone xhtml harvester
 ADD_EXECUTABLE( docs2harvest docs2harvest.cpp )
@@ -33,6 +34,7 @@ TARGET_LINK_LIBRARIES( docs2harvest
     crawlerparser
     crawlertypes
     commonutils
+    ${JSON_LIBRARIES}
 )
 INSTALL(TARGETS docs2harvest DESTINATION bin)
 

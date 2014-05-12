@@ -1,0 +1,13 @@
+{
+    "shouldSaveData" : true,
+    "documentIdXpath" : "//*[local-name()='span' and @class='number']",
+    "textWithMathXpath" : "//*[local-name()='div' and @class='review-body']",
+    "metadata" : {
+        "title" : "//*[local-name()='div' and @class='title']",
+        "author" : "//*[local-name()='span' and @class='author']",
+        "language" : "//*[local-name()='div' and @class='language']",
+        "class" : "//*[local-name()='div' and @class='class']",
+        "keywords" : "//*[local-name()='div' and @class='keywords']",
+        "doctype" : "//*[local-name()='div' and @class='doctype']"
+    }
+}

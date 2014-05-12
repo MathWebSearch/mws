@@ -37,6 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 using std::ifstream;
 #include <functional>
+using std::function;
 #include <queue>
 using std::queue;
 #include <stdexcept>
@@ -56,6 +57,18 @@ bool hasSuffix(const std::string& str, const std::string& suffix) {
     return (str.length() >= suffix.length()) &&
             (0 == str.compare(str.length() - suffix.length(),
                               suffix.length(), suffix));
+}
+
+void removeDuplicateSpaces(string* str) {
+    function<bool(char, char)> BothAreSpaces = [](char lhs, char rhs) {
+        return isspace(lhs) && isspace(rhs);
+    };
+    function<bool(char)> IsSpace = [](char ch) {
+        return isspace(ch);
+    };
+    replace_if(str->begin(), str->end(), IsSpace, ' ');
+    string::iterator new_end = unique(str->begin(), str->end(), BothAreSpaces);
+    str->erase(new_end, str->end());
 }
 
 std::string

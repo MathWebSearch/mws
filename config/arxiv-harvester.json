@@ -1,0 +1,9 @@
+{
+    "shouldSaveData" : true,
+    "documentIdXpath" : "//title",
+    "textWithMathXpath" : "//body",
+    "metadata" : {
+        "title" : "//title",
+        "author" : "//span[@class='ltx_authors']"
+    }
+}

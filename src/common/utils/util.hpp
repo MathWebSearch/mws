@@ -34,12 +34,21 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <functional>
 
 struct Tester;
-
 #define ALLOW_TESTER_ACCESS     friend struct ::Tester
 
 namespace common { namespace utils {
 
+// String utils
+
 bool hasSuffix(const std::string& str, const std::string& suffix);
+
+/**
+ * @brief Remove duplicate spaces from a string and replace all spaces with ' '
+ * @param str string to remove spaces from
+ */
+void removeDuplicateSpaces(std::string* str);
+
+// Directory Structure
 
 std::string
 getFileContents(const std::string& path) throw (std::runtime_error);

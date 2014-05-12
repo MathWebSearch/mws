@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
     FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str(),
                              memsector_size) != 0);
     printf("Memsector %s of %" PRIu64 " Kb created\n",
-           tmp_memsector_path.c_str(), memsector_size / 1024ULL);
+           tmp_memsector_path.c_str(), memsector_size / 1024);
     
     data->exportToMemsector(&mswr);
     printf("Index exported to memsector\n");

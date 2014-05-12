@@ -32,19 +32,23 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <json/json.h>
+#include <json/json_object.h>
 
-#include <stdexcept>
-using std::exception;
 #include <string>
 using std::string;
+using std::to_string;
+#include <stdexcept>
+using std::exception;
+using std::runtime_error;
 #include <vector>
 using std::vector;
 
 #include "crawler/parser/MathParser.hpp"
 using crawler::parser::Harvest;
-using crawler::parser::getHarvestFromDocument;
+using crawler::parser::HarvesterConfiguration;
+using crawler::parser::createHarvestFromDocument;
 using crawler::parser::cleanupMathParser;
-
 #include "common/utils/compiler_defs.h"
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
@@ -52,16 +56,16 @@ using common::utils::FlagParser;
 using common::utils::getFileContents;
 
 const char DEFAULT_OUTPUT_DIRECTORY[] = ".";
-const char DEFAULT_DOCUMENT_URI_XPATH[] =
-        "//*[local-name()='span' and @class='number']";
+
+static HarvesterConfiguration readHarvesterConfigurationFile(string path);
 
 int main(int argc, char *argv[]) {
     string outputDirectory = DEFAULT_OUTPUT_DIRECTORY;
-    string documentUriXpath = DEFAULT_DOCUMENT_URI_XPATH;
-    bool saveData = true;
+    HarvesterConfiguration config;
 
     FlagParser::addFlag('o', "output-directory",  FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('x', "document-uri-xpath", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('c', "config-file", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('n', "no-data", FLAG_OPT, ARG_NONE);
     FlagParser::setMinNumParams(1);
 
@@ -71,11 +75,18 @@ int main(int argc, char *argv[]) {
     }
 
     if (FlagParser::hasArg('o')) outputDirectory = FlagParser::getArg('o');
-    if (FlagParser::hasArg('x')) documentUriXpath = FlagParser::getArg('x');
-    saveData = !FlagParser::hasArg('n');
+    if (FlagParser::hasArg('c')) {
+        config = readHarvesterConfigurationFile(FlagParser::getArg('c'));
+    }
+    if (FlagParser::hasArg('x')) {
+        config.documentIdXpath = FlagParser::getArg('x');
+    }
+    if (FlagParser::hasArg('n')) {
+        config.shouldSaveData = false;
+    }
 
     PRINT_LOG("Using output directory %s\n", outputDirectory.c_str());
-    PRINT_LOG("Using document title xpath %s\n", documentUriXpath.c_str());
+    PRINT_LOG("Using configuration:\n%s", config.toString().c_str());
     atexit(cleanupMathParser);
 
     string harvestPathTemplate = outputDirectory + "/harvest_XXXXXX.harvest";
@@ -102,9 +113,10 @@ int main(int argc, char *argv[]) {
         int data_id = 0;
         for (const string& file : files) {
             try {
-                const string content = getFileContents(file.c_str());
-                Harvest harvest = getHarvestFromDocument(
-                            content, data_id, documentUriXpath, saveData);
+                config.data_id = to_string(data_id);
+
+                const string data = getFileContents(file.c_str());
+                const Harvest harvest = createHarvestFromDocument(data, config);
                 fputs(harvest.dataElement.c_str(), harvestOutStream);
                 for (const string& element : harvest.contentMathElements) {
                     fputs(element.c_str(), harvestOutStream);
@@ -130,4 +142,77 @@ failure:
     free(harvestPath);
 
     return EXIT_FAILURE;
+}
+
+static json_object* getJsonChild(json_object* json_parent, const char* key) {
+    json_object* child = json_object_object_get(json_parent, key);
+    if (child != NULL) {
+        return child;
+    } else {
+        PRINT_WARN("Cannot find key \"%s\"\n", key);
+        return NULL;
+    }
+}
+
+static bool getJsonBool(json_object* json_parent, const char* key) {
+    bool value = false;
+    json_object* json_bool_object = getJsonChild(json_parent, key);
+    if (json_bool_object != NULL) {
+        json_type type = json_object_get_type(json_bool_object);
+        if (type != json_type_boolean) {
+            PRINT_WARN("Value of \"%s\" should be boolean\n", key);
+        } else {
+            value = (json_object_get_boolean(json_bool_object) == TRUE);
+        }
+    }
+
+    return value;
+}
+
+static string getJsonString(json_object* json_parent, const char* key) {
+    string value;
+    json_object* json_string_object = getJsonChild(json_parent, key);
+    if (json_string_object != NULL) {
+        json_type type = json_object_get_type(json_string_object);
+        if (type != json_type_string) {
+            PRINT_WARN("metadata : %s should be a string\n", key);
+        } else {
+            value = json_object_get_string(json_string_object);
+        }
+    }
+
+    return value;
+}
+
+static HarvesterConfiguration readHarvesterConfigurationFile(string path) {
+    HarvesterConfiguration config;
+    string content = getFileContents(path);
+    json_object* jsonConfig = json_tokener_parse(content.c_str());
+    if (jsonConfig == NULL) {
+        throw runtime_error("Cannot parse JSON configuration " + path);
+    }
+
+#define readBoolConfigProperty(x) config.x = getJsonBool(jsonConfig, #x)
+#define readStringConfigProperty(x) config.x = getJsonString(jsonConfig, #x)
+
+    readBoolConfigProperty(shouldSaveData);
+    readStringConfigProperty(documentIdXpath);
+    readStringConfigProperty(textWithMathXpath);
+
+#undef readBoolConfigProperty
+#undef readStringConfigProperty
+
+    json_object* jsonMetadata = getJsonChild(jsonConfig, "metadata");
+    if (jsonMetadata != NULL) {
+        json_object_object_foreach(jsonMetadata, key, value) {
+            HarvesterConfiguration::MetadataItem item;
+            UNUSED(value);
+            item.name = key;
+            item.xpath = getJsonString(jsonMetadata, key);
+            config.metadataItems.push_back(item);
+        }
+    }
+    json_object_put(jsonConfig);
+
+    return config;
 }
