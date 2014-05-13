@@ -43,6 +43,8 @@ using common::utils::FlagParser;
 using mws::index::MeaningDictionary;
 #include "mws/xmlparser/processMwsHarvest.hpp"
 using mws::parser::loadMwsHarvestFromDirectory;
+#include "mws/xmlparser/clearxmlparser.hpp"
+using mws::clearxmlparser;
 
 #include "build-gen/config.h"
 
@@ -136,6 +138,7 @@ int main(int argc, char* argv[]) {
     meaningDictionary->save(os);
     fb.close();
 
+    clearxmlparser();
     delete crawlDb;
     delete formulaDb;
     delete data;
