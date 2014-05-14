@@ -43,9 +43,9 @@ static int g_num_hits;
 
 struct Tester {
 static
-MwsIndexNode* create_test_MwsIndexNode() {
-    MwsIndexNode* data = new MwsIndexNode();
-    MwsIndexNode* leaf;
+index::TmpIndex* create_test_MwsIndexNode() {
+    index::TmpIndex* data = new index::TmpIndex();
+    index::TmpLeafNode* leaf;
 
     leaf = data->insertData({f_tok});
     leaf->solutions++;
@@ -82,7 +82,7 @@ result_cb_return_t result_callback(void* handle,
 }
 
 int main() {
-    mws::MwsIndexNode* index = Tester::create_test_MwsIndexNode();
+    mws::index::TmpIndex* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
     FAIL_ON(query_engine_tester(index, &query, result_callback, NULL)

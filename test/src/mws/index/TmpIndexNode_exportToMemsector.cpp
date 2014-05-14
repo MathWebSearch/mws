@@ -32,7 +32,10 @@ using std::string;
 
 #include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/dbc/MemFormulaDb.hpp"
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndex.hpp"
+using mws::index::TmpIndexNode;
+using mws::index::TmpLeafNode;
+using mws::index::TmpIndex;
 #include "mws/index/memsector.h"
 #include "mws/index/IndexManager.hpp"
 #include "mws/index/MeaningDictionary.hpp"
@@ -53,7 +56,7 @@ const memsector_alloc_header_t *alloc;
 
 struct Tester {
     static inline
-    bool memsector_inode_consistent(const MwsIndexNode* tmp_node,
+    bool memsector_inode_consistent(const TmpIndexNode* tmp_node,
                                     const inode_t* inode) {
         switch (inode->type) {
         case INTERNAL_NODE: {
@@ -62,7 +65,7 @@ struct Tester {
             for (auto& kv : tmp_node->children) {
                 MeaningId           meaningId  = kv.first.id;
                 Arity               arity      = kv.first.arity;
-                const MwsIndexNode* child_node = kv.second;
+                const TmpIndexNode* child_node = kv.second;
 
                 if (meaningId != inode->data[i].token.id) return false;
                 if (arity     != inode->data[i].token.arity) return false;
@@ -78,9 +81,10 @@ struct Tester {
         }
 
         case LEAF_NODE: {
-            leaf_t *leaf = (leaf_t*)inode;
-            return ((tmp_node->id == leaf->formula_id) &&
-                    (tmp_node->solutions == leaf->num_hits));
+            leaf_t *leaf = (leaf_t*) inode;
+            TmpLeafNode* tmpLeaf = (TmpLeafNode*) tmp_node;
+            return ((tmpLeaf->id == leaf->formula_id) &&
+                    (tmpLeaf->solutions == leaf->num_hits));
         }
 
         default: {
@@ -88,23 +92,23 @@ struct Tester {
         }
         }
     }
-};
 
-static
-int test_memsector_consistency(MwsIndexNode* data, memsector_handle_t* ms) {
-    alloc = ms_get_alloc(ms);
-    if (Tester::memsector_inode_consistent(data, ms->index.root))
-        return 0;
-    else
-        return -1;
-}
+    static inline
+    int test_memsector_consistency(TmpIndex* data, memsector_handle_t* ms) {
+        alloc = ms_get_alloc(ms);
+        if (Tester::memsector_inode_consistent(data->mRoot, ms->index.root))
+            return 0;
+        else
+            return -1;
+    }
+};
 
 int main(int argc, char* argv[]) {
     memsector_writer_t mswr;
     memsector_handle_t ms;
     dbc::CrawlDb* crawlDb;
     dbc::FormulaDb* formulaDb;
-    MwsIndexNode* data;
+    TmpIndex data;
     MeaningDictionary* meaningDictionary;
     index::IndexManager* indexManager;
     index::IndexingOptions indexingOptions;
@@ -146,10 +150,9 @@ int main(int argc, char* argv[]) {
 
     crawlDb = new dbc::MemCrawlDb();
     formulaDb = new dbc::MemFormulaDb();
-    data = new MwsIndexNode();
     meaningDictionary = new MeaningDictionary();
     indexManager = new index::IndexManager(formulaDb, crawlDb,
-                                           data, meaningDictionary,
+                                           &data, meaningDictionary,
                                            indexingOptions);
 
     /* ensure the file does not exist */
@@ -160,13 +163,13 @@ int main(int argc, char* argv[]) {
                                                 ".harvest",
                                                 /* recursive = */ false) <= 0);
 
-    memsector_size = data->getMemsectorSize();
+    memsector_size = data.getMemsectorSize();
     FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str(),
                              memsector_size) != 0);
     printf("Memsector %s of %" PRIu64 " Kb created\n",
            tmp_memsector_path.c_str(), memsector_size / 1024);
     
-    data->exportToMemsector(&mswr);
+    data.exportToMemsector(&mswr);
     printf("Index exported to memsector\n");
 
     FAIL_ON(memsector_save(&mswr) != 0);
@@ -175,7 +178,7 @@ int main(int argc, char* argv[]) {
     FAIL_ON(memsector_load(&ms, tmp_memsector_path.c_str()) != 0);
     printf("Memsector loaded\n");
 
-    if (test_memsector_consistency(data, &ms) != 0) {
+    if (Tester::test_memsector_consistency(&data, &ms) != 0) {
         printf("FAIL: Inconsistency detected!\n");
         goto fail;
     }

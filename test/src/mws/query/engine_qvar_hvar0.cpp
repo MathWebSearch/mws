@@ -26,7 +26,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <cerrno>
 
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndex.hpp"
 #include "mws/index/encoded_token.h"
 #include "mws/query/engine.h"
 
@@ -46,9 +46,9 @@ qvars: P,Q
 
 struct Tester {
     static inline
-    MwsIndexNode* create_test_MwsIndexNode() {
-        MwsIndexNode* data = new MwsIndexNode();
-        MwsIndexNode* leaf;
+    index::TmpIndex* create_test_MwsIndexNode() {
+        index::TmpIndex* data = new index::TmpIndex();
+        index::TmpLeafNode* leaf;
 
         leaf = data->insertData({F_tok});
         leaf->solutions++;
@@ -88,7 +88,7 @@ result_cb_return_t result_callback(void* handle,
 }
 
 int main() {
-    mws::MwsIndexNode* index = Tester::create_test_MwsIndexNode();
+    mws::index::TmpIndex* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
     return 0; // TODO remove after test is running

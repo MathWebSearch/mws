@@ -32,7 +32,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/CmmlToken.hpp"
 #include "mws/dbc/FormulaDb.hpp"
 #include "mws/dbc/CrawlDb.hpp"
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndex.hpp"
 
 namespace mws { namespace index {
 
@@ -44,14 +44,14 @@ class IndexManager {
 private:
     dbc::FormulaDb* m_formulaDb;
     dbc::CrawlDb* m_crawlDb;
-    MwsIndexNode* m_index;
+    mws::index::TmpIndex* m_index;
     index::MeaningDictionary* m_meaningDictionary;
     index::IndexingOptions m_indexingOptions;
 
 public:
     IndexManager(dbc::FormulaDb* formulaDb,
                  dbc::CrawlDb* crawlDb,
-                 MwsIndexNode* index,
+                 mws::index::TmpIndex* index,
                  MeaningDictionary* meaningDictionary,
                  const IndexingOptions& indexingOptions);
 

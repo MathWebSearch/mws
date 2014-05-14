@@ -37,7 +37,8 @@ using std::string;
 using common::utils::FlagParser;
 #include "mws/dbc/LevCrawlDb.hpp"
 #include "mws/dbc/LevFormulaDb.hpp"
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndex.hpp"
+using mws::index::TmpIndex;
 #include "mws/index/memsector.h"
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
@@ -57,13 +58,13 @@ int main(int argc, char* argv[]) {
     int ret;
     uint64_t memsector_size;
 
-    dbc::CrawlDb*             crawlDb;
-    dbc::FormulaDb*           formulaDb;
-    MwsIndexNode*             data;
+    dbc::CrawlDb* crawlDb;
+    dbc::FormulaDb* formulaDb;
+    TmpIndex index;
     MeaningDictionary* meaningDictionary;
-    index::IndexManager*      indexManager;
-    index::IndexingOptions    indexingOptions;
-    std::filebuf              fb;
+    index::IndexManager* indexManager;
+    index::IndexingOptions indexingOptions;
+    std::filebuf fb;
     std::ostream os(&fb);
 
     FlagParser::addFlag('o', "output-directory",        FLAG_REQ, ARG_REQ);
@@ -117,21 +118,19 @@ int main(int argc, char* argv[]) {
         PRINT_WARN("%s\n", e.what());
         goto failure;
     }
-
-    data = new MwsIndexNode();
     meaningDictionary = new MeaningDictionary();
 
-    indexManager = new index::IndexManager(formulaDb, crawlDb, data,
+    indexManager = new index::IndexManager(formulaDb, crawlDb, &index,
                                            meaningDictionary, indexingOptions);
     loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
                                 harvestExtension, recursive);
 
-    memsector_size = data->getMemsectorSize();
+    memsector_size = index.getMemsectorSize();
     PRINT_LOG("Compressing index to %" PRIu64 "Kb...\n", memsector_size / 1024);
     memsector_create(&mwsr, (output_dir + "/memsector.dat").c_str(),
                      memsector_size);
 
-    data->exportToMemsector(&mwsr);
+    index.exportToMemsector(&mwsr);
     memsector_save(&mwsr);
 
     fb.open((output_dir + "/meaning.dat").c_str(), std::ios::out);
@@ -141,7 +140,6 @@ int main(int argc, char* argv[]) {
     clearxmlparser();
     delete crawlDb;
     delete formulaDb;
-    delete data;
     delete meaningDictionary;
     delete indexManager;
 

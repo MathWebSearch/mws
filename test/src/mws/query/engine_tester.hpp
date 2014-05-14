@@ -38,7 +38,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/compiler_defs.h"
 #include "mws/index/encoded_token.h"
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndex.hpp"
 #include "mws/query/engine.h"
 
 /*--------------------------------------------------------------------------*/
@@ -53,7 +53,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /*--------------------------------------------------------------------------*/
 
 static inline
-int query_engine_tester(mws::MwsIndexNode* data,
+int query_engine_tester(mws::index::TmpIndex* tmpIndex,
                         encoded_formula_t* query,
                         result_callback_t cb,
                         void *cb_handle) {
@@ -68,7 +68,7 @@ int query_engine_tester(mws::MwsIndexNode* data,
     FAIL_ON(memsector_create(&mswr, ms_path, TMPFILE_SIZE) != 0);
     printf("Memsector %s created\n", ms_path);
 
-    data->exportToMemsector(&mswr);
+    tmpIndex->exportToMemsector(&mswr);
     printf("Index exported to memsector\n");
     printf("Space used: %" PRIu64 "\n",
            memsector_size_inuse(&mswr.ms_header->alloc_header));
@@ -91,7 +91,7 @@ int query_engine_tester(mws::MwsIndexNode* data,
     return EXIT_SUCCESS;
 
 fail:
-    if (data) delete data;
+    if (tmpIndex) delete tmpIndex;
     return EXIT_FAILURE;
 }
 

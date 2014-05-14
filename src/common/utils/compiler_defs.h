@@ -106,4 +106,9 @@ extern int verbose;
         }                                                                   \
     } while (0)
 
+
+#define DISALLOW_COPY_AND_ASSIGN(TypeName)                                  \
+    TypeName(const TypeName&) = delete;                                     \
+    TypeName& operator=(const TypeName&) = delete
+
 #endif  // ! _COMMON_UTILS_COMPILER_DEFS_H

@@ -75,7 +75,7 @@ int main()
 {
     dbc::MemCrawlDb crawlDb;
     dbc::MemFormulaDb formulaDb;
-    MwsIndexNode data;
+    index::TmpIndex data;
     MeaningDictionary meaningDictionary;
     index::IndexingOptions indexingOptions;
     indexingOptions.renameCi = false;

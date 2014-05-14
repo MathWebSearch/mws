@@ -50,7 +50,7 @@ namespace mws { namespace index {
 
 IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
                            dbc::CrawlDb* crawlDb,
-                           MwsIndexNode* index,
+                           TmpIndex* index,
                            MeaningDictionary* meaningDictionary,
                            const IndexingOptions& indexingOptions) :
     m_formulaDb(formulaDb), m_crawlDb(crawlDb), m_index(index),
@@ -89,7 +89,7 @@ IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
         vector<encoded_token_t> encodedFormula;
         encoder.encode(m_indexingOptions, currentSubterm,
                        &encodedFormula, NULL);
-        MwsIndexNode* leaf = m_index->insertData(encodedFormula);
+        TmpLeafNode* leaf = m_index->insertData(encodedFormula);
         FormulaId formulaId = leaf->id;
         auto ret = uniqueFormulaIds.insert(formulaId);
         if (ret.second) {

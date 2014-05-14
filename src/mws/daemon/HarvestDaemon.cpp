@@ -125,7 +125,7 @@ int HarvestDaemon::initMws(const Config& config) {
          formulaDb = new dbc::MemFormulaDb();
     }
 
-    data = new MwsIndexNode();
+    data = new TmpIndex();
     meaningDictionary = new MeaningDictionary();
 
     indexManager = new index::IndexManager(formulaDb, crawlDb, data,

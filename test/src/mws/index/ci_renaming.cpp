@@ -74,7 +74,7 @@ struct Tester {
     bool ci_renaming_successful() {
         dbc::MemCrawlDb crawlDb;
         dbc::MemFormulaDb formulaDb;
-        MwsIndexNode data;
+        index::TmpIndex data;
         MeaningDictionary meaningDictionary;
         index::IndexingOptions indexingOptions;
         indexingOptions.renameCi = true;
@@ -92,7 +92,7 @@ struct Tester {
         // Fail if we have not indexed all expresions
         FAIL_ON(ret.second != 8);
         // Fail if the index is not as compressed as it should
-        FAIL_ON(data.children._data.size() != 4);
+        FAIL_ON(data.mRoot->children.size() != 4);
         (void) close(fd);
 
         (void) clearxmlparser();

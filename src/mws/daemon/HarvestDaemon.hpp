@@ -36,7 +36,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/dbc/LevFormulaDb.hpp"
 #include "mws/dbc/LevCrawlDb.hpp"
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndex.hpp"
 #include "mws/index/MeaningDictionary.hpp"
 #include "mws/index/IndexManager.hpp"
 
@@ -54,7 +54,7 @@ class HarvestDaemon: public Daemon {
     index::MeaningDictionary* meaningDictionary;
     dbc::CrawlDb* crawlDb;
     dbc::FormulaDb* formulaDb;
-    MwsIndexNode* data;
+    index::TmpIndex* data;
 };
 }}
 

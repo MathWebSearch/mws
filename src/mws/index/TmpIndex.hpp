@@ -22,8 +22,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define _MWSINDEXNODE_HPP
 
 /**
-  * @brief  File containing the header of MwsIndexNode Class
-  * @file   MwsIndexNode.hpp
+  * @brief  TmpIndex interfaces
+  * @file   TmpIndex.hpp
   * @author Corneliu-Claudiu Prodescu <c.prodescu@jacobs-university.de>
   * @date   03 May 2011
   *
@@ -34,6 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stack>
 #include <utility>
 #include <vector>
+#include <map>
 
 #include "common/utils/util.hpp"
 #include "mws/types/CmmlToken.hpp"
@@ -42,40 +43,70 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/encoded_token.h"
 #include "mws/index/memsector.h"
 #include "mws/index/MeaningDictionary.hpp"
+#include "mws/types/FormulaPath.hpp"
 
 namespace mws {
 namespace index {
+
 struct TmpIndexAccessor;
 class IndexManager;
-}
+class TmpIndex;
 
-class MwsIndexNode {
-    typedef mws::VectorMap<encoded_token_t, MwsIndexNode*> _MapType;
-    /// Map of children MwsIndex Nodes
+class TmpIndexNode {
+    struct EncodedTokenLess {
+        bool operator()(const encoded_token_t& t1,
+                        const encoded_token_t& t2) const {
+            return ((t1.arity < t2.arity) ||
+                    (t1.arity == t2.arity && t1.id < t2.id));
+        }
+    };
+    typedef std::map<encoded_token_t, TmpIndexNode*, EncodedTokenLess> _MapType;
+    // typedef mws::VectorMap<encoded_token_t, TmpIndexNode*> _MapType;
     _MapType children;
-    /// Id of the next node to be created
-    static unsigned long long nextNodeId;
-    /// Id of the MwsIndexNode
-    const unsigned long long id;
+
+ public:
+    TmpIndexNode();
+
+ protected:
+    memsector_off_t exportToMemsector(memsector_alloc_header_t* alloc) const;
+
+ private:
+    friend struct TmpIndexAccessor;
+    friend class TmpIndex;
+    ALLOW_TESTER_ACCESS;
+    DISALLOW_COPY_AND_ASSIGN(TmpIndexNode);
+};
+
+class TmpLeafNode : public TmpIndexNode {
+    static types::FormulaId nextId;
+    const types::FormulaId id;
     /// Number of solutions associated with this node
     unsigned int solutions;
 
-public:
-    /**
-      * @brief Default constructor of the MwsIndexSubst class
-      */
-    MwsIndexNode();
+ public:
+    TmpLeafNode();
 
-    /**
-      * @brief Destructor of the MwsIndexSubst class
-      */
-    ~MwsIndexNode();
+ private:
+    friend struct mws::index::TmpIndexAccessor;
+    friend class IndexManager;
+    friend class TmpIndex;
+    friend class TmpIndexNode;
+    ALLOW_TESTER_ACCESS;
+    DISALLOW_COPY_AND_ASSIGN(TmpLeafNode);
+};
+
+class TmpIndex {
+    TmpIndexNode* mRoot;
+
+ public:
+    TmpIndex();
+    ~TmpIndex();
 
     /** @brief Method to insert data into the Index Tree
       * @param encodedFormula encoded formula
       * @return leaf node corresponding to the inserted expression
       */
-    MwsIndexNode*
+    TmpLeafNode*
     insertData(const std::vector<encoded_token_t>& encodedFormula);
 
     uint64_t getMemsectorSize() const;
@@ -86,15 +117,13 @@ public:
      */
     void exportToMemsector(memsector_writer_t* mswr) const;
 
- protected:
-    memsector_off_t exportToMemsector(memsector_alloc_header_t* alloc) const;
-
-    friend struct mws::index::TmpIndexAccessor;
-    friend class mws::index::IndexManager;
-
+ private:
+    friend struct TmpIndexAccessor;
     ALLOW_TESTER_ACCESS;
+    DISALLOW_COPY_AND_ASSIGN(TmpIndex);
 };
 
-}
+}  // namespace index
+}  // namespace mws
 
 #endif // _MWSINDEXNODE_HPP

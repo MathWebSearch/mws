@@ -44,9 +44,9 @@ static uint64_t g_result_leaf_id;
 
 struct Tester {
 static
-MwsIndexNode* create_test_MwsIndexNode() {
-    MwsIndexNode* data = new MwsIndexNode();
-    MwsIndexNode* leaf;
+index::TmpIndex* create_test_MwsIndexNode() {
+    index::TmpIndex* data = new index::TmpIndex();
+    index::TmpLeafNode* leaf;
 
     leaf = data->insertData({f_tok});
     leaf->solutions++;
@@ -100,7 +100,7 @@ fail:
 }
 
 int main() {
-    mws::MwsIndexNode* index = Tester::create_test_MwsIndexNode();
+    mws::index::TmpIndex* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
     return query_engine_tester(index, &query, result_callback, NULL);

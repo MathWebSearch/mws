@@ -28,19 +28,19 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include "common/utils/compiler_defs.h"
-#include "mws/index/MwsIndexNode.hpp"
+#include "mws/index/TmpIndex.hpp"
 #include "mws/types/FormulaPath.hpp"
 
 namespace mws {
 namespace index {
 
 struct TmpIndexAccessor {
-    typedef MwsIndexNode Index;
-    typedef MwsIndexNode Node;
-    typedef MwsIndexNode::_MapType::iterator Iterator;
+    typedef TmpIndex Index;
+    typedef TmpIndexNode Node;
+    typedef TmpIndexNode::_MapType::iterator Iterator;
 
     static Node* getRootNode(Index* index) {
-        return index;
+        return index->mRoot;
     }
 
     static Iterator getChildrenBegin(Node* node) {
@@ -75,11 +75,13 @@ struct TmpIndexAccessor {
     }
 
     static types::FormulaId getFormulaId(Node* node) {
-        return node->id;
+        TmpLeafNode* leaf = (TmpLeafNode*) node;
+        return leaf->id;
     }
 
     static uint64_t getHitsCount(Node* node) {
-        return node->solutions;
+        TmpLeafNode* leaf = (TmpLeafNode*) node;
+        return leaf->solutions;
     }
 };
 
