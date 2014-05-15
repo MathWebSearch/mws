@@ -103,6 +103,11 @@ public:
         return _data.end();
     }
 
+    inline V&
+    operator[](const K& key) {
+        return ((this->insert(make_pair(key, V()))).first)->second;
+    }
+
     /**
       * @brief Method to insert a key-value pair into the Map. If the key
       * already exists, nothing is inserted.
@@ -111,14 +116,11 @@ public:
       * and a boolean showing if a new pair was inserted.
       */
     inline std::pair<iterator, bool>
-    insert(const key_value& keyValue)
-    {
+    insert(const key_value& keyValue) {
         iterator it;
 
         it = find(keyValue.first);
-        // If the element is not present, we need to insert it
-        if (it == end())
-        {
+        if (it == end()) { // new key
             size_t i;
 
             // Inserting the data
@@ -139,10 +141,7 @@ public:
             }
         
             return make_pair(_data.begin() + i, true);
-        }
-        // Otherwise we return
-        else
-        {
+        } else { // existent key
             return make_pair(it, false);
         }
     }

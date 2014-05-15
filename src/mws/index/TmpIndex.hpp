@@ -60,8 +60,8 @@ class TmpIndexNode {
                     (t1.arity == t2.arity && t1.id < t2.id));
         }
     };
-    typedef std::map<encoded_token_t, TmpIndexNode*, EncodedTokenLess> _MapType;
-    // typedef mws::VectorMap<encoded_token_t, TmpIndexNode*> _MapType;
+    // typedef std::map<encoded_token_t, TmpIndexNode*, EncodedTokenLess> _MapType;
+    typedef mws::VectorMap<encoded_token_t, TmpIndexNode*> _MapType;
     _MapType children;
 
  public:
