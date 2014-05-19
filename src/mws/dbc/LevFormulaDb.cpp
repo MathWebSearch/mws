@@ -27,15 +27,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdlib.h>
 
+#include <memory>
+using std::unique_ptr;
 #include <stdexcept>
 using std::runtime_error;
 #include <string>
 using std::string;
+using std::to_string;
 #include <leveldb/db.h>
 using leveldb::DestroyDB;
 using leveldb::DB;
 using leveldb::Options;
 using leveldb::Status;
+using leveldb::ReadOptions;
+using leveldb::Iterator;
 
 #include "common/types/Parcelable.hpp"
 using common::types::ParcelAllocator;
@@ -109,21 +114,21 @@ LevFormulaDb::queryFormula(const types::FormulaId &formulaId,
                            unsigned limitMin,
                            unsigned limitSize,
                            QueryCallback queryCallback) {
-    leveldb::Iterator* ret = mDatabase->NewIterator(leveldb::ReadOptions());
-    std::string fmId = std::to_string(formulaId) + "!";
-    ret->Seek(fmId);
+    unique_ptr<Iterator> it(mDatabase->NewIterator(ReadOptions()));
+    string fmId = to_string(formulaId) + "!";
+    it->Seek(fmId);
     for (unsigned i = 0; i < limitMin; i++) {
-        if (!ret->Valid()) return 0;
-        ret->Next();
+        if (!it->Valid()) return 0;
+        it->Next();
     }
 
-    if (!ret->Valid()) return 0;
+    if (!it->Valid()) return 0;
 
     std::string maxKey = fmId + "\xff";
     for (unsigned i = 0;
-            i < limitSize && ret->Valid() && ret->key().ToString() < maxKey;
-            i++, ret->Next()) {
-        std::string retrieved = ret->value().ToString();
+            i < limitSize && it->Valid() && it->key().ToString() < maxKey;
+            i++, it->Next()) {
+        std::string retrieved = it->value().ToString();
 
         ParcelDecoder decoder(retrieved.data(), retrieved.size());
 

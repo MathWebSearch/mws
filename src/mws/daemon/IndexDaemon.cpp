@@ -119,7 +119,7 @@ result_cb_return_t result_callback(void* _ctxt,
 }
 
 MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
-    MwsAnswset* result = new MwsAnswset;
+    MwsAnswset* result;
     QueryEncoder encoder(meaningDictionary);
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
@@ -130,7 +130,7 @@ MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
         DbQueryManager dbQueryManager(crawlDb, formulaDb);
         if (_config.useExperimentalQueryEngine) {
             HandlerStruct ctxt;
-            ctxt.result = result;
+            ctxt.result = result = new MwsAnswset();
             ctxt.mwsQuery = query;
             ctxt.dbQueryManager = &dbQueryManager;
 
@@ -147,6 +147,8 @@ MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
                                                    query->attrResultMaxSize,
                                                    query->attrResultTotalReqNr);
         }
+    } else {
+        result = new MwsAnswset();
     }
 
     result->qvarNames = queryInfo.qvarNames;
