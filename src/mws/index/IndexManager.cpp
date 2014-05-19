@@ -37,6 +37,7 @@ using std::unordered_map;
 
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
+using mws::types::TokenCallback;
 #include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaId;
 using mws::types::FormulaPath;
@@ -64,30 +65,19 @@ IndexManager::indexCrawlData(const CrawlData& crawlData) {
 }
 
 int
-IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
-                               const std::string xmlId,
+IndexManager::indexContentMath(const CmmlToken* cmmlToken,
+                               const string xmlId,
                                const CrawlId& crawlId) {
     assert(cmmlToken != NULL);
     // Using a stack to insert all subterms by
     // going depth first through the CmmlToken
     set<FormulaId> uniqueFormulaIds;
-    stack<const CmmlToken*> subtermStack;
-    int numSubExpressions = 0;
     HarvestEncoder encoder(m_meaningDictionary);
+    int numSubExpressions = 0;
 
-    subtermStack.push(cmmlToken);
-    while (!subtermStack.empty()) {
-        const CmmlToken* currentSubterm = subtermStack.top();
-        subtermStack.pop();
-
-        for (auto rIt  = currentSubterm->getChildNodes().rbegin();
-             rIt != currentSubterm->getChildNodes().rend();
-             rIt ++) {
-            subtermStack.push(*rIt);
-        }
-
+    TokenCallback tokCallback = [&] (const CmmlToken* tok) {
         vector<encoded_token_t> encodedFormula;
-        encoder.encode(m_indexingOptions, currentSubterm,
+        encoder.encode(m_indexingOptions, tok,
                        &encodedFormula, NULL);
         TmpLeafNode* leaf = m_index->insertData(encodedFormula);
         FormulaId formulaId = leaf->id;
@@ -95,13 +85,14 @@ IndexManager::indexContentMath(const types::CmmlToken* cmmlToken,
         if (ret.second) {
             types::FormulaPath formulaPath;
             formulaPath.xmlId = xmlId;
-            formulaPath.xpath = currentSubterm->getXpath();
+            formulaPath.xpath = tok->getXpath();
             m_formulaDb->insertFormula(leaf->id, crawlId, formulaPath);
             leaf->solutions++;
             numSubExpressions++;
         }
-    }
+    };
 
+    cmmlToken->foreachSubexpression(tokCallback);
     return numSubExpressions;
 }
 

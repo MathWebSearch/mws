@@ -256,6 +256,8 @@ SearchContext::getResult(typename A::Index* index,
                     return 0;
                 };
 
+                result->ids.insert(A::getFormulaId(currentNode));
+
                 dbQueryManger->query(A::getFormulaId(currentNode), dbOffset,
                                      dbMaxSize, callback);
             }

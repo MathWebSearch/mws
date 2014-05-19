@@ -34,11 +34,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <list>
 #include <map>
 #include <string>
+#include <functional>
 
 namespace mws {
 namespace types {
 
+class CmmlToken;
+
 typedef std::string Meaning;
+typedef std::function<void (const CmmlToken* token)> TokenCallback;
+
 
 /**
   * @brief Class encapsulating the properties of a ContentMathML Token
@@ -109,6 +114,12 @@ public:
     uint32_t                     getExprSize() const;
     uint32_t                     getArity() const;
     bool                         equals(const CmmlToken *t) const;
+
+    /**
+     * @brief Apply the callback to all subexpressions
+     * @param callback callback to be called on each subexpression
+     */
+    void foreachSubexpression(TokenCallback callback) const;
 protected:
     /**
       * Declared protected to avoid instantiation.

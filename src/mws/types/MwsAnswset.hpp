@@ -31,8 +31,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdio>
 #include <vector>
+#include <set>
 
 #include "mws/types/Answer.hpp"
+#include "mws/types/FormulaPath.hpp"
 
 namespace mws {
 
@@ -50,7 +52,8 @@ struct MwsAnswset
     std::vector<std::string> qvarNames;
     /// Vector containing the qvar relative xpaths
     std::vector<std::string> qvarXpaths;
-
+    /// Set with the FormulaIds
+    std::set<mws::types::FormulaId> ids;
     MwsAnswset() : total(0) {
     }
 

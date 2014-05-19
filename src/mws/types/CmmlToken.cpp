@@ -38,6 +38,8 @@ using std::map;
 using std::stringstream;
 #include <string>
 using std::string;
+#include <stack>
+using std::stack;
 
 #include "CmmlToken.hpp"
 
@@ -269,6 +271,27 @@ CmmlToken::equals(const CmmlToken *t) const {
 
     return true;
 }
+
+void
+CmmlToken::foreachSubexpression(TokenCallback callback) const {
+    stack<const CmmlToken*> subtermStack;
+
+    subtermStack.push(this);
+    while (!subtermStack.empty()) {
+        const CmmlToken* currentSubterm = subtermStack.top();
+        subtermStack.pop();
+
+        for (auto rIt  = currentSubterm->getChildNodes().rbegin();
+             rIt != currentSubterm->getChildNodes().rend();
+             rIt ++) {
+            subtermStack.push(*rIt);
+        }
+
+
+        callback(currentSubterm);
+    }
+}
+
 
 }  // namespace types
 }  // namespace mws

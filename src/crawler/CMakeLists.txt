@@ -27,8 +27,16 @@ ADD_SUBDIRECTORY( utils )               # crawlerutils
 INCLUDE_DIRECTORIES("${GOOGLEURL_INCLUDES}")
 INCLUDE_DIRECTORIES("${JSON_INCLUDE_DIRS}")
 
+# Dependencies
+FIND_PACKAGE (LibXml2 REQUIRED)
+FIND_PACKAGE (Json REQUIRED)
+
+# Includes
+INCLUDE_DIRECTORIES( "${LIBXML2_INCLUDE_DIR}" )
+INCLUDE_DIRECTORIES( "${JSON_INCLUDE_DIRS}" )
+
 # MWS stand-alone xhtml harvester
-ADD_EXECUTABLE( docs2harvest docs2harvest.cpp )
+ADD_EXECUTABLE( docs2harvest docs2harvest.cpp)
 TARGET_LINK_LIBRARIES( docs2harvest
     crawlerutils
     crawlerparser
@@ -37,6 +45,21 @@ TARGET_LINK_LIBRARIES( docs2harvest
     ${JSON_LIBRARIES}
 )
 INSTALL(TARGETS docs2harvest DESTINATION bin)
+
+# docs to elasticsearch json
+ADD_EXECUTABLE( harvests2json harvests2json.cpp)
+TARGET_LINK_LIBRARIES( harvests2json
+        mwsindex
+        mwsdaemon
+        commonutils
+        mwsdbc
+        mwsxmlparser
+        mwstypes
+        ${JSON_LIBRARIES}
+        ${LIBXML2_LIBRARIES}
+)
+
+INSTALL(TARGETS harvests2json DESTINATION bin)
 
 # MWS crawler daemon
 ADD_EXECUTABLE( crawlerd crawlerd.cpp )
@@ -53,6 +76,6 @@ TARGET_LINK_LIBRARIES(crawlerd
 )
 
 # Output executables at the root of build tree
-SET_PROPERTY( TARGET docs2harvest crawlerd
+SET_PROPERTY( TARGET docs2harvest crawlerd harvests2json
         PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )

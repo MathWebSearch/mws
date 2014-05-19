@@ -18,16 +18,16 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_PARSER_LOADMWSHARVESTFROMFD_HPP
-#define _MWS_PARSER_LOADMWSHARVESTFROMFD_HPP
+#ifndef _MWS_PARSER_PROCESSMWSHARVEST_HPP
+#define _MWS_PARSER_PROCESSMWSHARVEST_HPP
 
 /**
-  * @brief File containing the header of the loadMwsHarvestFromFd function
-  *
-  * @file loadMwsHarvestFromFd.hpp
+  * @file processMwsHarvest.hpp
   * @author Corneliu-Claudiu Prodescu
   * @date 30 Apr 2011
   *
+  * @edited Radu Hambasan
+  * @date 04 May 2014
   * License: GPL v3
   *
   */
@@ -35,13 +35,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // System includes
 
 #include <string>
+#include <vector>
 #include <utility>
 
 // Local includes
 
 #include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexAccessor.hpp"
 #include "common/utils/Path.hpp"
-
+#include "mws/daemon/Daemon.hpp"
 namespace mws {
 namespace parser {
 
@@ -89,6 +91,32 @@ int loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
                                 const std::string& extension,
                                 bool recursive);
 
+struct Hit {
+    mws::types::FormulaId id;
+    std::string uri;
+    std::string xpath;
+};
+
+
+struct ParseResult {
+    std::string data;
+    std::vector<Hit*> hits;
+
+    ~ParseResult() {
+        for (auto hit : hits) {
+            delete hit;
+        }
+    }
+    ParseResult(std::string data, std::vector<Hit*> hits) : data(data),
+                                                            hits(hits) {
+    }
+};
+
+ParseResult
+parseMwsHarvestFromFd(const mws::daemon::Config& config,
+                      mws::index::IndexAccessor::Index* index,
+                      mws::index::MeaningDictionary* meaningDictionary,
+                      mws::dbc::FormulaDb* formulaDb, int fd);
 }  // namespace parser
 }  // namespace mws
 

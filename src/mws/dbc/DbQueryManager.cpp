@@ -53,7 +53,7 @@ DbQueryManager::query(types::FormulaId formulaId,
     QueryCallback formulaQueryCallback =
             [dbAnswerCallback, this](const CrawlId& crawlId,
                                      const types::FormulaPath& formulaPath) {
-        if (crawlId != CRAWLID_NULL) {
+        if (crawlId != CRAWLID_NULL && mCrawlDb) {
             return dbAnswerCallback(formulaPath,
                                     this->mCrawlDb->getData(crawlId));
         } else {
