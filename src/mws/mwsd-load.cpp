@@ -62,6 +62,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('I', "index-path",           FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('6', "enable-ipv6",          FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
@@ -87,6 +88,7 @@ int main(int argc, char* argv[]) {
     }
 
     config.useExperimentalQueryEngine = FlagParser::hasArg('x');
+    config.enableIpv6 = FlagParser::hasArg('6');
 
     // index-path
     config.dataPath = FlagParser::getArg('I').c_str();

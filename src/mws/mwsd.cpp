@@ -68,8 +68,9 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('c', "enable-ci-renaming",      FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('f', "delete-old-data",         FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('6', "enable-ipv6",             FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
-    FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('d', "daemonize",               FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
 
     if ((ret = FlagParser::parse(argc, argv)) != 0) {
@@ -79,6 +80,7 @@ int main(int argc, char* argv[]) {
 
     // harvest paths
     config.harvestLoadPaths = FlagParser::getArgs('I');
+    config.enableIpv6 = FlagParser::hasArg('6');
 
     // harvest file extension
     if (FlagParser::hasArg('e')) {

@@ -45,6 +45,7 @@ namespace mws { namespace daemon {
 struct Config {
     std::vector<std::string> harvestLoadPaths;
     bool                     recursive;
+    bool                     enableIpv6;
     uint16_t                 mwsPort;
     std::string              dataPath;
     bool                     useLevelDb;

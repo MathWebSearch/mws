@@ -301,7 +301,9 @@ int Daemon::startAsync(const Config& config) {
 
     atexit(cleanupMws);
 
-    _daemonHandler = MHD_start_daemon(MHD_USE_THREAD_PER_CONNECTION,
+    unsigned int mhd_flags = MHD_USE_THREAD_PER_CONNECTION;
+    if (config.enableIpv6) mhd_flags |= MHD_USE_IPv6;
+    _daemonHandler = MHD_start_daemon(mhd_flags,
                                       config.mwsPort,
                                       my_MHD_AcceptPolicyCallback,
                                       NULL,
