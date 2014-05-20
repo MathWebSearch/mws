@@ -138,10 +138,10 @@ MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
             encodedFormula.data = encodedQuery.data(),
             encodedFormula.size = encodedQuery.size();
 
-            query_engine_run(data, &encodedFormula, result_callback, &ctxt);
+            query_engine_run(&data, &encodedFormula, result_callback, &ctxt);
         } else {
             SearchContext ctxt(encodedQuery);
-            result = ctxt.getResult<IndexAccessor>(data,
+            result = ctxt.getResult<IndexAccessor>(&data,
                                                    &dbQueryManager,
                                                    query->attrResultLimitMin,
                                                    query->attrResultMaxSize,
@@ -183,8 +183,8 @@ int IndexDaemon::initMws(const Config& config) {
     memsector_handle_t msHandle;
     memsector_load(&msHandle, ms_path.c_str());
 
-    data = new index_handle_t;
-    *data = msHandle.index;
+    data.ms = msHandle.ms;
+    data.root = memsector_get_root(&msHandle);
 
     /*
      * Initializing meaningDictionary
@@ -199,8 +199,7 @@ int IndexDaemon::initMws(const Config& config) {
     return ret;
 }
 
-IndexDaemon::IndexDaemon() : data(NULL),
-                             crawlDb(NULL),
+IndexDaemon::IndexDaemon() : crawlDb(NULL),
                              formulaDb(NULL),
                              meaningDictionary(NULL) {
 }
@@ -209,7 +208,6 @@ IndexDaemon::~IndexDaemon() {
     if (meaningDictionary) delete meaningDictionary;
     if (crawlDb) delete crawlDb;
     if (formulaDb) delete formulaDb;
-    if (data) delete data;
 }
 
 }  // namespace daemon

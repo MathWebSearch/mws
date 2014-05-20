@@ -37,30 +37,44 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/compiler_defs.h"
 #include "common/utils/mmap.h"
-#include "mws/index/memsector_allocator.h"
 #include "mws/index/encoded_token.h"
-#include "mws/index/index.h"
 
 /*--------------------------------------------------------------------------*/
 /* Type declarations                                                        */
 /*--------------------------------------------------------------------------*/
 
+/**
+ * Compact offset pointer
+ */
+typedef uint32_t memsector_off_t;
+#define MEMSECTOR_OFF_NULL      (memsector_off_t) 0
+#define MEMSECTOR_ALLOC_UNIT    8
+
+/**
+ * @brief Memsector header
+ */
 struct memsector_header_s {
-    memsector_alloc_header_t alloc_header;
-    memsector_off_t index_header_off;
+    uint32_t magic;
+    uint32_t version;
+    uint64_t index_size;
     uint32_t checksum;
+    memsector_off_t root_off;
 } PACKED;
 typedef struct memsector_header_s memsector_header_t;
 
 typedef struct memsector_handle_s {
     mmap_handle_t mmap_handle;
-    memsector_alloc_header_t* alloc;
-    index_handle_t index;
+    memsector_header_t* ms;
 } memsector_handle_t;
 
 typedef struct memsector_writer_s {
-    mmap_handle_t mmap_handle;
-    memsector_header_t* ms_header;
+    FILE* file;
+    memsector_header_t ms;
+    uint64_t offset;
+    struct {
+        uint32_t entries_promised;
+        uint32_t entries_delivered;
+    } inode;
 } memsector_writer_t;
 
 /*--------------------------------------------------------------------------*/
@@ -69,17 +83,30 @@ typedef struct memsector_writer_s {
 
 BEGIN_DECLS
 
-/**
- * @return 0 on success, -1 on failure.
- */
-int memsector_create(memsector_writer_t *msw,
-                     const char *path,
-                     uint32_t size);
+static inline
+const char* memsector_off2addr(const memsector_header_t* ms,
+                               memsector_off_t off) {
+    return ((char*)ms) + MEMSECTOR_ALLOC_UNIT * off;
+}
+
+static inline
+memsector_off_t memsector_get_current_offset(const memsector_writer_t* mswr) {
+    return mswr->offset / MEMSECTOR_ALLOC_UNIT;
+}
 
 /**
  * @return 0 on success, -1 on failure.
  */
-int memsector_save(memsector_writer_t *msw);
+int memsector_create(memsector_writer_t *mswr,
+                     const char *path);
+
+void memsector_write(memsector_writer_t* msw,
+                     void* data, size_t size);
+
+/**
+ * @return 0 on success, -1 on failure.
+ */
+int memsector_save(memsector_writer_t *msw, memsector_off_t index_off);
 
 /**
  * @return 0 on success, -1 on failure.
@@ -95,19 +122,6 @@ int memsector_unload(memsector_handle_t *ms);
  * @return 0 on success, -1 on failure.
  */
 int memsector_remove(memsector_handle_t *ms);
-
-/**
- * @return pointer to the allocation header
- */
-static inline
-memsector_alloc_header_t *mswr_get_alloc(memsector_writer_t* mswr) {
-    return &mswr->ms_header->alloc_header;
-}
-
-static inline
-memsector_alloc_header_t* ms_get_alloc(memsector_handle_t* ms) {
-    return ms->alloc;
-}
 
 END_DECLS
 

@@ -89,7 +89,7 @@ typedef struct query_ctxt_s {
     uint32_t solving_var_id;
 
     /* index allocator */
-    const memsector_alloc_header_t* alloc;
+    const memsector_header_t* alloc;
 
     /* result callback */
     result_callback_t result_cb;
@@ -163,7 +163,7 @@ void query_ctxt_init(query_ctxt_t* RESTRICT      query_ctxt,
     query_ctxt->index_stack.size = 0;
 
     // initialize memsector alloc
-    query_ctxt->alloc = index->alloc;
+    query_ctxt->alloc = index->ms;
 
     // initialize result callback data
     query_ctxt->result_cb = result_cb;

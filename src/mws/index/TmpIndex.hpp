@@ -53,6 +53,7 @@ class IndexManager;
 class TmpIndex;
 
 class TmpIndexNode {
+    /*
     struct EncodedTokenLess {
         bool operator()(const encoded_token_t& t1,
                         const encoded_token_t& t2) const {
@@ -60,15 +61,13 @@ class TmpIndexNode {
                     (t1.arity == t2.arity && t1.id < t2.id));
         }
     };
-    // typedef std::map<encoded_token_t, TmpIndexNode*, EncodedTokenLess> _MapType;
+    typedef std::map<encoded_token_t, TmpIndexNode*, EncodedTokenLess> _MapType;
+    */
     typedef mws::VectorMap<encoded_token_t, TmpIndexNode*> _MapType;
     _MapType children;
 
  public:
     TmpIndexNode();
-
- protected:
-    memsector_off_t exportToMemsector(memsector_alloc_header_t* alloc) const;
 
  private:
     friend struct TmpIndexAccessor;

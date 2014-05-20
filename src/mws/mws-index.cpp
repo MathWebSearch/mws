@@ -56,7 +56,6 @@ int main(int argc, char* argv[]) {
     memsector_writer_t mwsr;
     string harvest_path;
     int ret;
-    uint64_t memsector_size;
 
     dbc::CrawlDb* crawlDb;
     dbc::FormulaDb* formulaDb;
@@ -124,14 +123,9 @@ int main(int argc, char* argv[]) {
                                            meaningDictionary, indexingOptions);
     loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
                                 harvestExtension, recursive);
-
-    memsector_size = index.getMemsectorSize();
-    PRINT_LOG("Compressing index to %" PRIu64 "Kb...\n", memsector_size / 1024);
-    memsector_create(&mwsr, (output_dir + "/memsector.dat").c_str(),
-                     memsector_size);
-
+    memsector_create(&mwsr, (output_dir + "/memsector.dat").c_str());
     index.exportToMemsector(&mwsr);
-    memsector_save(&mwsr);
+    PRINT_LOG("Created index of %" PRIu64 "Kb\n", mwsr.ms.index_size / 1024);
 
     fb.open((output_dir + "/meaning.dat").c_str(), std::ios::out);
     meaningDictionary->save(os);

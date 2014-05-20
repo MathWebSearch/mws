@@ -61,25 +61,24 @@ int query_engine_tester(mws::index::TmpIndex* tmpIndex,
     const char* ms_path = TMPFILE_PATH;
     memsector_writer_t mswr;
     memsector_handle_t ms;
+    index_handle_t index;
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(TMPFILE_PATH) != 0 && errno != ENOENT);
 
-    FAIL_ON(memsector_create(&mswr, ms_path, TMPFILE_SIZE) != 0);
+    FAIL_ON(memsector_create(&mswr, ms_path) != 0);
     printf("Memsector %s created\n", ms_path);
 
     tmpIndex->exportToMemsector(&mswr);
-    printf("Index exported to memsector\n");
-    printf("Space used: %" PRIu64 "\n",
-           memsector_size_inuse(&mswr.ms_header->alloc_header));
-
-    FAIL_ON(memsector_save(&mswr) != 0);
-    printf("Memsector saved\n");
+    printf("Index exported to memsector of size %" PRIu64 "b\n",
+           mswr.ms.index_size);
 
     FAIL_ON(memsector_load(&ms, ms_path) != 0);
     printf("Memsector loaded\n");
 
-    if (query_engine_run(&ms.index, query, cb, cb_handle)
+    index.ms = ms.ms;
+    index.root = memsector_get_root(&ms);
+    if (query_engine_run(&index, query, cb, cb_handle)
             == QUERY_ERROR) {
         goto fail;
     }

@@ -26,13 +26,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * License: GPLv3
  */
 
+#include <errno.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "common/utils/mmap.h"
 #include "mws/index/memsector.h"
 
 #include "crc32/crc32.h"
+
+const uint64_t MEMSECTOR_MAGIC = 0x88CAFE88;
+const uint32_t MEMSECTOR_VERSION = 1;
 
 /*--------------------------------------------------------------------------*/
 /* Local methods                                                            */
@@ -44,34 +51,52 @@ static uint32_t memsector_get_checksum(const memsector_header_t* memsector);
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
 
-int memsector_create(memsector_writer_t *msw,
-                     const char *path,
-                     uint32_t size) {
-    size_t real_size = sizeof(memsector_header_t) + size;
-    int status;
+int memsector_create(memsector_writer_t *mswr,
+                     const char *path) {
+    /* initialize memsector writer */
+    memset(mswr, 0, sizeof(*mswr));
 
-    /* create and mmap memsector file */
-    status = mmap_create(path, real_size,
-                         MAP_SHARED,
-                         &msw->mmap_handle);
-    if (status == -1) return -1;
+    /* create and resize file */
+    mswr->file = fopen(path, "w");
+    if (mswr->file == 0) {
+        PRINT_WARN("Error while opening %s: %s\n", path, strerror(errno));
+        return -1;
+    }
 
     /* initialize header */
-    memsector_header_t ms;
-    ms.alloc_header.curr_offset = sizeof(memsector_header_t);
-    ms.alloc_header.end_offset = real_size;
-    ms.index_header_off = memsector_alloc_get_curr_off(&ms.alloc_header);
+    mswr->ms.magic = MEMSECTOR_MAGIC;
+    mswr->ms.version = MEMSECTOR_VERSION;
+    mswr->offset = sizeof(mswr->ms);
 
-    /* copy header to memsector file */
-    memcpy(msw->mmap_handle.start_addr, &ms, sizeof(memsector_header_t));
-    msw->ms_header = (memsector_header_t*) msw->mmap_handle.start_addr;
+    /* write header to memsector file */
+    size_t items_writen = fwrite(&mswr->ms, sizeof(mswr->ms), 1, mswr->file);
+    if (items_writen != 1) {
+        PRINT_WARN("Error while writing memsector header: %s\n",
+                   strerror(errno));
+        fclose(mswr->file);
+        return -1;
+    }
 
     return 0;
 }
 
-int memsector_save(memsector_writer_t *msw) {
-    msw->ms_header->checksum = memsector_get_checksum(msw->ms_header);
-    return mmap_unload(&msw->mmap_handle);
+void memsector_write(memsector_writer_t* msw,
+                     void* data, size_t size) {
+    size_t items_writen = fwrite(data, size, 1, msw->file);
+    if (items_writen != 1) {
+        perror("fwrite");
+    }
+    msw->offset += size;
+    msw->ms.checksum = crc32(msw->ms.checksum, data, size);
+}
+
+int memsector_save(memsector_writer_t *msw, memsector_off_t index_off) {
+    msw->ms.root_off = index_off;
+    msw->ms.index_size = msw->offset - sizeof(msw->ms);
+    fseek(msw->file, 0, SEEK_SET);
+    fwrite(&msw->ms, sizeof(msw->ms), 1, msw->file);
+
+    return fclose(msw->file);
 }
 
 int memsector_load(memsector_handle_t *ms, const char *path) {
@@ -83,23 +108,28 @@ int memsector_load(memsector_handle_t *ms, const char *path) {
         return -1;
     }
 
-    // initialize allocator header
+    // read and validate memsector data
     memsector_header_t* memsector =
             (memsector_header_t*) ms->mmap_handle.start_addr;
-    ms->alloc = &memsector->alloc_header;
-
-    // check data integrity
+    if (memsector->magic != MEMSECTOR_MAGIC) {
+        PRINT_WARN("File %s is not a memsector (magic mismatch)\n", path);
+        mmap_unload(&ms->mmap_handle);
+        return -1;
+    }
+    if (memsector->version != MEMSECTOR_VERSION) {
+        PRINT_WARN("Cannot process memsector %s v%d\n",
+                   path, (int) memsector->version);
+        mmap_unload(&ms->mmap_handle);
+        return -1;
+    }
     if (memsector->checksum != memsector_get_checksum(memsector)) {
         PRINT_WARN("Memsector %s is corrupted (checksum mismatch)\n", path);
         mmap_unload(&ms->mmap_handle);
         return -1;
     }
 
-    // index handle
-    index_header_t* index_header = (index_header_t*)
-            memsector_off2addr(ms->alloc, memsector->index_header_off);
-    ms->index.alloc = ms->alloc;
-    ms->index.root  = &index_header->root;
+    // initialize handle data
+    ms->ms = memsector;
 
     return 0;
 }
@@ -117,18 +147,9 @@ int memsector_remove(memsector_handle_t *ms) {
 /*--------------------------------------------------------------------------*/
 
 static uint32_t memsector_get_checksum(const memsector_header_t* memsector) {
-    uint32_t checksum = 0;
-
-    /* hash allocator header */
-    checksum = crc32(checksum, &memsector->alloc_header,
-                     sizeof(memsector_alloc_header_t));
-
     /* hash index data */
-    const void* index_start = memsector_off2addr(&memsector->alloc_header,
-                                                 memsector->index_header_off);
-    size_t index_size = memsector_size_inuse(&memsector->alloc_header)
-            - sizeof(memsector_header_t);
-    checksum = crc32(checksum, index_start, index_size);
+    const char* index_start = ((char*) memsector) + sizeof(*memsector);
+    size_t index_size = memsector->index_size;
 
-    return checksum;
+    return crc32(/* initial crc32 = */ 0, index_start, index_size);
 }

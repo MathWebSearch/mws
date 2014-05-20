@@ -48,6 +48,7 @@ using std::filebuf;
 #include "common/utils/util.hpp"
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
+#include "mws/index/index.h"
 #include "mws/index/IndexManager.hpp"
 using mws::index::IndexingOptions;
 using mws::index::MeaningDictionary;
@@ -135,7 +136,7 @@ int main(int argc, char* argv[]) {
         config.harvestFileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
     }
 
-    index_handle_t* data;
+    index_handle_t index;
     MeaningDictionary* meaningDictionary;
     FormulaDb* formulaDb;
     LevFormulaDb* fmdb = new LevFormulaDb();
@@ -157,8 +158,8 @@ int main(int argc, char* argv[]) {
     memsector_handle_t msHandle;
     memsector_load(&msHandle, ms_path.c_str());
 
-    data = new index_handle_t;
-    *data = msHandle.index;
+    index.ms = msHandle.ms;
+    index.root = memsector_get_root(&msHandle);
 
     /*
      * Initializing meaningDictionary
@@ -179,7 +180,7 @@ int main(int argc, char* argv[]) {
             if (fd < 0) {
                 return -1;
             }
-            ParseResult parseReturn = parseMwsHarvestFromFd(config, data,
+            ParseResult parseReturn = parseMwsHarvestFromFd(config, &index,
                                                             meaningDictionary,
                                                             formulaDb, fd);
             writeHitsToJSON(parseReturn.data, parseReturn.hits, path);

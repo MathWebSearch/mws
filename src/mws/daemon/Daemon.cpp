@@ -26,6 +26,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * License: GPL v3
   */
 
+#include <assert.h>
 #include <fcntl.h>              // File control operations
 #include <signal.h>
 #include <stdio.h>

@@ -34,14 +34,14 @@ namespace index {
 
 struct IndexAccessor {
     typedef index_handle_t Index;
-    typedef inode_t Node;
+    typedef const inode_t Node;
 
 public:
     class Iterator {
-        inode_t* _node;
+        Node* _node;
         int _index;
 
-        Iterator(inode_t* node, int index)
+        Iterator(Node* node, int index)
             : _node(node), _index(index) {
         }
     public:
@@ -91,7 +91,7 @@ public:
         assert(it._node->type == INTERNAL_NODE);
         memsector_off_t off = it._node->data[it._index].off;
         assert(off != MEMSECTOR_OFF_NULL);
-        return (Node*) memsector_off2addr(index->alloc, off);
+        return (Node*) memsector_off2addr(index->ms, off);
     }
 
     static Node* getChild(Index* index, Node* node, encoded_token_t token) {
@@ -100,7 +100,7 @@ public:
         if (off == MEMSECTOR_OFF_NULL) {
             return NULL;
         }
-        return (Node*) memsector_off2addr(index->alloc, off);
+        return (Node*) memsector_off2addr(index->ms, off);
     }
 
     static uint64_t getFormulaId(Node* node) {

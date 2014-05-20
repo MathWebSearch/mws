@@ -29,15 +29,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using std::string;
 #include <stack>
 using std::stack;
+#include <queue>
+using std::queue;
 #include <vector>
 using std::vector;
 #include <utility>
 using std::pair;
 using std::make_pair;
 
-#include "mws/index/TmpIndex.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
+#include "mws/index/index.h"
+#include "mws/index/TmpIndex.hpp"
 #include "common/utils/compiler_defs.h"
+#include "common/utils/ContainerIterator.hpp"
+using common::utils::ContainerIterator;
 
 // Static members declaration
 
@@ -49,7 +54,16 @@ types::FormulaId TmpLeafNode::nextId = 0;
 
 TmpIndexNode::TmpIndexNode() {
 }
-
+/*
+uint64_t
+TmpIndexNode::getMemsectorSize() const {
+    if (children.size() == 0) {  // leaf node
+        return leaf_size();
+    } else { // internal node
+        return inode_size(children.size());
+    }
+}
+*/
 TmpLeafNode::TmpLeafNode()
     : TmpIndexNode(), id(++TmpLeafNode::nextId), solutions(0) {
 }
@@ -97,64 +111,53 @@ TmpIndex::insertData(const vector<encoded_token_t>& encodedFormula) {
     return node;
 }
 
-uint64_t
-TmpIndex::getMemsectorSize() const {
-    uint64_t size = 0;
-    stack<const TmpIndexNode*> nodes;
-    nodes.push(mRoot);
-
-    while (!nodes.empty()) {
-        const TmpIndexNode* node = nodes.top();
-        nodes.pop();
-
-        if (node->children.size() > 0) {
-            size += inode_size(node->children.size());
-            for (auto& kv : node->children) {
-                const TmpIndexNode* child = (TmpIndexNode*) kv.second;
-                nodes.push(child);
-            }
-        } else {
-            size += leaf_size();
-        }
-    }
-
-    return size;
-}
-
-memsector_off_t
-TmpIndexNode::exportToMemsector(memsector_alloc_header_t* alloc) const {
-    memsector_off_t off;
-
-    if (children.size() > 0) {  // internal node
-        off = inode_alloc(alloc, this->children.size());
-        inode_t *inode = (inode_t*) memsector_off2addr(alloc, off);
-        inode->type = INTERNAL_NODE;
-        inode->size = this->children.size();
-
-        int i = 0;
-        for (auto& kv : this->children) {
-            const TmpIndexNode* child = (TmpIndexNode*) kv.second;
-            inode->data[i].token = kv.first;
-            inode->data[i].off = child->exportToMemsector(alloc);
-
-            i++;
-        }
-    } else {  // leaf node
-        const TmpLeafNode* leafNode =
-                reinterpret_cast<const TmpLeafNode*>(this);
-        off = leaf_alloc(alloc);
-        leaf_t *leaf = (leaf_t*) memsector_off2addr(alloc, off);
-        leaf->type = LEAF_NODE;
-        leaf->num_hits = leafNode->solutions;
-        leaf->formula_id = leafNode->id;
-    }
-
-    return off;
-}
-
 void
 TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
-    mRoot->exportToMemsector(mswr_get_alloc(mswr));
+    struct NodeContext {
+        const TmpIndexNode* node;
+        ContainerIterator<TmpIndexNode::_MapType> childrenIterator;
+        vector<memsector_off_t> childrenOffsets;
+
+        explicit NodeContext(const TmpIndexNode* node)
+            : node(node), childrenIterator(node->children) {
+            childrenOffsets.reserve(node->children.size());
+        }
+    };
+    stack<NodeContext> dfsStack;
+    dfsStack.push(NodeContext(mRoot));
+
+    memsector_off_t lastOffset = MEMSECTOR_OFF_NULL;
+    while (!dfsStack.empty()) {
+        if (dfsStack.top().childrenIterator.hasNext()) {
+            auto it = dfsStack.top().childrenIterator.next();
+            const TmpIndexNode* child = it->second;
+            if (child->children.size() > 0) {  // internal node
+                dfsStack.push(NodeContext(child));
+            } else {  // leaf node
+                const TmpLeafNode* leaf = (TmpLeafNode*) child;
+                lastOffset = memsector_write_leaf(mswr,
+                                                  leaf->solutions, leaf->id);
+                dfsStack.top().childrenOffsets.push_back(lastOffset);
+            }
+        } else {
+            const TmpIndexNode* node = dfsStack.top().node;
+            lastOffset = memsector_write_inode_begin(mswr,
+                                                     node->children.size());
+            int i = 0;
+            for (const auto& entry : node->children) {
+                memsector_write_inode_encoded_token_entry(mswr,
+                        entry.first, dfsStack.top().childrenOffsets[i]);
+                i++;
+            }
+            memsector_write_inode_end(mswr);
+            dfsStack.pop();
+            if (!dfsStack.empty()) {
+                dfsStack.top().childrenOffsets.push_back(lastOffset);
+            }
+        }
+    }
+
+    memsector_save(mswr, lastOffset);
 }
 
 }  // namespace index

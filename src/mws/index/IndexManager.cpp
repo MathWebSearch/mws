@@ -24,6 +24,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 18 Nov 2013
   */
 
+#include <assert.h>
+
 #include <set>
 using std::set;
 #include <stack>

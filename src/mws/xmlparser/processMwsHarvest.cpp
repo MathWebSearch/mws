@@ -33,6 +33,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
+#include <assert.h>
 #include <stdlib.h>                    // C general purpose library
 #include <stdio.h>                     // C Standrad Input Output
 #include <string.h>                    // C string library

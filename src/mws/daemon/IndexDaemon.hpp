@@ -54,7 +54,7 @@ class IndexDaemon : public Daemon {
     MwsAnswset* handleQuery(MwsQuery *query);
     int initMws(const Config& config);
  private:
-    index_handle_t* data;
+    index_handle_t data;
     dbc::CrawlDb* crawlDb;
     dbc::FormulaDb* formulaDb;
     index::MeaningDictionary* meaningDictionary;

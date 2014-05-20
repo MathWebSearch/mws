@@ -37,7 +37,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // Local includes
 
 #include "common/utils/compiler_defs.h"
-#include "mws/index/memsector_allocator.h"
 
 /*--------------------------------------------------------------------------*/
 /* Constants                                                                */
@@ -72,15 +71,6 @@ struct encoded_token_s {
     uint32_t  id    : 24;
 } PACKED;
 typedef struct encoded_token_s encoded_token_t;
-
-/**
- * @brief encoded_token -> offset_ptr pair
- */
-struct encoded_token_dict_entry_s {
-    encoded_token_t token;
-    memsector_off_t off;
-} PACKED;
-typedef struct encoded_token_dict_entry_s encoded_token_dict_entry_t;
 
 /**
  * @brief Encoded formula

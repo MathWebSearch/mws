@@ -36,7 +36,7 @@ using std::string;
 using mws::index::TmpIndexNode;
 using mws::index::TmpLeafNode;
 using mws::index::TmpIndex;
-#include "mws/index/memsector.h"
+#include "mws/index/index.h"
 #include "mws/index/IndexManager.hpp"
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
@@ -52,56 +52,67 @@ using common::utils::FlagParser;
 
 using namespace mws;
 
-const memsector_alloc_header_t *alloc;
+
 
 struct Tester {
+    static const memsector_header_t *ms;
+
     static inline
     bool memsector_inode_consistent(const TmpIndexNode* tmp_node,
-                                    const inode_t* inode) {
-        switch (inode->type) {
-        case INTERNAL_NODE: {
+                                    memsector_off_t off) {
+        if (tmp_node->children.size() > 0) {  // child
+            inode_t* inode = (inode_t*) memsector_off2addr(ms, off);
+            if (inode->type != INTERNAL_NODE) {
+                PRINT_LOG("inode at offset %" PRIu32 " corrupted!\n", off);
+                return false;
+            }
             if (tmp_node->children.size() != inode->size) return false;
             int i = 0;
             for (auto& kv : tmp_node->children) {
                 MeaningId           meaningId  = kv.first.id;
                 Arity               arity      = kv.first.arity;
-                const TmpIndexNode* child_node = kv.second;
 
                 if (meaningId != inode->data[i].token.id) return false;
                 if (arity     != inode->data[i].token.arity) return false;
-                inode_t* child_inode = (inode_t*)
-                        memsector_off2addr(alloc, inode->data[i].off);
-                if (!memsector_inode_consistent(child_node, child_inode)) {
+
+                i++;
+            }
+
+            i = 0;
+            for (auto& kv : tmp_node->children) {
+                const TmpIndexNode* child_node = kv.second;
+                if (!memsector_inode_consistent(child_node,
+                                                inode->data[i].off)) {
                     return false;
                 }
 
                 i++;
             }
             return true;
-        }
-
-        case LEAF_NODE: {
-            leaf_t *leaf = (leaf_t*) inode;
+        } else {  // leaf
+            leaf_t *leaf = (leaf_t*) memsector_off2addr(ms, off);
+            if (leaf->type != LEAF_NODE) {
+                PRINT_LOG("leaf node at offset %" PRIu32 " corrupted!\n", off);
+                return false;
+            }
             TmpLeafNode* tmpLeaf = (TmpLeafNode*) tmp_node;
             return ((tmpLeaf->id == leaf->formula_id) &&
                     (tmpLeaf->solutions == leaf->num_hits));
         }
-
-        default: {
-            assert(false);
-        }
-        }
     }
 
     static inline
-    int test_memsector_consistency(TmpIndex* data, memsector_handle_t* ms) {
-        alloc = ms_get_alloc(ms);
-        if (Tester::memsector_inode_consistent(data->mRoot, ms->index.root))
+    int test_memsector_consistency(TmpIndex* data,
+                                   memsector_handle_t* msHandle) {
+        ms = msHandle->ms;
+        if (Tester::memsector_inode_consistent(data->mRoot, ms->root_off))
             return 0;
         else
             return -1;
     }
 };
+
+const memsector_header_t* Tester::ms;
 
 int main(int argc, char* argv[]) {
     memsector_writer_t mswr;
@@ -114,7 +125,6 @@ int main(int argc, char* argv[]) {
     index::IndexingOptions indexingOptions;
     string harvest_path;
     string tmp_memsector_path;
-    uint64_t memsector_size;
 
     FlagParser::addFlag('I', "include-harvest-path",    FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('O', "tmp-memsector-path",      FLAG_OPT, ARG_REQ);
@@ -144,7 +154,6 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('c')) {
         indexingOptions.renameCi = true;
     } else {
-        PRINT_LOG("Not renaming ci\n");
         indexingOptions.renameCi = false;
     }
 
@@ -162,18 +171,10 @@ int main(int argc, char* argv[]) {
                                                 AbsPath(harvest_path),
                                                 ".harvest",
                                                 /* recursive = */ false) <= 0);
-
-    memsector_size = data.getMemsectorSize();
-    FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str(),
-                             memsector_size) != 0);
-    printf("Memsector %s of %" PRIu64 " Kb created\n",
-           tmp_memsector_path.c_str(), memsector_size / 1024);
-    
+    FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str()) != 0);
     data.exportToMemsector(&mswr);
-    printf("Index exported to memsector\n");
-
-    FAIL_ON(memsector_save(&mswr) != 0);
-    printf("Memsector saved\n");
+    printf("Index exported to memsector %s (%" PRIu64 "b)\n",
+           tmp_memsector_path.c_str(), mswr.ms.index_size);
 
     FAIL_ON(memsector_load(&ms, tmp_memsector_path.c_str()) != 0);
     printf("Memsector loaded\n");

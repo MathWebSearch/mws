@@ -31,6 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
+#include <assert.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -38,7 +39,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/compiler_defs.h"
 #include "mws/index/encoded_token.h"
-#include "mws/index/memsector_allocator.h"
+#include "mws/index/memsector.h"
 
 /*--------------------------------------------------------------------------*/
 /* Type declarations                                                        */
@@ -51,6 +52,15 @@ typedef enum node_type_e {
     INTERNAL_NODE   = 1,
     LEAF_NODE       = 2
 } node_type_t;
+
+/**
+ * @brief encoded_token -> offset_ptr pair
+ */
+struct encoded_token_dict_entry_s {
+    encoded_token_t token;
+    memsector_off_t off;
+} PACKED;
+typedef struct encoded_token_dict_entry_s encoded_token_dict_entry_t;
 
 /**
  * @brief Internal index node
@@ -81,8 +91,8 @@ struct index_header_s {
 typedef struct index_header_s index_header_t;
 
 typedef struct index_handle_s {
-    inode_t *root;
-    memsector_alloc_header_t *alloc;
+    const inode_t *root;
+    memsector_header_t *ms;
 } index_handle_t;
 
 /*--------------------------------------------------------------------------*/
@@ -92,24 +102,67 @@ typedef struct index_handle_s {
 BEGIN_DECLS
 
 static inline
-uint32_t inode_size(uint32_t num_children) {
-    return sizeof(inode_t) + num_children * sizeof(encoded_token_dict_entry_t);
+memsector_off_t memsector_write_inode_begin(memsector_writer_t *msw,
+                                            uint32_t num_children) {
+    // No inode write should be in progress
+    assert(msw->inode.entries_delivered == 0);
+    assert(msw->inode.entries_promised == 0);
+    msw->inode.entries_promised = num_children;
+
+    memsector_off_t off = memsector_get_current_offset(msw);
+
+    inode_t inode;
+    inode.type = INTERNAL_NODE;
+    inode.size = num_children;
+    memsector_write(msw, &inode, sizeof(inode));
+
+    return off;
 }
 
 static inline
-uint32_t leaf_size(void) {
-    return sizeof(leaf_t);
+void memsector_write_inode_encoded_token_entry(memsector_writer_t *msw,
+                                               encoded_token_t encoded_token,
+                                               memsector_off_t off) {
+    assert(msw->inode.entries_promised > msw->inode.entries_delivered++);
+    assert(off != MEMSECTOR_OFF_NULL);
+
+    encoded_token_dict_entry_t entry;
+    entry.token = encoded_token;
+    entry.off = off;
+
+    memsector_write(msw, &entry, sizeof(entry));
 }
 
 static inline
-memsector_off_t inode_alloc(memsector_alloc_header_t* alloc,
-                            uint32_t num_children) {
-    return memsector_alloc(alloc, inode_size(num_children));
+void memsector_write_inode_end(memsector_writer_t *msw) {
+    assert(msw->inode.entries_delivered > 0);
+    assert(msw->inode.entries_delivered == msw->inode.entries_promised);
+    msw->inode.entries_delivered = 0;
+    msw->inode.entries_promised = 0;
 }
 
 static inline
-memsector_off_t leaf_alloc(memsector_alloc_header_t* alloc) {
-    return memsector_alloc(alloc, leaf_size());
+memsector_off_t memsector_write_leaf(memsector_writer_t* mswr,
+                                     uint32_t num_hits,
+                                     uint32_t formula_id) {
+    memsector_off_t off = memsector_get_current_offset(mswr);
+
+    // No inode write should be in progress
+    assert(mswr->inode.entries_delivered == 0);
+    assert(mswr->inode.entries_promised == 0);
+
+    leaf_t leaf;
+    leaf.type = LEAF_NODE;
+    leaf.num_hits = num_hits;
+    leaf.formula_id = formula_id;
+    memsector_write(mswr, &leaf, sizeof(leaf));
+
+    return off;
+}
+
+static inline
+const inode_t* memsector_get_root(memsector_handle_t* msHandle) {
+    return (inode_t*) memsector_off2addr(msHandle->ms, msHandle->ms->root_off);
 }
 
 static inline
