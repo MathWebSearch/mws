@@ -31,6 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
+#include <assert.h>
 #include <stdint.h>
 
 // Local includes
@@ -48,7 +49,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  */
 typedef uint32_t memsector_off_t;
 #define MEMSECTOR_OFF_NULL      (memsector_off_t) 0
-#define MEMSECTOR_ALLOC_UNIT    8
+#define MEMSECTOR_ALLOC_UNIT    (uint64_t) 8
 
 /**
  * @brief Memsector header
@@ -91,6 +92,7 @@ const char* memsector_off2addr(const memsector_header_t* ms,
 
 static inline
 memsector_off_t memsector_get_current_offset(const memsector_writer_t* mswr) {
+    assert(mswr->offset % MEMSECTOR_ALLOC_UNIT == 0);
     return mswr->offset / MEMSECTOR_ALLOC_UNIT;
 }
 
