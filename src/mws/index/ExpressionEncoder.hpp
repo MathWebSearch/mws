@@ -37,7 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 
 #include "mws/index/encoded_token.h"
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 #include "mws/index/MeaningDictionary.hpp"
 #include "mws/types/CmmlToken.hpp"
 

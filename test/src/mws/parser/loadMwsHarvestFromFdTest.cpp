@@ -79,7 +79,7 @@ int main()
     MeaningDictionary meaningDictionary;
     index::IndexingOptions indexingOptions;
     indexingOptions.renameCi = false;
-    index::IndexManager indexManager(&formulaDb, &crawlDb, &data,
+    index::IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
                                      &meaningDictionary,
                                      indexingOptions);
     FAIL_ON(initxmlparser() != 0);
@@ -90,7 +90,7 @@ int main()
         int fd;
 
         FAIL_ON((fd = open(harvest_path.c_str(), O_RDONLY)) < 0);
-        auto ret = parser::loadMwsHarvestFromFd(&indexManager, fd);
+        auto ret = parser::loadMwsHarvestFromFd(&indexBuilder, fd);
         FAIL_ON(ret.first != harvest.returnValue);
         FAIL_ON(ret.second != harvest.expressionCount);
 

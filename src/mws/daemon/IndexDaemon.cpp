@@ -50,6 +50,8 @@ using std::istream;
 using std::ios;
 #include <stdexcept>
 using std::exception;
+#include <memory>
+using std::unique_ptr;
 
 #include "mws/dbc/CrawlDb.hpp"
 using mws::dbc::CrawlData;
@@ -61,6 +63,8 @@ using mws::dbc::LevCrawlDb;
 using mws::dbc::DbQueryManager;
 using mws::dbc::DbAnswerCallback;
 #include "mws/index/index.h"
+#include "mws/index/IndexLoader.hpp"
+using mws::index::IndexLoader;
 #include "mws/index/ExpressionEncoder.hpp"
 using mws::index::QueryEncoder;
 using mws::index::ExpressionInfo;
@@ -78,7 +82,6 @@ using mws::types::FormulaPath;
 #include "mws/xmlparser/writeXmlAnswset.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
-
 #include "mws/daemon/IndexDaemon.hpp"
 
 namespace mws { namespace daemon {
@@ -120,29 +123,29 @@ result_cb_return_t result_callback(void* _ctxt,
 
 MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
     MwsAnswset* result;
-    QueryEncoder encoder(meaningDictionary);
+    QueryEncoder encoder(m_data->getMeaningDictionary());
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
     if (encoder.encode(_config.indexingOptions,
                        query->tokens[0],
                        &encodedQuery, &queryInfo) == 0) {
-        DbQueryManager dbQueryManager(crawlDb, formulaDb);
         if (_config.useExperimentalQueryEngine) {
             HandlerStruct ctxt;
             ctxt.result = result = new MwsAnswset();
             ctxt.mwsQuery = query;
-            ctxt.dbQueryManager = &dbQueryManager;
+            ctxt.dbQueryManager = m_data->getDbQueryManager();
 
             encoded_formula_t encodedFormula;
             encodedFormula.data = encodedQuery.data(),
             encodedFormula.size = encodedQuery.size();
 
-            query_engine_run(&data, &encodedFormula, result_callback, &ctxt);
+            query_engine_run(m_data->getIndexHandle(), &encodedFormula,
+                             result_callback, &ctxt);
         } else {
             SearchContext ctxt(encodedQuery);
-            result = ctxt.getResult<IndexAccessor>(&data,
-                                                   &dbQueryManager,
+            result = ctxt.getResult<IndexAccessor>(m_data->getIndexHandle(),
+                                                   m_data->getDbQueryManager(),
                                                    query->attrResultLimitMin,
                                                    query->attrResultMaxSize,
                                                    query->attrResultTotalReqNr);
@@ -159,55 +162,19 @@ MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
 
 int IndexDaemon::initMws(const Config& config) {
     int ret = Daemon::initMws(config);
-    LevCrawlDb* crdb = new LevCrawlDb();
-    LevFormulaDb* fmdb = new LevFormulaDb();
-    string crdbPath = config.dataPath + "/crawl.db";
-    string fmdbPath = config.dataPath + "/formula.db";
-
     try {
-        crdb->open(crdbPath.c_str());
-        fmdb->open(fmdbPath.c_str());
-
-        crawlDb = crdb;
-        formulaDb = fmdb;
-    }
-    catch(const exception &e) {
-        PRINT_WARN("Initializing database: %s\n", e.what());
+        m_data = unique_ptr<IndexLoader>(new IndexLoader(config.dataPath));
+    } catch(const exception &e) {
+        PRINT_WARN("%s\n", e.what());
         return EXIT_FAILURE;
     }
-
-    /*
-     * Initializing data
-     */
-    string ms_path = config.dataPath + "/memsector.dat";
-    memsector_handle_t msHandle;
-    memsector_load(&msHandle, ms_path.c_str());
-
-    data.ms = msHandle.ms;
-    data.root = memsector_get_root(&msHandle);
-
-    /*
-     * Initializing meaningDictionary
-     */
-    meaningDictionary = new MeaningDictionary();
-    filebuf fb;
-    istream os(&fb);
-    fb.open((config.dataPath + "/meaning.dat").c_str(), ios::in);
-    meaningDictionary->load(os);
-    fb.close();
-
     return ret;
 }
 
-IndexDaemon::IndexDaemon() : crawlDb(NULL),
-                             formulaDb(NULL),
-                             meaningDictionary(NULL) {
+IndexDaemon::IndexDaemon() {
 }
 
 IndexDaemon::~IndexDaemon() {
-    if (meaningDictionary) delete meaningDictionary;
-    if (crawlDb) delete crawlDb;
-    if (formulaDb) delete formulaDb;
 }
 
 }  // namespace daemon

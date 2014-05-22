@@ -65,6 +65,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /// Request total number of results
 #define DEFAULT_QUERY_TOTALREQ      true
 
+// Index
+#define INDEX_MEMSECTOR_FILE    "index.memsector"
+#define MEANING_DICTIONARY_FILE "meanings.dat"
+#define CRAWL_DB_FILE           "crawl.db"
+#define FORMULA_DB_FILE         "formula.db"
+
 #cmakedefine APPLY_RESTRICTIONS
 
 #endif // _CONFIG_CONFIG_H

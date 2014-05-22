@@ -56,7 +56,7 @@ using std::vector;
 using std::map;
 #include <utility>
 
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 using mws::index::IndexingOptions;
 #include "mws/types/CmmlToken.hpp"
 #include "common/utils/compiler_defs.h"

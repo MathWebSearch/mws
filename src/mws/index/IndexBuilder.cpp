@@ -19,7 +19,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @file IndexManager.cpp
+  * @file IndexBuilder.cpp
   * @brief Indexing Manager implementation
   * @date 18 Nov 2013
   */
@@ -47,11 +47,11 @@ using mws::types::FormulaPath;
 using mws::dbc::CrawlId;
 using mws::dbc::CrawlData;
 #include "mws/index/ExpressionEncoder.hpp"
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 
 namespace mws { namespace index {
 
-IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
+IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb,
                            dbc::CrawlDb* crawlDb,
                            TmpIndex* index,
                            MeaningDictionary* meaningDictionary,
@@ -62,24 +62,22 @@ IndexManager::IndexManager(dbc::FormulaDb* formulaDb,
 }
 
 CrawlId
-IndexManager::indexCrawlData(const CrawlData& crawlData) {
+IndexBuilder::indexCrawlData(const CrawlData& crawlData) {
     return m_crawlDb->putData(crawlData);
 }
 
 int
-IndexManager::indexContentMath(const CmmlToken* cmmlToken,
+IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
                                const string xmlId,
                                const CrawlId& crawlId) {
     assert(cmmlToken != NULL);
-    // Using a stack to insert all subterms by
-    // going depth first through the CmmlToken
     set<FormulaId> uniqueFormulaIds;
     HarvestEncoder encoder(m_meaningDictionary);
     int numSubExpressions = 0;
 
-    TokenCallback tokCallback = [&] (const CmmlToken* tok) {
+    cmmlToken->foreachSubexpression([&](const CmmlToken* token) {
         vector<encoded_token_t> encodedFormula;
-        encoder.encode(m_indexingOptions, tok,
+        encoder.encode(m_indexingOptions, token,
                        &encodedFormula, NULL);
         TmpLeafNode* leaf = m_index->insertData(encodedFormula);
         FormulaId formulaId = leaf->id;
@@ -87,14 +85,13 @@ IndexManager::indexContentMath(const CmmlToken* cmmlToken,
         if (ret.second) {
             types::FormulaPath formulaPath;
             formulaPath.xmlId = xmlId;
-            formulaPath.xpath = tok->getXpath();
+            formulaPath.xpath = token->getXpath();
             m_formulaDb->insertFormula(leaf->id, crawlId, formulaPath);
             leaf->solutions++;
             numSubExpressions++;
         }
-    };
+    });
 
-    cmmlToken->foreachSubexpression(tokCallback);
     return numSubExpressions;
 }
 

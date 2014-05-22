@@ -29,6 +29,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <functional>
 
+#include "common/utils/compiler_defs.h"
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/dbc/FormulaDb.hpp"
 
@@ -51,8 +52,7 @@ class DbQueryManager {
               DbAnswerCallback dbAnswerCallback);
 
  private:
-    DbQueryManager(const DbQueryManager&);
-    DbQueryManager& operator=(const DbQueryManager&);
+    DISALLOW_COPY_AND_ASSIGN(DbQueryManager);
 };
 
 }  // namespace dbc

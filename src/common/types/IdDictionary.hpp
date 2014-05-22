@@ -25,11 +25,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _COMMON_TYPES_IDDICTIONARY_HPP
 #define _COMMON_TYPES_IDDICTIONARY_HPP
 
-#include <istream>
+#include <string.h>
+#include <errno.h>
+
 #include <map>
-#include <ostream>
+#include <fstream>
 #include <string>
 #include <vector>
+#include <stdexcept>
+
+#include "common/utils/compiler_defs.h"
 
 namespace common {
 namespace types {
@@ -44,25 +49,31 @@ private:
 public:
     static const ValueId KEY_NOT_FOUND = 0;
 
-    IdDictionary() : _nextId(KEY_NOT_FOUND + 1)  {
+    IdDictionary()
+        : _nextId(KEY_NOT_FOUND + 1)  {
     }
 
-    int load(std::istream& in) {
+    explicit IdDictionary(const std::string& path)
+        : _nextId(KEY_NOT_FOUND + 1) {
         try {
+            std::ifstream file;
+            file.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+            file.open(path.c_str(), std::ios::in);
+            file.exceptions(std::ifstream::badbit);
             Key key;
-            while (!in.eof()) {
-                std::getline(in, key, '\0');
+            while (!file.eof()) {
+                std::getline(file, key, '\0');
                 if (key.size() > 0) {
                     put(key);
-                } else if (!in.eof()) {
-                    fprintf(stderr, "Empty key found!\n");
+                } else if (!file.eof()) {
+                    PRINT_WARN("Empty key");
                 }
             }
         } catch (...) {
-            return -1;
+            throw std::runtime_error(
+                        "Cannot import MeaningDictionary " + path + ": " +
+                        strerror(errno));
         }
-
-        return 0;
     }
 
     int save(std::ostream& out) const {

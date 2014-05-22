@@ -49,9 +49,8 @@ using std::filebuf;
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
 #include "mws/index/index.h"
-#include "mws/index/IndexManager.hpp"
-using mws::index::IndexingOptions;
-using mws::index::MeaningDictionary;
+#include "mws/index/IndexLoader.hpp"
+using mws::index::IndexLoader;
 #include "mws/index/IndexAccessor.hpp"
 using mws::index::IndexAccessor;
 #include "mws/daemon/Daemon.hpp"
@@ -136,80 +135,53 @@ int main(int argc, char* argv[]) {
         config.harvestFileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
     }
 
-    index_handle_t index;
-    MeaningDictionary* meaningDictionary;
-    FormulaDb* formulaDb;
-    LevFormulaDb* fmdb = new LevFormulaDb();
-    string fmdbPath = indexPath + "/formula.db";
-
     try {
-        fmdb->open(fmdbPath.c_str());
-        formulaDb = fmdb;
-    }
-    catch(const exception &e) {
-        PRINT_WARN("Initializing database: %s\n", e.what());
-        return EXIT_FAILURE;
-    }
+        IndexLoader data(indexPath);
 
-    /*
-     * Initializing data
-     */
-    string ms_path = indexPath + "/memsector.dat";
-    memsector_handle_t msHandle;
-    memsector_load(&msHandle, ms_path.c_str());
-
-    index.ms = msHandle.ms;
-    index.root = memsector_get_root(&msHandle);
-
-    /*
-     * Initializing meaningDictionary
-     */
-    meaningDictionary = new MeaningDictionary();
-    filebuf fb;
-    istream os(&fb);
-    fb.open((indexPath + "/meaning.dat").c_str(), ios::in);
-    meaningDictionary->load(os);
-    fb.close();
-
-    common::utils::FileCallback fileCallback =
-            [&] (const std::string& path, const std::string& prefix) {
-        UNUSED(prefix);
-        if (common::utils::hasSuffix(path, config.harvestFileExtension)) {
-            printf("Loading %s... ", path.c_str());
-            int fd = open(path.c_str(), O_RDONLY);
-            if (fd < 0) {
-                return -1;
+        common::utils::FileCallback fileCallback =
+                [&] (const std::string& path, const std::string& prefix) {
+            UNUSED(prefix);
+            if (common::utils::hasSuffix(path, config.harvestFileExtension)) {
+                printf("Loading %s... ", path.c_str());
+                int fd = open(path.c_str(), O_RDONLY);
+                if (fd < 0) {
+                    return -1;
+                }
+                ParseResult parseReturn =
+                        parseMwsHarvestFromFd(config, data.getIndexHandle(),
+                                              data.getMeaningDictionary(),
+                                              data.getFormulaDb(), fd);
+                writeHitsToJSON(parseReturn.data, parseReturn.hits, path);
+            } else {
+                printf("Skipping \"%s\": bad extension\n", path.c_str());
             }
-            ParseResult parseReturn = parseMwsHarvestFromFd(config, &index,
-                                                            meaningDictionary,
-                                                            formulaDb, fd);
-            writeHitsToJSON(parseReturn.data, parseReturn.hits, path);
+
+            return 0;
+        };
+        common::utils::DirectoryCallback shouldRecurse =
+                [](const std::string partialPath) {
+            UNUSED(partialPath);
+            return true;
+        };
+
+        printf("Loading harvest files...\n");
+        if (config.recursive) {
+            if (common::utils::foreachEntryInDirectory(config.dataPath,
+                                                       fileCallback,
+                                                       shouldRecurse)) {
+                PRINT_WARN("Error in foreachEntryInDirectory (recursive)");
+                return EXIT_FAILURE;
+            }
         } else {
-            printf("Skipping \"%s\": bad extension\n", path.c_str());
-        }
-
-        return 0;
-    };
-    common::utils::DirectoryCallback shouldRecurse =
-            [](const std::string partialPath) {
-        UNUSED(partialPath);
-        return true;
-    };
-
-    printf("Loading harvest files...\n");
-    if (config.recursive) {
-        if (common::utils::foreachEntryInDirectory(config.dataPath,
-                                                   fileCallback,
-                                                   shouldRecurse)) {
-            fprintf(stderr, "Error in foreachEntryInDirectory (recursive)");
-            return EXIT_FAILURE;
-        }
-    } else {
-        if (common::utils::foreachEntryInDirectory(config.dataPath,
+            if (common::utils::foreachEntryInDirectory(config.dataPath,
                                                        fileCallback)) {
-            fprintf(stderr, "Error in foreachEntryInDirectory (non-recursive)");
-            return EXIT_FAILURE;
+                PRINT_WARN("Error in foreachEntryInDirectory (non-recursive)");
+                return EXIT_FAILURE;
+            }
         }
+    } catch (exception& e) {
+        PRINT_WARN("%s\n", e.what());
+        return EXIT_FAILURE;
     }
 
     return EXIT_SUCCESS;

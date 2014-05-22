@@ -40,7 +40,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Local includes
 
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 #include "mws/index/IndexAccessor.hpp"
 #include "common/utils/Path.hpp"
 #include "mws/daemon/Daemon.hpp"
@@ -53,12 +53,12 @@ class HarvestProcessor {
      * crawlId might be CRAWLID_NULL if there was no data associated
      * with the expression, or processData() did not return a crawlId
      * @brief called when an expr element has been parsed
-     * @param CmmlToken corresponding to the parsed expr
+     * @param expression CmmlToken corresponding to the parsed expr
      * @param exprUri
      * @param crawlId of data associated with this expression
      * @return 0 if expr was processed successfully, different otherwise
      */
-    virtual int processExpression(const types::CmmlToken* tok,
+    virtual int processExpression(const types::CmmlToken* expression,
                                   const std::string& exprUri,
                                   const uint32_t& crawlId) = 0;
     /**
@@ -77,16 +77,16 @@ std::pair<int, int>
 processMwsHarvest(int fd, HarvestProcessor* harvestProcessor);
 
 /** @brief Function to load a MwsHarvest in from a file descriptor.
-  * @param indexManager
+  * @param indexBuilder
   * @param fd is the file descriptor from where to read.
   * @return a pair with an exit code (0 on success and -1 on failure) and
   * the number of successfully loaded entries.
   */
 std::pair<int, int>
-loadMwsHarvestFromFd(index::IndexManager* indexManager, int fd);
+loadMwsHarvestFromFd(index::IndexBuilder* indexBuilder, int fd);
 
 
-int loadMwsHarvestFromDirectory(mws::index::IndexManager* indexManager,
+int loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
                                 const mws::AbsPath& dirPath,
                                 const std::string& extension,
                                 bool recursive);

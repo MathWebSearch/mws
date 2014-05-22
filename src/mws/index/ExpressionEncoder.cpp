@@ -42,9 +42,8 @@ using std::vector;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::Meaning;
-#include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/MeaningDictionary.hpp"
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/ExpressionEncoder.hpp"
 
 /****************************************************************************/
 /* Implementation                                                           */
@@ -163,7 +162,7 @@ HarvestEncoder::_getConstantEncoding(const Meaning& meaning) {
     return CONSTANT_ID_MIN + _meaningDictionary->put(meaning);
 }
 
-QueryEncoder::QueryEncoder(MeaningDictionary *dictionary) :
+QueryEncoder::QueryEncoder(MeaningDictionary* dictionary) :
     ExpressionEncoder(dictionary) {
 }
 

@@ -40,7 +40,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsQuery.hpp"
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 
 namespace mws
 {

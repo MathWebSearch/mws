@@ -18,11 +18,11 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_INDEX_INDEXMANAGER_HPP
-#define _MWS_INDEX_INDEXMANAGER_HPP
+#ifndef _MWS_INDEX_INDEXBUILDER_HPP
+#define _MWS_INDEX_INDEXBUILDER_HPP
 
 /**
-  * @file IndexManager.hpp
+  * @file IndexBuilder.hpp
   * @brief Indexing Manager
   * @date 18 Nov 2013
   */
@@ -34,13 +34,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/index/TmpIndex.hpp"
 
-namespace mws { namespace index {
+namespace mws {
+namespace index {
 
 struct IndexingOptions {
     bool renameCi;
 };
 
-class IndexManager {
+class IndexBuilder {
 private:
     dbc::FormulaDb* m_formulaDb;
     dbc::CrawlDb* m_crawlDb;
@@ -49,7 +50,7 @@ private:
     index::IndexingOptions m_indexingOptions;
 
 public:
-    IndexManager(dbc::FormulaDb* formulaDb,
+    IndexBuilder(dbc::FormulaDb* formulaDb,
                  dbc::CrawlDb* crawlDb,
                  mws::index::TmpIndex* index,
                  MeaningDictionary* meaningDictionary,
@@ -74,6 +75,7 @@ public:
                          const dbc::CrawlId& crawlId = dbc::CRAWLID_NULL);
 };
 
-} }
+}  // namespace index
+}  // namespace mws
 
-#endif // _MWS_DBC_INDEXMANAGER_HPP
+#endif  // _MWS_INDEX_INDEXBUILDER_HPP

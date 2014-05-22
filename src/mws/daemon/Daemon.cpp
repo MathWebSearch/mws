@@ -303,7 +303,9 @@ int Daemon::startAsync(const Config& config) {
     atexit(cleanupMws);
 
     unsigned int mhd_flags = MHD_USE_THREAD_PER_CONNECTION;
-    if (config.enableIpv6) mhd_flags |= MHD_USE_IPv6;
+    if (config.enableIpv6) {
+        mhd_flags |= MHD_USE_IPv6;
+    }
     _daemonHandler = MHD_start_daemon(mhd_flags,
                                       config.mwsPort,
                                       my_MHD_AcceptPolicyCallback,
@@ -329,19 +331,12 @@ void Daemon::stop() {
 
 int Daemon::initMws(const Config& config) {
     _config = config;
-    int ret = 0;
-    if ((ret = initxmlparser())!= 0) {
+    if (initxmlparser() != 0) {
         PRINT_WARN("Error while initializing xmlparser module\n");
-        return 1;
+        return -1;
     }
 
-    if (ret) {
-        PRINT_WARN("Error while initializing thread module\n");
-        clearxmlparser();
-        return 1;
-    }
-
-    return ret;
+    return 0;
 }
 
 }  // namespace daemon

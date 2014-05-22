@@ -78,7 +78,7 @@ struct Tester {
         MeaningDictionary meaningDictionary;
         index::IndexingOptions indexingOptions;
         indexingOptions.renameCi = true;
-        index::IndexManager indexManager(&formulaDb, &crawlDb, &data,
+        index::IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
                                          &meaningDictionary, indexingOptions);
         const string harvest_path =
                 (string) MWS_TESTDATA_PATH + "/ci_renaming.harvest";
@@ -86,7 +86,7 @@ struct Tester {
         std::pair<int, int> ret;
         FAIL_ON(initxmlparser() != 0);
         FAIL_ON((fd = open(harvest_path.c_str(), O_RDONLY)) < 0);
-        ret = parser::loadMwsHarvestFromFd(&indexManager, fd);
+        ret = parser::loadMwsHarvestFromFd(&indexBuilder, fd);
         // Fail if the parsing was not sucessful
         FAIL_ON(ret.first != 0);
         // Fail if we have not indexed all expresions

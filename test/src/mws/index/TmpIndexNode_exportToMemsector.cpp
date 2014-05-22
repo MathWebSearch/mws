@@ -37,7 +37,7 @@ using mws::index::TmpIndexNode;
 using mws::index::TmpLeafNode;
 using mws::index::TmpIndex;
 #include "mws/index/index.h"
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
 #include "mws/xmlparser/processMwsHarvest.hpp"
@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
     dbc::FormulaDb* formulaDb;
     TmpIndex data;
     MeaningDictionary* meaningDictionary;
-    index::IndexManager* indexManager;
+    index::IndexBuilder* indexBuilder;
     index::IndexingOptions indexingOptions;
     string harvest_path;
     string tmp_memsector_path;
@@ -160,14 +160,14 @@ int main(int argc, char* argv[]) {
     crawlDb = new dbc::MemCrawlDb();
     formulaDb = new dbc::MemFormulaDb();
     meaningDictionary = new MeaningDictionary();
-    indexManager = new index::IndexManager(formulaDb, crawlDb,
+    indexBuilder = new index::IndexBuilder(formulaDb, crawlDb,
                                            &data, meaningDictionary,
                                            indexingOptions);
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(tmp_memsector_path.c_str()) != 0 && errno != ENOENT);
 
-    FAIL_ON(parser::loadMwsHarvestFromDirectory(indexManager,
+    FAIL_ON(parser::loadMwsHarvestFromDirectory(indexBuilder,
                                                 AbsPath(harvest_path),
                                                 ".harvest",
                                                 /* recursive = */ false) <= 0);

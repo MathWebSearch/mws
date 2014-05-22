@@ -49,7 +49,7 @@ namespace mws {
 namespace index {
 
 struct TmpIndexAccessor;
-class IndexManager;
+class IndexBuilder;
 class TmpIndex;
 
 class TmpIndexNode {
@@ -87,7 +87,7 @@ class TmpLeafNode : public TmpIndexNode {
 
  private:
     friend struct mws::index::TmpIndexAccessor;
-    friend class IndexManager;
+    friend class IndexBuilder;
     friend class TmpIndex;
     friend class TmpIndexNode;
     ALLOW_TESTER_ACCESS;

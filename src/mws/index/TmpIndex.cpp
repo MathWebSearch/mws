@@ -54,16 +54,7 @@ types::FormulaId TmpLeafNode::nextId = 0;
 
 TmpIndexNode::TmpIndexNode() {
 }
-/*
-uint64_t
-TmpIndexNode::getMemsectorSize() const {
-    if (children.size() == 0) {  // leaf node
-        return leaf_size();
-    } else { // internal node
-        return inode_size(children.size());
-    }
-}
-*/
+
 TmpLeafNode::TmpLeafNode()
     : TmpIndexNode(), id(++TmpLeafNode::nextId), solutions(0) {
 }

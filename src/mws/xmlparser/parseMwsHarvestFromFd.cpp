@@ -42,7 +42,7 @@ using std::stack;
 #include "mws/dbc/FormulaDb.hpp"
 using namespace mws::dbc;
 using mws::types::FormulaId;
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 using mws::index::IndexingOptions;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;

@@ -40,7 +40,7 @@ using std::pair;
 
 #include "mws/dbc/CrawlDb.hpp"
 using mws::dbc::CrawlId;
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 using mws::index::IndexingOptions;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
@@ -48,7 +48,7 @@ using mws::types::CmmlToken;
 
 #include "mws/xmlparser/processMwsHarvest.hpp"
 
-using mws::index::IndexManager;
+using mws::index::IndexBuilder;
 
 namespace mws {
 namespace parser {
@@ -58,29 +58,29 @@ class HarvestIndexer : public HarvestProcessor {
     int processExpression(const CmmlToken *tok,
                           const string &exprUri, const uint32_t &crawlId);
     CrawlId processData(const string &data);
-    explicit HarvestIndexer(IndexManager* indexManager);
+    explicit HarvestIndexer(IndexBuilder* indexBuilder);
  private:
-    IndexManager* indexManager;
+    IndexBuilder* indexBuilder;
 };
 
-HarvestIndexer::HarvestIndexer(index::IndexManager *indexManager) :
-    indexManager(indexManager) {
+HarvestIndexer::HarvestIndexer(index::IndexBuilder* indexBuilder) :
+    indexBuilder(indexBuilder) {
 }
 
 int HarvestIndexer::processExpression(const CmmlToken* token,
                                       const string& exprUri,
                                       const uint32_t& crawlId) {
-    return indexManager->indexContentMath(token, exprUri, crawlId);
+    return indexBuilder->indexContentMath(token, exprUri, crawlId);
 }
 
 CrawlId HarvestIndexer::processData(const string &data) {
-    return indexManager->indexCrawlData(data);
+    return indexBuilder->indexCrawlData(data);
 }
 
 
 pair<int,int>
-loadMwsHarvestFromFd(mws::index::IndexManager *indexManager, int fd) {
-    HarvestProcessor* harvestIndexer = new HarvestIndexer(indexManager);
+loadMwsHarvestFromFd(mws::index::IndexBuilder *indexBuilder, int fd) {
+    HarvestProcessor* harvestIndexer = new HarvestIndexer(indexBuilder);
 
     auto ret = processMwsHarvest(fd, harvestIndexer);
     delete harvestIndexer;

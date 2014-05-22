@@ -30,35 +30,30 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @edited Radu Hambasan
   * @date 18 Feb 2014
   *
+  * @edited Corneliu Prodescu
+  * @date 21 May 2014
+  *
   * License: GPL v3
   *
   */
 
-#include "mws/index/index.h"
-
 #include "Daemon.hpp"
-#include "mws/dbc/FormulaDb.hpp"
-#include "mws/dbc/CrawlDb.hpp"
-#include "mws/dbc/LevFormulaDb.hpp"
-#include "mws/dbc/LevCrawlDb.hpp"
-#include "mws/index/MeaningDictionary.hpp"
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexLoader.hpp"
 
-namespace mws { namespace daemon {
+namespace mws {
+namespace daemon {
 
 class IndexDaemon : public Daemon {
  public:
     IndexDaemon();
     ~IndexDaemon();
- private:
+ protected:
     MwsAnswset* handleQuery(MwsQuery *query);
     int initMws(const Config& config);
  private:
-    index_handle_t data;
-    dbc::CrawlDb* crawlDb;
-    dbc::FormulaDb* formulaDb;
-    index::MeaningDictionary* meaningDictionary;
+    std::unique_ptr<index::IndexLoader> m_data;
 };
+
 }  // namespace daemon
 }  // namespace mws
 

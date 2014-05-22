@@ -56,7 +56,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/index/TmpIndexAccessor.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
-#include "mws/index/IndexManager.hpp"
+#include "mws/index/IndexBuilder.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/xmlparser/processMwsHarvest.hpp"
 #include "mws/query/SearchContext.hpp"
@@ -128,7 +128,7 @@ int HarvestDaemon::initMws(const Config& config) {
     data = new TmpIndex();
     meaningDictionary = new MeaningDictionary();
 
-    indexManager = new index::IndexManager(formulaDb, crawlDb, data,
+    indexBuilder = new index::IndexBuilder(formulaDb, crawlDb, data,
                                            meaningDictionary,
                                            config.indexingOptions);
 
@@ -142,7 +142,7 @@ int HarvestDaemon::initMws(const Config& config) {
         AbsPath harvestPath(*it);
         printf("Loading from %s...\n", it->c_str());
         printf("%d expressions loaded.\n",
-                parser::loadMwsHarvestFromDirectory(indexManager, harvestPath,
+                parser::loadMwsHarvestFromDirectory(indexBuilder, harvestPath,
                                                     config.harvestFileExtension,
                                                     config.recursive));
         fflush(stdout);
@@ -151,7 +151,7 @@ int HarvestDaemon::initMws(const Config& config) {
     return ret;
 }
 
-HarvestDaemon::HarvestDaemon() : indexManager(NULL),
+HarvestDaemon::HarvestDaemon() : indexBuilder(NULL),
                                  meaningDictionary(NULL),
                                  crawlDb(NULL),
                                  formulaDb(NULL),
@@ -159,7 +159,7 @@ HarvestDaemon::HarvestDaemon() : indexManager(NULL),
 }
 
 HarvestDaemon::~HarvestDaemon() {
-    if (indexManager) delete indexManager;
+    if (indexBuilder) delete indexBuilder;
     if (meaningDictionary) delete meaningDictionary;
     if (crawlDb) delete crawlDb;
     if (formulaDb) delete formulaDb;

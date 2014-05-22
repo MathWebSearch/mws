@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
     dbc::FormulaDb* formulaDb;
     TmpIndex index;
     MeaningDictionary* meaningDictionary;
-    index::IndexManager* indexManager;
+    index::IndexBuilder* indexBuilder;
     index::IndexingOptions indexingOptions;
     std::filebuf fb;
     std::ostream os(&fb);
@@ -106,11 +106,11 @@ int main(int argc, char* argv[]) {
 
     try {
         dbc::LevCrawlDb* crawlLevDb = new dbc::LevCrawlDb();
-        crawlLevDb->create_new((output_dir + "/crawl.db").c_str(),
+        crawlLevDb->create_new((output_dir + "/" + CRAWL_DB_FILE).c_str(),
                                /* deleteIfExists = */ false);
         crawlDb = crawlLevDb;
         dbc::LevFormulaDb* formulaLevDb = new dbc::LevFormulaDb();
-        formulaLevDb->create_new((output_dir + "/formula.db").c_str(),
+        formulaLevDb->create_new((output_dir + "/" + FORMULA_DB_FILE).c_str(),
                                  /* deleteIfExists = */ false);
         formulaDb = formulaLevDb;
     } catch (exception& e) {
@@ -119,15 +119,16 @@ int main(int argc, char* argv[]) {
     }
     meaningDictionary = new MeaningDictionary();
 
-    indexManager = new index::IndexManager(formulaDb, crawlDb, &index,
+    indexBuilder = new index::IndexBuilder(formulaDb, crawlDb, &index,
                                            meaningDictionary, indexingOptions);
-    loadMwsHarvestFromDirectory(indexManager, AbsPath(harvest_path),
+    loadMwsHarvestFromDirectory(indexBuilder, AbsPath(harvest_path),
                                 harvestExtension, recursive);
-    memsector_create(&mwsr, (output_dir + "/memsector.dat").c_str());
+    memsector_create(&mwsr, (output_dir + "/" + INDEX_MEMSECTOR_FILE).c_str());
     index.exportToMemsector(&mwsr);
     PRINT_LOG("Created index of %" PRIu64 "Kb\n", mwsr.ms.index_size / 1024);
 
-    fb.open((output_dir + "/meaning.dat").c_str(), std::ios::out);
+    fb.open((output_dir + "/" + MEANING_DICTIONARY_FILE).c_str(),
+            std::ios::out);
     meaningDictionary->save(os);
     fb.close();
 
@@ -135,7 +136,7 @@ int main(int argc, char* argv[]) {
     delete crawlDb;
     delete formulaDb;
     delete meaningDictionary;
-    delete indexManager;
+    delete indexBuilder;
 
     PRINT_LOG("Index saved to %s\n", output_dir.c_str());
 
