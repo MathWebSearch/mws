@@ -39,6 +39,8 @@ namespace index {
 
 struct IndexingOptions {
     bool renameCi;
+    IndexingOptions() : renameCi(false) {
+    }
 };
 
 class IndexBuilder {
