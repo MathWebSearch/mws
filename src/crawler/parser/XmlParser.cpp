@@ -240,7 +240,7 @@ void dumpNodeToText(const xmlNode* root, stringstream* stream) {
             xmlFree((void*) id);
             continue;
         } else if (node->type == XML_TEXT_NODE) {
-            *stream << reinterpret_cast<char*>(node->content);
+            *stream << " " << reinterpret_cast<char*>(node->content) << " ";
         }
 
         nodes.push(node->children);
