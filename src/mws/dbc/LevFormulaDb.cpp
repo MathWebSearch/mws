@@ -48,16 +48,14 @@ using common::types::ParcelEncoder;
 using common::types::ParcelDecoder;
 #include "mws/dbc/LevFormulaDb.hpp"
 
-namespace mws { namespace dbc {
+namespace mws {
+namespace dbc {
 
-LevFormulaDb::LevFormulaDb() : mDatabase(NULL), mCounter(0) {
-}
+LevFormulaDb::LevFormulaDb() : mDatabase(nullptr), mCounter(0) {}
 
-LevFormulaDb::~LevFormulaDb() {
-    delete mDatabase;
-}
+LevFormulaDb::~LevFormulaDb() { delete mDatabase; }
 
-void LevFormulaDb::open(const char* path) throw (runtime_error) {
+void LevFormulaDb::open(const char* path) throw(runtime_error) {
     Options options;
     options.create_if_missing = false;
     Status status = DB::Open(options, path, &mDatabase);
@@ -67,10 +65,10 @@ void LevFormulaDb::open(const char* path) throw (runtime_error) {
     }
 }
 
-void LevFormulaDb::create_new(const char* path, bool deleteIfExists)
-throw (runtime_error) {
+void LevFormulaDb::create_new(const char* path,
+                              bool deleteIfExists) throw(runtime_error) {
     if (deleteIfExists) {
-        (void) DestroyDB(path, Options());
+        (void)DestroyDB(path, Options());
     }
 
     Options options;
@@ -82,11 +80,9 @@ throw (runtime_error) {
     }
 }
 
-
-int
-LevFormulaDb::insertFormula(const types::FormulaId&   formulaId,
-                            const CrawlId&     crawlId,
-                            const types::FormulaPath& formulaPath) {
+int LevFormulaDb::insertFormula(const types::FormulaId& formulaId,
+                                const CrawlId& crawlId,
+                                const types::FormulaPath& formulaPath) {
     ++mCounter;
 
     std::string crawlId_str = std::to_string(crawlId);
@@ -98,7 +94,7 @@ LevFormulaDb::insertFormula(const types::FormulaId&   formulaId,
     encoder.encode(formulaPath);
 
     std::string key =
-    std::to_string(formulaId) + "!" + std::to_string(mCounter);
+        std::to_string(formulaId) + "!" + std::to_string(mCounter);
     std::string value(encoder.getData(), encoder.getSize());
 
     leveldb::Status status =
@@ -109,11 +105,9 @@ LevFormulaDb::insertFormula(const types::FormulaId&   formulaId,
     return 0;
 }
 
-int
-LevFormulaDb::queryFormula(const types::FormulaId &formulaId,
-                           unsigned limitMin,
-                           unsigned limitSize,
-                           QueryCallback queryCallback) {
+int LevFormulaDb::queryFormula(const types::FormulaId& formulaId,
+                               unsigned limitMin, unsigned limitSize,
+                               QueryCallback queryCallback) {
     unique_ptr<Iterator> it(mDatabase->NewIterator(ReadOptions()));
     string fmId = to_string(formulaId) + "!";
     it->Seek(fmId);
@@ -126,8 +120,8 @@ LevFormulaDb::queryFormula(const types::FormulaId &formulaId,
 
     std::string maxKey = fmId + "\xff";
     for (unsigned i = 0;
-            i < limitSize && it->Valid() && it->key().ToString() < maxKey;
-            i++, it->Next()) {
+         i < limitSize && it->Valid() && it->key().ToString() < maxKey;
+         i++, it->Next()) {
         std::string retrieved = it->value().ToString();
 
         ParcelDecoder decoder(retrieved.data(), retrieved.size());
@@ -135,12 +129,11 @@ LevFormulaDb::queryFormula(const types::FormulaId &formulaId,
         std::string crawlId_str;
         decoder.decode(&crawlId_str);
 
-        CrawlId crawlId = strtoul(crawlId_str.data(), NULL, 0);
+        CrawlId crawlId = strtoul(crawlId_str.data(), nullptr, 0);
         types::FormulaPath formulaPath;
         decoder.decode(&formulaPath);
 
-        if (queryCallback(crawlId, formulaPath) != 0)
-            return -1;
+        if (queryCallback(crawlId, formulaPath) != 0) return -1;
     }
 
     return 0;

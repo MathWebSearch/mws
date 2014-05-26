@@ -36,15 +36,14 @@ struct IndexAccessor {
     typedef index_handle_t Index;
     typedef const inode_t Node;
 
-public:
+ public:
     class Iterator {
         Node* _node;
         int _index;
 
-        Iterator(Node* node, int index)
-            : _node(node), _index(index) {
-        }
-    public:
+        Iterator(Node* node, int index) : _node(node), _index(index) {}
+
+     public:
         Iterator& operator++(int) {
             _index++;
             return *this;
@@ -64,9 +63,7 @@ public:
         friend struct IndexAccessor;
     };
 
-    static Node* getRootNode(Index* index) {
-        return index->root;
-    }
+    static Node* getRootNode(Index* index) { return index->root; }
 
     static Iterator getChildrenBegin(Node* node) {
         assert(node->type == INTERNAL_NODE);
@@ -83,34 +80,32 @@ public:
         return it._node->data[it._index].token;
     }
 
-    static Arity getArity(const Iterator& it) {
-        return getToken(it).arity;
-    }
+    static Arity getArity(const Iterator& it) { return getToken(it).arity; }
 
     static Node* getNode(Index* index, const Iterator& it) {
         assert(it._node->type == INTERNAL_NODE);
         memsector_off_t off = it._node->data[it._index].off;
         assert(off != MEMSECTOR_OFF_NULL);
-        return (Node*) memsector_off2addr(index->ms, off);
+        return ( Node* )memsector_off2addr(index->ms, off);
     }
 
     static Node* getChild(Index* index, Node* node, encoded_token_t token) {
         assert(node->type == INTERNAL_NODE);
         memsector_off_t off = inode_get_child(node, token);
         if (off == MEMSECTOR_OFF_NULL) {
-            return NULL;
+            return nullptr;
         }
-        return (Node*) memsector_off2addr(index->ms, off);
+        return ( Node* )memsector_off2addr(index->ms, off);
     }
 
     static uint64_t getFormulaId(Node* node) {
-        leaf_t* leaf = (leaf_t*) node;
+        leaf_t* leaf = ( leaf_t* )node;
         assert(leaf->type == LEAF_NODE);
         return leaf->formula_id;
     }
 
     static uint64_t getHitsCount(Node* node) {
-        leaf_t* leaf = (leaf_t*) node;
+        leaf_t* leaf = ( leaf_t* )node;
         assert(leaf->type == LEAF_NODE);
         return leaf->num_hits;
     }

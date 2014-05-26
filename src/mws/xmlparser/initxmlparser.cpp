@@ -28,15 +28,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <libxml/parser.h>             // LibXML parser headers
+#include <libxml/parser.h>  // LibXML parser headers
 
 // Local includes
 
-#include "initxmlparser.hpp"           // MWS initxmlparser header
+#include "initxmlparser.hpp"  // MWS initxmlparser header
 
-
-int mws::initxmlparser()
-{
+int mws::initxmlparser() {
     // Initializing the library and checking potential ABI mismatches between
     // the version it was compiled for and the actual shared library used.
     LIBXML_TEST_VERSION

@@ -79,9 +79,9 @@ struct MwsQuery_SaxUserData
 
     MwsQuery_SaxUserData()
     {
-        currentToken = NULL;
-        currentTokenRoot = NULL;
-        result = NULL;
+        currentToken = nullptr;
+        currentTokenRoot = nullptr;
+        result = nullptr;
     }
 };
 

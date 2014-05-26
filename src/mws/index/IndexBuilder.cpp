@@ -49,36 +49,33 @@ using mws::dbc::CrawlData;
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/IndexBuilder.hpp"
 
-namespace mws { namespace index {
+namespace mws {
+namespace index {
 
-IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb,
-                           dbc::CrawlDb* crawlDb,
+IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                            TmpIndex* index,
                            MeaningDictionary* meaningDictionary,
-                           const IndexingOptions& indexingOptions) :
-    m_formulaDb(formulaDb), m_crawlDb(crawlDb), m_index(index),
-    m_meaningDictionary(meaningDictionary),
-    m_indexingOptions(indexingOptions) {
-}
+                           IndexingOptions indexingOptions)
+    : m_formulaDb(formulaDb),
+      m_crawlDb(crawlDb),
+      m_index(index),
+      m_meaningDictionary(meaningDictionary),
+      m_indexingOptions(std::move(indexingOptions)) {}
 
-CrawlId
-IndexBuilder::indexCrawlData(const CrawlData& crawlData) {
+CrawlId IndexBuilder::indexCrawlData(const CrawlData& crawlData) {
     return m_crawlDb->putData(crawlData);
 }
 
-int
-IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
-                               const string xmlId,
-                               const CrawlId& crawlId) {
-    assert(cmmlToken != NULL);
+int IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
+                                   const string xmlId, const CrawlId& crawlId) {
+    assert(cmmlToken != nullptr);
     set<FormulaId> uniqueFormulaIds;
     HarvestEncoder encoder(m_meaningDictionary);
     int numSubExpressions = 0;
 
     cmmlToken->foreachSubexpression([&](const CmmlToken* token) {
         vector<encoded_token_t> encodedFormula;
-        encoder.encode(m_indexingOptions, token,
-                       &encodedFormula, NULL);
+        encoder.encode(m_indexingOptions, token, &encodedFormula, nullptr);
         TmpLeafNode* leaf = m_index->insertData(encodedFormula);
         FormulaId formulaId = leaf->id;
         auto ret = uniqueFormulaIds.insert(formulaId);
@@ -94,6 +91,5 @@ IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
 
     return numSubExpressions;
 }
-
-} }
-
+}
+}

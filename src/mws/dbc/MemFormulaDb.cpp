@@ -28,12 +28,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-namespace mws { namespace dbc {
+namespace mws {
+namespace dbc {
 
-int
-MemFormulaDb::insertFormula(const types::FormulaId&   formulaId,
-                            const CrawlId&     crawlId,
-                            const types::FormulaPath& formulaPath) {
+int MemFormulaDb::insertFormula(const types::FormulaId& formulaId,
+                                const CrawlId& crawlId,
+                                const types::FormulaPath& formulaPath) {
     MemFormulaDb::FormulaInfo formulaInfo;
 
     formulaInfo.crawlId = crawlId;
@@ -44,11 +44,9 @@ MemFormulaDb::insertFormula(const types::FormulaId&   formulaId,
     return 0;
 }
 
-int
-MemFormulaDb::queryFormula(const types::FormulaId &formulaId,
-                           unsigned limitMin,
-                           unsigned limitSize,
-                           QueryCallback queryCallback) {
+int MemFormulaDb::queryFormula(const types::FormulaId& formulaId,
+                               unsigned limitMin, unsigned limitSize,
+                               QueryCallback queryCallback) {
     auto ret = mData.find(formulaId);
     if (ret == mData.end()) return 0;
     vector<FormulaInfo> formulaInfos = ret->second;
@@ -56,11 +54,10 @@ MemFormulaDb::queryFormula(const types::FormulaId &formulaId,
     auto it = formulaInfos.begin() + limitMin;
 
     for (unsigned i = 0; i < limitSize && it != formulaInfos.end(); i++, it++) {
-        if (queryCallback(it->crawlId, it->formulaPath) != 0)
-            return -1;
+        if (queryCallback(it->crawlId, it->formulaPath) != 0) return -1;
     }
 
     return 0;
 }
-
-} }
+}
+}

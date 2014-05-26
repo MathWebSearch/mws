@@ -33,41 +33,37 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <stdlib.h>                    // C general purpose library
-#include <stdio.h>                     // C Standrad Input Output
-#include <string.h>                    // C string library
-#include <libxml/tree.h>               // LibXML tree headers
-#include <libxml/parser.h>             // LibXML parser headers
-#include <libxml/parserInternals.h>    // LibXML internals APIs
-#include <sys/types.h>                 // Primitive System datatypes
-#include <sys/stat.h>                  // POSIX File characteristics
-#include <fcntl.h>                     // File control operations
+#include <stdlib.h>                  // C general purpose library
+#include <stdio.h>                   // C Standrad Input Output
+#include <string.h>                  // C string library
+#include <libxml/tree.h>             // LibXML tree headers
+#include <libxml/parser.h>           // LibXML parser headers
+#include <libxml/parserInternals.h>  // LibXML internals APIs
+#include <sys/types.h>               // Primitive System datatypes
+#include <sys/stat.h>                // POSIX File characteristics
+#include <fcntl.h>                   // File control operations
 
 #include "ParserTypes.hpp"
 #include "mws/xmlparser/readMwsQuery.hpp"
 #include "common/utils/compiler_defs.h"
 #include "common/utils/getBoolType.hpp"
 
-#define MWSQUERY_MAIN_NAME             "mws:query"
-#define MWSQUERY_ATTR_ANSWSET_MAXSIZE  "answsize"
+#define MWSQUERY_MAIN_NAME "mws:query"
+#define MWSQUERY_ATTR_ANSWSET_MAXSIZE "answsize"
 #define MWSQUERY_ATTR_ANSWSET_LIMITMIN "limitmin"
 #define MWSQUERY_ATTR_ANSWSET_TOTALREQ "totalreq"
-#define MWSQUERY_ATTR_OUTPUTFORMAT     "output"
-#define MWSQUERY_EXPR_NAME             "mws:expr"
+#define MWSQUERY_ATTR_OUTPUTFORMAT "output"
+#define MWSQUERY_EXPR_NAME "mws:expr"
 
 using namespace mws;
 using namespace mws::types;
-
 
 /**
   * @brief Callback function used to be used with an IO context parser
   *
   */
-static inline int
-fileInputReadCallback(void* file,
-                      char* buffer,
-                      int   len) {
-    return fread(buffer, sizeof(char), len, (FILE *) file);
+static inline int fileInputReadCallback(void* file, char* buffer, int len) {
+    return fread(buffer, sizeof(char), len, (FILE*)file);
 }
 
 /**
@@ -76,25 +72,23 @@ fileInputReadCallback(void* file,
   *
   * @param user_data is a structure which holds the state of the parser.
   */
-static void
-my_startDocument(void* user_data) {
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*) user_data;
+static void my_startDocument(void* user_data) {
+    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
 
-    data->result           = new MwsQuery;
-    data->currentToken     = NULL;
-    data->currentTokenRoot = NULL;
-    data->state            = MWSQUERYSTATE_DEFAULT;
-    data->errorDetected    = false;
+    data->result = new MwsQuery;
+    data->currentToken = nullptr;
+    data->currentTokenRoot = nullptr;
+    data->state = MWSQUERYSTATE_DEFAULT;
+    data->errorDetected = false;
     data->result->warnings = 0;
 }
 
-static void
-my_endDocument(void* user_data) {
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*) user_data;
+static void my_endDocument(void* user_data) {
+    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
 
     if (data->errorDetected) {
         delete data->result;
-        data->result = NULL;
+        data->result = nullptr;
     }
 }
 
@@ -108,43 +102,41 @@ my_endDocument(void* user_data) {
   * @param attrs     is an array of attributes and values, alternatively
   *                  placed.
   */
-static void
-my_startElement(void*           user_data,
-                const xmlChar*  name,
-                const xmlChar** attrs) {
-    int      numValue;
+static void my_startElement(void* user_data, const xmlChar* name,
+                            const xmlChar** attrs) {
+    int numValue;
     BoolType boolValue;
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*) user_data;
+    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
 
     switch (data->state) {
     case MWSQUERYSTATE_DEFAULT:
-        if (strcmp((char*) name, MWSQUERY_MAIN_NAME) == 0) {
+        if (strcmp((char*)name, MWSQUERY_MAIN_NAME) == 0) {
             data->state = MWSQUERYSTATE_IN_MWS_QUERY;
             // Parsing the attributes
-            while (NULL != attrs && NULL != attrs[0]) {
+            while (nullptr != attrs && nullptr != attrs[0]) {
                 if (strncmp((char*)attrs[0], "xmlns:", 6) == 0) {
                     /* ignore namespaces */
                 } else if (strcmp((char*)attrs[0],
                                   MWSQUERY_ATTR_ANSWSET_MAXSIZE) == 0) {
-                    numValue = (int) strtol((char*)attrs[1], NULL, 10);
+                    numValue = (int)strtol((char*)attrs[1], nullptr, 10);
                     data->result->attrResultMaxSize = numValue;
                 } else if (strcmp((char*)attrs[0],
-                                MWSQUERY_ATTR_ANSWSET_LIMITMIN) == 0) {
-                    numValue = (int) strtol((char*)attrs[1], NULL, 10);
+                                  MWSQUERY_ATTR_ANSWSET_LIMITMIN) == 0) {
+                    numValue = (int)strtol((char*)attrs[1], nullptr, 10);
                     data->result->attrResultLimitMin = numValue;
                 } else if (strcmp((char*)attrs[0],
-                                MWSQUERY_ATTR_ANSWSET_TOTALREQ) == 0) {
+                                  MWSQUERY_ATTR_ANSWSET_TOTALREQ) == 0) {
                     boolValue = getBoolType((char*)attrs[1]);
                     data->result->attrResultTotalReq = boolValue;
                 } else if (strcmp((char*)attrs[0],
                                   MWSQUERY_ATTR_OUTPUTFORMAT) == 0) {
-                    if (strcmp((char*) attrs[1], "xml") == 0) {
+                    if (strcmp((char*)attrs[1], "xml") == 0) {
                         data->result->attrResultOutputFormat = DATAFORMAT_XML;
-                    } else if (strcmp((char*) attrs[1], "json") == 0) {
+                    } else if (strcmp((char*)attrs[1], "json") == 0) {
                         data->result->attrResultOutputFormat = DATAFORMAT_JSON;
                     } else {
                         data->result->attrResultOutputFormat =
-                                DATAFORMAT_UNKNOWN;
+                            DATAFORMAT_UNKNOWN;
                         PRINT_WARN("Invalid output format \"%s\"\n", attrs[1]);
                     }
                 } else {
@@ -166,7 +158,7 @@ my_startElement(void*           user_data,
         break;
 
     case MWSQUERYSTATE_IN_MWS_QUERY:
-        if (strcmp((char*) name, MWSQUERY_EXPR_NAME) == 0) {
+        if (strcmp((char*)name, MWSQUERY_EXPR_NAME) == 0) {
             data->state = MWSQUERYSTATE_IN_MWS_EXPR;
         } else {
             data->result->warnings++;
@@ -180,18 +172,17 @@ my_startElement(void*           user_data,
 
     case MWSQUERYSTATE_IN_MWS_EXPR:
         // Building the token
-        if (data->currentToken != NULL) {
+        if (data->currentToken != nullptr) {
             data->currentToken = data->currentToken->newChildNode();
         } else {
             data->currentTokenRoot = CmmlToken::newRoot(false);
             data->currentToken = data->currentTokenRoot;
         }
         // Adding the tag name
-        data->currentToken->setTag((char*) name);
+        data->currentToken->setTag((char*)name);
         // Adding the attributes
-        while (NULL != attrs && NULL != attrs[0]) {
-            data->currentToken->addAttribute((char*) attrs[0],
-                    (char*) attrs[1]);
+        while (nullptr != attrs && nullptr != attrs[0]) {
+            data->currentToken->addAttribute((char*)attrs[0], (char*)attrs[1]);
             attrs = &attrs[2];
         }
         break;
@@ -202,7 +193,6 @@ my_startElement(void*           user_data,
     }
 }
 
-
 /**
   * @brief This function is called when the SAX handler encounters the
   * end of an element.
@@ -210,12 +200,10 @@ my_startElement(void*           user_data,
   * @param user_data is a structure which holds the state of the parser.
   * @param name      is the name of the element which triggered the callback.
   */
-static void
-my_endElement(void*          user_data,
-              const xmlChar* name) {
+static void my_endElement(void* user_data, const xmlChar* name) {
     UNUSED(name);
 
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*) user_data;
+    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
 
     switch (data->state) {
     case MWSQUERYSTATE_DEFAULT:
@@ -227,12 +215,12 @@ my_endElement(void*          user_data,
         break;
 
     case MWSQUERYSTATE_IN_MWS_EXPR:
-        if (data->currentToken == NULL) {
+        if (data->currentToken == nullptr) {
             data->state = MWSQUERYSTATE_IN_MWS_QUERY;
         } else if (data->currentToken->isRoot()) {
             data->result->tokens.push_back(data->currentToken);
-            data->currentToken = NULL;
-            data->currentTokenRoot = NULL;
+            data->currentToken = nullptr;
+            data->currentTokenRoot = nullptr;
         } else {
             data->currentToken = data->currentToken->getParentNode();
         }
@@ -247,35 +235,24 @@ my_endElement(void*          user_data,
     }
 }
 
-
-static void
-my_characters(void *user_data,
-              const xmlChar *ch,
-              int len) {
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*) user_data;
+static void my_characters(void* user_data, const xmlChar* ch, int len) {
+    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
 
     if (data->state == MWSQUERYSTATE_IN_MWS_EXPR &&
-            data->currentToken != NULL) {
-        data->currentToken->appendTextContent((char*) ch, len);
+        data->currentToken != nullptr) {
+        data->currentToken->appendTextContent((char*)ch, len);
     }
 }
 
-
-static xmlEntityPtr
-my_getEntity(void*          user_data,
-             const xmlChar* name) {
+static xmlEntityPtr my_getEntity(void* user_data, const xmlChar* name) {
     UNUSED(user_data);
 
     return xmlGetPredefinedEntity(name);
 }
 
-
-static void
-my_warning(void*       user_data,
-           const char* msg,
-           ...) {
+static void my_warning(void* user_data, const char* msg, ...) {
     va_list args;
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*) user_data;
+    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
 
     data->result->warnings++;
     va_start(args, msg);
@@ -283,31 +260,23 @@ my_warning(void*       user_data,
     va_end(args);
 }
 
-
-static void
-my_error(void*       user_data,
-         const char* msg,
-         ...) {
+static void my_error(void* user_data, const char* msg, ...) {
     va_list args;
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*) user_data;
+    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
 
     data->errorDetected = true;
-    if (data->currentTokenRoot != NULL) {
+    if (data->currentTokenRoot != nullptr) {
         delete data->currentTokenRoot;
-        data->currentTokenRoot = NULL;
-        data->currentToken = NULL;
+        data->currentTokenRoot = nullptr;
+        data->currentToken = nullptr;
     }
     va_start(args, msg);
     vfprintf(stderr, msg, args);
     va_end(args);
 }
 
-
 // in latest libxml2, all errors are caught by error, so this is useless
-static void
-my_fatalError(void*       user_data,
-              const char* msg,
-              ...) {
+static void my_fatalError(void* user_data, const char* msg, ...) {
     UNUSED(user_data);
 
     va_list args;
@@ -316,7 +285,6 @@ my_fatalError(void*       user_data,
     vfprintf(stderr, msg, args);
     va_end(args);
 }
-
 
 // Implementation
 
@@ -325,38 +293,35 @@ namespace xmlparser {
 
 MwsQuery* readMwsQuery(FILE* file) {
     MwsQuery_SaxUserData user_data;
-    xmlSAXHandler        saxHandler;
-    xmlParserCtxtPtr     ctxtPtr;
-    int                  ret;
+    xmlSAXHandler saxHandler;
+    xmlParserCtxtPtr ctxtPtr;
+    int ret;
 
     // Initializing the SAX Handler
     memset(&saxHandler, 0, sizeof(saxHandler));
 
     // Registering Sax callbacks with defined ones
-    saxHandler.getEntity     = my_getEntity;
+    saxHandler.getEntity = my_getEntity;
     saxHandler.startDocument = my_startDocument;
-    saxHandler.endDocument   = my_endDocument;
-    saxHandler.startElement  = my_startElement;
-    saxHandler.endElement    = my_endElement;
-    saxHandler.characters    = my_characters;
-    saxHandler.warning       = my_warning;
-    saxHandler.error         = my_error;
-    saxHandler.fatalError    = my_fatalError;
+    saxHandler.endDocument = my_endDocument;
+    saxHandler.startElement = my_startElement;
+    saxHandler.endElement = my_endElement;
+    saxHandler.characters = my_characters;
+    saxHandler.warning = my_warning;
+    saxHandler.error = my_error;
+    saxHandler.fatalError = my_fatalError;
 
     // Locking libXML -- to allow multi-threaded use
     xmlLockLibrary();
 
     // Creating the IOParser context
-    ctxtPtr = xmlCreateIOParserCtxt(&saxHandler,
-                                    &user_data,
-                                    fileInputReadCallback,
-                                    NULL,
-                                    file,
-                                    XML_CHAR_ENCODING_UTF8);
-    if (ctxtPtr == NULL) {
+    ctxtPtr =
+        xmlCreateIOParserCtxt(&saxHandler, &user_data, fileInputReadCallback,
+                              nullptr, file, XML_CHAR_ENCODING_UTF8);
+    if (ctxtPtr == nullptr) {
         PRINT_WARN("Error while creating the ParserContext\n");
         xmlUnlockLibrary();
-        return NULL;
+        return nullptr;
     }
 
     ret = xmlParseDocument(ctxtPtr);

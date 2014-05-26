@@ -42,9 +42,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-
-ControlSequence::ControlSequence()
-{
+ControlSequence::ControlSequence() {
     // Initializing everything, including padding bytes
     memset(this, 0, sizeof(ControlSequence));
 
@@ -52,87 +50,60 @@ ControlSequence::ControlSequence()
     _format = DATAFORMAT_DEFAULT;
 }
 
-
-void
-ControlSequence::setFormat(DataFormat aFormat)
-{
+void ControlSequence::setFormat(DataFormat aFormat) {
     _parsed = true;
     _format = aFormat;
 }
 
+bool ControlSequence::isParsed() const { return _parsed; }
 
-bool
-ControlSequence::isParsed() const
-{
-    return _parsed;
-}
+DataFormat ControlSequence::getFormat() const { return _format; }
 
-
-DataFormat
-ControlSequence::getFormat() const
-{
-    return _format;
-}
-
-
-ssize_t
-ControlSequence::send(int fd)
-{
-    char*   data;
+ssize_t ControlSequence::send(int fd) {
+    char* data;
     ssize_t data_size;
     ssize_t bytes_written;
     ssize_t nbytes;
 
-    data          = (char*)this;
-    data_size     = sizeof(ControlSequence);
+    data = (char*)this;
+    data_size = sizeof(ControlSequence);
     bytes_written = 0;
 
-    while (data_size)
-    {
-        nbytes = write(fd,
-                       data,
-                       data_size);
-        if (nbytes <= 0)
-        {
+    while (data_size) {
+        nbytes = write(fd, data, data_size);
+        if (nbytes <= 0) {
             if (nbytes == -1) bytes_written = -1;
             break;
         }
 
         bytes_written += nbytes;
-        data          += nbytes;
-        data_size     -= nbytes;
+        data += nbytes;
+        data_size -= nbytes;
     }
 
     return bytes_written;
 }
 
-
-ssize_t
-ControlSequence::recv(int fd)
-{
-    char*   data;
+ssize_t ControlSequence::recv(int fd) {
+    char* data;
     ssize_t data_size;
     ssize_t bytes_read;
     ssize_t nbytes;
 
-    data       = (char*)this;
-    data_size  = sizeof(ControlSequence);
+    data = (char*)this;
+    data_size = sizeof(ControlSequence);
     bytes_read = 0;
-        
-    while (data_size)
-    {
-        nbytes = read(fd,
-                      data,
-                      data_size);
-        if (bytes_read <= 0)
-        {
+
+    while (data_size) {
+        nbytes = read(fd, data, data_size);
+        if (bytes_read <= 0) {
             if (nbytes == -1) bytes_read = -1;
             break;
         }
 
         bytes_read += nbytes;
-        data       += nbytes;
-        data_size  -= nbytes;
+        data += nbytes;
+        data_size -= nbytes;
     }
 
     return bytes_read;

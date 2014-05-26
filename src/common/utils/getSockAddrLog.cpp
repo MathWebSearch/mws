@@ -30,54 +30,45 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <cstdio>                      // C standard IO headers
-#include <netdb.h>                     // C network db operations
-#include <string>                      // C++ string header
-#include <sys/socket.h>                // C main socket headers
+#include <cstdio>        // C standard IO headers
+#include <netdb.h>       // C network db operations
+#include <string>        // C++ string header
+#include <sys/socket.h>  // C main socket headers
 
 #include "common/utils/compiler_defs.h"
 
 // Local includes
 
-#include "common/utils/TimeStamp.hpp"     // MWS TimeStamp utility function
+#include "common/utils/TimeStamp.hpp"  // MWS TimeStamp utility function
 
 // Macros
 
-#define RESULT_MAX_SZ      81
-#define HOSTNAME_MAX_SZ    40
-#define SERVICE_MAX_SZ     40
+#define RESULT_MAX_SZ 81
+#define HOSTNAME_MAX_SZ 40
+#define SERVICE_MAX_SZ 40
 
 // Namespaces
 
 using namespace std;
 
-
-string
-getSockAddrLog(const sockaddr* sockAddr,
-               const socklen_t sockLen)
-{
-    char   hostname[HOSTNAME_MAX_SZ];
-    char   service[SERVICE_MAX_SZ];
-    int    ret;
-    char   result[RESULT_MAX_SZ];
+string getSockAddrLog(const sockaddr* sockAddr, const socklen_t sockLen) {
+    char hostname[HOSTNAME_MAX_SZ];
+    char service[SERVICE_MAX_SZ];
+    int ret;
+    char result[RESULT_MAX_SZ];
 
     // Getting hostname and service
-    ret = getnameinfo(sockAddr, sockLen,
-                      hostname, HOSTNAME_MAX_SZ,
-                      service,  SERVICE_MAX_SZ,
-                      0);
-    if (ret != 0)
-    {
-        PRINT_WARN("Error at getnameinfo: %s\n",
-                gai_strerror(ret));
-    }
-    else
-    {
-        snprintf(result,
-                 RESULT_MAX_SZ,
-                 "%19s "              "%35s"    "%25s\n",
+    ret = getnameinfo(sockAddr, sockLen, hostname, HOSTNAME_MAX_SZ, service,
+                      SERVICE_MAX_SZ, 0);
+    if (ret != 0) {
+        PRINT_WARN("Error at getnameinfo: %s\n", gai_strerror(ret));
+    } else {
+        snprintf(result, RESULT_MAX_SZ,
+                 "%19s "
+                 "%35s"
+                 "%25s\n",
                  TimeStamp().c_str(), hostname, service);
     }
 
-    return (string) result;
+    return (string)result;
 }

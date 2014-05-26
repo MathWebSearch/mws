@@ -58,14 +58,13 @@ namespace parser {
 static void cleanContentMath(xmlNode* node);
 
 const char XPATH_MATHML[] = "//*[local-name()='math']";
-const char XPATH_CONTENT_MATH[] =
-        "descendant::*[@encoding='MathML-Content']/*";
+const char XPATH_CONTENT_MATH[] = "descendant::*[@encoding='MathML-Content']/*";
 
 const bool DEFAULT_SHOULD_SAVE_DATA = true;
 const char DEFAULT_DOCUMENT_URI_XPATH[] =
-        "//*[local-name()='span' and @class='number']";
+    "//*[local-name()='span' and @class='number']";
 const char DEFAULT_TEXT_WITH_MATH_XPATH[] =
-        "//*[local-name()='div' and @class='review-body']";
+    "//*[local-name()='div' and @class='review-body']";
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
@@ -74,8 +73,7 @@ const char DEFAULT_TEXT_WITH_MATH_XPATH[] =
 HarvesterConfiguration::HarvesterConfiguration()
     : shouldSaveData(DEFAULT_SHOULD_SAVE_DATA),
       documentIdXpath(DEFAULT_DOCUMENT_URI_XPATH),
-      textWithMathXpath(DEFAULT_TEXT_WITH_MATH_XPATH) {
-}
+      textWithMathXpath(DEFAULT_TEXT_WITH_MATH_XPATH) {}
 
 string HarvesterConfiguration::toString() const {
     stringstream stream;
@@ -98,8 +96,8 @@ Harvest createHarvestFromDocument(const string& content,
     if (config.shouldSaveData) {
         data << "<mws:data mws:data_id=\"" << config.data_id << "\">\n";
         data << "<id>" << documentId << "</id>\n";
-        data << "<text>"
-             << getTextByXpath(doc, config.textWithMathXpath) << "</text>\n";
+        data << "<text>" << getTextByXpath(doc, config.textWithMathXpath)
+             << "</text>\n";
         for (HarvesterConfiguration::MetadataItem item : config.metadataItems) {
             data << "<" << item.name << ">" << getTextByXpath(doc, item.xpath)
                  << "</" << item.name << ">\n";
@@ -107,16 +105,16 @@ Harvest createHarvestFromDocument(const string& content,
     }
 
     processXpathResults(doc, XPATH_MATHML, [&](xmlNode* mathNode) {
-        const xmlChar *xmlId = xmlGetProp(mathNode, BAD_CAST "id");
-        if (xmlId == NULL) {
+        const xmlChar* xmlId = xmlGetProp(mathNode, BAD_CAST "id");
+        if (xmlId == nullptr) {
             PRINT_WARN("Discarding math element without identifier\n");
             return;
         }
-        string id((char*) xmlId);
-        xmlFree((void*) xmlId);
+        string id((char*)xmlId);
+        xmlFree((void*)xmlId);
 
         xmlNode* cmmlNode = getNodeByXpath(doc, XPATH_CONTENT_MATH, mathNode);
-        if (cmmlNode == NULL) {
+        if (cmmlNode == nullptr) {
             PRINT_WARN("Discarding math element #%s without ContentMath\n",
                        id.c_str());
             return;
@@ -147,9 +145,7 @@ Harvest createHarvestFromDocument(const string& content,
     return harvest;
 }
 
-void cleanupMathParser() {
-    xmlCleanupParser();
-}
+void cleanupMathParser() { xmlCleanupParser(); }
 
 /*--------------------------------------------------------------------------*/
 /* Local implementation                                                     */
@@ -159,19 +155,18 @@ void cleanupMathParser() {
  * @brief remove redundant attributes from ContentMath
  * @param xmlNode
  */
-static
-void cleanContentMath(xmlNode* node) {
-    assert(node != NULL);
+static void cleanContentMath(xmlNode* node) {
+    assert(node != nullptr);
     // Remove id and xref attributes
     xmlUnsetProp(node, BAD_CAST "id");
     xmlUnsetProp(node, BAD_CAST "xref");
 
     // Remove namespace from name
-    xmlSetNs(node, NULL);
+    xmlSetNs(node, nullptr);
 
     // Recurse through child nodes
     xmlNodePtr curr = node->children;
-    while (curr != NULL) {
+    while (curr != nullptr) {
         cleanContentMath(curr);
         curr = curr->next;
     }
@@ -179,5 +174,3 @@ void cleanContentMath(xmlNode* node) {
 
 }  // namespace parser
 }  // namespace crawler
-
-

@@ -37,12 +37,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/types/DataFormat.hpp"
 
-
-std::ostream&
-operator << (std::ostream& out, DataFormat dataFormat)
-{
-    switch(dataFormat)
-    {
+std::ostream& operator<<(std::ostream& out, DataFormat dataFormat) {
+    switch (dataFormat) {
     case DATAFORMAT_XML:
         out << "text/xml";
         break;

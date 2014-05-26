@@ -29,11 +29,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include <sys/types.h>                 // Primitive System datatypes
-#include <sys/stat.h>                  // POSIX File characteristics
-#include <fcntl.h>                     // File control operations
-#include <libxml/parser.h>             // LibXML parser header
-#include <string>                      // C++ String header
+#include <sys/types.h>      // Primitive System datatypes
+#include <sys/stat.h>       // POSIX File characteristics
+#include <fcntl.h>          // File control operations
+#include <libxml/parser.h>  // LibXML parser header
+#include <string>           // C++ String header
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -47,31 +47,28 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std;
 using namespace mws;
 
-
-int main()
-{
-    MwsQuery*   result;
-    FILE*       file;
-    const char* xmlfile  = "MwsQuery1.xml";
-    string      xml_path = (string) MWS_TESTDATA_PATH +
-                            "/" + (string) xmlfile;
+int main() {
+    MwsQuery* result;
+    FILE* file;
+    const char* xmlfile = "MwsQuery1.xml";
+    string xml_path = (string)MWS_TESTDATA_PATH + "/" + (string)xmlfile;
 
     file = fopen(xml_path.c_str(), "r");
-    FAIL_ON(file == NULL);
+    FAIL_ON(file == nullptr);
 
     result = xmlparser::readMwsQuery(file);
 
-    FAIL_ON(result == NULL);
+    FAIL_ON(result == nullptr);
     FAIL_ON(result->warnings != 0);
     FAIL_ON(result->attrResultMaxSize != 24);
     FAIL_ON(result->attrResultLimitMin != 1);
-    FAIL_ON(result->tokens.size() != (size_t) 1);
+    FAIL_ON(result->tokens.size() != (size_t)1);
 
     delete result;
 
     fclose(file);
 
-    (void) xmlCleanupParser();
+    (void)xmlCleanupParser();
 
     return EXIT_SUCCESS;
 

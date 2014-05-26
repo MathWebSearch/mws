@@ -36,9 +36,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/types.h>          // Primitive System datatypes
-#include <sys/stat.h>           // POSIX File characteristics
-#include <fcntl.h>              // File control operations
+#include <sys/types.h>  // Primitive System datatypes
+#include <sys/stat.h>   // POSIX File characteristics
+#include <fcntl.h>      // File control operations
 #include <signal.h>
 #include <stdlib.h>
 #include <stack>
@@ -68,9 +68,10 @@ using namespace mws;
 using namespace mws::types;
 using namespace mws::index;
 
-namespace mws { namespace daemon {
+namespace mws {
+namespace daemon {
 
-MwsAnswset* HarvestDaemon::handleQuery(MwsQuery *mwsQuery) {
+MwsAnswset* HarvestDaemon::handleQuery(MwsQuery* mwsQuery) {
     MwsAnswset* result;
     query::SearchContext* ctxt;
 
@@ -78,16 +79,13 @@ MwsAnswset* HarvestDaemon::handleQuery(MwsQuery *mwsQuery) {
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
-    if (encoder.encode(_config.indexingOptions,
-                       mwsQuery->tokens[0],
+    if (encoder.encode(_config.indexingOptions, mwsQuery->tokens[0],
                        &encodedQuery, &queryInfo) == 0) {
         dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
         ctxt = new query::SearchContext(encodedQuery);
-        result = ctxt->getResult<TmpIndexAccessor>(data,
-                                 &dbQueryManger,
-                                 mwsQuery->attrResultLimitMin,
-                                 mwsQuery->attrResultMaxSize,
-                                 mwsQuery->attrResultTotalReqNr);
+        result = ctxt->getResult<TmpIndexAccessor>(
+            data, &dbQueryManger, mwsQuery->attrResultLimitMin,
+            mwsQuery->attrResultMaxSize, mwsQuery->attrResultTotalReqNr);
         delete ctxt;
     } else {
         result = new MwsAnswset();
@@ -99,13 +97,12 @@ MwsAnswset* HarvestDaemon::handleQuery(MwsQuery *mwsQuery) {
     return result;
 }
 
-
 int HarvestDaemon::initMws(const Config& config) {
     int ret = Daemon::initMws(config);
 
     if (config.useLevelDb) {
-        dbc::LevCrawlDb* crdb = new dbc::LevCrawlDb();
-        dbc::LevFormulaDb* fmdb = new dbc::LevFormulaDb();
+        auto crdb = new dbc::LevCrawlDb();
+        auto fmdb = new dbc::LevFormulaDb();
         string crdbPath = config.dataPath + "/crawl.db";
         string fmdbPath = config.dataPath + "/formula.db";
 
@@ -115,48 +112,46 @@ int HarvestDaemon::initMws(const Config& config) {
 
             crawlDb = crdb;
             formulaDb = fmdb;
-        }
-        catch(const std::exception &e) {
+        } catch (const std::exception& e) {
             PRINT_WARN("Initializing database: %s\n", e.what());
             return EXIT_FAILURE;
         }
     } else {
-         crawlDb = new dbc::MemCrawlDb();
-         formulaDb = new dbc::MemFormulaDb();
+        crawlDb = new dbc::MemCrawlDb();
+        formulaDb = new dbc::MemFormulaDb();
     }
 
     data = new TmpIndex();
     meaningDictionary = new MeaningDictionary();
 
-    indexBuilder = new index::IndexBuilder(formulaDb, crawlDb, data,
-                                           meaningDictionary,
-                                           config.indexingOptions);
+    indexBuilder = new index::IndexBuilder(
+        formulaDb, crawlDb, data, meaningDictionary, config.indexingOptions);
 
     ret = ThreadWrapper::init();
 
     // load harvests
     const vector<string>& paths = config.harvestLoadPaths;
-    vector<string> :: const_iterator it;
+    vector<string>::const_iterator it;
 
     for (it = paths.begin(); it != paths.end(); it++) {
         AbsPath harvestPath(*it);
         printf("Loading from %s...\n", it->c_str());
         printf("%d expressions loaded.\n",
-                parser::loadMwsHarvestFromDirectory(indexBuilder, harvestPath,
-                                                    config.harvestFileExtension,
-                                                    config.recursive));
+               parser::loadMwsHarvestFromDirectory(indexBuilder, harvestPath,
+                                                   config.harvestFileExtension,
+                                                   config.recursive));
         fflush(stdout);
     }
 
     return ret;
 }
 
-HarvestDaemon::HarvestDaemon() : indexBuilder(NULL),
-                                 meaningDictionary(NULL),
-                                 crawlDb(NULL),
-                                 formulaDb(NULL),
-                                 data(NULL) {
-}
+HarvestDaemon::HarvestDaemon()
+    : indexBuilder(nullptr),
+      meaningDictionary(nullptr),
+      crawlDb(nullptr),
+      formulaDb(nullptr),
+      data(nullptr) {}
 
 HarvestDaemon::~HarvestDaemon() {
     if (indexBuilder) delete indexBuilder;

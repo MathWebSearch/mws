@@ -43,28 +43,20 @@ using std::stack;
 
 #include "CmmlToken.hpp"
 
-
 namespace mws {
 namespace types {
-
 
 const Meaning MWS_QVAR_MEANING = "mws:qvar";
 const char ROOT_XPATH_SELECTOR[] = "/*[1]";
 
-CmmlToken::CmmlToken(bool aMode) :
-    _tag(""),
-    _textContent(""),
-    _parentNode(NULL),
-    _xpath(ROOT_XPATH_SELECTOR),
-    _mode(aMode) {
-}
+CmmlToken::CmmlToken(bool aMode)
+    : _tag(""),
+      _textContent(""),
+      _parentNode(nullptr),
+      _xpath(ROOT_XPATH_SELECTOR),
+      _mode(aMode) {}
 
-
-CmmlToken*
-CmmlToken::newRoot(bool aMode) {
-    return (new CmmlToken(aMode));
-}
-
+CmmlToken* CmmlToken::newRoot(bool aMode) { return (new CmmlToken(aMode)); }
 
 CmmlToken::~CmmlToken() {
     while (!_childNodes.empty()) {
@@ -73,27 +65,20 @@ CmmlToken::~CmmlToken() {
     }
 }
 
-
-void
-CmmlToken::setTag(const std::string& aTag) {
+void CmmlToken::setTag(const std::string& aTag) {
     if (aTag.compare(0, 2, "m:") == 0) {
         _tag = aTag.substr(2, aTag.size() - 2);
     } else {
-        _tag            = aTag;
+        _tag = aTag;
     }
 }
 
-
-void
-CmmlToken::addAttribute(const std::string& anAttribute,
-                        const std::string& aValue) {
+void CmmlToken::addAttribute(const std::string& anAttribute,
+                             const std::string& aValue) {
     _attributes.insert(make_pair(anAttribute, aValue));
 }
 
-
-void
-CmmlToken::appendTextContent(const char* aTextContent,
-                             size_t      nBytes) {
+void CmmlToken::appendTextContent(const char* aTextContent, size_t nBytes) {
     _textContent.reserve(_textContent.size() + nBytes);
     for (size_t i = 0; i < nBytes; i++) {
         if (!isspace(aTextContent[i])) {
@@ -102,20 +87,11 @@ CmmlToken::appendTextContent(const char* aTextContent,
     }
 }
 
+const string& CmmlToken::getTextContent() const { return _textContent; }
 
-const string&
-CmmlToken::getTextContent() const {
-    return _textContent;
-}
+const string& CmmlToken::getTag() const { return _tag; }
 
-const string&
-CmmlToken::getTag() const {
-    return _tag;
-}
-
-
-CmmlToken*
-CmmlToken::newChildNode() {
+CmmlToken* CmmlToken::newChildNode() {
     CmmlToken* result;
 
     result = new CmmlToken(_mode);
@@ -126,56 +102,36 @@ CmmlToken::newChildNode() {
     return result;
 }
 
+bool CmmlToken::isRoot() const { return (_parentNode == nullptr); }
 
-bool
-CmmlToken::isRoot() const {
-    return (_parentNode == NULL);
-}
+bool CmmlToken::isVar() const { return (getType() == VAR); }
 
+CmmlToken* CmmlToken::getParentNode() const { return _parentNode; }
 
-bool
-CmmlToken::isVar() const {
-    return (getType() == VAR);
-}
-
-CmmlToken*
-CmmlToken::getParentNode() const {
-    return _parentNode;
-}
-
-
-const CmmlToken::PtrList&
-CmmlToken::getChildNodes() const {
+const CmmlToken::PtrList& CmmlToken::getChildNodes() const {
     return _childNodes;
 }
 
+const string& CmmlToken::getXpath() const { return _xpath; }
 
-const string&
-CmmlToken::getXpath() const {
-    return _xpath;
-}
-
-
-string
-CmmlToken::getXpathRelative() const {
+string CmmlToken::getXpathRelative() const {
     // xpath without initial /*[1]
     string xpath_relative(_xpath, strlen(ROOT_XPATH_SELECTOR), string::npos);
 
     return xpath_relative;
 }
 
-string
-CmmlToken::toString(int indent) const {
+string CmmlToken::toString(int indent) const {
     stringstream ss;
-    string       padding;
-    map<string, string> :: const_iterator mIt;
-    PtrList :: const_iterator lIt;
+    string padding;
+    map<string, string>::const_iterator mIt;
+    PtrList::const_iterator lIt;
 
     padding.append(indent, ' ');
 
     ss << padding << "<" << _tag << " ";
 
-    for (mIt = _attributes.begin(); mIt != _attributes.end(); mIt ++) {
+    for (mIt = _attributes.begin(); mIt != _attributes.end(); mIt++) {
         ss << mIt->first << "=\"" << mIt->second << "\" ";
     }
 
@@ -184,7 +140,7 @@ CmmlToken::toString(int indent) const {
     if (_childNodes.size()) {
         ss << "\n";
 
-        for (lIt = _childNodes.begin(); lIt != _childNodes.end(); lIt ++) {
+        for (lIt = _childNodes.begin(); lIt != _childNodes.end(); lIt++) {
             ss << (*lIt)->toString(indent + 2);
         }
 
@@ -196,8 +152,7 @@ CmmlToken::toString(int indent) const {
     return ss.str();
 }
 
-uint32_t
-CmmlToken::getExprDepth() const {
+uint32_t CmmlToken::getExprDepth() const {
     uint32_t max_depth = 0;
     for (auto child : _childNodes) {
         uint32_t depth = child->getExprDepth() + 1;
@@ -207,8 +162,7 @@ CmmlToken::getExprDepth() const {
     return max_depth;
 }
 
-uint32_t
-CmmlToken::getExprSize() const {
+uint32_t CmmlToken::getExprSize() const {
     uint32_t size = 1;  // counting current token
 
     for (auto child : _childNodes) {
@@ -218,8 +172,7 @@ CmmlToken::getExprSize() const {
     return size;
 }
 
-CmmlToken::Type
-CmmlToken::getType() const {
+CmmlToken::Type CmmlToken::getType() const {
     if (_tag == MWS_QVAR_MEANING) {
         return VAR;
     } else {
@@ -227,15 +180,13 @@ CmmlToken::getType() const {
     }
 }
 
-const std::string&
-CmmlToken::getVarName() const {
+const std::string& CmmlToken::getVarName() const {
     assert(getType() == VAR);
 
     return _textContent;
 }
 
-std::string
-CmmlToken::getMeaning() const {
+std::string CmmlToken::getMeaning() const {
     // assert(getType() == CONSTANT); XXX legacy mwsd still uses this
 
     string meaning;
@@ -248,13 +199,9 @@ CmmlToken::getMeaning() const {
     return meaning;
 }
 
-uint32_t
-CmmlToken::getArity() const {
-    return _childNodes.size();
-}
+uint32_t CmmlToken::getArity() const { return _childNodes.size(); }
 
-bool
-CmmlToken::equals(const CmmlToken *t) const {
+bool CmmlToken::equals(const CmmlToken* t) const {
     if (this->getType() != t->getType()) return false;
     if (this->getMeaning() != t->getMeaning()) return false;
     if (_childNodes.size() != t->_childNodes.size()) return false;
@@ -272,8 +219,7 @@ CmmlToken::equals(const CmmlToken *t) const {
     return true;
 }
 
-void
-CmmlToken::foreachSubexpression(TokenCallback callback) const {
+void CmmlToken::foreachSubexpression(TokenCallback callback) const {
     stack<const CmmlToken*> subtermStack;
 
     subtermStack.push(this);
@@ -281,17 +227,14 @@ CmmlToken::foreachSubexpression(TokenCallback callback) const {
         const CmmlToken* currentSubterm = subtermStack.top();
         subtermStack.pop();
 
-        for (auto rIt  = currentSubterm->getChildNodes().rbegin();
-             rIt != currentSubterm->getChildNodes().rend();
-             rIt ++) {
+        for (auto rIt = currentSubterm->getChildNodes().rbegin();
+             rIt != currentSubterm->getChildNodes().rend(); rIt++) {
             subtermStack.push(*rIt);
         }
-
 
         callback(currentSubterm);
     }
 }
-
 
 }  // namespace types
 }  // namespace mws

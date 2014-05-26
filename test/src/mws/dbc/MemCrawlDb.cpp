@@ -34,7 +34,6 @@ using mws::dbc::MemCrawlDb;
 #include "common/utils/compiler_defs.h"
 
 int main() {
-
     CrawlDb* crawlDb = new MemCrawlDb();
     CrawlData crawlData = "foobar";
 

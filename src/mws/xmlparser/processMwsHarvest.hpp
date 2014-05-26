@@ -107,8 +107,8 @@ struct ParseResult {
             delete hit;
         }
     }
-    ParseResult(std::string data, std::vector<Hit*> hits) : data(data),
-                                                            hits(hits) {
+    ParseResult(std::string data, std::vector<Hit*> hits) : data(std::move(data)),
+                                                            hits(std::move(hits)) {
     }
 };
 

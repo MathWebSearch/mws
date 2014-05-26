@@ -31,11 +31,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <sys/types.h>                 // Primitive System datatypes
-#include <sys/stat.h>                  // POSIX File characteristics
-#include <fcntl.h>                     // File control operations
-#include <libxml/parser.h>             // LibXML parser header
-#include <string>                      // C++ String header
+#include <sys/types.h>      // Primitive System datatypes
+#include <sys/stat.h>       // POSIX File characteristics
+#include <fcntl.h>          // File control operations
+#include <libxml/parser.h>  // LibXML parser header
+#include <string>           // C++ String header
 #include <stdlib.h>
 
 // Local includes
@@ -62,17 +62,14 @@ struct HarvestData {
     int expressionCount;
 };
 
-const vector<HarvestData> harvests = {
-    { "empty.harvest", -1, 0 },
-    { "eq_ambiguity.harvest", 0, 4 },
-    { "data1.harvest", 0, 17 },
-    { "data2.harvest", 0, 14 },
-    { "data3.harvest", 0, 14 },
-    { "data4.harvest", 0, 1 }
-};
+const vector<HarvestData> harvests = {{"empty.harvest", -1, 0},
+                                      {"eq_ambiguity.harvest", 0, 4},
+                                      {"data1.harvest", 0, 17},
+                                      {"data2.harvest", 0, 14},
+                                      {"data3.harvest", 0, 14},
+                                      {"data4.harvest", 0, 1}};
 
-int main()
-{
+int main() {
     dbc::MemCrawlDb crawlDb;
     dbc::MemFormulaDb formulaDb;
     index::TmpIndex data;
@@ -80,13 +77,12 @@ int main()
     index::IndexingOptions indexingOptions;
     indexingOptions.renameCi = false;
     index::IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
-                                     &meaningDictionary,
-                                     indexingOptions);
+                                     &meaningDictionary, indexingOptions);
     FAIL_ON(initxmlparser() != 0);
 
-    for(HarvestData harvest : harvests) {
+    for (HarvestData harvest : harvests) {
         const string harvest_path =
-                (string) MWS_TESTDATA_PATH + "/" + harvest.path;
+            (string)MWS_TESTDATA_PATH + "/" + harvest.path;
         int fd;
 
         FAIL_ON((fd = open(harvest_path.c_str(), O_RDONLY)) < 0);
@@ -94,10 +90,10 @@ int main()
         FAIL_ON(ret.first != harvest.returnValue);
         FAIL_ON(ret.second != harvest.expressionCount);
 
-        (void) close(fd);
+        (void)close(fd);
     }
 
-    (void) clearxmlparser();
+    (void)clearxmlparser();
 
     return EXIT_SUCCESS;
 

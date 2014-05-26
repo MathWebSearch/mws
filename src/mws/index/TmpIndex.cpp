@@ -46,22 +46,17 @@ using common::utils::ContainerIterator;
 
 // Static members declaration
 
-
 namespace mws {
 namespace index {
 
 types::FormulaId TmpLeafNode::nextId = 0;
 
-TmpIndexNode::TmpIndexNode() {
-}
+TmpIndexNode::TmpIndexNode() {}
 
 TmpLeafNode::TmpLeafNode()
-    : TmpIndexNode(), id(++TmpLeafNode::nextId), solutions(0) {
-}
+    : TmpIndexNode(), id(++TmpLeafNode::nextId), solutions(0) {}
 
-TmpIndex::TmpIndex()
-    : mRoot(new TmpIndexNode) {
-}
+TmpIndex::TmpIndex() : mRoot(new TmpIndexNode) {}
 
 TmpIndex::~TmpIndex() {
     stack<TmpIndexNode*> nodes;
@@ -76,8 +71,8 @@ TmpIndex::~TmpIndex() {
     }
 }
 
-TmpLeafNode*
-TmpIndex::insertData(const vector<encoded_token_t>& encodedFormula) {
+TmpLeafNode* TmpIndex::insertData(
+    const vector<encoded_token_t>& encodedFormula) {
     size_t size = encodedFormula.size();
     assert(size > 0);
 
@@ -85,25 +80,23 @@ TmpIndex::insertData(const vector<encoded_token_t>& encodedFormula) {
     for (size_t i = 0; i < size - 1; i++) {
         const encoded_token_t& encodedToken = encodedFormula[i];
 
-        TmpIndexNode* node = (TmpIndexNode*)
-                currentNode->children[encodedToken];
-        if (node == NULL) {
+        TmpIndexNode* node = (TmpIndexNode*)currentNode->children[encodedToken];
+        if (node == nullptr) {
             currentNode->children[encodedToken] = node = new TmpIndexNode();
         }
         currentNode = node;
     }
 
     const encoded_token_t& encodedToken = encodedFormula[size - 1];
-    TmpLeafNode* node = (TmpLeafNode*) currentNode->children[encodedToken];
-    if (node == NULL) {
+    TmpLeafNode* node = (TmpLeafNode*)currentNode->children[encodedToken];
+    if (node == nullptr) {
         currentNode->children[encodedToken] = node = new TmpLeafNode();
     }
 
     return node;
 }
 
-void
-TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
+void TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
     struct NodeContext {
         const TmpIndexNode* node;
         ContainerIterator<TmpIndexNode::_MapType> childrenIterator;
@@ -125,19 +118,19 @@ TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
             if (child->children.size() > 0) {  // internal node
                 dfsStack.push(NodeContext(child));
             } else {  // leaf node
-                const TmpLeafNode* leaf = (TmpLeafNode*) child;
-                lastOffset = memsector_write_leaf(mswr,
-                                                  leaf->solutions, leaf->id);
+                const TmpLeafNode* leaf = (TmpLeafNode*)child;
+                lastOffset =
+                    memsector_write_leaf(mswr, leaf->solutions, leaf->id);
                 dfsStack.top().childrenOffsets.push_back(lastOffset);
             }
         } else {
             const TmpIndexNode* node = dfsStack.top().node;
-            lastOffset = memsector_write_inode_begin(mswr,
-                                                     node->children.size());
+            lastOffset =
+                memsector_write_inode_begin(mswr, node->children.size());
             int i = 0;
             for (const auto& entry : node->children) {
-                memsector_write_inode_encoded_token_entry(mswr,
-                        entry.first, dfsStack.top().childrenOffsets[i]);
+                memsector_write_inode_encoded_token_entry(
+                    mswr, entry.first, dfsStack.top().childrenOffsets[i]);
                 i++;
             }
             memsector_write_inode_end(mswr);

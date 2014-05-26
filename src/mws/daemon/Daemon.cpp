@@ -27,13 +27,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <assert.h>
-#include <fcntl.h>              // File control operations
+#include <fcntl.h>  // File control operations
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>          // Primitive System datatypes
-#include <sys/stat.h>           // POSIX File characteristics
+#include <sys/types.h>  // Primitive System datatypes
+#include <sys/stat.h>   // POSIX File characteristics
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -58,24 +58,17 @@ using mws::xmlparser::writeXmlAnswset;
 
 #include "mws/daemon/Daemon.hpp"
 
-namespace mws { namespace daemon {
+namespace mws {
+namespace daemon {
 
-Config::Config() : useExperimentalQueryEngine(false) {
-}
+Config::Config() : useExperimentalQueryEngine(false) {}
 
-Daemon::Daemon() : _daemonHandler(NULL) {
-}
+Daemon::Daemon() : _daemonHandler(nullptr) {}
 
-static void cleanupMws() {
-    clearxmlparser();
-}
+static void cleanupMws() { clearxmlparser(); }
 
 class MemStream {
-    enum Mode {
-        MODE_WRITING,
-        MODE_READING_BUFFER,
-        MODE_READING_FILE
-    } _mode;
+    enum Mode { MODE_WRITING, MODE_READING_BUFFER, MODE_READING_FILE } _mode;
     char* _buffer;
     size_t _buffer_size;
     FILE* _input;
@@ -86,14 +79,16 @@ class MemStream {
         char* data;
         size_t size;
 
-        Buffer(char* data, size_t size) : data(data), size(size) {
-        }
+        Buffer(char* data, size_t size) : data(data), size(size) {}
     };
 
     MemStream()
-        : _mode(MODE_WRITING), _buffer(NULL), _buffer_size(0), _output(NULL) {
+        : _mode(MODE_WRITING),
+          _buffer(nullptr),
+          _buffer_size(0),
+          _output(nullptr) {
         _input = open_memstream(&_buffer, &_buffer_size);
-        assert(_input != NULL);
+        assert(_input != nullptr);
     }
 
     ~MemStream() {
@@ -110,20 +105,18 @@ class MemStream {
             assert(false);
             break;
         }
-        assert(_input == NULL);
-        assert(_output == NULL);
+        assert(_input == nullptr);
+        assert(_output == nullptr);
         free(_buffer);
     }
 
-    FILE* getInput() {
-        return _input;
-    }
+    FILE* getInput() { return _input; }
 
     FILE* getOutputFile() {
         closeWritingMode();
         _mode = MODE_READING_FILE;
         _output = fmemopen(_buffer, _buffer_size, "r");
-        assert(_output != NULL);
+        assert(_output != nullptr);
         return _output;
     }
 
@@ -135,7 +128,7 @@ class MemStream {
 
     Buffer releaseOutputBuffer() {
         Buffer buffer = getOutputBuffer();
-        _buffer = NULL;
+        _buffer = nullptr;
         return buffer;
     }
 
@@ -143,20 +136,18 @@ class MemStream {
     void closeWritingMode() {
         assert(_mode == MODE_WRITING);
         fclose(_input);
-        _input = NULL;
+        _input = nullptr;
     }
 
     void closeReadingFileMode() {
         assert(_mode == MODE_READING_FILE);
         fclose(_output);
-        _output = NULL;
+        _output = nullptr;
     }
 };
 
-static int
-my_MHD_AcceptPolicyCallback(void* cls,
-                            const sockaddr* addr,
-                            socklen_t addrlen) {
+static int my_MHD_AcceptPolicyCallback(void* cls, const sockaddr* addr,
+                                       socklen_t addrlen) {
     UNUSED(cls);
     UNUSED(addr);
     UNUSED(addrlen);
@@ -165,15 +156,12 @@ my_MHD_AcceptPolicyCallback(void* cls,
     return MHD_YES;
 }
 
-static int
-my_MHD_AccessHandlerCallback(void*                  cls,
-                             struct MHD_Connection* connection,
-                             const char*            url,
-                             const char*            method,
-                             const char*            version,
-                             const char*            upload_data,
-                             size_t*                upload_data_size,
-                             void**                 ptr) {
+static int my_MHD_AccessHandlerCallback(void* cls,
+                                        struct MHD_Connection* connection,
+                                        const char* url, const char* method,
+                                        const char* version,
+                                        const char* upload_data,
+                                        size_t* upload_data_size, void** ptr) {
     UNUSED(url);
     UNUSED(version);
 
@@ -188,11 +176,11 @@ my_MHD_AccessHandlerCallback(void*                  cls,
     }
 
     // Allocate handler data
-    if (*ptr == NULL) {
+    if (*ptr == nullptr) {
         *ptr = new MemStream();
         return MHD_YES;
     }
-    MemStream* memstream = (MemStream*) *ptr;
+    MemStream* memstream = (MemStream*)*ptr;
 
     // Process data
     if (*upload_data_size) {
@@ -204,7 +192,7 @@ my_MHD_AccessHandlerCallback(void*                  cls,
                 return MHD_NO;
             }
 
-            upload_data       += nbytes;
+            upload_data += nbytes;
             *upload_data_size -= nbytes;
         }
         return MHD_YES;
@@ -215,19 +203,19 @@ my_MHD_AccessHandlerCallback(void*                  cls,
     delete memstream;
 
     // Check if query failed or is empty
-    if (mwsQuery == NULL || mwsQuery->tokens.size() == 0) {
+    if (mwsQuery == nullptr || mwsQuery->tokens.size() == 0) {
         PRINT_WARN("Bad query request\n");
         return sendXmlGenericResponse(connection, XML_MWS_BAD_QUERY,
                                       MHD_HTTP_BAD_REQUEST);
     }
 
-    // Process query
+// Process query
 #ifdef APPLY_RESTRICTIONS
     mwsQuery->applyRestrictions();
 #endif
-    Daemon* daemon = (Daemon*) cls;
+    Daemon* daemon = (Daemon*)cls;
     unique_ptr<MwsAnswset> answset(daemon->handleQuery(mwsQuery.get()));
-    if (answset == NULL) {
+    if (answset == nullptr) {
         PRINT_WARN("Error while obtaining answer set\n");
         return sendXmlGenericResponse(connection, XML_MWS_SERVER_ERROR,
                                       MHD_HTTP_INTERNAL_SERVER_ERROR);
@@ -273,16 +261,15 @@ my_MHD_AccessHandlerCallback(void*                  cls,
         MHD_add_response_header(response, "Content-Type", "text/xml");
         break;
     case DATAFORMAT_JSON:
-        MHD_add_response_header(response,
-                                "Content-Type", "application/json");
+        MHD_add_response_header(response, "Content-Type", "application/json");
         break;
     default:
         MHD_add_response_header(response, "Content-Type", "text/xml");
         break;
     }
     MHD_add_response_header(response, "Access-Control-Allow-Origin", "*");
-    MHD_add_response_header(response,
-                            "Cache-Control", "no-cache, must-revalidate");
+    MHD_add_response_header(response, "Cache-Control",
+                            "no-cache, must-revalidate");
     ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
     MHD_destroy_response(response);
 
@@ -290,7 +277,7 @@ my_MHD_AccessHandlerCallback(void*                  cls,
 }
 
 Daemon::~Daemon() {
-    if (_daemonHandler != NULL) {
+    if (_daemonHandler != nullptr) {
         MHD_stop_daemon(_daemonHandler);
     }
 }
@@ -306,16 +293,11 @@ int Daemon::startAsync(const Config& config) {
     if (config.enableIpv6) {
         mhd_flags |= MHD_USE_IPv6;
     }
-    _daemonHandler = MHD_start_daemon(mhd_flags,
-                                      config.mwsPort,
-                                      my_MHD_AcceptPolicyCallback,
-                                      NULL,
-                                      my_MHD_AccessHandlerCallback,
-                                      this,
-                                      MHD_OPTION_CONNECTION_LIMIT,
-                                      20,
-                                      MHD_OPTION_END);
-    if (_daemonHandler == NULL) {
+    _daemonHandler =
+        MHD_start_daemon(mhd_flags, config.mwsPort, my_MHD_AcceptPolicyCallback,
+                         nullptr, my_MHD_AccessHandlerCallback, this,
+                         MHD_OPTION_CONNECTION_LIMIT, 20, MHD_OPTION_END);
+    if (_daemonHandler == nullptr) {
         return -1;
     }
 
@@ -323,9 +305,9 @@ int Daemon::startAsync(const Config& config) {
 }
 
 void Daemon::stop() {
-    if (_daemonHandler != NULL) {
+    if (_daemonHandler != nullptr) {
         MHD_stop_daemon(_daemonHandler);
-        _daemonHandler = NULL;
+        _daemonHandler = nullptr;
     }
 }
 

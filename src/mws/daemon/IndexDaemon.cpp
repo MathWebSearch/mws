@@ -35,9 +35,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/types.h>          // Primitive System datatypes
-#include <sys/stat.h>           // POSIX File characteristics
-#include <fcntl.h>              // File control operations
+#include <sys/types.h>  // Primitive System datatypes
+#include <sys/stat.h>   // POSIX File characteristics
+#include <fcntl.h>      // File control operations
 #include <stdlib.h>
 
 #include <string>
@@ -84,27 +84,25 @@ using mws::types::FormulaPath;
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/daemon/IndexDaemon.hpp"
 
-namespace mws { namespace daemon {
+namespace mws {
+namespace daemon {
 
 struct HandlerStruct {
-    MwsAnswset*     result;
-    MwsQuery*       mwsQuery;
+    MwsAnswset* result;
+    MwsQuery* mwsQuery;
     DbQueryManager* dbQueryManager;
 };
 
-static
-result_cb_return_t result_callback(void* _ctxt,
-                                   const leaf_t * leaf) {
+static result_cb_return_t result_callback(void* _ctxt, const leaf_t* leaf) {
     assert(leaf->type == LEAF_NODE);
 
-    HandlerStruct *ctxt = reinterpret_cast<HandlerStruct *>(_ctxt);
+    HandlerStruct* ctxt = reinterpret_cast<HandlerStruct*>(_ctxt);
     MwsAnswset* result = ctxt->result;
     MwsQuery* mwsQuery = ctxt->mwsQuery;
     DbQueryManager* dbQueryManager = ctxt->dbQueryManager;
-    DbAnswerCallback queryCallback =
-            [result](const FormulaPath& formulaPath,
-                     const CrawlData& crawlData) {
-        mws::types::Answer* answer = new mws::types::Answer();
+    DbAnswerCallback queryCallback = [result](const FormulaPath& formulaPath,
+                                              const CrawlData& crawlData) {
+        auto answer = new mws::types::Answer();
         answer->data = crawlData;
         answer->uri = formulaPath.xmlId;
         answer->xpath = formulaPath.xpath;
@@ -114,22 +112,20 @@ result_cb_return_t result_callback(void* _ctxt,
 
     dbQueryManager->query((FormulaId)leaf->formula_id,
                           mwsQuery->attrResultLimitMin,
-                          mwsQuery->attrResultMaxSize,
-                          queryCallback);
+                          mwsQuery->attrResultMaxSize, queryCallback);
     result->total += leaf->num_hits;
 
     return QUERY_CONTINUE;
 }
 
-MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
+MwsAnswset* IndexDaemon::handleQuery(MwsQuery* query) {
     MwsAnswset* result;
     QueryEncoder encoder(m_data->getMeaningDictionary());
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
-    if (encoder.encode(_config.indexingOptions,
-                       query->tokens[0],
-                       &encodedQuery, &queryInfo) == 0) {
+    if (encoder.encode(_config.indexingOptions, query->tokens[0], &encodedQuery,
+                       &queryInfo) == 0) {
         if (_config.useExperimentalQueryEngine) {
             HandlerStruct ctxt;
             ctxt.result = result = new MwsAnswset();
@@ -144,11 +140,10 @@ MwsAnswset* IndexDaemon::handleQuery(MwsQuery *query) {
                              result_callback, &ctxt);
         } else {
             SearchContext ctxt(encodedQuery);
-            result = ctxt.getResult<IndexAccessor>(m_data->getIndexHandle(),
-                                                   m_data->getDbQueryManager(),
-                                                   query->attrResultLimitMin,
-                                                   query->attrResultMaxSize,
-                                                   query->attrResultTotalReqNr);
+            result = ctxt.getResult<IndexAccessor>(
+                m_data->getIndexHandle(), m_data->getDbQueryManager(),
+                query->attrResultLimitMin, query->attrResultMaxSize,
+                query->attrResultTotalReqNr);
         }
     } else {
         result = new MwsAnswset();
@@ -164,18 +159,16 @@ int IndexDaemon::initMws(const Config& config) {
     int ret = Daemon::initMws(config);
     try {
         m_data = unique_ptr<IndexLoader>(new IndexLoader(config.dataPath));
-    } catch(const exception &e) {
+    } catch (const exception& e) {
         PRINT_WARN("%s\n", e.what());
         return EXIT_FAILURE;
     }
     return ret;
 }
 
-IndexDaemon::IndexDaemon() {
-}
+IndexDaemon::IndexDaemon() {}
 
-IndexDaemon::~IndexDaemon() {
-}
+IndexDaemon::~IndexDaemon() {}
 
 }  // namespace daemon
 }  // namespace mws

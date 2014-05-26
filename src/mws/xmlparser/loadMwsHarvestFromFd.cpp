@@ -37,7 +37,6 @@ using std::vector;
 #include <utility>
 using std::pair;
 
-
 #include "mws/dbc/CrawlDb.hpp"
 using mws::dbc::CrawlId;
 #include "mws/index/IndexBuilder.hpp"
@@ -55,17 +54,17 @@ namespace parser {
 
 class HarvestIndexer : public HarvestProcessor {
  public:
-    int processExpression(const CmmlToken *tok,
-                          const string &exprUri, const uint32_t &crawlId);
-    CrawlId processData(const string &data);
+    int processExpression(const CmmlToken* tok, const string& exprUri,
+                          const uint32_t& crawlId);
+    CrawlId processData(const string& data);
     explicit HarvestIndexer(IndexBuilder* indexBuilder);
+
  private:
     IndexBuilder* indexBuilder;
 };
 
-HarvestIndexer::HarvestIndexer(index::IndexBuilder* indexBuilder) :
-    indexBuilder(indexBuilder) {
-}
+HarvestIndexer::HarvestIndexer(index::IndexBuilder* indexBuilder)
+    : indexBuilder(indexBuilder) {}
 
 int HarvestIndexer::processExpression(const CmmlToken* token,
                                       const string& exprUri,
@@ -73,13 +72,12 @@ int HarvestIndexer::processExpression(const CmmlToken* token,
     return indexBuilder->indexContentMath(token, exprUri, crawlId);
 }
 
-CrawlId HarvestIndexer::processData(const string &data) {
+CrawlId HarvestIndexer::processData(const string& data) {
     return indexBuilder->indexCrawlData(data);
 }
 
-
-pair<int,int>
-loadMwsHarvestFromFd(mws::index::IndexBuilder *indexBuilder, int fd) {
+pair<int, int> loadMwsHarvestFromFd(mws::index::IndexBuilder* indexBuilder,
+                                    int fd) {
     HarvestProcessor* harvestIndexer = new HarvestIndexer(indexBuilder);
 
     auto ret = processMwsHarvest(fd, harvestIndexer);

@@ -67,56 +67,44 @@ using mws::dbc::CrawlData;
 namespace mws {
 namespace index {
 
-IndexLoader::IndexLoader(const std::string& path,
-                         const LoadingOptions& options)
+IndexLoader::IndexLoader(const std::string& path, const LoadingOptions& options)
     : m_meaningDictionary(path + "/" + MEANING_DICTIONARY_FILE) {
     UNUSED(options);
 
-    LevFormulaDb* formulaDb = new LevFormulaDb();
+    auto formulaDb = new LevFormulaDb();
     m_formulaDb = unique_ptr<FormulaDb>(formulaDb);
     formulaDb->open((path + "/" + FORMULA_DB_FILE).c_str());
 
-    LevCrawlDb* crawlDb = new LevCrawlDb();
+    auto crawlDb = new LevCrawlDb();
     m_crawlDb = unique_ptr<CrawlDb>(crawlDb);
     crawlDb->open((path + "/" + CRAWL_DB_FILE).c_str());
 
-    m_dbQueryManager = unique_ptr<DbQueryManager>
-            (new DbQueryManager(crawlDb, formulaDb));
+    m_dbQueryManager =
+        unique_ptr<DbQueryManager>(new DbQueryManager(crawlDb, formulaDb));
 
     if (memsector_load(&m_memsectorHandler,
                        (path + "/" + INDEX_MEMSECTOR_FILE).c_str()) != 0) {
-        throw runtime_error("Error while loading memsector " +
-                            path + "/" + INDEX_MEMSECTOR_FILE);
+        throw runtime_error("Error while loading memsector " + path + "/" +
+                            INDEX_MEMSECTOR_FILE);
     }
 
     m_index.ms = m_memsectorHandler.ms;
     m_index.root = memsector_get_root(&m_memsectorHandler);
 }
 
-IndexLoader::~IndexLoader() {
-    memsector_unload(&m_memsectorHandler);
-}
+IndexLoader::~IndexLoader() { memsector_unload(&m_memsectorHandler); }
 
-dbc::DbQueryManager*
-IndexLoader::getDbQueryManager() {
+dbc::DbQueryManager* IndexLoader::getDbQueryManager() {
     return m_dbQueryManager.get();
 }
 
-index_handle_t*
-IndexLoader::getIndexHandle() {
-    return &m_index;
-}
+index_handle_t* IndexLoader::getIndexHandle() { return &m_index; }
 
-MeaningDictionary*
-IndexLoader::getMeaningDictionary() {
+MeaningDictionary* IndexLoader::getMeaningDictionary() {
     return &m_meaningDictionary;
 }
 
-FormulaDb*
-IndexLoader::getFormulaDb() {
-    return m_formulaDb.get();
-}
+FormulaDb* IndexLoader::getFormulaDb() { return m_formulaDb.get(); }
 
 }  // namespace index
 }  // namespace mws
-

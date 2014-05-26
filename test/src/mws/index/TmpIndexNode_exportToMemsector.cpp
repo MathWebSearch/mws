@@ -47,21 +47,18 @@ using common::utils::FlagParser;
 
 #include "build-gen/config.h"
 
-#define DEFAULT_TMP_MEMSECTOR_PATH  "/tmp/test.memsector"
-#define DEFAULT_HARVEST_PATH        MWS_TESTDATA_PATH
+#define DEFAULT_TMP_MEMSECTOR_PATH "/tmp/test.memsector"
+#define DEFAULT_HARVEST_PATH MWS_TESTDATA_PATH
 
 using namespace mws;
 
-
-
 struct Tester {
-    static const memsector_header_t *ms;
+    static const memsector_header_t* ms;
 
-    static inline
-    bool memsector_inode_consistent(const TmpIndexNode* tmp_node,
-                                    memsector_off_t off) {
+    static inline bool memsector_inode_consistent(const TmpIndexNode* tmp_node,
+                                                  memsector_off_t off) {
         if (tmp_node->children.size() > 0) {  // child
-            inode_t* inode = (inode_t*) memsector_off2addr(ms, off);
+            inode_t* inode = (inode_t*)memsector_off2addr(ms, off);
             if (inode->type != INTERNAL_NODE) {
                 PRINT_LOG("inode at offset %" PRIu32 " corrupted!\n", off);
                 return false;
@@ -69,11 +66,11 @@ struct Tester {
             if (tmp_node->children.size() != inode->size) return false;
             int i = 0;
             for (auto& kv : tmp_node->children) {
-                MeaningId           meaningId  = kv.first.id;
-                Arity               arity      = kv.first.arity;
+                MeaningId meaningId = kv.first.id;
+                Arity arity = kv.first.arity;
 
                 if (meaningId != inode->data[i].token.id) return false;
-                if (arity     != inode->data[i].token.arity) return false;
+                if (arity != inode->data[i].token.arity) return false;
 
                 i++;
             }
@@ -90,20 +87,19 @@ struct Tester {
             }
             return true;
         } else {  // leaf
-            leaf_t *leaf = (leaf_t*) memsector_off2addr(ms, off);
+            leaf_t* leaf = (leaf_t*)memsector_off2addr(ms, off);
             if (leaf->type != LEAF_NODE) {
                 PRINT_LOG("leaf node at offset %" PRIu32 " corrupted!\n", off);
                 return false;
             }
-            TmpLeafNode* tmpLeaf = (TmpLeafNode*) tmp_node;
+            TmpLeafNode* tmpLeaf = (TmpLeafNode*)tmp_node;
             return ((tmpLeaf->id == leaf->formula_id) &&
                     (tmpLeaf->solutions == leaf->num_hits));
         }
     }
 
-    static inline
-    int test_memsector_consistency(TmpIndex* data,
-                                   memsector_handle_t* msHandle) {
+    static inline int test_memsector_consistency(TmpIndex* data,
+                                                 memsector_handle_t* msHandle) {
         ms = msHandle->ms;
         if (Tester::memsector_inode_consistent(data->mRoot, ms->root_off))
             return 0;
@@ -126,9 +122,9 @@ int main(int argc, char* argv[]) {
     string harvest_path;
     string tmp_memsector_path;
 
-    FlagParser::addFlag('I', "include-harvest-path",    FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('O', "tmp-memsector-path",      FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('c', "enable-ci-renaming",      FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('I', "include-harvest-path", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('O', "tmp-memsector-path", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('c', "enable-ci-renaming", FLAG_OPT, ARG_REQ);
 
     if (FlagParser::parse(argc, argv) != 0) {
         PRINT_LOG("%s", FlagParser::getUsage().c_str());
@@ -139,7 +135,7 @@ int main(int argc, char* argv[]) {
         harvest_path = FlagParser::getArg('I');
     } else {
         PRINT_LOG("Using default include harvest path %s\n",
-                DEFAULT_HARVEST_PATH);
+                  DEFAULT_HARVEST_PATH);
         harvest_path = DEFAULT_HARVEST_PATH;
     }
 
@@ -147,7 +143,7 @@ int main(int argc, char* argv[]) {
         tmp_memsector_path = FlagParser::getArg('O');
     } else {
         PRINT_LOG("Using default temporary memsector path %s\n",
-                DEFAULT_TMP_MEMSECTOR_PATH);
+                  DEFAULT_TMP_MEMSECTOR_PATH);
         tmp_memsector_path = DEFAULT_TMP_MEMSECTOR_PATH;
     }
 
@@ -160,17 +156,15 @@ int main(int argc, char* argv[]) {
     crawlDb = new dbc::MemCrawlDb();
     formulaDb = new dbc::MemFormulaDb();
     meaningDictionary = new MeaningDictionary();
-    indexBuilder = new index::IndexBuilder(formulaDb, crawlDb,
-                                           &data, meaningDictionary,
-                                           indexingOptions);
+    indexBuilder = new index::IndexBuilder(formulaDb, crawlDb, &data,
+                                           meaningDictionary, indexingOptions);
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(tmp_memsector_path.c_str()) != 0 && errno != ENOENT);
 
-    FAIL_ON(parser::loadMwsHarvestFromDirectory(indexBuilder,
-                                                AbsPath(harvest_path),
-                                                ".harvest",
-                                                /* recursive = */ false) <= 0);
+    FAIL_ON(parser::loadMwsHarvestFromDirectory(
+                indexBuilder, AbsPath(harvest_path), ".harvest",
+                /* recursive = */ false) <= 0);
     FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str()) != 0);
     data.exportToMemsector(&mswr);
     printf("Index exported to memsector %s (%" PRIu64 "b)\n",

@@ -45,9 +45,8 @@ qvars: P,Q
 */
 
 struct Tester {
-    static inline
-    index::TmpIndex* create_test_MwsIndexNode() {
-        index::TmpIndex* data = new index::TmpIndex();
+    static inline index::TmpIndex* create_test_MwsIndexNode() {
+        auto data = new index::TmpIndex();
         index::TmpLeafNode* leaf;
 
         leaf = data->insertData({F_tok});
@@ -75,9 +74,7 @@ static encoded_formula_t create_test_query() {
     return result;
 }
 
-static
-result_cb_return_t result_callback(void* handle,
-                                   const leaf_t * leaf) {
+static result_cb_return_t result_callback(void* handle, const leaf_t* leaf) {
     UNUSED(handle);
     UNUSED(leaf);
 
@@ -91,7 +88,6 @@ int main() {
     mws::index::TmpIndex* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
-    return 0; // TODO remove after test is running
-    return query_engine_tester(index, &query, result_callback, NULL);
+    return 0;  // TODO remove after test is running
+    return query_engine_tester(index, &query, result_callback, nullptr);
 }
-

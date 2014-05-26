@@ -68,7 +68,7 @@ struct TmpIndexAccessor {
         UNUSED(index);
         auto it = node->children.find(token);
         if (it == node->children.end()) {
-            return NULL;
+            return nullptr;
         } else {
             return it->second;
         }

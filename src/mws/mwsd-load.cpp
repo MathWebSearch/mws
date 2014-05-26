@@ -50,21 +50,21 @@ static void catch_sigint(int sig) {
 }
 
 int main(int argc, char* argv[]) {
-    sigset_t              mask, old_mask;
-    struct sigaction      sa, old_sa1, old_sa2;
-    int                   ret;
+    sigset_t mask, old_mask;
+    struct sigaction sa, old_sa1, old_sa2;
+    int ret;
     mws::daemon::Config config;
     mws::daemon::IndexDaemon daemon;
 
     // Parsing the flags
-    FlagParser::addFlag('m', "mws-port",             FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('m', "mws-port", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('x', "experimental-query-engine", FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('I', "index-path",           FLAG_REQ, ARG_REQ);
-    FlagParser::addFlag('i', "pid-file",             FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('l', "log-file",             FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('6', "enable-ipv6",          FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('I', "index-path", FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('i', "pid-file", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('l', "log-file", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('6', "enable-ipv6", FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
-    FlagParser::addFlag('d', "daemonize",            FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('d', "daemonize", FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
 
     if ((ret = FlagParser::parse(argc, argv)) != 0) {
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
     // mws-port
     if (FlagParser::hasArg('m')) {
         int mwsPort = atoi(FlagParser::getArg('m').c_str());
-        if (mwsPort > 0 && mwsPort < (1<<16)) {
+        if (mwsPort > 0 && mwsPort < (1 << 16)) {
             config.mwsPort = mwsPort;
         } else {
             PRINT_WARN("Invalid port \"%s\"\n",
@@ -97,12 +97,12 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('l')) {
         PRINT_LOG("Redirecting output to %s\n",
                   FlagParser::getArg('l').c_str());
-        if (freopen(FlagParser::getArg('l').c_str(), "w", stderr) == NULL) {
+        if (freopen(FlagParser::getArg('l').c_str(), "w", stderr) == nullptr) {
             PRINT_WARN("ERROR: Unable to redirect stderr to %s\n",
                        FlagParser::getArg('l').c_str());
             goto failure;
         }
-        if (freopen(FlagParser::getArg('l').c_str(), "w", stdout) == NULL) {
+        if (freopen(FlagParser::getArg('l').c_str(), "w", stdout) == nullptr) {
             PRINT_WARN("ERROR: Unable to redirect stdout to %s\n",
                        FlagParser::getArg('l').c_str());
             goto failure;
@@ -149,21 +149,18 @@ int main(int argc, char* argv[]) {
     // Block the signals and actions
     if (sigprocmask(SIG_BLOCK, &mask, &old_mask) == -1)
         PRINT_WARN("sigprocmask - SIG_BLOCK");
-    if (sigaction(SIGINT, &sa, &old_sa1) == -1)
-        PRINT_WARN("sigaction - open");
-    if (sigaction(SIGTERM, &sa, &old_sa2) == -1)
-        PRINT_WARN("sigaction - open");
+    if (sigaction(SIGINT, &sa, &old_sa1) == -1) PRINT_WARN("sigaction - open");
+    if (sigaction(SIGTERM, &sa, &old_sa2) == -1) PRINT_WARN("sigaction - open");
 
     // Waiting for SIGINT / SIGTERM
-    while (!sigQuit)
-        sigsuspend(&old_mask);
+    while (!sigQuit) sigsuspend(&old_mask);
 
     // UNBLOCK the signals and actions
-    if (sigprocmask(SIG_SETMASK, &old_mask, NULL) == -1)
+    if (sigprocmask(SIG_SETMASK, &old_mask, nullptr) == -1)
         PRINT_WARN("sigprocmask - SIG_SETMASK");
-    if (sigaction(SIGINT, &old_sa1, NULL) == -1)
+    if (sigaction(SIGINT, &old_sa1, nullptr) == -1)
         PRINT_WARN("sigaction - close");
-    if (sigaction(SIGINT, &old_sa2, NULL) == -1)
+    if (sigaction(SIGINT, &old_sa2, nullptr) == -1)
         PRINT_WARN("sigaction - close");
 
     daemon.stop();

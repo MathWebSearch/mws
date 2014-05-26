@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-/** 
+/**
  * Implementation of the Crawler Class
  *
  * authors: Daniel Hasegan and Catalin Perticas
@@ -27,7 +27,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // System includes
-#include <string> // stl
+#include <string>  // stl
 #include <vector>
 #include <queue>
 #include <set>
@@ -50,40 +50,36 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // Namespaces
 using namespace std;
 
-namespace mws 
-{
+namespace mws {
 /**
  * Implementation of the constructor
  */
 Crawler::Crawler() {
-
     receivedProperties = 0;
     MAX_URLS_TO_CRAWL = INT_MAX;
     store_mathml_tags();
-    rtxt = NULL;
+    rtxt = nullptr;
 }
 
 /**
  * Implementation of the Destructor
  */
 Crawler::~Crawler() {
-
-    if ( currentMathFormulae.size() )
-    {
+    if (currentMathFormulae.size()) {
         storeMath(currentMathFormulae);
         currentMathFormulae.clear();
     }
 
-    //empty url_queue - not necessary anymore since all links in queue are processed
-    while (!url_queue.empty()){
+    // empty url_queue - not necessary anymore since all links in queue are
+    // processed
+    while (!url_queue.empty()) {
         url_queue.pop();
     }
     all_urls.clear();
     // delete rtxt
-    if (rtxt != NULL)
-    {
+    if (rtxt != nullptr) {
         delete rtxt;
-        rtxt = NULL;
+        rtxt = nullptr;
     }
     // empty mathml_tags
     mathml_tags.clear();
@@ -92,13 +88,11 @@ Crawler::~Crawler() {
 /**
  * Implementation of addURLStart
  */
-void Crawler::addURLStart( string urlstart )
-{
+void Crawler::addURLStart(string urlstart) {
     URL_START = GURL(urlstart);
-    if (!URL_START.is_valid())
-    {
+    if (!URL_START.is_valid()) {
         PRINT_WARN("The Starting URL is not valid!\n");
-        return ;
+        return;
     }
     rtxt = new Robotstxt(URL_START);
     receivedProperties = 1;
@@ -107,12 +101,10 @@ void Crawler::addURLStart( string urlstart )
 /**
  * Implementation of addCrawlerCount
  */
-void Crawler::addCrawlerCount(int cnt)
-{
-    if (cnt < 0)
-    {
+void Crawler::addCrawlerCount(int cnt) {
+    if (cnt < 0) {
         PRINT_WARN("The count is less than 0 ... we use infinite instead\n");
-        return ;
+        return;
     }
     MAX_URLS_TO_CRAWL = cnt;
 }
@@ -120,16 +112,12 @@ void Crawler::addCrawlerCount(int cnt)
 /**
  * Implementation of dontCrawl
  */
-void Crawler::dontCrawl(string link) 
-{
-    rtxt->dont_allow(link);
-}
+void Crawler::dontCrawl(string link) { rtxt->dont_allow(link); }
 
 /**
  * Implementation of addDataDirectory
  */
-void Crawler::addDataDirectory( const char* dataDir)
-{
+void Crawler::addDataDirectory(const char* dataDir) {
     data_directory = string(dataDir);
 }
 
@@ -137,10 +125,9 @@ void Crawler::addDataDirectory( const char* dataDir)
  * Implementation of start
  */
 void Crawler::start() {
-
     if (!receivedProperties) {
         PRINT_WARN("You didn't give the Crawler any properties!\n");
-        return ;
+        return;
     }
 
     int urlsCrawled = 0;
@@ -149,36 +136,34 @@ void Crawler::start() {
     url_queue.push(URL_START);
 
     while (!url_queue.empty() && urlsCrawled < MAX_URLS_TO_CRAWL) {
-
         // get the next URL from the queue
         GURL current_url = url_queue.front();
         cout << "Downloading " << current_url << endl;
         url_queue.pop();
-        urlsCrawled ++ ;
+        urlsCrawled++;
 
         // retrieve page found at URL
         Page myPage(current_url);
 
         // retrieve math content from page and add it
-        vector <string> mmath = get_math (myPage);
-        addMath (mmath);
+        vector<string> mmath = get_math(myPage);
+        addMath(mmath);
 
         // extract links from page and add valid ones to the queue
-        vector <GURL> page_links = myPage.getLinks();
+        vector<GURL> page_links = myPage.getLinks();
 
-        cleanupLinks (page_links);
-        cout << ">>> We have extracted " << page_links.size() << " good links" << endl;
-        vector <GURL>::iterator it;
-        for ( it = page_links.begin(); it != page_links.end() ; ++it )
-        {
+        cleanupLinks(page_links);
+        cout << ">>> We have extracted " << page_links.size() << " good links"
+             << endl;
+        vector<GURL>::iterator it;
+        for (it = page_links.begin(); it != page_links.end(); ++it) {
             GURL url_to_add = (*it);
             url_queue.push(url_to_add);
             all_urls.insert(getQueryable(url_to_add));
         }
     }
 
-
-    storeMath ( currentMathFormulae );
+    storeMath(currentMathFormulae);
     currentMathFormulae.clear();
     cout << "======Crawling complete!======\n";
     cout << "We scanned " << urlsCrawled << " pages!\n";
@@ -190,13 +175,10 @@ void Crawler::start() {
 /**
  * Implementation of run
  */
-void Crawler::run(SharedQueue *sq,const char* dataDir)
-{
-    while (true)
-    {
-        while ( (*sq).sharedQueue.empty() )
-        {
-            sleep(1); // TODO
+void Crawler::run(SharedQueue* sq, const char* dataDir) {
+    while (true) {
+        while ((*sq).sharedQueue.empty()) {
+            sleep(1);  // TODO
         }
 
         QueueNode qNode = (*sq).sharedQueue.front();
@@ -207,11 +189,10 @@ void Crawler::run(SharedQueue *sq,const char* dataDir)
 
         Crawler newCrawler;
 
-        newCrawler.addURLStart( qNode.urlstart );
-        if (qNode.count != -1)
-            newCrawler.addCrawlerCount( qNode.count );
-        for(int i=0;i<qNode.dontcrawlnr;++i)
-            newCrawler.dontCrawl( qNode.dontcrawl[i] );
+        newCrawler.addURLStart(qNode.urlstart);
+        if (qNode.count != -1) newCrawler.addCrawlerCount(qNode.count);
+        for (int i = 0; i < qNode.dontcrawlnr; ++i)
+            newCrawler.dontCrawl(qNode.dontcrawl[i]);
         newCrawler.addDataDirectory(dataDir);
 
         newCrawler.start();
@@ -221,17 +202,15 @@ void Crawler::run(SharedQueue *sq,const char* dataDir)
 /**
  * Implementation of storeMath
  */
-void Crawler::storeMath(const char *xml)
-{
+void Crawler::storeMath(const char* xml) {
     stringstream strs;
-    strs << data_directory << "/harvest" << time(NULL) << ".xml";
+    strs << data_directory << "/harvest" << time(nullptr) << ".xml";
     string fileName;
     strs >> fileName;
-    FILE * f = fopen(fileName.c_str(), "w");
-    if (f == NULL)
-    {
+    FILE* f = fopen(fileName.c_str(), "w");
+    if (f == nullptr) {
         cerr << "Cannot open harvest file: " << fileName << endl;
-        return ;
+        return;
     }
     fwrite(xml, strlen(xml), sizeof(char), f);
     fclose(f);
@@ -240,12 +219,14 @@ void Crawler::storeMath(const char *xml)
 /**
  * Implementation of storeMath
  */
-void Crawler::storeMath(vector< string > &currentMF)
-{
+void Crawler::storeMath(vector<string>& currentMF) {
     vector<string>::iterator it;
 
-    string xmlHarvest = "<?xml version=\"1.0\" ?> <mws:harvest xmlns:m=\"http://www.w3.org/1998/Math/MathML\" xmlns:mws=\"http://search.mathweb.org/ns\"> ";
-    for(it = currentMF.begin() ; it != currentMF.end() ; it++)
+    string xmlHarvest =
+        "<?xml version=\"1.0\" ?> <mws:harvest "
+        "xmlns:m=\"http://www.w3.org/1998/Math/MathML\" "
+        "xmlns:mws=\"http://search.mathweb.org/ns\"> ";
+    for (it = currentMF.begin(); it != currentMF.end(); it++)
         xmlHarvest.append((*it));
     xmlHarvest.append("</mws:harvest>");
 
@@ -256,20 +237,20 @@ void Crawler::storeMath(vector< string > &currentMF)
 /**
  * Implementation of addMath
  */
-void Crawler::addMath(vector<string> formulae)
-{
+void Crawler::addMath(vector<string> formulae) {
     vector<string>::iterator it;
 
     cout << ">>> We have extracted " << formulae.size() << " math formulae \n";
 
-    if (formulae.size()) // if there is something to add, add
+    if (formulae.size())  // if there is something to add, add
     {
-        for(it = formulae.begin() ; it != formulae.end() ; it++)
-            currentMathFormulae.push_back( (*it) );
+        for (it = formulae.begin(); it != formulae.end(); it++)
+            currentMathFormulae.push_back((*it));
         formulae.clear();
     }
 
-    if (currentMathFormulae.size() >= MathPackLimit) // if there are enough harvests, send to MWSD
+    if (currentMathFormulae.size() >=
+        MathPackLimit)  // if there are enough harvests, send to MWSD
     {
         storeMath(currentMathFormulae);
         currentMathFormulae.clear();
@@ -279,31 +260,26 @@ void Crawler::addMath(vector<string> formulae)
 /**
  * Implementation of cleanupLinks
  */
-void Crawler::cleanupLinks(vector<GURL> &page_links)
-{
+void Crawler::cleanupLinks(vector<GURL>& page_links) {
     size_t pos = 0, i = 0;
-    vector<GURL>::iterator it,itpos;
+    vector<GURL>::iterator it, itpos;
     GURL current;
-    for(itpos = it = page_links.begin();it!=page_links.end();++i,++it)
-    {
+    for (itpos = it = page_links.begin(); it != page_links.end(); ++i, ++it) {
         current = (*it);
-        if (rtxt->is_allowed_by_robots_txt (current))
-            if (all_urls.find(getQueryable(current))==all_urls.end())
-            {
+        if (rtxt->is_allowed_by_robots_txt(current))
+            if (all_urls.find(getQueryable(current)) == all_urls.end()) {
                 page_links[pos++] = (*it);
                 itpos++;
             }
     }
-    page_links.erase(itpos,page_links.end());
+    page_links.erase(itpos, page_links.end());
 }
 
 /**
  * Implementation of getQueryable
  */
-string Crawler::getQueryable(GURL url)
-{
-    return url.path()+"?"+url.query();
+string Crawler::getQueryable(GURL url) {
+    return url.path() + "?" + url.query();
 }
 
-} // namespace mws
-
+}  // namespace mws

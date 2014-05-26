@@ -51,26 +51,26 @@ static void catch_sigint(int sig) {
 }
 
 int main(int argc, char* argv[]) {
-    sigset_t              mask, old_mask;
-    struct sigaction      sa, old_sa1, old_sa2;
-    int                   ret;
+    sigset_t mask, old_mask;
+    struct sigaction sa, old_sa1, old_sa2;
+    int ret;
     mws::daemon::Config config;
     mws::daemon::HarvestDaemon daemon;
 
     // Parsing the flags
-    FlagParser::addFlag('I', "include-harvest-path",    FLAG_REQ, ARG_REQ);
-    FlagParser::addFlag('p', "mws-port",                FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('D', "data-path",               FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('i', "pid-file",                FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('l', "log-file",                FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('r', "recursive",               FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('L', "leveldb",                 FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('c', "enable-ci-renaming",      FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('f', "delete-old-data",         FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('6', "enable-ipv6",             FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('p', "mws-port", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('D', "data-path", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('i', "pid-file", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('l', "log-file", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('r', "recursive", FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('L', "leveldb", FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('c', "enable-ci-renaming", FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('e', "harvest-file-extension", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('f', "delete-old-data", FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('6', "enable-ipv6", FLAG_OPT, ARG_NONE);
 #ifndef __APPLE__
-    FlagParser::addFlag('d', "daemonize",               FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('d', "daemonize", FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
 
     if ((ret = FlagParser::parse(argc, argv)) != 0) {
@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
     // mws-port
     if (FlagParser::hasArg('p')) {
         int mwsPort = atoi(FlagParser::getArg('p').c_str());
-        if (mwsPort > 0 && mwsPort < (1<<16)) {
+        if (mwsPort > 0 && mwsPort < (1 << 16)) {
             config.mwsPort = mwsPort;
         } else {
             fprintf(stderr, "Invalid port \"%s\"\n",
@@ -125,12 +125,12 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('l')) {
         fprintf(stderr, "Redirecting output to %s\n",
                 FlagParser::getArg('l').c_str());
-        if (freopen(FlagParser::getArg('l').c_str(), "w", stderr) == NULL) {
+        if (freopen(FlagParser::getArg('l').c_str(), "w", stderr) == nullptr) {
             fprintf(stderr, "ERROR: Unable to redirect stderr to %s\n",
                     FlagParser::getArg('l').c_str());
             goto failure;
         }
-        if (freopen(FlagParser::getArg('l').c_str(), "w", stdout) == NULL) {
+        if (freopen(FlagParser::getArg('l').c_str(), "w", stdout) == nullptr) {
             fprintf(stderr, "ERROR: Unable to redirect stdout to %s\n",
                     FlagParser::getArg('l').c_str());
             goto failure;
@@ -179,23 +179,22 @@ int main(int argc, char* argv[]) {
     sigaddset(&mask, SIGTERM);
     // Block the signals and actions
     if (sigprocmask(SIG_BLOCK, &mask, &old_mask) == -1)
-      fprintf(stderr, "sigprocmask - SIG_BLOCK");
+        fprintf(stderr, "sigprocmask - SIG_BLOCK");
     if (sigaction(SIGINT, &sa, &old_sa1) == -1)
-      fprintf(stderr, "sigaction - open");
+        fprintf(stderr, "sigaction - open");
     if (sigaction(SIGTERM, &sa, &old_sa2) == -1)
-      fprintf(stderr, "sigaction - open");
+        fprintf(stderr, "sigaction - open");
 
     // Waiting for SIGINT / SIGTERM
-    while (!sigQuit)
-      sigsuspend(&old_mask);
+    while (!sigQuit) sigsuspend(&old_mask);
 
     // UNBLOCK the signals and actions
-    if (sigprocmask(SIG_SETMASK, &old_mask, NULL) == -1)
-      fprintf(stderr, "sigprocmask - SIG_SETMASK");
-    if (sigaction(SIGINT, &old_sa1, NULL) == -1)
-      fprintf(stderr, "sigaction - close");
-    if (sigaction(SIGINT, &old_sa2, NULL) == -1)
-      fprintf(stderr, "sigaction - close");
+    if (sigprocmask(SIG_SETMASK, &old_mask, nullptr) == -1)
+        fprintf(stderr, "sigprocmask - SIG_SETMASK");
+    if (sigaction(SIGINT, &old_sa1, nullptr) == -1)
+        fprintf(stderr, "sigaction - close");
+    if (sigaction(SIGINT, &old_sa2, nullptr) == -1)
+        fprintf(stderr, "sigaction - close");
 
     daemon.stop();
     return EXIT_SUCCESS;

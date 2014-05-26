@@ -51,28 +51,26 @@ using std::vector;
 
 #include "util.hpp"
 
-namespace common { namespace utils {
+namespace common {
+namespace utils {
 
 bool hasSuffix(const std::string& str, const std::string& suffix) {
     return (str.length() >= suffix.length()) &&
-            (0 == str.compare(str.length() - suffix.length(),
-                              suffix.length(), suffix));
+           (0 ==
+            str.compare(str.length() - suffix.length(), suffix.length(),
+                        suffix));
 }
 
 void removeDuplicateSpaces(string* str) {
-    function<bool(char, char)> BothAreSpaces = [](char lhs, char rhs) {
-        return isspace(lhs) && isspace(rhs);
-    };
-    function<bool(char)> IsSpace = [](char ch) {
-        return isspace(ch);
-    };
+    function<bool(char, char)> BothAreSpaces = [](
+        char lhs, char rhs) { return isspace(lhs) && isspace(rhs); };
+    function<bool(char)> IsSpace = [](char ch) { return isspace(ch); };
     replace_if(str->begin(), str->end(), IsSpace, ' ');
     string::iterator new_end = unique(str->begin(), str->end(), BothAreSpaces);
     str->erase(new_end, str->end());
 }
 
-std::string
-getFileContents(const std::string& path) throw (runtime_error) {
+std::string getFileContents(const std::string& path) throw(runtime_error) {
     try {
         string contents;
         ifstream file;
@@ -96,9 +94,9 @@ struct FileData {
     string fullPath;
     string directoryPartialPath;
 
-    FileData(const string& fullPath, const string& directoryPartialPath)
-        : fullPath(fullPath), directoryPartialPath(directoryPartialPath) {
-    }
+    FileData(string fullPath, string directoryPartialPath)
+        : fullPath(std::move(fullPath)),
+          directoryPartialPath(std::move(directoryPartialPath)) {}
 };
 
 static int getPathsInDirectory(const std::string& directoryPath,
@@ -110,10 +108,10 @@ static int getPathsInDirectory(const std::string& directoryPath,
     vector<string> directories;
     vector<string> files;
 
-    FAIL_ON((directory = opendir(directoryPath.c_str())) == NULL);
+    FAIL_ON((directory = opendir(directoryPath.c_str())) == nullptr);
     while (1) {
         FAIL_ON(readdir_r(directory, &entryData, &currEntry) != 0);
-        if (currEntry == NULL) {
+        if (currEntry == nullptr) {
             // end of directory
             break;
         }
@@ -153,10 +151,9 @@ fail:
     return -1;
 }
 
-int
-foreachEntryInDirectory(const std::string& path,
-                        const FileCallback& fileCallback,
-                        const DirectoryCallback& directoryCallback) {
+int foreachEntryInDirectory(const std::string& path,
+                            const FileCallback& fileCallback,
+                            const DirectoryCallback& directoryCallback) {
     queue<string> directories;
     queue<FileData> files;
 
@@ -187,4 +184,3 @@ fail:
 
 }  // namespace utils
 }  // namespace common
-

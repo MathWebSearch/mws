@@ -42,22 +42,21 @@ query: f(h,h,t): (apply,4) (f,0) (P,0) (P,0) (t,0)
 static int g_num_hits;
 
 struct Tester {
-static
-index::TmpIndex* create_test_MwsIndexNode() {
-    index::TmpIndex* data = new index::TmpIndex();
-    index::TmpLeafNode* leaf;
+    static index::TmpIndex* create_test_MwsIndexNode() {
+        auto data = new index::TmpIndex();
+        index::TmpLeafNode* leaf;
 
-    leaf = data->insertData({f_tok});
-    leaf->solutions++;
-    leaf = data->insertData({t_tok});
-    leaf->solutions++;
-    leaf = data->insertData({h_tok});
-    leaf->solutions++;
-    leaf = data->insertData({apply4_tok, f_tok, h_tok, h_tok, t_tok});
-    leaf->solutions++;
+        leaf = data->insertData({f_tok});
+        leaf->solutions++;
+        leaf = data->insertData({t_tok});
+        leaf->solutions++;
+        leaf = data->insertData({h_tok});
+        leaf->solutions++;
+        leaf = data->insertData({apply4_tok, f_tok, h_tok, h_tok, t_tok});
+        leaf->solutions++;
 
-    return data;
-}
+        return data;
+    }
 };
 
 static encoded_formula_t create_test_query() {
@@ -74,9 +73,7 @@ static encoded_formula_t create_test_query() {
     return result;
 }
 
-static
-result_cb_return_t result_callback(void* handle,
-                                   const leaf_t * leaf) {
+static result_cb_return_t result_callback(void* handle, const leaf_t* leaf) {
     UNUSED(handle);
     UNUSED(leaf);
 
@@ -89,8 +86,8 @@ int main() {
     mws::index::TmpIndex* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
-    FAIL_ON(query_engine_tester(index, &query, result_callback, NULL)
-            == EXIT_FAILURE);
+    FAIL_ON(query_engine_tester(index, &query, result_callback, nullptr) ==
+            EXIT_FAILURE);
     FAIL_ON(g_num_hits != 1);
 
     return EXIT_SUCCESS;

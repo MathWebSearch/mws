@@ -45,40 +45,29 @@ namespace types {
 
 ParcelAllocator::ParcelAllocator() : mSize(0) {}
 
-void
-ParcelAllocator::reserve(const Parcelable& parcelable) {
+void ParcelAllocator::reserve(const Parcelable& parcelable) {
     mSize += parcelable.getParcelableSize();
 }
 
-void
-ParcelAllocator::reserve(const std::string& str) {
+void ParcelAllocator::reserve(const std::string& str) {
     mSize += sizeof(size_t) + str.size();
 }
 
-size_t
-ParcelAllocator::getSize() const {
-    return mSize;
-}
+size_t ParcelAllocator::getSize() const { return mSize; }
 
 // Parcel Encoder
 
-ParcelEncoder::ParcelEncoder(const ParcelAllocator& allocator) :
-    mSize(allocator.getSize()),
-    mData(new char[mSize]),
-    mCurr(mData) {}
+ParcelEncoder::ParcelEncoder(const ParcelAllocator& allocator)
+    : mSize(allocator.getSize()), mData(new char[mSize]), mCurr(mData) {}
 
-ParcelEncoder::~ParcelEncoder() {
-    delete []mData;
-}
+ParcelEncoder::~ParcelEncoder() { delete[] mData; }
 
-void
-ParcelEncoder::encode(const Parcelable& parcelable) {
+void ParcelEncoder::encode(const Parcelable& parcelable) {
     parcelable.writeToParcel(this);
     assert(mCurr <= mData + mSize);
 }
 
-void
-ParcelEncoder::encode(const std::string& str) {
+void ParcelEncoder::encode(const std::string& str) {
     size_t size = str.size();
     memcpy(mCurr, &size, sizeof(size_t));
     mCurr += sizeof(size_t);
@@ -87,37 +76,31 @@ ParcelEncoder::encode(const std::string& str) {
     assert(mCurr <= mData + mSize);
 }
 
-const char*
-ParcelEncoder::getData() const {
+const char* ParcelEncoder::getData() const {
     assert(mCurr == mData + mSize);
     return mData;
 }
 
-size_t
-ParcelEncoder::getSize() const {
+size_t ParcelEncoder::getSize() const {
     assert(mCurr == mData + mSize);
     return mSize;
 }
 
 // Parcel Decoder
 
-ParcelDecoder::ParcelDecoder(const char* data, size_t size) :
-    mSize(size),
-    mData(data),
-    mCurr(data) {
+ParcelDecoder::ParcelDecoder(const char* data, size_t size)
+    : mSize(size), mData(data), mCurr(data) {
     // Mark variables which are only used in debug build (assert)
     RELEASE_UNUSED(mSize);
     RELEASE_UNUSED(mData);
 }
 
-void
-ParcelDecoder::decode(Parcelable* parcelable) {
+void ParcelDecoder::decode(Parcelable* parcelable) {
     parcelable->readFromParcel(this);
     assert(mCurr <= mData + mSize);
 }
 
-void
-ParcelDecoder::decode(std::string* str) {
+void ParcelDecoder::decode(std::string* str) {
     size_t size;
     memcpy(&size, mCurr, sizeof(size_t));
     mCurr += sizeof(size_t);

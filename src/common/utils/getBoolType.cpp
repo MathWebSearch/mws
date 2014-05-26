@@ -30,42 +30,35 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <string>                      // C string header
+#include <string>  // C string header
 
 // Local includes
 
-#include "common/utils/getBoolType.hpp" // GetBoolType function declaration
+#include "common/utils/getBoolType.hpp"  // GetBoolType function declaration
 
 // Namespaces
 using namespace std;
 using namespace mws;
 
-BoolType
-getBoolType(string str)
-{
+BoolType getBoolType(string str) {
     BoolType result;
-    int   i;
+    int i;
     const pair<string, BoolType> values[] = {
-        make_pair("yes",   BOOL_YES),
-        make_pair("1"  ,   BOOL_YES),
-        make_pair("no" ,   BOOL_NO),
-        make_pair("0"  ,   BOOL_NO),
-        make_pair(""   ,   BOOL_DEFAULT),     // Flag to end array
+        make_pair("yes", BOOL_YES),  make_pair("1", BOOL_YES),
+        make_pair("no", BOOL_NO),    make_pair("0", BOOL_NO),
+        make_pair("", BOOL_DEFAULT),  // Flag to end array
     };
 
     result = BOOL_DEFAULT;
 
     // Lower-casing the buffer
-    for (i = 0; str[i] != '\0'; i++)
-    {
+    for (i = 0; str[i] != '\0'; i++) {
         str[i] = tolower(str[i]);
     }
 
     // Iterating through values
-    for (i = 0; values[i].second != BOOL_DEFAULT; i++)
-    {
-        if (str == values[i].first)
-        {
+    for (i = 0; values[i].second != BOOL_DEFAULT; i++) {
+        if (str == values[i].first) {
             result = values[i].second;
             break;
         }

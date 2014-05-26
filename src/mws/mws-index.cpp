@@ -25,7 +25,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 18 Jan 2014
   */
 
-
 #include <cinttypes>
 #include <stdexcept>
 using std::exception;
@@ -66,11 +65,11 @@ int main(int argc, char* argv[]) {
     std::filebuf fb;
     std::ostream os(&fb);
 
-    FlagParser::addFlag('o', "output-directory",        FLAG_REQ, ARG_REQ);
-    FlagParser::addFlag('I', "include-harvest-path",    FLAG_REQ, ARG_REQ);
-    FlagParser::addFlag('r', "recursive",               FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('e', "harvest-file-extension",  FLAG_OPT, ARG_REQ);
-    FlagParser::addFlag('c', "enable-ci-renaming",   FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('o', "output-directory", FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('r', "recursive", FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('e', "harvest-file-extension", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('c', "enable-ci-renaming", FLAG_OPT, ARG_NONE);
 
     string harvestExtension = "harvest";
     if (FlagParser::hasArg('e')) {
@@ -85,7 +84,7 @@ int main(int argc, char* argv[]) {
     }
 
     harvest_path = FlagParser::getArg('I');
-    output_dir   = FlagParser::getArg('o');
+    output_dir = FlagParser::getArg('o');
     indexingOptions.renameCi = FlagParser::hasArg('c');
 
     // if the path exists
@@ -105,11 +104,11 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        dbc::LevCrawlDb* crawlLevDb = new dbc::LevCrawlDb();
+        auto crawlLevDb = new dbc::LevCrawlDb();
         crawlLevDb->create_new((output_dir + "/" + CRAWL_DB_FILE).c_str(),
                                /* deleteIfExists = */ false);
         crawlDb = crawlLevDb;
-        dbc::LevFormulaDb* formulaLevDb = new dbc::LevFormulaDb();
+        auto formulaLevDb = new dbc::LevFormulaDb();
         formulaLevDb->create_new((output_dir + "/" + FORMULA_DB_FILE).c_str(),
                                  /* deleteIfExists = */ false);
         formulaDb = formulaLevDb;
@@ -145,4 +144,3 @@ int main(int argc, char* argv[]) {
 failure:
     return EXIT_FAILURE;
 }
-

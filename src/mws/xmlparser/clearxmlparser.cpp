@@ -28,14 +28,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <libxml/parser.h>             // LibXML parser headers
+#include <libxml/parser.h>  // LibXML parser headers
 
 // Local includes
 
-#include "clearxmlparser.hpp"          // MWS clearxmlparser header
+#include "clearxmlparser.hpp"  // MWS clearxmlparser header
 
-
-void mws::clearxmlparser()
-{
-    xmlCleanupParser();
-}
+void mws::clearxmlparser() { xmlCleanupParser(); }

@@ -76,11 +76,11 @@ std::string getEscapedTextFromNode(xmlDoc* doc, xmlNode* node);
 
 xmlNode* getNodeByXpath(xmlDoc* doc,
                         const std::string& xpath,
-                        xmlNode* contextNode = NULL);
+                        xmlNode* contextNode = nullptr);
 
 std::string getTextByXpath(xmlDoc* doc,
                            const std::string& xpath,
-                           xmlNode* contextNode = NULL);
+                           xmlNode* contextNode = nullptr);
 
 }  // namespace parser
 }  // namespace crawler

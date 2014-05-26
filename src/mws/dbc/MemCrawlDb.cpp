@@ -34,15 +34,12 @@ using std::to_string;
 
 using namespace std;
 
-namespace mws { namespace dbc {
+namespace mws {
+namespace dbc {
 
-MemCrawlDb::MemCrawlDb() : mNextCrawlId(CRAWLID_NULL) {
+MemCrawlDb::MemCrawlDb() : mNextCrawlId(CRAWLID_NULL) {}
 
-}
-
-CrawlId
-MemCrawlDb::putData(const CrawlData& crawlData)
-throw (std::exception) {
+CrawlId MemCrawlDb::putData(const CrawlData& crawlData) throw(std::exception) {
     const CrawlId crawlId = ++mNextCrawlId;
     auto ret = mData.insert(make_pair(crawlId, crawlData));
     if (!ret.second) {
@@ -53,8 +50,8 @@ throw (std::exception) {
     return crawlId;
 }
 
-const CrawlData MemCrawlDb::getData(const CrawlId& crawlId)
-throw (std::exception) {
+const CrawlData MemCrawlDb::getData(const CrawlId& crawlId) throw(
+    std::exception) {
     auto it = mData.find(crawlId);
     if (it != mData.end()) {
         return it->second;
@@ -63,6 +60,5 @@ throw (std::exception) {
                             to_string(crawlId));
     }
 }
-
-
-} }
+}
+}

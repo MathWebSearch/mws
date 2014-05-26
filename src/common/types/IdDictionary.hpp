@@ -80,16 +80,14 @@ public:
         std::vector<Key> keys;
         keys.resize(_map.size());
 
-        for (typename _MapContainer::const_iterator it = _map.begin();
-             it != _map.end();
-             it++) {
+        for (const auto & elem : _map) {
 
-            keys[it->second - 1] = it->first;
+            keys[elem.second - 1] = elem.first;
         }
 
         try {
-            for (int i = 0; i < (int)keys.size(); i++) {
-                out << keys[i] << '\0';
+            for (auto & key : keys) {
+                out << key << '\0';
             }
             out.flush();
         } catch (...) {

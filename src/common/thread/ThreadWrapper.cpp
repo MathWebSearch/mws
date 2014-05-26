@@ -30,32 +30,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include "ThreadWrapper.hpp"           // ThreadWrapper class definition
+#include "ThreadWrapper.hpp"  // ThreadWrapper class definition
 
 // Static definitions
 
 pthread_mutex_t ThreadWrapper::lock;
-pthread_cond_t  ThreadWrapper::threadReleased;
-bool            ThreadWrapper::active;
-unsigned int    ThreadWrapper::alive;
-
+pthread_cond_t ThreadWrapper::threadReleased;
+bool ThreadWrapper::active;
+unsigned int ThreadWrapper::alive;
 
 // Datatype used to pass Thread Data to the active thread
-struct thread_data
-{
+struct thread_data {
     void* (*start_routine)(void*);
     void* arg;
     ThreadWrapper* thread_wrapper;
 };
 
+int ThreadWrapper::init() {
+    if (pthread_mutex_init(&lock, nullptr)) return -1;
 
-int ThreadWrapper::init()
-{
-    if (pthread_mutex_init(&lock, NULL))
-        return -1;
-
-    if (pthread_cond_init(&threadReleased, NULL))
-    {
+    if (pthread_cond_init(&threadReleased, nullptr)) {
         pthread_mutex_destroy(&lock);
         return -2;
     }
@@ -66,23 +60,17 @@ int ThreadWrapper::init()
     return 0;
 }
 
-
-void ThreadWrapper::clean()
-{
+void ThreadWrapper::clean() {
     pthread_mutex_lock(&lock);
-    while (alive)
-    {
-        pthread_cond_wait(&threadReleased,
-                          &lock);
+    while (alive) {
+        pthread_cond_wait(&threadReleased, &lock);
     }
     active = false;
     pthread_mutex_unlock(&lock);
 }
 
-
-void* ThreadWrapper::startWrapper(void* ptr)
-{
-    struct thread_data* data = (struct thread_data*) ptr;
+void* ThreadWrapper::startWrapper(void* ptr) {
+    struct thread_data* data = (struct thread_data*)ptr;
 
     (data->start_routine)(data->arg);
 
@@ -91,20 +79,16 @@ void* ThreadWrapper::startWrapper(void* ptr)
     delete data;
     pthread_mutex_unlock(&ThreadWrapper::lock);
 
-    return NULL;
+    return nullptr;
 }
 
-
-ThreadWrapper::ThreadWrapper(void* (*start_routine)(void*),
-                             void* arg)
-{
-    thread_data*   data;
+ThreadWrapper::ThreadWrapper(void* (*start_routine)(void*), void* arg) {
+    thread_data* data;
     pthread_attr_t attr;
     int err;
 
     pthread_mutex_lock(&lock);
-    if (active)
-    {
+    if (active) {
         data = new thread_data;
         data->start_routine = start_routine;
         data->arg = arg;
@@ -113,12 +97,9 @@ ThreadWrapper::ThreadWrapper(void* (*start_routine)(void*),
         pthread_attr_init(&attr);
         pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
-        err = pthread_create(&currentThread,
-                             &attr,
-                             ThreadWrapper::startWrapper,
+        err = pthread_create(&currentThread, &attr, ThreadWrapper::startWrapper,
                              data);
-        if (err)
-        {
+        if (err) {
             pthread_attr_destroy(&attr);
             pthread_mutex_unlock(&lock);
             throw err;
@@ -131,24 +112,15 @@ ThreadWrapper::ThreadWrapper(void* (*start_routine)(void*),
     pthread_mutex_unlock(&lock);
 }
 
-
-ThreadWrapper::~ThreadWrapper()
-{
+ThreadWrapper::~ThreadWrapper() {
     alive--;
-    if (alive == 0)
-        pthread_cond_signal(&threadReleased);
+    if (alive == 0) pthread_cond_signal(&threadReleased);
 }
 
-
-int ThreadWrapper::run(void* (*start_routine)(void*),
-                       void* arg)
-{
-    try
-    {
+int ThreadWrapper::run(void* (*start_routine)(void*), void* arg) {
+    try {
         new ThreadWrapper(start_routine, arg);
-    }
-    catch (int err)
-    {
+    } catch (int err) {
         return err;
     }
 

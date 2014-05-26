@@ -31,13 +31,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <sys/types.h>                 // Primitive System datatypes
-#include <sys/stat.h>                  // POSIX File characteristics
-#include <fcntl.h>                     // File control operations
-#include <libxml/parser.h>             // LibXML parser header
+#include <sys/types.h>      // Primitive System datatypes
+#include <sys/stat.h>       // POSIX File characteristics
+#include <fcntl.h>          // File control operations
+#include <libxml/parser.h>  // LibXML parser header
 #include <stdlib.h>
 
-#include <string>                      // C++ String header
+#include <string>  // C++ String header
 #include <utility>
 
 // Local includes
@@ -70,8 +70,7 @@ using namespace std;
 using namespace mws;
 
 struct Tester {
-    static inline
-    bool ci_renaming_successful() {
+    static inline bool ci_renaming_successful() {
         dbc::MemCrawlDb crawlDb;
         dbc::MemFormulaDb formulaDb;
         index::TmpIndex data;
@@ -81,7 +80,7 @@ struct Tester {
         index::IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
                                          &meaningDictionary, indexingOptions);
         const string harvest_path =
-                (string) MWS_TESTDATA_PATH + "/ci_renaming.harvest";
+            (string)MWS_TESTDATA_PATH + "/ci_renaming.harvest";
         int fd;
         std::pair<int, int> ret;
         FAIL_ON(initxmlparser() != 0);
@@ -93,9 +92,9 @@ struct Tester {
         FAIL_ON(ret.second != 8);
         // Fail if the index is not as compressed as it should
         FAIL_ON(data.mRoot->children.size() != 4);
-        (void) close(fd);
+        (void)close(fd);
 
-        (void) clearxmlparser();
+        (void)clearxmlparser();
 
         return true;
 

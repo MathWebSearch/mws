@@ -43,25 +43,24 @@ static bool g_test_passed = false;
 static uint64_t g_result_leaf_id;
 
 struct Tester {
-static
-index::TmpIndex* create_test_MwsIndexNode() {
-    index::TmpIndex* data = new index::TmpIndex();
-    index::TmpLeafNode* leaf;
+    static index::TmpIndex* create_test_MwsIndexNode() {
+        auto data = new index::TmpIndex();
+        index::TmpLeafNode* leaf;
 
-    leaf = data->insertData({f_tok});
-    leaf->solutions++;
-    leaf = data->insertData({t_tok});
-    leaf->solutions++;
-    leaf = data->insertData({h_tok});
-    leaf->solutions++;
-    leaf = data->insertData({apply4_tok, f_tok, h_tok, h_tok, t_tok});
-    leaf->solutions++;
+        leaf = data->insertData({f_tok});
+        leaf->solutions++;
+        leaf = data->insertData({t_tok});
+        leaf->solutions++;
+        leaf = data->insertData({h_tok});
+        leaf->solutions++;
+        leaf = data->insertData({apply4_tok, f_tok, h_tok, h_tok, t_tok});
+        leaf->solutions++;
 
-    /* save expected result leafId */
-    g_result_leaf_id = leaf->id;
+        /* save expected result leafId */
+        g_result_leaf_id = leaf->id;
 
-    return data;
-}
+        return data;
+    }
 };
 
 static encoded_formula_t create_test_query() {
@@ -70,18 +69,16 @@ static encoded_formula_t create_test_query() {
 
     result.data = new encoded_token_t[5];
     result.size = 5;
-    result.data[0] = encoded_token(constantId, 4);      // apply, 4
-    result.data[1] = encoded_token(QVAR_ID_MIN, 0);     // P, 0
-    result.data[2] = encoded_token(++constantId, 0);    // h, 0
-    result.data[3] = encoded_token(constantId, 0);      // h, 0
-    result.data[4] = encoded_token(++constantId, 0);    // t, 0
+    result.data[0] = encoded_token(constantId, 4);    // apply, 4
+    result.data[1] = encoded_token(QVAR_ID_MIN, 0);   // P, 0
+    result.data[2] = encoded_token(++constantId, 0);  // h, 0
+    result.data[3] = encoded_token(constantId, 0);    // h, 0
+    result.data[4] = encoded_token(++constantId, 0);  // t, 0
 
     return result;
 }
 
-static
-result_cb_return_t result_callback(void* handle,
-                                   const leaf_t * leaf) {
+static result_cb_return_t result_callback(void* handle, const leaf_t* leaf) {
     UNUSED(handle);
 
     /* there is only 1 solution so getting here after the test has passed
@@ -103,5 +100,5 @@ int main() {
     mws::index::TmpIndex* index = Tester::create_test_MwsIndexNode();
     encoded_formula_t query = create_test_query();
 
-    return query_engine_tester(index, &query, result_callback, NULL);
+    return query_engine_tester(index, &query, result_callback, nullptr);
 }

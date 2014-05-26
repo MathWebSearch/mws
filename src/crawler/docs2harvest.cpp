@@ -59,11 +59,11 @@ const char DEFAULT_OUTPUT_DIRECTORY[] = ".";
 
 static HarvesterConfiguration readHarvesterConfigurationFile(string path);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     string outputDirectory = DEFAULT_OUTPUT_DIRECTORY;
     HarvesterConfiguration config;
 
-    FlagParser::addFlag('o', "output-directory",  FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('o', "output-directory", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('x', "document-uri-xpath", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('c', "config-file", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('n', "no-data", FLAG_OPT, ARG_NONE);
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
 
     string harvestPathTemplate = outputDirectory + "/harvest_XXXXXX.harvest";
     char* harvestPath = strdup(harvestPathTemplate.c_str());
-    FILE* harvestOutStream = NULL;
+    FILE* harvestOutStream = nullptr;
     int harvestFd = mkstemps(harvestPath, /* suffixlen = */ 8);
     if (harvestFd < 0) {
         perror("mkstemp");
@@ -99,15 +99,16 @@ int main(int argc, char *argv[]) {
     }
 
     harvestOutStream = fdopen(harvestFd, "w");
-    if (harvestOutStream == NULL) {
+    if (harvestOutStream == nullptr) {
         perror("fdopen");
         goto failure;
     }
 
-    fputs("<?xml version=\"1.0\" ?>\n"
-          "<mws:harvest xmlns:m=\"http://www.w3.org/1998/Math/MathML\"\n"
-          "             xmlns:mws=\"http://search.mathweb.org/ns\">\n",
-          harvestOutStream);
+    fputs(
+        "<?xml version=\"1.0\" ?>\n"
+        "<mws:harvest xmlns:m=\"http://www.w3.org/1998/Math/MathML\"\n"
+        "             xmlns:mws=\"http://search.mathweb.org/ns\">\n",
+        harvestOutStream);
     {
         const vector<string>& files = FlagParser::getParams();
         int data_id = 0;
@@ -121,8 +122,8 @@ int main(int argc, char *argv[]) {
                 for (const string& element : harvest.contentMathElements) {
                     fputs(element.c_str(), harvestOutStream);
                 }
-                PRINT_LOG("Parsed %s: %zd math elements\n",
-                          file.c_str(), harvest.contentMathElements.size());
+                PRINT_LOG("Parsed %s: %zd math elements\n", file.c_str(),
+                          harvest.contentMathElements.size());
             } catch (exception& e) {
                 PRINT_WARN("Parsing %s: %s\n", file.c_str(), e.what());
             }
@@ -146,18 +147,18 @@ failure:
 
 static json_object* getJsonChild(json_object* json_parent, const char* key) {
     json_object* child = json_object_object_get(json_parent, key);
-    if (child != NULL) {
+    if (child != nullptr) {
         return child;
     } else {
         PRINT_WARN("Cannot find key \"%s\"\n", key);
-        return NULL;
+        return nullptr;
     }
 }
 
 static bool getJsonBool(json_object* json_parent, const char* key) {
     bool value = false;
     json_object* json_bool_object = getJsonChild(json_parent, key);
-    if (json_bool_object != NULL) {
+    if (json_bool_object != nullptr) {
         json_type type = json_object_get_type(json_bool_object);
         if (type != json_type_boolean) {
             PRINT_WARN("Value of \"%s\" should be boolean\n", key);
@@ -172,7 +173,7 @@ static bool getJsonBool(json_object* json_parent, const char* key) {
 static string getJsonString(json_object* json_parent, const char* key) {
     string value;
     json_object* json_string_object = getJsonChild(json_parent, key);
-    if (json_string_object != NULL) {
+    if (json_string_object != nullptr) {
         json_type type = json_object_get_type(json_string_object);
         if (type != json_type_string) {
             PRINT_WARN("metadata : %s should be a string\n", key);
@@ -188,7 +189,7 @@ static HarvesterConfiguration readHarvesterConfigurationFile(string path) {
     HarvesterConfiguration config;
     string content = getFileContents(path);
     json_object* jsonConfig = json_tokener_parse(content.c_str());
-    if (jsonConfig == NULL) {
+    if (jsonConfig == nullptr) {
         throw runtime_error("Cannot parse JSON configuration " + path);
     }
 
@@ -203,7 +204,7 @@ static HarvesterConfiguration readHarvesterConfigurationFile(string path) {
 #undef readStringConfigProperty
 
     json_object* jsonMetadata = getJsonChild(jsonConfig, "metadata");
-    if (jsonMetadata != NULL) {
+    if (jsonMetadata != nullptr) {
         json_object_object_foreach(jsonMetadata, key, value) {
             HarvesterConfiguration::MetadataItem item;
             UNUSED(value);

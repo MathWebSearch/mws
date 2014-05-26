@@ -42,8 +42,7 @@ using mws::types::FormulaPath;
  * of the string - string(const char*). If this array contains a null character,
  * this will not be part of the string. For such cases, use this macro.
  */
-#define string_from_buffer(charBuffer)                                      \
-    string(charBuffer, sizeof(charBuffer))
+#define string_from_buffer(charBuffer) string(charBuffer, sizeof(charBuffer))
 
 static int testSerializeDeserialize(const FormulaPath& initial) {
     // Compute space required for the serialization

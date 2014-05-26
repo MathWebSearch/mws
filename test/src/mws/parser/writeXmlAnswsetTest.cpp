@@ -29,10 +29,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include <sys/types.h>                 // Primitive System datatypes
-#include <sys/stat.h>                  // POSIX File characteristics
-#include <fcntl.h>                     // File control operations
-#include <string>                      // C++ String header
+#include <sys/types.h>  // Primitive System datatypes
+#include <sys/stat.h>   // POSIX File characteristics
+#include <fcntl.h>      // File control operations
+#include <string>       // C++ String header
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -43,28 +43,27 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TMP_PATH "/tmp/"
 
-
 int main() {
     using mws::MwsAnswset;
     using std::string;
     using mws::types::Answer;
 
-    const string xml_path = (string) TMP_PATH + "/MwsAnswset1.xml";
+    const string xml_path = (string)TMP_PATH + "/MwsAnswset1.xml";
 
-    Answer* answer = new Answer();
+    auto answer = new Answer();
     answer->data = "lalala";
     answer->uri = "http://foo";
     answer->xpath = "//*[1]";
-    MwsAnswset* answset = new MwsAnswset();
+    auto answset = new MwsAnswset();
     answset->answers.push_back(answer);
 
     FILE* file = fopen(xml_path.c_str(), "w");
-    FAIL_ON(file == NULL);
+    FAIL_ON(file == nullptr);
     FAIL_ON(mws::xmlparser::writeXmlAnswset(answset, file) != 260);
 
     delete answset;
 
-    (void) fclose(file);
+    (void)fclose(file);
 
     return EXIT_SUCCESS;
 

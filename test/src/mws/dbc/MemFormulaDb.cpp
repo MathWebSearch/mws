@@ -41,11 +41,9 @@ struct FormulaInfo {
     FormulaPath formulaPath;
 };
 
-vector<FormulaInfo> g_infos {
-    {0, FormulaPath("id1", "0")},
-    {3, FormulaPath("id2", "1")},
-    {2, FormulaPath("id3", "4")}
-};
+vector<FormulaInfo> g_infos{{0, FormulaPath("id1", "0")},
+                            {3, FormulaPath("id2", "1")},
+                            {2, FormulaPath("id3", "4")}};
 
 const int TEST_START_IDX = 1;
 

@@ -56,7 +56,7 @@ public:
                  dbc::CrawlDb* crawlDb,
                  mws::index::TmpIndex* index,
                  MeaningDictionary* meaningDictionary,
-                 const IndexingOptions& indexingOptions);
+                 IndexingOptions  indexingOptions);
 
     /**
      * @brief index crawl data

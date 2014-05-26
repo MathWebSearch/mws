@@ -53,28 +53,24 @@ using mws::dbc::CrawlData;
 namespace mws {
 namespace query {
 
-template<class Accessor>
+template <class Accessor>
 struct qvarCtxt {
     typedef typename Accessor::Iterator MapIterator;
 
     list<pair<MapIterator, MapIterator> > backtrackIterators;
     bool isSolved;
 
-    inline qvarCtxt() {
-        isSolved = false;
-    }
+    inline qvarCtxt() { isSolved = false; }
 
     inline typename Accessor::Node* solve(typename Accessor::Index* index,
                                           typename Accessor::Node* node) {
         int totalArrity = 1;
         while (totalArrity > 0) {
-            typename Accessor::Iterator begin =
-                    Accessor::getChildrenBegin(node);
-            typename Accessor::Iterator end =
-                    Accessor::getChildrenEnd(node);
+            auto begin = Accessor::getChildrenBegin(node);
+            auto end = Accessor::getChildrenEnd(node);
             if (begin == end) {
                 backtrackIterators.clear();
-                return NULL;
+                return nullptr;
             }
             backtrackIterators.push_back(std::make_pair(begin, end));
             totalArrity += Accessor::getArity(begin) - 1;
@@ -95,21 +91,19 @@ struct qvarCtxt {
             backtrackIterators.pop_back();
             if (backtrackIterators.empty()) {
                 isSolved = false;
-                return NULL;
+                return nullptr;
             }
             totalArrity +=
-                    1 - Accessor::getArity(backtrackIterators.back().first);
+                1 - Accessor::getArity(backtrackIterators.back().first);
             backtrackIterators.back().first++;
         }
         totalArrity += Accessor::getArity(backtrackIterators.back().first) - 1;
         // Found a valid next, now we need to complete it to the right arrity
         typename Accessor::Node* currentNode =
-                Accessor::getNode(index, backtrackIterators.back().first);
+            Accessor::getNode(index, backtrackIterators.back().first);
         while (totalArrity) {
-            typename Accessor::Iterator begin =
-                    Accessor::getChildrenBegin(currentNode);
-            typename Accessor::Iterator end =
-                    Accessor::getChildrenEnd(currentNode);
+            auto begin = Accessor::getChildrenBegin(currentNode);
+            auto end = Accessor::getChildrenEnd(currentNode);
             backtrackIterators.push_back(std::make_pair(begin, end));
             // Updating currentNode and arrity
             currentNode = Accessor::getNode(index, begin);
@@ -120,31 +114,29 @@ struct qvarCtxt {
     }
 };
 
-SearchContext::NodeTriple::
-NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity)
-    : isQvar(isQvar), meaningId(aMeaningId), arity(anArity) {
-}
+SearchContext::NodeTriple::NodeTriple(bool isQvar, MeaningId aMeaningId,
+                                      Arity anArity)
+    : isQvar(isQvar), meaningId(aMeaningId), arity(anArity) {}
 
-SearchContext::
-SearchContext(const vector<encoded_token_t>& encodedFormula) {
+SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula) {
     map<MeaningId, int> indexedQvars;
     int tokenCount = 0;
-    int qvarCount  = 0;
+    int qvarCount = 0;
 
     for (encoded_token_t encodedToken : encodedFormula) {
         MeaningId meaningId = encodedToken.id;
 
-        if (encoded_token_is_var(encodedToken)) {  // qvar
+        if (encoded_token_is_var(encodedToken)) {           // qvar
             if (encoded_token_is_anon_var(encodedToken)) {  // anonymous qvar
                 expr.push_back(NodeTriple(true, meaningId, qvarCount));
-                backtrackPoints.push_back(tokenCount+1);
+                backtrackPoints.push_back(tokenCount + 1);
                 qvarCount++;
             } else {  // named qvar
                 auto mapIt = indexedQvars.find(meaningId);
                 if (mapIt == indexedQvars.end()) {
                     indexedQvars.insert(make_pair(meaningId, qvarCount));
                     expr.push_back(NodeTriple(true, meaningId, qvarCount));
-                    backtrackPoints.push_back(tokenCount+1);
+                    backtrackPoints.push_back(tokenCount + 1);
                     qvarCount++;
                 } else {
                     expr.push_back(NodeTriple(true, meaningId, mapIt->second));
@@ -160,26 +152,22 @@ SearchContext(const vector<encoded_token_t>& encodedFormula) {
     mQvarCount = qvarCount;
 }
 
-
-SearchContext::~SearchContext()
-{
+SearchContext::~SearchContext() {
     // Nothing to do here
 }
 
-template<class A /* Accessor */>
-MwsAnswset*
-SearchContext::getResult(typename A::Index* index,
-                         dbc::DbQueryManager* dbQueryManger,
-                         unsigned int offset,
-                         unsigned int size,
-                         unsigned int maxTotal) {
+template <class A /* Accessor */>
+MwsAnswset* SearchContext::getResult(typename A::Index* index,
+                                     dbc::DbQueryManager* dbQueryManger,
+                                     unsigned int offset, unsigned int size,
+                                     unsigned int maxTotal) {
     // Table containing resolved Qvar and backtrack points
     vector<qvarCtxt<A> > qvarTable;
 
-    MwsAnswset* result = new MwsAnswset;
-    size_t currentToken = 0;            // index for the expression vector
-    unsigned int  found = 0;            // # of found matches
-    int lastSolvedQvar = -1;            // last qvar that was solved
+    auto result = new MwsAnswset;
+    size_t currentToken = 0;  // index for the expression vector
+    unsigned int found = 0;   // # of found matches
+    int lastSolvedQvar = -1;  // last qvar that was solved
     typename A::Node* currentNode = A::getRootNode(index);
 
     // Checking the arguments
@@ -204,38 +192,34 @@ SearchContext::getResult(typename A::Index* index,
             if (expr[currentToken].isQvar) {
                 int qvarId = expr[currentToken].arity;
                 if (qvarTable[qvarId].isSolved) {
-                    for (auto it = qvarTable[qvarId].backtrackIterators.begin();
-                         it != qvarTable[qvarId].backtrackIterators.end();
-                         it ++) {
-                        encoded_token_t token = A::getToken(it->first);
+                    for (auto& elem : qvarTable[qvarId].backtrackIterators) {
+                        encoded_token_t token = A::getToken(elem.first);
                         currentNode = A::getChild(index, currentNode, token);
-                        if (currentNode == NULL) {
+                        if (currentNode == nullptr) {
                             backtrack = true;
                             break;
                         }
                     }
                 } else {
                     currentNode = qvarTable[qvarId].solve(index, currentNode);
-                    if (currentNode != NULL) {
+                    if (currentNode != nullptr) {
                         lastSolvedQvar = qvarId;
                     } else {
                         backtrack = true;
                     }
                 }
             } else {
-                encoded_token_t token =
-                        encoded_token(expr[currentToken].meaningId,
-                                      expr[currentToken].arity);
+                encoded_token_t token = encoded_token(
+                    expr[currentToken].meaningId, expr[currentToken].arity);
                 currentNode = A::getChild(index, currentNode, token);
-                if (currentNode == NULL) {
+                if (currentNode == nullptr) {
                     backtrack = true;
                 }
             }
         } else {
             // Handling the solutions
             if (found < size + offset &&
-                found + A::getHitsCount(currentNode) > offset)
-            {
+                found + A::getHitsCount(currentNode) > offset) {
                 unsigned dbOffset;
                 unsigned dbMaxSize;
                 if (offset < found) {
@@ -245,10 +229,10 @@ SearchContext::getResult(typename A::Index* index,
                     dbOffset = offset - found;
                     dbMaxSize = size;
                 }
-                dbc::DbAnswerCallback callback =
-                        [result](const FormulaPath& formulaPath,
-                                 const CrawlData& crawlData) {
-                    mws::types::Answer* answer = new mws::types::Answer();
+                dbc::DbAnswerCallback callback = [result](
+                    const FormulaPath& formulaPath,
+                    const CrawlData& crawlData) {
+                    auto answer = new mws::types::Answer();
                     answer->data = crawlData;
                     answer->uri = formulaPath.xmlId;
                     answer->xpath = formulaPath.xpath;
@@ -275,9 +259,8 @@ SearchContext::getResult(typename A::Index* index,
             // Backtracking or going to the next expression token
             // starting with the last
             while (lastSolvedQvar >= 0 &&
-                    NULL == (currentNode =
-                             qvarTable[lastSolvedQvar].nextSol(index)))
-            {
+                   nullptr == (currentNode =
+                                   qvarTable[lastSolvedQvar].nextSol(index))) {
                 lastSolvedQvar--;
             }
 
@@ -298,21 +281,13 @@ SearchContext::getResult(typename A::Index* index,
 
 // Declare specializations
 
-template MwsAnswset*
-SearchContext::
-getResult<TmpIndexAccessor>(TmpIndexAccessor::Index* index,
-dbc::DbQueryManager* dbQueryManger,
-unsigned int offset,
-unsigned int size,
-unsigned int maxTotal);
+template MwsAnswset* SearchContext::getResult<TmpIndexAccessor>(
+    TmpIndexAccessor::Index* index, dbc::DbQueryManager* dbQueryManger,
+    unsigned int offset, unsigned int size, unsigned int maxTotal);
 
-template MwsAnswset*
-SearchContext::
-getResult<IndexAccessor>(IndexAccessor::Index* index,
-dbc::DbQueryManager* dbQueryManger,
-unsigned int offset,
-unsigned int size,
-unsigned int maxTotal);
+template MwsAnswset* SearchContext::getResult<IndexAccessor>(
+    IndexAccessor::Index* index, dbc::DbQueryManager* dbQueryManger,
+    unsigned int offset, unsigned int size, unsigned int maxTotal);
 
 }  // namespace query
 }  // namespace mws

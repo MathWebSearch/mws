@@ -48,21 +48,18 @@ using mws::types::Meaning;
 /****************************************************************************/
 /* Implementation                                                           */
 /****************************************************************************/
-namespace mws { namespace index {
+namespace mws {
+namespace index {
 
-ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary) :
-    _meaningDictionary(dictionary),
-    _ciTranslationCounter(0) {
-}
+ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary)
+    : _meaningDictionary(dictionary), _ciTranslationCounter(0) {}
 
-ExpressionEncoder::~ExpressionEncoder() {
-}
+ExpressionEncoder::~ExpressionEncoder() {}
 
-int
-ExpressionEncoder::encode(const IndexingOptions& options,
-                          const CmmlToken* expression,
-                          vector<encoded_token_t>* encodedFormula,
-                          ExpressionInfo* expressionInfo) {
+int ExpressionEncoder::encode(const IndexingOptions& options,
+                              const CmmlToken* expression,
+                              vector<encoded_token_t>* encodedFormula,
+                              ExpressionInfo* expressionInfo) {
     int rv = 0;
     stack<const CmmlToken*> dfs_stack;
     MeaningDictionary namedVarDictionary;
@@ -82,12 +79,12 @@ ExpressionEncoder::encode(const IndexingOptions& options,
             if (qvarName == "") {
                 encoded_token.id = _getAnonVarOffset() + anonVarId;
             } else {
-                encoded_token.id = _getNamedVarOffset() +
-                        namedVarDictionary.put(qvarName);
-                if (expressionInfo != NULL) {
+                encoded_token.id =
+                    _getNamedVarOffset() + namedVarDictionary.put(qvarName);
+                if (expressionInfo != nullptr) {
                     expressionInfo->qvarNames.push_back(qvarName);
                     expressionInfo->qvarXpaths.push_back(
-                                token->getXpathRelative());
+                        token->getXpathRelative());
                 }
             }
         } else {
@@ -105,7 +102,7 @@ ExpressionEncoder::encode(const IndexingOptions& options,
 
         // Replenish stack
         for (auto rIt = token->getChildNodes().rbegin();
-             rIt != token->getChildNodes().rend(); rIt ++) {
+             rIt != token->getChildNodes().rend(); rIt++) {
             dfs_stack.push(*rIt);
         }
     }
@@ -118,14 +115,12 @@ MeaningId ExpressionEncoder::_getCiMeaning(const CmmlToken* token) {
     CmmlToken* tokParent = token->getParentNode();
 
     // check if we should not rename this ci
-    if ((tokMeaning == "#P") ||
-        (tokMeaning == "#p") ||
+    if ((tokMeaning == "#P") || (tokMeaning == "#p") ||
         // the content must have only 1 char:
         (tokMeaning.length() > 2 + token->getTag().length()) ||
         // make sure this is not the 1st child of apply
-        ((tokParent != NULL) &&
-          (tokParent->getTag() == "apply") &&
-          (tokParent->getChildNodes().front()) == token)) {
+        ((tokParent != nullptr) && (tokParent->getTag() == "apply") &&
+         (tokParent->getChildNodes().front()) == token)) {
         return _getConstantEncoding(tokMeaning);
     }
 
@@ -135,51 +130,35 @@ MeaningId ExpressionEncoder::_getCiMeaning(const CmmlToken* token) {
         translatedMeaning = "~" + std::to_string(++_ciTranslationCounter);
         _ciTranslations.insert(make_pair(tokMeaning, translatedMeaning));
     } else {
-       translatedMeaning = ciTableIt->second;
+        translatedMeaning = ciTableIt->second;
     }
 
     return _getConstantEncoding(translatedMeaning);
 }
 
-HarvestEncoder::HarvestEncoder(MeaningDictionary *dictionary) :
-    ExpressionEncoder(dictionary) {
-}
+HarvestEncoder::HarvestEncoder(MeaningDictionary* dictionary)
+    : ExpressionEncoder(dictionary) {}
 
 HarvestEncoder::~HarvestEncoder() {}
 
-MeaningId
-HarvestEncoder::_getAnonVarOffset() const {
-    return ANON_HVAR_ID_MIN;
-}
+MeaningId HarvestEncoder::_getAnonVarOffset() const { return ANON_HVAR_ID_MIN; }
 
-MeaningId
-HarvestEncoder::_getNamedVarOffset() const {
-    return HVAR_ID_MIN;
-}
+MeaningId HarvestEncoder::_getNamedVarOffset() const { return HVAR_ID_MIN; }
 
-MeaningId
-HarvestEncoder::_getConstantEncoding(const Meaning& meaning) {
+MeaningId HarvestEncoder::_getConstantEncoding(const Meaning& meaning) {
     return CONSTANT_ID_MIN + _meaningDictionary->put(meaning);
 }
 
-QueryEncoder::QueryEncoder(MeaningDictionary* dictionary) :
-    ExpressionEncoder(dictionary) {
-}
+QueryEncoder::QueryEncoder(MeaningDictionary* dictionary)
+    : ExpressionEncoder(dictionary) {}
 
 QueryEncoder::~QueryEncoder() {}
 
-MeaningId
-QueryEncoder::_getAnonVarOffset() const {
-    return ANON_HVAR_ID_MIN;
-}
+MeaningId QueryEncoder::_getAnonVarOffset() const { return ANON_HVAR_ID_MIN; }
 
-MeaningId
-QueryEncoder::_getNamedVarOffset() const {
-    return HVAR_ID_MIN;
-}
+MeaningId QueryEncoder::_getNamedVarOffset() const { return HVAR_ID_MIN; }
 
-MeaningId
-QueryEncoder::_getConstantEncoding(const Meaning& meaning) {
+MeaningId QueryEncoder::_getConstantEncoding(const Meaning& meaning) {
     MeaningId id = _meaningDictionary->get(meaning);
 
     if (id != MeaningDictionary::KEY_NOT_FOUND) {

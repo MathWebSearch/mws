@@ -46,7 +46,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using mws::index::IndexingOptions;
 #include "processMwsHarvest.hpp"
 
-
 // Namespaces
 
 using namespace std;
@@ -54,16 +53,14 @@ using namespace std;
 namespace mws {
 namespace parser {
 
-int
-loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
-                            mws::AbsPath const& dirPath,
-                            const std::string& extension,
-                            bool recursive) {
+int loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
+                                mws::AbsPath const& dirPath,
+                                const std::string& extension, bool recursive) {
     int totalLoaded = 0;
 
-    common::utils::FileCallback fileCallback =
-            [&totalLoaded, indexBuilder, extension]
-            (const std::string& path, const std::string& prefix) {
+    common::utils::FileCallback
+        fileCallback = [&totalLoaded, indexBuilder, extension](
+            const std::string& path, const std::string& prefix) {
         UNUSED(prefix);
         if (common::utils::hasSuffix(path, extension)) {
             printf("Loading %s... ", path.c_str());
@@ -85,17 +82,16 @@ loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
 
         return 0;
     };
-    common::utils::DirectoryCallback shouldRecurse =
-            [](const std::string partialPath) {
+    common::utils::DirectoryCallback shouldRecurse = [](
+        const std::string partialPath) {
         UNUSED(partialPath);
         return true;
     };
 
     printf("Loading harvest files...\n");
     if (recursive) {
-        FAIL_ON(common::utils::foreachEntryInDirectory(dirPath.get(),
-                                                       fileCallback,
-                                                       shouldRecurse));
+        FAIL_ON(common::utils::foreachEntryInDirectory(
+            dirPath.get(), fileCallback, shouldRecurse));
     } else {
         FAIL_ON(common::utils::foreachEntryInDirectory(dirPath.get(),
                                                        fileCallback));

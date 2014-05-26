@@ -41,18 +41,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace dbc {
 
-DbQueryManager::DbQueryManager(CrawlDb* crawlDb, FormulaDb* formulaDb) :
-        mCrawlDb(crawlDb), mFormulaDb(formulaDb) {
-}
+DbQueryManager::DbQueryManager(CrawlDb* crawlDb, FormulaDb* formulaDb)
+    : mCrawlDb(crawlDb), mFormulaDb(formulaDb) {}
 
-int
-DbQueryManager::query(types::FormulaId formulaId,
-                      unsigned limitMin,
-                      unsigned limitSize,
-                      DbAnswerCallback dbAnswerCallback) {
-    QueryCallback formulaQueryCallback =
-            [dbAnswerCallback, this](const CrawlId& crawlId,
-                                     const types::FormulaPath& formulaPath) {
+int DbQueryManager::query(types::FormulaId formulaId, unsigned limitMin,
+                          unsigned limitSize,
+                          DbAnswerCallback dbAnswerCallback) {
+    QueryCallback formulaQueryCallback = [dbAnswerCallback, this](
+        const CrawlId& crawlId, const types::FormulaPath& formulaPath) {
         if (crawlId != CRAWLID_NULL && mCrawlDb) {
             return dbAnswerCallback(formulaPath,
                                     this->mCrawlDb->getData(crawlId));

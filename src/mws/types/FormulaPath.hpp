@@ -60,7 +60,7 @@ struct FormulaPath : public common::types::Parcelable {
     }
 
     FormulaPath(std::string xmlId, std::string xpath)
-        : xmlId(xmlId), xpath(xpath) {
+        : xmlId(std::move(xmlId)), xpath(std::move(xpath)) {
     }
 
     inline bool operator!=(const FormulaPath& rhs) const {

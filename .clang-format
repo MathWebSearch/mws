@@ -1,0 +1,6 @@
+BasedOnStyle: Google
+AccessModifierOffset: -3
+IndentCaseLabels: false
+IndentWidth: 4
+PointerBindsToType: true
+DerivePointerBinding: false

@@ -26,7 +26,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 11 Dec 2013
   */
 
-
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -47,31 +46,27 @@ using common::types::ParcelDecoder;
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/dbc/LevCrawlDb.hpp"
 
+namespace mws {
+namespace dbc {
 
-namespace mws { namespace dbc {
+LevCrawlDb::LevCrawlDb() : mDatabase(nullptr), mNextCrawlId(CRAWLID_NULL) {}
 
-LevCrawlDb::LevCrawlDb() : mDatabase(NULL), mNextCrawlId(CRAWLID_NULL) {
-}
+LevCrawlDb::~LevCrawlDb() { delete mDatabase; }
 
-LevCrawlDb::~LevCrawlDb() {
-    delete mDatabase;
-}
-
-void LevCrawlDb::open(const char* path) throw (runtime_error) {
+void LevCrawlDb::open(const char* path) throw(runtime_error) {
     leveldb::Options options;
     options.create_if_missing = false;
-    leveldb::Status status =
-        leveldb::DB::Open(options, path, &mDatabase);
+    leveldb::Status status = leveldb::DB::Open(options, path, &mDatabase);
 
     if (!status.ok()) {
         throw std::runtime_error(string(path) + " not found.");
     }
 }
 
-void LevCrawlDb::create_new(const char* path, bool deleteIfExists)
-throw (runtime_error) {
+void LevCrawlDb::create_new(const char* path,
+                            bool deleteIfExists) throw(runtime_error) {
     if (deleteIfExists) {
-        (void) DestroyDB(path, Options());
+        (void)DestroyDB(path, Options());
     }
 
     Options options;
@@ -83,8 +78,7 @@ throw (runtime_error) {
     }
 }
 
-CrawlId LevCrawlDb::putData(const CrawlData& crawlData)
-throw (std::exception) {
+CrawlId LevCrawlDb::putData(const CrawlData& crawlData) throw(std::exception) {
     CrawlId crawlId = ++mNextCrawlId;
     string crawlId_str = std::to_string(crawlId);
 
@@ -95,8 +89,7 @@ throw (std::exception) {
     encoder.encode(crawlData);
 
     string serial(encoder.getData(), encoder.getSize());
-    auto ret =
-        mDatabase->Put(leveldb::WriteOptions(), crawlId_str, serial);
+    auto ret = mDatabase->Put(leveldb::WriteOptions(), crawlId_str, serial);
     if (!ret.ok()) {
         throw std::runtime_error("Error encountered while inserting: " +
                                  crawlId_str);
@@ -105,8 +98,8 @@ throw (std::exception) {
     return crawlId;
 }
 
-const CrawlData LevCrawlDb::getData(const CrawlId& crawlId)
-throw (std::exception) {
+const CrawlData LevCrawlDb::getData(const CrawlId& crawlId) throw(
+    std::exception) {
     string crawlId_str = std::to_string(crawlId);
     string retrieved_str;
     CrawlData retrieved;
@@ -119,12 +112,11 @@ throw (std::exception) {
         return retrieved;
     } else {
         throw std::runtime_error("No data corresponding to crawlId = " +
-                            crawlId_str);
+                                 crawlId_str);
     }
 
     return retrieved;
 }
-
 
 }  // namespace dbc
 }  // namespace mws

@@ -31,15 +31,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Includes                                                                 */
 /****************************************************************************/
 
-#include <netinet/in.h>                 // Domain, Protocol standards
-#include <iostream>                     // Standard input/output stream
-#include <sys/socket.h>                 // ISO C Socket library
-#include <unistd.h>                     // write()
-#include <cerrno>                       // C errno codes
+#include <netinet/in.h>  // Domain, Protocol standards
+#include <iostream>      // Standard input/output stream
+#include <sys/socket.h>  // ISO C Socket library
+#include <unistd.h>      // write()
+#include <cerrno>        // C errno codes
 #include <unistd.h>
-#include <cstdio>                       // C standard IO headers
-#include <cstring>                      // C string -- memset()
-#include "InSocket.hpp"                 // InSocket prototypes
+#include <cstdio>        // C standard IO headers
+#include <cstring>       // C string -- memset()
+#include "InSocket.hpp"  // InSocket prototypes
 
 #include "common/utils/compiler_defs.h"
 
@@ -49,67 +49,51 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-InSocket::InSocket(int aPort,
-                   int aQueueSize) :
-        _port       ( aPort ),
-        _queueSize  ( aQueueSize ),
-        _isOpen     ( false )
-{
-}
+InSocket::InSocket(int aPort, int aQueueSize)
+    : _port(aPort), _queueSize(aQueueSize), _isOpen(false) {}
 
-
-InSocket::~InSocket()
-{
-    if (this->_isOpen)
-    {
+InSocket::~InSocket() {
+    if (this->_isOpen) {
         int ret;
-    
+
         ret = close(this->_fd);
-        if (ret == -1)
-        {
+        if (ret == -1) {
             perror("close:");
         }
     }
 }
 
-
-int InSocket::enable()
-{
+int InSocket::enable() {
     int ret;
-    int optval_true = true;     // integer True Value - see setsockopt (2)
+    int optval_true = true;  // integer True Value - see setsockopt (2)
 
     this->_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (this->_fd == -1)
-    {
+    if (this->_fd == -1) {
         perror("socket");
         goto fail;
     }
 
     memset(&this->_insideAddr, 0, sizeof(_SockAddr));
-    this->_insideAddr.sin_family      = AF_INET;
+    this->_insideAddr.sin_family = AF_INET;
     this->_insideAddr.sin_addr.s_addr = INADDR_ANY;
-    this->_insideAddr.sin_port        = htons(this->_port);
+    this->_insideAddr.sin_port = htons(this->_port);
 
-    ret = setsockopt(this->_fd, SOL_SOCKET,
-                     SO_REUSEADDR, (const void *)&optval_true, sizeof(int));
-    if (ret == -1)
-    {
+    ret = setsockopt(this->_fd, SOL_SOCKET, SO_REUSEADDR,
+                     (const void*)&optval_true, sizeof(int));
+    if (ret == -1) {
         perror("setsockopt");
         goto fail;
     }
 
-    ret = ::bind(this->_fd,
-               (struct sockaddr*)&this->_insideAddr,
-               sizeof(this->_insideAddr));
-    if (ret == -1)
-    {
+    ret = ::bind(this->_fd, (struct sockaddr*)&this->_insideAddr,
+                 sizeof(this->_insideAddr));
+    if (ret == -1) {
         perror("bind");
         goto fail;
     }
 
     ret = listen(this->_fd, this->_queueSize);
-    if (ret == -1)
-    {
+    if (ret == -1) {
         perror("bind");
         goto fail;
     }
@@ -122,8 +106,4 @@ fail:
     return -1;
 }
 
-
-OutSocket* InSocket::accept()
-{
-    return buildAcceptedConnection(this->_fd);
-}
+OutSocket* InSocket::accept() { return buildAcceptedConnection(this->_fd); }

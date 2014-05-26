@@ -59,20 +59,20 @@ using mws::daemon::Config;
 using mws::types::FormulaPath;
 #include "mws/xmlparser/processMwsHarvest.hpp"
 
-
 namespace mws {
 namespace parser {
 
 class HarvestParser : public HarvestProcessor {
  public:
-    int processExpression(const CmmlToken *tok,
-                          const string &exprUri, const uint32_t &crawlId);
-    CrawlId processData(const string &data);
+    int processExpression(const CmmlToken* tok, const string& exprUri,
+                          const uint32_t& crawlId);
+    CrawlId processData(const string& data);
     string getParsedData() { return _parsedData; }
     vector<Hit*> getIdMappings() { return _idMappings; }
     HarvestParser(IndexAccessor::Index* index,
-                  MeaningDictionary* meaningictionary,
-                  const Config& config, FormulaDb* formulaDb);
+                  MeaningDictionary* meaningictionary, Config config,
+                  FormulaDb* formulaDb);
+
  private:
     string _parsedData;
     IndexAccessor::Index* _index;
@@ -84,33 +84,34 @@ class HarvestParser : public HarvestProcessor {
 
 HarvestParser::HarvestParser(IndexAccessor::Index* index,
                              MeaningDictionary* meaningDictionary,
-                             const Config& config, FormulaDb* formulaDb) :
-    _parsedData(""), _index(index), _meaningDictionary(meaningDictionary),
-    _formulaDb(formulaDb), _config(config) {
-}
+                             Config config, FormulaDb* formulaDb)
+    : _parsedData(""),
+      _index(index),
+      _meaningDictionary(meaningDictionary),
+      _formulaDb(formulaDb),
+      _config(std::move(config)) {}
 
 int HarvestParser::processExpression(const CmmlToken* token,
-                                      const string& exprUri,
-                                      const uint32_t& crawlId) {
+                                     const string& exprUri,
+                                     const uint32_t& crawlId) {
     UNUSED(crawlId);
-    assert(token != NULL);
+    assert(token != nullptr);
     MwsAnswset* result;
     query::SearchContext* ctxt;
-    dbc::DbQueryManager dbQueryManager(NULL, _formulaDb);
+    dbc::DbQueryManager dbQueryManager(nullptr, _formulaDb);
     index::HarvestEncoder encoder(_meaningDictionary);
     u_int32_t numSubExpressions = 0;
 
-    TokenCallback tokCallback = [&] (const CmmlToken* tok) {
+    TokenCallback tokCallback = [&](const CmmlToken* tok) {
         vector<encoded_token_t> encodedFormula;
-        encoder.encode(_config.indexingOptions, tok,
-                       &encodedFormula, NULL);
+        encoder.encode(_config.indexingOptions, tok, &encodedFormula, nullptr);
         ctxt = new query::SearchContext(encodedFormula);
         result = ctxt->getResult<IndexAccessor>(_index, &dbQueryManager,
-                                                /* offset=*/ 0,
-                                                /* size=*/ 1,
-                                                /* maxTotal=*/ 1);
+                                                /* offset=*/0,
+                                                /* size=*/1,
+                                                /* maxTotal=*/1);
         numSubExpressions += result->total;
-        Hit* hit = new Hit;
+        auto hit = new Hit;
         hit->id = *(result->ids.begin());
         hit->uri = exprUri;
         hit->xpath = tok->getXpath();
@@ -129,17 +130,16 @@ CrawlId HarvestParser::processData(const string& data) {
     return CRAWLID_NULL;  // we do not want to put this into a database
 }
 
-ParseResult
-parseMwsHarvestFromFd(const Config& config, IndexAccessor::Index* index,
-                      MeaningDictionary* meaningDictionary,
-                      FormulaDb* formulaDb, int fd) {
-    HarvestProcessor* harvestParser = new HarvestParser(index,
-                                                        meaningDictionary,
-                                                        config, formulaDb);
+ParseResult parseMwsHarvestFromFd(const Config& config,
+                                  IndexAccessor::Index* index,
+                                  MeaningDictionary* meaningDictionary,
+                                  FormulaDb* formulaDb, int fd) {
+    HarvestProcessor* harvestParser =
+        new HarvestParser(index, meaningDictionary, config, formulaDb);
 
     processMwsHarvest(fd, harvestParser);
 
-    HarvestParser* hvp = (HarvestParser*) harvestParser;
+    HarvestParser* hvp = (HarvestParser*)harvestParser;
     ParseResult ret = ParseResult(hvp->getParsedData(), hvp->getIdMappings());
     delete harvestParser;
     return ret;
