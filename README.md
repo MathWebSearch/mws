@@ -66,6 +66,10 @@ The crawler executables require:
 The documentation target requires:
   - doxygen
 
+The test target requires:
+  - netcat
+  - curl
+
 Makefile targets
 ----------------
 * `all` builds all the binaries of the project and tests

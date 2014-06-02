@@ -20,3 +20,9 @@ ADD_SUBDIRECTORY( dbc )
 ADD_SUBDIRECTORY( index )
 ADD_SUBDIRECTORY( parser )
 ADD_SUBDIRECTORY( query )
+
+SET(TIMEOUT "10")
+CONFIGURE_FILE(./mws-integration-test.sh.in
+    mws-integration-test.sh @ONLY)
+ADD_TEST(NAME integration_qvar_query
+    COMMAND mws-integration-test.sh)

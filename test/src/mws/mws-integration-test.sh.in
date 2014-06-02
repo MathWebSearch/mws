@@ -1,0 +1,33 @@
+#!/bin/sh
+cd @PROJECT_SOURCE_DIR@
+./bin/mwsd -I ./data/zbl -p 9090 &
+MWSD_PID="$!"
+
+START_TIME=$(date +%s)
+while true
+do
+    nc -z localhost 9090
+    # is the MWS daemon online?
+    [ $? -eq 0 ] && break
+
+    # timeout after TIMEOUT sec
+    CRT_TIME=$(date +%s)
+    if [ $(($CRT_TIME - $START_TIME)) -gt @TIMEOUT@ ]
+    then 
+        kill -9 $MWSD_PID
+        return 1
+    fi
+done
+
+MWS_RESPONSE=$(./scripts/send-qvar-query.sh 9090 0 0)
+kill -9 $MWSD_PID
+
+# check that $MWS_RESPONSE has the correct total count
+EXPR_COUNT=$(echo $MWS_RESPONSE | grep -Po "total=\"\d+\""| cut -d \" -f2)
+if [ $EXPR_COUNT -ne 28328 ]
+then
+   return 1
+else
+   return 0
+fi
+
