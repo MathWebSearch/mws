@@ -43,10 +43,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>                // POSIX File characteristics
 #include <fcntl.h>                   // File control operations
 
-#include "ParserTypes.hpp"
 #include "mws/xmlparser/readMwsQuery.hpp"
 #include "common/utils/compiler_defs.h"
 #include "common/utils/getBoolType.hpp"
+#include "mws/xmlparser/JsonResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_JSON;
+#include "mws/xmlparser/XmlResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_XML;
+#include "mws/xmlparser/MwsIdsResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_MWS_IDS;
 
 #define MWSQUERY_MAIN_NAME "mws:query"
 #define MWSQUERY_ATTR_ANSWSET_MAXSIZE "answsize"
@@ -59,28 +64,53 @@ using namespace mws;
 using namespace mws::types;
 
 /**
+  * @brief Enumeration holding the states of the Mws Query Sax Parser.
+  */
+enum MwsQueryState {
+    MWSQUERYSTATE_DEFAULT,
+    MWSQUERYSTATE_IN_MWS_QUERY,
+    MWSQUERYSTATE_IN_MWS_EXPR,
+    MWSQUERYSTATE_UNKNOWN,
+};
+
+/**
+  * @brief Data type used to store the variables needed during the parsing of
+  * a MwsQuery
+  */
+struct MwsQuery_SaxUserData {
+    /// Depth of the parse tree in unknown state
+    int unknownDepth;
+    /// The token which is currently being parsed
+    types::CmmlToken* currentToken;
+    /// The root of the token being currently parsed
+    types::CmmlToken* currentTokenRoot;
+    /// State of the parsing
+    MwsQueryState state;
+    /// State of the parsing before going into an unknown state
+    MwsQueryState prevState;
+    /// True if an XML structural error is detected
+    bool errorDetected;
+    /// Result of the parsing
+    mws::types::Query* result;
+
+    MwsQuery_SaxUserData() {
+        result = nullptr;
+        result = new Query;
+        result->responseFormatter = RESPONSE_FORMATTER_XML;
+        currentToken = nullptr;
+        currentTokenRoot = nullptr;
+        state = MWSQUERYSTATE_DEFAULT;
+        errorDetected = false;
+        result->warnings = 0;
+    }
+};
+
+/**
   * @brief Callback function used to be used with an IO context parser
   *
   */
 static inline int fileInputReadCallback(void* file, char* buffer, int len) {
     return fread(buffer, sizeof(char), len, (FILE*)file);
-}
-
-/**
-  * @brief This function is called before the SAX handler starts parsing the
-  * document
-  *
-  * @param user_data is a structure which holds the state of the parser.
-  */
-static void my_startDocument(void* user_data) {
-    MwsQuery_SaxUserData* data = (MwsQuery_SaxUserData*)user_data;
-
-    data->result = new MwsQuery;
-    data->currentToken = nullptr;
-    data->currentTokenRoot = nullptr;
-    data->state = MWSQUERYSTATE_DEFAULT;
-    data->errorDetected = false;
-    data->result->warnings = 0;
 }
 
 static void my_endDocument(void* user_data) {
@@ -131,12 +161,17 @@ static void my_startElement(void* user_data, const xmlChar* name,
                 } else if (strcmp((char*)attrs[0],
                                   MWSQUERY_ATTR_OUTPUTFORMAT) == 0) {
                     if (strcmp((char*)attrs[1], "xml") == 0) {
-                        data->result->attrResultOutputFormat = DATAFORMAT_XML;
+                        data->result->responseFormatter =
+                            RESPONSE_FORMATTER_XML;
                     } else if (strcmp((char*)attrs[1], "json") == 0) {
-                        data->result->attrResultOutputFormat = DATAFORMAT_JSON;
+                        data->result->responseFormatter =
+                            RESPONSE_FORMATTER_JSON;
+                    } else if (strcmp((char*)attrs[1], "mws-ids") == 0) {
+                        data->result->responseFormatter =
+                            RESPONSE_FORMATTER_MWS_IDS;
+                        data->result->options.includeHits = false;
+                        data->result->options.includeMwsIds = true;
                     } else {
-                        data->result->attrResultOutputFormat =
-                            DATAFORMAT_UNKNOWN;
                         PRINT_WARN("Invalid output format \"%s\"\n", attrs[1]);
                     }
                 } else {
@@ -291,7 +326,7 @@ static void my_fatalError(void* user_data, const char* msg, ...) {
 namespace mws {
 namespace xmlparser {
 
-MwsQuery* readMwsQuery(FILE* file) {
+Query* readMwsQuery(FILE* file) {
     MwsQuery_SaxUserData user_data;
     xmlSAXHandler saxHandler;
     xmlParserCtxtPtr ctxtPtr;
@@ -302,7 +337,6 @@ MwsQuery* readMwsQuery(FILE* file) {
 
     // Registering Sax callbacks with defined ones
     saxHandler.getEntity = my_getEntity;
-    saxHandler.startDocument = my_startDocument;
     saxHandler.endDocument = my_endDocument;
     saxHandler.startElement = my_startElement;
     saxHandler.endElement = my_endElement;

@@ -78,8 +78,9 @@ using mws::query::SearchContext;
 #include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaId;
 using mws::types::FormulaPath;
+#include "mws/types/Query.hpp"
+using mws::types::Query;
 #include "mws/xmlparser/processMwsHarvest.hpp"
-#include "mws/xmlparser/writeXmlAnswset.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/daemon/IndexDaemon.hpp"
@@ -89,7 +90,7 @@ namespace daemon {
 
 struct HandlerStruct {
     MwsAnswset* result;
-    MwsQuery* mwsQuery;
+    types::Query* mwsQuery;
     DbQueryManager* dbQueryManager;
 };
 
@@ -98,7 +99,7 @@ static result_cb_return_t result_callback(void* _ctxt, const leaf_t* leaf) {
 
     HandlerStruct* ctxt = reinterpret_cast<HandlerStruct*>(_ctxt);
     MwsAnswset* result = ctxt->result;
-    MwsQuery* mwsQuery = ctxt->mwsQuery;
+    Query* mwsQuery = ctxt->mwsQuery;
     DbQueryManager* dbQueryManager = ctxt->dbQueryManager;
     DbAnswerCallback queryCallback = [result](const FormulaPath& formulaPath,
                                               const CrawlData& crawlData) {
@@ -118,7 +119,7 @@ static result_cb_return_t result_callback(void* _ctxt, const leaf_t* leaf) {
     return QUERY_CONTINUE;
 }
 
-MwsAnswset* IndexDaemon::handleQuery(MwsQuery* query) {
+MwsAnswset* IndexDaemon::handleQuery(Query* query) {
     MwsAnswset* result;
     QueryEncoder encoder(m_data->getMeaningDictionary());
     vector<encoded_token_t> encodedQuery;
@@ -139,7 +140,7 @@ MwsAnswset* IndexDaemon::handleQuery(MwsQuery* query) {
             query_engine_run(m_data->getIndexHandle(), &encodedFormula,
                              result_callback, &ctxt);
         } else {
-            SearchContext ctxt(encodedQuery);
+            SearchContext ctxt(encodedQuery, query->options);
             result = ctxt.getResult<IndexAccessor>(
                 m_data->getIndexHandle(), m_data->getDbQueryManager(),
                 query->attrResultLimitMin, query->attrResultMaxSize,

@@ -48,7 +48,7 @@ using namespace std;
 using namespace mws;
 
 int main() {
-    MwsQuery* result;
+    types::Query* result;
     FILE* file;
     const char* xmlfile = "MwsQuery1.xml";
     string xml_path = (string)MWS_TESTDATA_PATH + "/" + (string)xmlfile;

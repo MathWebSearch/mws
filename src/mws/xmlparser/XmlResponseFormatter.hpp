@@ -18,40 +18,37 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef MWS_XMLPARSER_WRITEXMLANSWSET_HPP
-#define MWS_XMLPARSER_WRITEXMLANSWSET_HPP
+#ifndef _MWS_PARSER_XMLRESPONSE_FORMATTER_HPP
+#define _MWS_PARSER_XMLRESPONSE_FORMATTER_HPP
 
 /**
-  * @brief   File containing the header of the writeXmlAnswset function
+  * @brief   XmlResponseFormatter
   *
-  * @file    writeXmlAnswset.hpp
+  * @file    XmlResponseFormatter.hpp
   * @author  Corneliu-Claudiu Prodescu
-  * @date    26 Apr 2011
+  * @date    30 Jul 2011
   *
   * @edited Radu Hambasan
   * @date 20 Mar 2014
-  *
   * License: GPL v3
   *
   */
 
-#include <stdio.h>
-// Local includes
-
-#include "mws/types/MwsAnswset.hpp"    // MWS Answer Set datatype header
+#include "mws/types/Query.hpp"
 
 namespace mws {
-namespace xmlparser {
+namespace parser {
 
-/**
-  * @brief Function to write a MwsAnswset to an output file.
-  * @param file is the file to which to write.
-  * @param answset is the MWS Answer Set to be written.
-  * @return the number of bytes written to fd or -1 in case of failure.
-  */
-int writeXmlAnswset(MwsAnswset* answset, FILE* file);
+struct XmlResponseFormatter : public types::Query::ResponseFormatter {
+    static XmlResponseFormatter instance;
 
-}  // namespace xmlparser
+    virtual const char* getContentType() const;
+    virtual int writeData(const MwsAnswset& answerSet, FILE* output) const;
+};
+
+extern const XmlResponseFormatter* RESPONSE_FORMATTER_XML;
+
+}  // namespace parser
 }  // namespace mws
 
-#endif  // MWS_XMLPARSER_WRITEXMLANSWSET_HPP
+#endif  // _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP

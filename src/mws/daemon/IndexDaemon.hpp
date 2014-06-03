@@ -48,7 +48,7 @@ class IndexDaemon : public Daemon {
     IndexDaemon();
     ~IndexDaemon();
  protected:
-    MwsAnswset* handleQuery(MwsQuery *query);
+    MwsAnswset* handleQuery(types::Query *query);
     int initMws(const Config& config);
  private:
     std::unique_ptr<index::IndexLoader> m_data;

@@ -36,7 +36,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "mws/xmlparser/writeXmlAnswset.hpp"
+#include "mws/xmlparser/XmlResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_XML;
 #include "common/utils/compiler_defs.h"
 
 // Macros
@@ -54,14 +55,12 @@ int main() {
     answer->data = "lalala";
     answer->uri = "http://foo";
     answer->xpath = "//*[1]";
-    auto answset = new MwsAnswset();
-    answset->answers.push_back(answer);
+    MwsAnswset answset;
+    answset.answers.push_back(answer);
 
     FILE* file = fopen(xml_path.c_str(), "w");
     FAIL_ON(file == nullptr);
-    FAIL_ON(mws::xmlparser::writeXmlAnswset(answset, file) != 260);
-
-    delete answset;
+    FAIL_ON(RESPONSE_FORMATTER_XML->writeData(answset, file) != 260);
 
     (void)fclose(file);
 

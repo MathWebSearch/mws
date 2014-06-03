@@ -18,38 +18,37 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _READMWSQUERY_HPP
-#define _READMWSQUERY_HPP
+#ifndef _MWS_PARSER_MWSIDSRESPONSE_FORMATTER_HPP
+#define _MWS_PARSER_MWSIDSRESPONSE_FORMATTER_HPP
 
 /**
-  * @brief File containing the header of the readMwsQuery function
+  * @brief   MwsIdsResponseFormatter
   *
-  * @file readMwsQuery.hpp
-  * @author Corneliu-Claudiu Prodescu
-  * @date 18 Apr 2011
+  * @file    MwsIdsResponseFormatter.hpp
+  * @author  Corneliu-Claudiu Prodescu
+  * @date    30 Jul 2011
   *
   * @edited Radu Hambasan
   * @date 20 Mar 2014
-  *
   * License: GPL v3
   *
   */
 
-#include <stdio.h>
 #include "mws/types/Query.hpp"
 
 namespace mws {
-namespace xmlparser {
+namespace parser {
 
-/**
-  * @brief Function to read a MwsQuery from an input file descriptor.
-  * @param file is the file from where to read.
-  * @return a pointer to a MwsQuery containing the information read or NULL in
-  * case of failure.
-  */
-mws::types::Query* readMwsQuery(FILE* file);
+struct MwsIdsResponseFormatter : public types::Query::ResponseFormatter {
+    static MwsIdsResponseFormatter instance;
 
-}  // namespace xmlparser
+    virtual const char* getContentType() const;
+    virtual int writeData(const MwsAnswset& answerSet, FILE* output) const;
+};
+
+extern MwsIdsResponseFormatter* RESPONSE_FORMATTER_MWS_IDS;
+
+}  // namespace parser
 }  // namespace mws
 
-#endif  // _READMWSQUERY
+#endif  // _MWS_PARSER_MWSIDSRESPONSE_FORMATTER_HPP

@@ -50,11 +50,10 @@ using std::unique_ptr;
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/xmlparser/initxmlparser.hpp"
 #include "mws/xmlparser/processMwsHarvest.hpp"
+#include "mws/types/Query.hpp"
+using mws::types::Query;
 #include "mws/xmlparser/readMwsQuery.hpp"
 using mws::xmlparser::readMwsQuery;
-#include "mws/xmlparser/writeJsonAnswset.hpp"
-#include "mws/xmlparser/writeXmlAnswset.hpp"
-using mws::xmlparser::writeXmlAnswset;
 
 #include "mws/daemon/Daemon.hpp"
 
@@ -68,7 +67,11 @@ Daemon::Daemon() : _daemonHandler(nullptr) {}
 static void cleanupMws() { clearxmlparser(); }
 
 class MemStream {
-    enum Mode { MODE_WRITING, MODE_READING_BUFFER, MODE_READING_FILE } _mode;
+    enum Mode {
+        MODE_WRITING,
+        MODE_READING_BUFFER,
+        MODE_READING_FILE
+    } _mode;
     char* _buffer;
     size_t _buffer_size;
     FILE* _input;
@@ -199,7 +202,7 @@ static int my_MHD_AccessHandlerCallback(void* cls,
     }
 
     // Parse query
-    unique_ptr<MwsQuery> mwsQuery(readMwsQuery(memstream->getOutputFile()));
+    unique_ptr<Query> mwsQuery(readMwsQuery(memstream->getOutputFile()));
     delete memstream;
 
     // Check if query failed or is empty
@@ -222,19 +225,9 @@ static int my_MHD_AccessHandlerCallback(void* cls,
     }
 
     // Write answer
-    int ret;
     MemStream responseData;
-    switch (mwsQuery->attrResultOutputFormat) {
-    case DATAFORMAT_XML:
-        ret = writeXmlAnswset(answset.get(), responseData.getInput());
-        break;
-    case DATAFORMAT_JSON:
-        ret = writeJsonAnswset(answset.get(), responseData.getInput());
-        break;
-    default:
-        ret = writeXmlAnswset(answset.get(), responseData.getInput());
-        break;
-    }
+    int ret = mwsQuery->responseFormatter->writeData(*answset,
+                                                     responseData.getInput());
     if (ret < 0) {
         PRINT_WARN("Error while writing the Answer Set\n");
         return sendXmlGenericResponse(connection, XML_MWS_SERVER_ERROR,
@@ -256,17 +249,8 @@ static int my_MHD_AccessHandlerCallback(void* cls,
                                              /* must_free = */ 1,
                                              /* must_copy = */ 0);
 #endif
-    switch (mwsQuery->attrResultOutputFormat) {
-    case DATAFORMAT_XML:
-        MHD_add_response_header(response, "Content-Type", "text/xml");
-        break;
-    case DATAFORMAT_JSON:
-        MHD_add_response_header(response, "Content-Type", "application/json");
-        break;
-    default:
-        MHD_add_response_header(response, "Content-Type", "text/xml");
-        break;
-    }
+    MHD_add_response_header(response, "Content-Type",
+                            mwsQuery->responseFormatter->getContentType());
     MHD_add_response_header(response, "Access-Control-Allow-Origin", "*");
     MHD_add_response_header(response, "Cache-Control",
                             "no-cache, must-revalidate");

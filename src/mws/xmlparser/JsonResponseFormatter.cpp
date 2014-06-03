@@ -40,17 +40,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 
-#include "writeJsonAnswset.hpp"
+#include "JsonResponseFormatter.hpp"
 
 using namespace std;
 using namespace mws;
 
 namespace mws {
+namespace parser {
 
-int writeJsonAnswset(mws::MwsAnswset* answset, FILE* file) {
-    const char* data;
-    size_t data_size;
-    size_t bytes_written;
+JsonResponseFormatter JsonResponseFormatter::instance;
+JsonResponseFormatter* RESPONSE_FORMATTER_JSON =
+    &JsonResponseFormatter::instance;
+
+static const char HTTP_ENCODING[] = "application/json";
+
+const char* JsonResponseFormatter::getContentType() const {
+    return HTTP_ENCODING;
+}
+
+int JsonResponseFormatter::writeData(const MwsAnswset& answerSet,
+                                     FILE* output) const {
     json_object* json_doc, *qvars, *hits;
 
     json_doc = json_object_new_object();
@@ -58,17 +67,17 @@ int writeJsonAnswset(mws::MwsAnswset* answset, FILE* file) {
     hits = json_object_new_array();
 
     json_object_object_add(json_doc, "total",
-                           json_object_new_int(answset->total));
+                           json_object_new_int(answerSet.total));
 
     // Creating qvars field
-    for (int i = 0; i < (int)answset->qvarNames.size(); i++) {
+    for (int i = 0; i < (int)answerSet.qvarNames.size(); i++) {
         json_object* qvar = json_object_new_object();
         json_object_object_add(
             qvar, "name",
-            json_object_new_string(answset->qvarNames[i].c_str()));
+            json_object_new_string(answerSet.qvarNames[i].c_str()));
         json_object_object_add(
             qvar, "xpath",
-            json_object_new_string(answset->qvarXpaths[i].c_str()));
+            json_object_new_string(answerSet.qvarXpaths[i].c_str()));
 
         json_object_array_add(qvars, qvar);
     }
@@ -76,35 +85,28 @@ int writeJsonAnswset(mws::MwsAnswset* answset, FILE* file) {
     json_object_object_add(json_doc, "qvars", qvars);
 
     // Creating hits field
-    for (auto answer : answset->answers) {
+    for (auto answerPtr : answerSet.answers) {
         json_object* hit = json_object_new_object();
         json_object* math_ids = json_object_new_array();
         json_object* math_id = json_object_new_object();
         json_object_object_add(math_id, "url",
-                               json_object_new_string(answer->uri.c_str()));
-        json_object_object_add(math_id, "xpath",
-                               json_object_new_string(answer->xpath.c_str()));
+                               json_object_new_string(answerPtr->uri.c_str()));
+        json_object_object_add(
+            math_id, "xpath", json_object_new_string(answerPtr->xpath.c_str()));
         json_object_array_add(math_ids, math_id);
         json_object_object_add(hit, "math_ids", math_ids);
         json_object_object_add(hit, "xhtml",
-                               json_object_new_string(answer->data.c_str()));
+                               json_object_new_string(answerPtr->data.c_str()));
         json_object_array_add(hits, hit);
     }
 
     json_object_object_add(json_doc, "hits", hits);
 
     string json_string = json_object_to_json_string(json_doc);
-
-    data = json_string.c_str();
-    data_size = json_string.size();
-
-    bytes_written = 0;
-    while (bytes_written < data_size) {
-        bytes_written += fwrite(data + bytes_written, sizeof(char),
-                                data_size - bytes_written, file);
-    }
+    fwrite(json_string.c_str(), json_string.size(), 1, output);
 
     json_object_put(json_doc);
-    return data_size;
+    return json_string.size();
+}
 }
 }

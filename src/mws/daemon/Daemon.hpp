@@ -37,7 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include "mws/types/MwsAnswset.hpp"
-#include "mws/types/MwsQuery.hpp"
+#include "mws/types/Query.hpp"
 #include "mws/index/IndexBuilder.hpp"
 
 namespace mws { namespace daemon {
@@ -62,7 +62,7 @@ class Daemon {
  public:
     int startAsync(const Config& config);
     void stop();
-    virtual MwsAnswset* handleQuery(MwsQuery* query) = 0;
+    virtual MwsAnswset* handleQuery(types::Query* query) = 0;
     Daemon();
     virtual ~Daemon();
 

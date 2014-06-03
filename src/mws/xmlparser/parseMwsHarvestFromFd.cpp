@@ -47,6 +47,8 @@ using mws::index::IndexingOptions;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::TokenCallback;
+#include "mws/types/Query.hpp"
+using mws::types::Query;
 #include "common/utils/compiler_defs.h"
 #include "mws/index/IndexAccessor.hpp"
 using mws::index::IndexAccessor;
@@ -105,7 +107,7 @@ int HarvestParser::processExpression(const CmmlToken* token,
     TokenCallback tokCallback = [&](const CmmlToken* tok) {
         vector<encoded_token_t> encodedFormula;
         encoder.encode(_config.indexingOptions, tok, &encodedFormula, nullptr);
-        ctxt = new query::SearchContext(encodedFormula);
+        ctxt = new query::SearchContext(encodedFormula, Query::Options());
         result = ctxt->getResult<IndexAccessor>(_index, &dbQueryManager,
                                                 /* offset=*/0,
                                                 /* size=*/1,

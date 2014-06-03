@@ -42,7 +42,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include "common/utils/compiler_defs.h"
-#include "mws/xmlparser/writeXmlAnswset.hpp"
+#include "mws/xmlparser/XmlResponseFormatter.hpp"
 
 #include "build-gen/config.h"
 
@@ -74,9 +74,20 @@ static inline int fileXmlOutputWriteCallback(void* _ctxt, const char* data,
 }
 
 namespace mws {
-namespace xmlparser {
+namespace parser {
 
-int writeXmlAnswset(MwsAnswset* answset, FILE* file) {
+XmlResponseFormatter XmlResponseFormatter::instance;
+const XmlResponseFormatter* RESPONSE_FORMATTER_XML =
+    &XmlResponseFormatter::instance;
+
+static const char HTTP_ENCODING[] = "application/xml";
+
+const char* XmlResponseFormatter::getContentType() const {
+    return HTTP_ENCODING;
+}
+
+int XmlResponseFormatter::writeData(const MwsAnswset& answerSet,
+                                    FILE* output) const {
     xmlOutputBuffer* outPtr;
     xmlTextWriter* writerPtr;
     size_t qvarNr;
@@ -88,15 +99,12 @@ int writeXmlAnswset(MwsAnswset* answset, FILE* file) {
     outPtr = nullptr;
     writerPtr = nullptr;
     ret = -1;
-    qvarNr = answset->qvarNames.size();
-    ctxt.file = file;
+    qvarNr = answerSet.qvarNames.size();
+    ctxt.file = output;
     ctxt.total_bytes_written = 0;
 
-    if (answset == nullptr) {
-        PRINT_WARN("NULL answset passed to writeXmlAnswsetToFd");
-    } else if ((outPtr = xmlOutputBufferCreateIO(fileXmlOutputWriteCallback,
-                                                 nullptr, &ctxt, nullptr)) ==
-               nullptr) {
+    if ((outPtr = xmlOutputBufferCreateIO(fileXmlOutputWriteCallback, nullptr,
+                                          &ctxt, nullptr)) == nullptr) {
         PRINT_WARN("Error while creating the OutputBuffer\n");
     } else if ((writerPtr = xmlNewTextWriter(outPtr)) == nullptr) {
         PRINT_WARN("Error while creating the TextWriter\n");
@@ -120,34 +128,33 @@ int writeXmlAnswset(MwsAnswset* answset, FILE* file) {
         PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
     } else if ((ret = xmlTextWriterWriteAttribute(
                     writerPtr, BAD_CAST "size",
-                    BAD_CAST std::to_string(answset->answers.size())
+                    BAD_CAST std::to_string(answerSet.answers.size())
                         .c_str())) == -1) {
         PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
     } else if ((ret = xmlTextWriterWriteAttribute(
                     writerPtr, BAD_CAST "total",
-                    BAD_CAST std::to_string(answset->total).c_str())) == -1) {
+                    BAD_CAST std::to_string(answerSet.total).c_str())) == -1) {
         PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
     } else {
-        for (auto it = answset->answers.begin(); it != answset->answers.end();
-             it++) {
+        for (auto& answer : answerSet.answers) {
             if ((ret = xmlTextWriterStartElement(
                      writerPtr, BAD_CAST MWSANSWSET_ANSW_NAME)) == -1) {
                 PRINT_WARN("Error at xmlTextWriterStartElement\n");
                 break;
             } else if ((ret = xmlTextWriterWriteAttribute(
                             writerPtr, BAD_CAST MWSANSWSET_URI_NAME,
-                            BAD_CAST(*it)->uri.c_str())) == -1) {
+                            BAD_CAST answer->uri.c_str())) == -1) {
                 PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
                 break;
             } else if ((ret = xmlTextWriterWriteAttribute(
                             writerPtr, BAD_CAST MWSANSWSET_XPATH_NAME,
-                            BAD_CAST(*it)->xpath.c_str())) == -1) {
+                            BAD_CAST answer->xpath.c_str())) == -1) {
                 PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
                 break;
             } else {
                 // Writing the substitutions
                 for (i = 0; i < qvarNr; i++) {
-                    string qvarXpath = (*it)->xpath + answset->qvarXpaths[i];
+                    string qvarXpath = answer->xpath + answerSet.qvarXpaths[i];
                     if ((ret = xmlTextWriterStartElement(
                              writerPtr, BAD_CAST MWSANSWSET_SUBSTPAIR_NAME)) ==
                         -1) {
@@ -155,7 +162,7 @@ int writeXmlAnswset(MwsAnswset* answset, FILE* file) {
                         break;
                     } else if ((ret = xmlTextWriterWriteAttribute(
                                     writerPtr, BAD_CAST "qvar",
-                                    BAD_CAST answset->qvarNames[i].c_str())) ==
+                                    BAD_CAST answerSet.qvarNames[i].c_str())) ==
                                -1) {
                         PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
                         break;
@@ -172,7 +179,7 @@ int writeXmlAnswset(MwsAnswset* answset, FILE* file) {
                 }
                 // <data> ... </data>
                 xmlTextWriterWriteElement(writerPtr, BAD_CAST "data",
-                                          BAD_CAST(*it)->data.c_str());
+                                          BAD_CAST answer->data.c_str());
             }
             if (ret == -1) {
                 PRINT_WARN("Error while writing xml substpairs\n");
@@ -210,5 +217,5 @@ int writeXmlAnswset(MwsAnswset* answset, FILE* file) {
     }
 }
 
-}  // namespace xmlparser
+}  // namespace parser
 }  // namespace mws

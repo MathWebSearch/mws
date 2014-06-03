@@ -47,7 +47,7 @@ class HarvestDaemon: public Daemon {
     HarvestDaemon();
     ~HarvestDaemon();
  private:
-    MwsAnswset* handleQuery(MwsQuery* query);
+    MwsAnswset* handleQuery(types::Query* query);
     int initMws(const Config& config);
  private:
     index::IndexBuilder* indexBuilder;

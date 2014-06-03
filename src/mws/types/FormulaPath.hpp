@@ -35,6 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdint.h>
 
+#include <cinttypes>
 #include <string>
 #include <utility>
 
@@ -48,6 +49,7 @@ namespace types {
  * @brief Formula Id corresponding to a leaf node
  */
 typedef uint32_t FormulaId;
+#define PRIformulaId PRIu32
 
 /**
  * @brief Formula Path

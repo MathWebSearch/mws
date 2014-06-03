@@ -106,6 +106,10 @@ extern int verbose;
         }                                                                   \
     } while (0)
 
+#define DISALLOW_CONSTRUCTION(TypeName)                                     \
+    TypeName() = delete                                                     \
+    TypeName(const TypeName&) = delete;                                     \
+    TypeName(const TypeName&&) = delete
 
 #define DISALLOW_COPY_AND_ASSIGN(TypeName)                                  \
     TypeName(const TypeName&) = delete;                                     \

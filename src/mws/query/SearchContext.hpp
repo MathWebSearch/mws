@@ -41,36 +41,17 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/encoded_token.h"
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsAnswset.hpp"
+#include "mws/types/Query.hpp"
 
 namespace mws { namespace query {
 
 class SearchContext {
-    struct NodeTriple {
-        bool           isQvar;
-        MeaningId meaningId;
-        Arity     arity;
-        NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity);
-    };
-
-    int mQvarCount;
-    /// Vector containing the DFS traversal of the query expression
-    std::vector<NodeTriple> expr;
-    /// Qvar points in the Cmml Dfs Vector from where to backtrack. The
-    /// vector starts with -1 to mark the beginning
-    std::vector<int> backtrackPoints;
-
-public:
+ public:
     /**
-      * @brief Constructor of the SearchContext class.
-      * @param expression is a pointer to a CmmlToken from which to create
-      * the SearchContext instance.
+      * @param encodedFormula
       */
-    explicit SearchContext(const std::vector<encoded_token_t>& encodedFormula);
-
-    /**
-      * @brief Destructor of the SearchContext class.
-      */
-    ~SearchContext();
+    SearchContext(const std::vector<encoded_token_t>& encodedFormula,
+                  const types::Query::Options& options);
 
     /**
       * @brief Method to get the result of the search context, starting with
@@ -89,6 +70,21 @@ public:
                                unsigned int aSize,
                                unsigned int aMaxTotal);
 
+ private:
+    struct _NodeTriple {
+        bool           isQvar;
+        MeaningId meaningId;
+        Arity     arity;
+        _NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity);
+    };
+
+    int mQvarCount;
+    /// Vector containing the DFS traversal of the query expression
+    std::vector<_NodeTriple> expr;
+    /// Qvar points in the Cmml Dfs Vector from where to backtrack. The
+    /// vector starts with -1 to mark the beginning
+    std::vector<int> backtrackPoints;
+    types::Query::Options options;
 };
 
 }  // namespace query

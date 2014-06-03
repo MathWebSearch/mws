@@ -18,13 +18,13 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _WRITEJSONANSWSET_HPP
-#define _WRITEJSONANSWSET_HPP
+#ifndef _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP
+#define _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP
 
 /**
-  * @brief   File containing the header of the writeJsonAnswset function
+  * @brief   JsonResponseFormatter
   *
-  * @file    writeJsonAnswset.hpp
+  * @file    JsonResponseFormatter.hpp
   * @author  Corneliu-Claudiu Prodescu
   * @date    30 Jul 2011
   *
@@ -34,23 +34,21 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include <stdio.h>
-// Local includes
+#include "mws/types/Query.hpp"
 
-#include "mws/types/MwsAnswset.hpp"    // MWS Answer Set datatype header
+namespace mws {
+namespace parser {
 
-namespace mws
-{
+struct JsonResponseFormatter : public types::Query::ResponseFormatter {
+    static JsonResponseFormatter instance;
 
-/**
-  * @brief Function to write a MwsAnswset to an output file descriptor as JSON
-  * data.
-  * @param file is the file to which to write.
-  * @param answset is the MWS Answer Set to be written.
-  * @return the number of bytes written to file or -1 in case of failure.
-  */
-int writeJsonAnswset(mws::MwsAnswset* answset, FILE* file);
+    virtual const char* getContentType() const;
+    virtual int writeData(const MwsAnswset& answerSet, FILE* output) const;
+};
 
-}
+extern JsonResponseFormatter* RESPONSE_FORMATTER_JSON;
 
-#endif  // _WRITEJSONANSWSET_HPP
+}  // namespace parser
+}  // namespace mws
+
+#endif  // _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP

@@ -71,7 +71,7 @@ using namespace mws::index;
 namespace mws {
 namespace daemon {
 
-MwsAnswset* HarvestDaemon::handleQuery(MwsQuery* mwsQuery) {
+MwsAnswset* HarvestDaemon::handleQuery(Query* mwsQuery) {
     MwsAnswset* result;
     query::SearchContext* ctxt;
 
@@ -82,7 +82,7 @@ MwsAnswset* HarvestDaemon::handleQuery(MwsQuery* mwsQuery) {
     if (encoder.encode(_config.indexingOptions, mwsQuery->tokens[0],
                        &encodedQuery, &queryInfo) == 0) {
         dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
-        ctxt = new query::SearchContext(encodedQuery);
+        ctxt = new query::SearchContext(encodedQuery, mwsQuery->options);
         result = ctxt->getResult<TmpIndexAccessor>(
             data, &dbQueryManger, mwsQuery->attrResultLimitMin,
             mwsQuery->attrResultMaxSize, mwsQuery->attrResultTotalReqNr);
