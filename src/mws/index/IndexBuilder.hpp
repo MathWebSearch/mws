@@ -28,6 +28,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <string>
+#include <vector>
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/dbc/FormulaDb.hpp"
@@ -41,6 +42,14 @@ struct IndexingOptions {
     bool renameCi;
     IndexingOptions() : renameCi(false) {
     }
+};
+
+struct IndexingConfiguration {
+    std::vector<std::string> harvestLoadPaths;
+    bool                     recursive;
+    std::string              dataPath;
+    std::string              harvestFileExtension;
+    IndexingOptions          indexingOptions;
 };
 
 class IndexBuilder {

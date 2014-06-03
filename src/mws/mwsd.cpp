@@ -34,15 +34,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using std::string;
 #include <vector>
 using std::vector;
+#include <memory>
+using std::unique_ptr;
 
 #include "common/utils/save_pid_file.h"
 #include "common/utils/FlagParser.hpp"
+using common::utils::FlagParser;
+#include "daemon/Daemon.hpp"
+using mws::daemon::Daemon;
+using mws::daemon::Config;
 #include "mws/daemon/HarvestDaemon.hpp"
+using mws::daemon::HarvestDaemon;
+#include "mws/daemon/IndexDaemon.hpp"
+using mws::daemon::IndexDaemon;
+#include "index/IndexBuilder.hpp"
+using mws::index::IndexingConfiguration;
 #include "mws/index/memsector.h"
+#include "mws/index/IndexWriter.hpp"
+using mws::index::createCompressedIndex;
 
 #include "build-gen/config.h"
-
-using namespace common::utils;
 
 static volatile sig_atomic_t sigQuit = 0;
 
@@ -54,17 +65,17 @@ int main(int argc, char* argv[]) {
     sigset_t mask, old_mask;
     struct sigaction sa, old_sa1, old_sa2;
     int ret;
-    mws::daemon::Config config;
-    mws::daemon::HarvestDaemon daemon;
+    Config config;
+    unique_ptr<Daemon> daemon;
 
     // Parsing the flags
-    FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
+    FlagParser::addFlag('I', "include-harvest-path", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('x', "experimental-query-engine", FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('p', "mws-port", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('D', "data-path", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('i', "pid-file", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('l', "log-file", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('r', "recursive", FLAG_OPT, ARG_NONE);
-    FlagParser::addFlag('L', "leveldb", FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('c', "enable-ci-renaming", FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('e', "harvest-file-extension", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('f', "delete-old-data", FLAG_OPT, ARG_NONE);
@@ -78,8 +89,17 @@ int main(int argc, char* argv[]) {
         goto failure;
     }
 
+    // either -I or -D must be given
+    if (!(FlagParser::hasArg('D')) && !(FlagParser::hasArg('I'))) {
+        fprintf(stderr, "%s", FlagParser::getUsage().c_str());
+        goto failure;
+    }
+
     // harvest paths
-    config.harvestLoadPaths = FlagParser::getArgs('I');
+    if (FlagParser::hasArg('I')) {
+        config.harvestLoadPaths = FlagParser::getArgs('I');
+        config.indexingConfiguration.harvestLoadPaths = config.harvestLoadPaths;
+    }
     config.enableIpv6 = FlagParser::hasArg('6');
 
     // harvest file extension
@@ -88,15 +108,18 @@ int main(int argc, char* argv[]) {
     } else {
         config.harvestFileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
     }
+    config.indexingConfiguration.harvestFileExtension =
+        config.harvestFileExtension;
 
     // recursive
     config.recursive = FlagParser::hasArg('r');
-
+    config.indexingConfiguration.recursive = config.recursive;
     // leveldb
     config.useLevelDb = FlagParser::hasArg('L');
 
     // ci renaming
     config.indexingOptions.renameCi = FlagParser::hasArg('c');
+    config.indexingConfiguration.indexingOptions = config.indexingOptions;
 
     // mws-port
     if (FlagParser::hasArg('p')) {
@@ -111,14 +134,6 @@ int main(int argc, char* argv[]) {
     } else {
         fprintf(stderr, "Using default mws port %d\n", DEFAULT_MWS_PORT);
         config.mwsPort = DEFAULT_MWS_PORT;
-    }
-
-    // data-path
-    if (FlagParser::hasArg('D')) {
-        config.dataPath = FlagParser::getArg('D');
-    } else {
-        fprintf(stderr, "Using default data path %s\n", DEFAULT_MWS_DATA_PATH);
-        config.dataPath = DEFAULT_MWS_DATA_PATH;
     }
 
     // log-file
@@ -162,11 +177,44 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Starting the daemon
-    ret = daemon.startAsync(config);
-    if (ret != 0) {
-        fprintf(stderr, "Failure while starting the daemon\n");
-        goto failure;
+    // data-path
+    if (FlagParser::hasArg('D')) {
+        config.dataPath = FlagParser::getArg('D');
+        config.indexingConfiguration.dataPath = config.dataPath;
+
+        daemon.reset(new IndexDaemon());
+        ret = daemon->startAsync(config);
+        if (ret != 0) {
+            if (!(FlagParser::hasArg('I'))) {
+                PRINT_WARN("Index not found and no harvest directory provided. "
+                           "Aborting...\n");
+                goto failure;
+            }
+            PRINT_LOG("Index not found. Attempting to build it...\n");
+
+            if (createCompressedIndex(config.indexingConfiguration) != 0) {
+                PRINT_WARN("Could not build index. Aborting...\n");
+                goto failure;
+            }
+
+            // retry with the built index
+            if (daemon->startAsync(config) != 0) {
+                PRINT_WARN(
+                    "An error occured while loading the fresh index...\n");
+                goto failure;
+            }
+        }
+        PRINT_LOG("Index loaded successfully. \n");
+    } else {
+        PRINT_LOG("Using default data path %s\n", DEFAULT_MWS_DATA_PATH);
+        PRINT_LOG("Trying to load index in memory.\n");
+        config.dataPath = DEFAULT_MWS_DATA_PATH;
+        daemon.reset(new HarvestDaemon());
+        ret = daemon->startAsync(config);
+        if (ret != 0) {
+            PRINT_WARN("Failure while starting the daemon\n");
+            goto failure;
+        }
     }
 
     // Preparing the Signal Action
@@ -196,7 +244,7 @@ int main(int argc, char* argv[]) {
     if (sigaction(SIGINT, &old_sa2, nullptr) == -1)
         fprintf(stderr, "sigaction - close");
 
-    daemon.stop();
+    daemon->stop();
     return EXIT_SUCCESS;
 
 failure:

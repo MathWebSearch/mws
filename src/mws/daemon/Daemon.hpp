@@ -44,15 +44,16 @@ namespace mws { namespace daemon {
 
 struct Config {
     std::vector<std::string> harvestLoadPaths;
-    bool                     recursive;
-    bool                     enableIpv6;
-    uint16_t                 mwsPort;
-    std::string              dataPath;
-    bool                     useLevelDb;
-    std::string              harvestFileExtension;
-    index::IndexingOptions   indexingOptions;
-    bool                     deleteOldData;
-    bool                     useExperimentalQueryEngine;
+    bool                         recursive;
+    bool                         enableIpv6;
+    uint16_t                     mwsPort;
+    std::string                  dataPath;
+    bool                         useLevelDb;
+    std::string                  harvestFileExtension;
+    index::IndexingOptions       indexingOptions;
+    index::IndexingConfiguration indexingConfiguration;
+    bool                         deleteOldData;
+    bool                         useExperimentalQueryEngine;
 
     Config();
 };
