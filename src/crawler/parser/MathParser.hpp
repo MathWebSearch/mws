@@ -49,6 +49,7 @@ struct HarvesterConfiguration {
     HarvesterConfiguration();
     std::string toString() const;
 
+    std::string harvestPath;
     bool shouldSaveData;
     std::string data_id;
     std::string documentIdXpath;

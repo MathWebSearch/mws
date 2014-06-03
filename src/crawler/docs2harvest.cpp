@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
         for (const string& file : files) {
             try {
                 config.data_id = to_string(data_id);
-
+                config.harvestPath = file;
                 const string data = getFileContents(file.c_str());
                 const Harvest harvest = createHarvestFromDocument(data, config);
                 fputs(harvest.dataElement.c_str(), harvestOutStream);

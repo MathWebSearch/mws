@@ -98,6 +98,7 @@ Harvest createHarvestFromDocument(const string& content,
         data << "<id>" << documentId << "</id>\n";
         data << "<text>" << getTextByXpath(doc, config.textWithMathXpath)
              << "</text>\n";
+        data << "<path>" << config.harvestPath << "</path>\n";
         for (HarvesterConfiguration::MetadataItem item : config.metadataItems) {
             data << "<" << item.name << ">" << getTextByXpath(doc, item.xpath)
                  << "</" << item.name << ">\n";
