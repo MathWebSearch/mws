@@ -48,6 +48,7 @@ using std::function;
 #include "common/utils/compiler_defs.h"
 #include "common/utils/util.hpp"
 using common::utils::removeDuplicateSpaces;
+using common::utils::getFileContents;
 
 #include "crawler/parser/XmlParser.hpp"
 #include "crawler/parser/MathParser.hpp"
@@ -86,23 +87,30 @@ string HarvesterConfiguration::toString() const {
     return stream.str();
 }
 
-Harvest createHarvestFromDocument(const string& content,
+Harvest createHarvestFromDocument(const string& path,
                                   const HarvesterConfiguration& config) {
     Harvest harvest;
-    stringstream data;
+    const string content = getFileContents(path);
     xmlDocPtr doc = parseDocument(content.c_str(), content.size());
-    const string documentId = getTextByXpath(doc, config.documentIdXpath);
+    stringstream data;
+    string documentId;
+    if (config.documentIdXpath != "") {
+        documentId = getTextByXpath(doc, config.documentIdXpath);
+    } else {
+        documentId = path;
+    }
 
     if (config.shouldSaveData) {
         data << "<mws:data mws:data_id=\"" << config.data_id << "\">\n";
         data << "<id>" << documentId << "</id>\n";
         data << "<text>" << getTextByXpath(doc, config.textWithMathXpath)
              << "</text>\n";
-        data << "<path>" << config.harvestPath << "</path>\n";
+        data << "<metadata>\n";
         for (HarvesterConfiguration::MetadataItem item : config.metadataItems) {
             data << "<" << item.name << ">" << getTextByXpath(doc, item.xpath)
                  << "</" << item.name << ">\n";
         }
+        data << "</metadata>\n";
     }
 
     processXpathResults(doc, XPATH_MATHML, [&](xmlNode* mathNode) {

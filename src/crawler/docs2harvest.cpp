@@ -110,22 +110,21 @@ int main(int argc, char* argv[]) {
         "             xmlns:mws=\"http://search.mathweb.org/ns\">\n",
         harvestOutStream);
     {
-        const vector<string>& files = FlagParser::getParams();
+        const vector<string>& filePaths = FlagParser::getParams();
         int data_id = 0;
-        for (const string& file : files) {
+        for (const string& filePath : filePaths) {
             try {
                 config.data_id = to_string(data_id);
-                config.harvestPath = file;
-                const string data = getFileContents(file.c_str());
-                const Harvest harvest = createHarvestFromDocument(data, config);
+                const Harvest harvest =
+                    createHarvestFromDocument(filePath, config);
                 fputs(harvest.dataElement.c_str(), harvestOutStream);
                 for (const string& element : harvest.contentMathElements) {
                     fputs(element.c_str(), harvestOutStream);
                 }
-                PRINT_LOG("Parsed %s: %zd math elements\n", file.c_str(),
+                PRINT_LOG("Parsed %s: %zd math elements\n", filePath.c_str(),
                           harvest.contentMathElements.size());
             } catch (exception& e) {
-                PRINT_WARN("Parsing %s: %s\n", file.c_str(), e.what());
+                PRINT_WARN("Parsing %s: %s\n", filePath.c_str(), e.what());
             }
             data_id++;
         }

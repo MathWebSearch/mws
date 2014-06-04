@@ -34,6 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>
 
 #include <algorithm>
+using std::sort;
 #include <fstream>
 using std::ifstream;
 #include <functional>
@@ -42,6 +43,8 @@ using std::function;
 using std::queue;
 #include <stdexcept>
 using std::runtime_error;
+#include <sstream>
+using std::stringstream;
 #include <string>
 using std::string;
 #include <vector>
@@ -62,12 +65,18 @@ bool hasSuffix(const std::string& str, const std::string& suffix) {
 }
 
 void removeDuplicateSpaces(string* str) {
-    function<bool(char, char)> BothAreSpaces = [](
-        char lhs, char rhs) { return isspace(lhs) && isspace(rhs); };
-    function<bool(char)> IsSpace = [](char ch) { return isspace(ch); };
-    replace_if(str->begin(), str->end(), IsSpace, ' ');
-    string::iterator new_end = unique(str->begin(), str->end(), BothAreSpaces);
-    str->erase(new_end, str->end());
+    stringstream input(*str);
+    stringstream output;
+    string token;
+
+    bool shouldSeparate = false;
+    while (input >> token) {
+        if (shouldSeparate) output << " ";
+        output << token;
+        shouldSeparate = true;
+    }
+
+    *str = output.str();
 }
 
 std::string getFileContents(const std::string& path) throw(runtime_error) {

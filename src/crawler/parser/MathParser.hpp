@@ -49,7 +49,6 @@ struct HarvesterConfiguration {
     HarvesterConfiguration();
     std::string toString() const;
 
-    std::string harvestPath;
     bool shouldSaveData;
     std::string data_id;
     std::string documentIdXpath;
@@ -58,7 +57,7 @@ struct HarvesterConfiguration {
 };
 
 /**
- * @param content HTML or XHTML content
+ * @param path to HTML or XHTML file
  * @param url URL of the HTML or XHTML
  * @param data_id
  *
@@ -66,7 +65,7 @@ struct HarvesterConfiguration {
  *
  * @throw runtime_error when HTML/XHTML parsing fails
  */
-Harvest createHarvestFromDocument(const std::string& content,
+Harvest createHarvestFromDocument(const std::string& path,
                                   const HarvesterConfiguration& config);
 
 /**
