@@ -32,6 +32,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <ftw.h>
 
 #include <algorithm>
 using std::sort;
@@ -51,6 +52,7 @@ using std::string;
 using std::vector;
 
 #include "common/utils/compiler_defs.h"
+
 
 #include "util.hpp"
 
@@ -189,6 +191,22 @@ int foreachEntryInDirectory(const std::string& path,
 
 fail:
     return -1;
+}
+
+static int _totalSize = 0;
+static int getTotalSize(const char *fpath, const struct stat *sb,
+                        int typeflag) {
+    UNUSED(fpath);
+    if (typeflag == FTW_F) {
+        _totalSize += sb->st_size;
+    }
+    return 0;
+}
+
+int getDirectorySize(const std::string &path) {
+    _totalSize = 0;
+    ftw(path.c_str(), getTotalSize, /*nopenfd=*/3);
+    return _totalSize;
 }
 
 }  // namespace utils

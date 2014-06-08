@@ -43,27 +43,17 @@ using mws::index::TmpIndex;
 using mws::index::MeaningDictionary;
 #include "mws/xmlparser/processMwsHarvest.hpp"
 using mws::parser::loadMwsHarvestFromDirectory;
+#include "mws/index/IndexWriter.hpp"
+using mws::index::IndexingConfiguration;
+using mws::index::createCompressedIndex;
 #include "mws/xmlparser/clearxmlparser.hpp"
 using mws::clearxmlparser;
-
 #include "build-gen/config.h"
 
 using namespace mws;
 
 int main(int argc, char* argv[]) {
-    string output_dir;
-    memsector_writer_t mwsr;
-    string harvest_path;
-    int ret;
-
-    dbc::CrawlDb* crawlDb;
-    dbc::FormulaDb* formulaDb;
-    TmpIndex index;
-    MeaningDictionary* meaningDictionary;
-    index::IndexBuilder* indexBuilder;
-    index::IndexingOptions indexingOptions;
-    std::filebuf fb;
-    std::ostream os(&fb);
+    IndexingConfiguration indexingConfig;
 
     FlagParser::addFlag('o', "output-directory", FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
@@ -71,76 +61,21 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('e', "harvest-file-extension", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('c', "enable-ci-renaming", FLAG_OPT, ARG_NONE);
 
-    string harvestExtension = "harvest";
-    if (FlagParser::hasArg('e')) {
-        harvestExtension = FlagParser::getArg('e');
-    }
-
-    bool recursive = FlagParser::hasArg('r');
-
-    if ((ret = FlagParser::parse(argc, argv)) != 0) {
+    if (FlagParser::parse(argc, argv) != 0) {
         fprintf(stderr, "%s", FlagParser::getUsage().c_str());
-        goto failure;
+        return EXIT_FAILURE;
     }
 
-    harvest_path = FlagParser::getArg('I');
-    output_dir = FlagParser::getArg('o');
-    indexingOptions.renameCi = FlagParser::hasArg('c');
-
-    // if the path exists
-    if (access(output_dir.c_str(), 0) == 0) {
-        struct stat status;
-        stat(output_dir.c_str(), &status);
-
-        if (status.st_mode & S_IFDIR) {
-            // Everything ok if the folder has no other files called
-            // crawl.db, level.db, memsector.dat or meaning.dat
-        } else {
-            fprintf(stderr, "The path you entered is a file");
-            goto failure;
-        }
-    } else {
-        mkdir(output_dir.c_str(), 0755);
+    indexingConfig.harvestFileExtension = "harvest";
+    if (FlagParser::hasArg('e')) {
+        indexingConfig.harvestFileExtension = FlagParser::getArg('e');
     }
 
-    try {
-        auto crawlLevDb = new dbc::LevCrawlDb();
-        crawlLevDb->create_new((output_dir + "/" + CRAWL_DB_FILE).c_str(),
-                               /* deleteIfExists = */ false);
-        crawlDb = crawlLevDb;
-        auto formulaLevDb = new dbc::LevFormulaDb();
-        formulaLevDb->create_new((output_dir + "/" + FORMULA_DB_FILE).c_str(),
-                                 /* deleteIfExists = */ false);
-        formulaDb = formulaLevDb;
-    } catch (exception& e) {
-        PRINT_WARN("%s\n", e.what());
-        goto failure;
-    }
-    meaningDictionary = new MeaningDictionary();
+    indexingConfig.recursive = FlagParser::hasArg('r');
 
-    indexBuilder = new index::IndexBuilder(formulaDb, crawlDb, &index,
-                                           meaningDictionary, indexingOptions);
-    loadMwsHarvestFromDirectory(indexBuilder, AbsPath(harvest_path),
-                                harvestExtension, recursive);
-    memsector_create(&mwsr, (output_dir + "/" + INDEX_MEMSECTOR_FILE).c_str());
-    index.exportToMemsector(&mwsr);
-    PRINT_LOG("Created index of %" PRIu64 "Kb\n", mwsr.ms.index_size / 1024);
+    indexingConfig.harvestLoadPaths = FlagParser::getArgs('I');
+    indexingConfig.dataPath = FlagParser::getArg('o');
+    indexingConfig.indexingOptions.renameCi = FlagParser::hasArg('c');
 
-    fb.open((output_dir + "/" + MEANING_DICTIONARY_FILE).c_str(),
-            std::ios::out);
-    meaningDictionary->save(os);
-    fb.close();
-
-    clearxmlparser();
-    delete crawlDb;
-    delete formulaDb;
-    delete meaningDictionary;
-    delete indexBuilder;
-
-    PRINT_LOG("Index saved to %s\n", output_dir.c_str());
-
-    return EXIT_SUCCESS;
-
-failure:
-    return EXIT_FAILURE;
+    return createCompressedIndex(indexingConfig);
 }

@@ -70,6 +70,8 @@ foreachEntryInDirectory(const std::string& path,
         const FileCallback& fileCallback,
         const DirectoryCallback& directoryCallback = ignore_directories);
 
+int getDirectorySize(const std::string& path);
+
 }  // namespace utils
 }  // namespace common
 
