@@ -24,6 +24,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @brief Utilities implementation
   * @date 22 Nov 2013
   *
+  * @edit Radu Hambasan
+  * @date 09 Jun 2014
+  *
   * License: GPL v3
   */
 
@@ -33,6 +36,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <ftw.h>
+#include <math.h>
+#include <stdio.h>
 
 #include <algorithm>
 using std::sort;
@@ -207,6 +212,25 @@ int getDirectorySize(const std::string &path) {
     _totalSize = 0;
     ftw(path.c_str(), getTotalSize, /*nopenfd=*/3);
     return _totalSize;
+}
+
+string humanReadableByteCount(int64_t bytes, bool si) {
+    int unit = si ? 1000 : 1024;
+    if (bytes < unit) {
+        return bytes + " B";
+    }
+    int exp = static_cast<int>(log(bytes) / log(unit));
+    // Shouldn't happen
+    if (exp > 6) {
+        exp = 6;
+    }
+    string prefix = (si ? "kMGTPE" : "KMGTPE")[exp - 1] + string(si ? "" : "i");
+
+    // we shouldn't need it all, but just to make sure
+    char buffer[100];
+    snprintf(buffer, sizeof(buffer), "%.1f %sB", bytes/ pow(unit, exp),
+            prefix.c_str());
+    return string(buffer);
 }
 
 }  // namespace utils

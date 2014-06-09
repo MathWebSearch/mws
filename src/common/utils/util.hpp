@@ -72,6 +72,8 @@ foreachEntryInDirectory(const std::string& path,
 
 int getDirectorySize(const std::string& path);
 
+std::string humanReadableByteCount(int64_t bytes, bool si);
+
 }  // namespace utils
 }  // namespace common
 
