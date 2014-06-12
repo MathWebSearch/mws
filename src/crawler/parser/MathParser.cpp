@@ -62,10 +62,7 @@ const char XPATH_MATHML[] = "//*[local-name()='math']";
 const char XPATH_CONTENT_MATH[] = "descendant::*[@encoding='MathML-Content']/*";
 
 const bool DEFAULT_SHOULD_SAVE_DATA = true;
-const char DEFAULT_DOCUMENT_URI_XPATH[] =
-    "//*[local-name()='span' and @class='number']";
-const char DEFAULT_TEXT_WITH_MATH_XPATH[] =
-    "//*[local-name()='div' and @class='review-body']";
+const char DEFAULT_TEXT_WITH_MATH_XPATH[] = "/";
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
@@ -73,7 +70,6 @@ const char DEFAULT_TEXT_WITH_MATH_XPATH[] =
 
 HarvesterConfiguration::HarvesterConfiguration()
     : shouldSaveData(DEFAULT_SHOULD_SAVE_DATA),
-      documentIdXpath(DEFAULT_DOCUMENT_URI_XPATH),
       textWithMathXpath(DEFAULT_TEXT_WITH_MATH_XPATH) {}
 
 string HarvesterConfiguration::toString() const {
