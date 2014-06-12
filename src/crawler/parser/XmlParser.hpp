@@ -65,7 +65,7 @@ void processXpathResults(xmlDoc* doc,
                          const std::string& xpath,
                          XmlNodeProcessor* xmlNodeProcessor);
 void processXpathResults(xmlDoc *doc,
-                         const string &xpath,
+                         const std::string &xpath,
                          ProcessXmlNodeCallback processXmlNodeCallback);
 
 std::string getEscapedXmlFromNode(xmlDoc* doc, xmlNode* node);

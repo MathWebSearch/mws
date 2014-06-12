@@ -38,6 +38,8 @@ using std::vector;
 using std::pair;
 #include <stack>
 using std::stack;
+#include <map>
+using std::map;
 
 #include "mws/dbc/FormulaDb.hpp"
 using namespace mws::dbc;
@@ -69,37 +71,47 @@ class HarvestParser : public HarvestProcessor {
     int processExpression(const CmmlToken* tok, const string& exprUri,
                           const uint32_t& crawlId);
     CrawlId processData(const string& data);
-    string getParsedData() { return _parsedData; }
-    vector<Hit*> getIdMappings() { return _idMappings; }
+    vector<ParseResult*> getParseResults();
     HarvestParser(IndexAccessor::Index* index,
                   MeaningDictionary* meaningictionary, Config config,
                   FormulaDb* formulaDb);
-
  private:
-    string _parsedData;
     IndexAccessor::Index* _index;
     MeaningDictionary* _meaningDictionary;
     FormulaDb* _formulaDb;
     Config _config;
-    vector<Hit*> _idMappings;
+    CrawlId _idCounter;
+    /* each CrawlId uniquely identifies a document */
+    map<CrawlId, ParseResult*> documents;
 };
 
 HarvestParser::HarvestParser(IndexAccessor::Index* index,
                              MeaningDictionary* meaningDictionary,
                              Config config, FormulaDb* formulaDb)
-    : _parsedData(""),
-      _index(index),
+    :  _index(index),
       _meaningDictionary(meaningDictionary),
       _formulaDb(formulaDb),
-      _config(std::move(config)) {}
+      _config(std::move(config)),
+      _idCounter(0) {
+}
+
+vector<ParseResult*> HarvestParser::getParseResults() {
+    vector<ParseResult*> results;
+    results.reserve(documents.size());
+
+    for (auto& kv : documents) {
+        results.push_back(kv.second);
+    }
+
+    return results;
+}
 
 int HarvestParser::processExpression(const CmmlToken* token,
                                      const string& exprUri,
                                      const uint32_t& crawlId) {
-    UNUSED(crawlId);
     assert(token != nullptr);
-    MwsAnswset* result;
-    query::SearchContext* ctxt;
+    assert(crawlId <= _idCounter);
+
     dbc::DbQueryManager dbQueryManager(nullptr, _formulaDb);
     index::HarvestEncoder encoder(_meaningDictionary);
     u_int32_t numSubExpressions = 0;
@@ -107,17 +119,22 @@ int HarvestParser::processExpression(const CmmlToken* token,
     TokenCallback tokCallback = [&](const CmmlToken* tok) {
         vector<encoded_token_t> encodedFormula;
         encoder.encode(_config.indexingOptions, tok, &encodedFormula, nullptr);
+
+        MwsAnswset* result;
+        query::SearchContext* ctxt;
         ctxt = new query::SearchContext(encodedFormula, Query::Options());
         result = ctxt->getResult<IndexAccessor>(_index, &dbQueryManager,
                                                 /* offset=*/0,
                                                 /* size=*/1,
                                                 /* maxTotal=*/1);
         numSubExpressions += result->total;
-        auto hit = new Hit;
-        hit->id = *(result->ids.begin());
+        auto hit = new Hit();
+        FormulaId fmId = *(result->ids.begin());
         hit->uri = exprUri;
         hit->xpath = tok->getXpath();
-        _idMappings.push_back(hit);
+
+        ParseResult* doc = documents[crawlId];
+        (doc->idMappings[fmId]).push_back(hit);
         delete result;
         delete ctxt;
     };
@@ -128,11 +145,14 @@ int HarvestParser::processExpression(const CmmlToken* token,
 }
 
 CrawlId HarvestParser::processData(const string& data) {
-    this->_parsedData = data;
-    return CRAWLID_NULL;  // we do not want to put this into a database
+    documents[++_idCounter] = new ParseResult();
+    documents[_idCounter]->data = data;
+
+    return _idCounter;
 }
 
-ParseResult parseMwsHarvestFromFd(const Config& config,
+vector<ParseResult*>
+parseMwsHarvestFromFd(const Config& config,
                                   IndexAccessor::Index* index,
                                   MeaningDictionary* meaningDictionary,
                                   FormulaDb* formulaDb, int fd) {
@@ -141,8 +161,7 @@ ParseResult parseMwsHarvestFromFd(const Config& config,
 
     processMwsHarvest(fd, harvestParser);
 
-    HarvestParser* hvp = (HarvestParser*)harvestParser;
-    ParseResult ret = ParseResult(hvp->getParsedData(), hvp->getIdMappings());
+    auto ret = ((HarvestParser*) harvestParser)->getParseResults();
     delete harvestParser;
     return ret;
 }

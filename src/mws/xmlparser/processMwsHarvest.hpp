@@ -36,6 +36,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <vector>
+#include <map>
 #include <utility>
 
 // Local includes
@@ -70,6 +71,7 @@ class HarvestProcessor {
      * CRAWLID_NULL otherwise
      */
     virtual dbc::CrawlId processData(const std::string& data) = 0;
+
     virtual ~HarvestProcessor() {}
 };
 
@@ -92,7 +94,6 @@ int loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
                                 bool recursive);
 
 struct Hit {
-    mws::types::FormulaId id;
     std::string uri;
     std::string xpath;
 };
@@ -100,19 +101,18 @@ struct Hit {
 
 struct ParseResult {
     std::string data;
-    std::vector<Hit*> hits;
+    std::map<mws::types::FormulaId, std::vector<Hit*>> idMappings;
 
     ~ParseResult() {
-        for (auto hit : hits) {
-            delete hit;
+        for (auto& kv : idMappings) {
+            for (auto& hit : kv.second) {
+                delete hit;
+            }
         }
-    }
-    ParseResult(std::string data, std::vector<Hit*> hits) : data(std::move(data)),
-                                                            hits(std::move(hits)) {
     }
 };
 
-ParseResult
+std::vector<ParseResult*>
 parseMwsHarvestFromFd(const mws::daemon::Config& config,
                       mws::index::IndexAccessor::Index* index,
                       mws::index::MeaningDictionary* meaningDictionary,

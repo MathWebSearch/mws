@@ -25,9 +25,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @author Radu hambasan
   * @date 04 May 2014
   *
+  * @edit Radu Hambasan
+  * @date 03 Jun 2014
   * License: GPL v3
   *
   */
+
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 
 // System includes
 
@@ -36,17 +41,26 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #include <json.h>
 
+#include <cassert>
+#include <fstream>
+#include <utility>
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <utility>
-#include <fstream>
+#include <map>
+
 using std::filebuf;
 
 #include "common/utils/compiler_defs.h"
 #include "common/utils/Path.hpp"
 #include "common/utils/util.hpp"
 #include "common/utils/FlagParser.hpp"
+#include "crawler/parser/XmlParser.hpp"
+using crawler::parser::parseDocument;
+using crawler::parser::getTextByXpath;
+using crawler::parser::processXpathResults;
+using crawler::parser::getEscapedTextFromNode;
+using crawler::parser::getXmlFromNode;
 using common::utils::FlagParser;
 #include "mws/index/index.h"
 #include "mws/index/IndexLoader.hpp"
@@ -67,42 +81,90 @@ using mws::parser::parseMwsHarvestFromFd;
 
 using namespace std;
 
-static int writeHitsToJSON(const string& data, const vector<Hit*>& hits,
-                           const string& path) {
-    FILE* file = fopen((path + ".json").c_str(), "w");
-    json_object* json_doc, *ids, *id_mappings;
-    json_doc = json_object_new_object();
-    ids = json_object_new_array();
-    id_mappings = json_object_new_array();
+const char METADATA_XPATH[] = "//metadata/*";
+const char TEXT_XPATH[] = "//text";
+const char ID_XPATH[] = "//id";
+const char MATH_XPATH[] = "//math";
 
-    for (Hit* hit : hits) {
-        json_object_array_add(ids, json_object_new_int(hit->id));
+struct DataItems {
+    string id;
+    map<string, string> metadata;
+    string text;
+    map<string, string> exprXml;
+};
+
+DataItems* getDataItems(const string& content) {
+    xmlDocPtr doc = parseDocument(content.c_str(), content.size());
+    DataItems* dataItems = new DataItems();
+    dataItems->text = getTextByXpath(doc, TEXT_XPATH);
+    dataItems->id = getTextByXpath(doc, ID_XPATH);
+
+    // get math node mappings
+    processXpathResults(doc, MATH_XPATH, [&](xmlNode* mathNode) {
+        const xmlChar* xmlId = xmlGetProp(mathNode, BAD_CAST "local_id");
+        assert(xmlId != nullptr);
+
+        string id((char*)xmlId);
+        xmlFree((void*)xmlId);
+
+        dataItems->exprXml[id] = getXmlFromNode(doc, mathNode);
+    });
+
+    // get metadata
+    processXpathResults(doc, METADATA_XPATH, [&](xmlNode* metadataItem) {
+        string tag((const char*) metadataItem->name);
+        dataItems->metadata[tag] = getEscapedTextFromNode(doc, metadataItem);
+    });
+
+    xmlFreeDoc(doc);
+    return dataItems;
+}
+
+static void addParseResultToJSON(const ParseResult& parseResult,
+                           json_object* json_doc) {
+    DataItems* dataItems = getDataItems(parseResult.data);
+    json_object *currDoc, *metadata, *mws_ids, *id_mappings, *mathExprs;
+
+    currDoc = json_object_new_object();
+    mws_ids = json_object_new_array();
+    id_mappings = json_object_new_object();
+    metadata = json_object_new_object();
+    mathExprs = json_object_new_object();
+
+    for (auto& kv : dataItems->metadata) {
+        json_object_object_add(metadata, kv.first.c_str(),
+                               json_object_new_string(kv.second.c_str()));
+    }
+    json_object_object_add(currDoc, "metadata", metadata);
+
+    // create JSON for mws_ids and mws_id
+    for (const auto& kv : parseResult.idMappings) {
+        json_object_array_add(mws_ids, json_object_new_int(kv.first));
         json_object* id_mapping = json_object_new_object();
-        json_object_object_add(id_mapping, "id", json_object_new_int(hit->id));
-        json_object_object_add(id_mapping, "xpath",
-                               json_object_new_string(hit->xpath.c_str()));
-        json_object_object_add(
-            id_mapping, "url",
-            json_object_new_string((path + hit->uri).c_str()));
-        json_object_array_add(id_mappings, id_mapping);
+        for (const Hit* hit : kv.second) {
+            json_object* hitJson = json_object_new_object();
+            json_object_object_add(hitJson, "xpath",
+                                   json_object_new_string(hit->xpath.c_str()));
+            json_object_object_add(id_mapping, hit->uri.c_str(), hitJson);
+        }
+        json_object_object_add(id_mappings, to_string(kv.first).c_str(),
+                               id_mapping);
     }
-    json_object_object_add(json_doc, "ids", ids);
-    json_object_object_add(json_doc, "id_mappings", id_mappings);
-    json_object_object_add(json_doc, "xhtml", json_object_new_string_len(
-                                                  data.data(), data.size()));
 
-    string json_string = json_object_to_json_string(json_doc);
+    json_object_object_add(currDoc, "mws_ids", mws_ids);
+    json_object_object_add(currDoc, "mws_id", id_mappings);
 
-    const char* content = json_string.c_str();
-    size_t content_size = json_string.size();
-    size_t bytes_written = 0;
-
-    while (bytes_written < content_size) {
-        bytes_written += fwrite(content + bytes_written, sizeof(char),
-                                content_size - bytes_written, file);
+    for (const auto& kv : dataItems->exprXml) {
+        json_object_object_add(mathExprs, kv.first.c_str(),
+                               json_object_new_string(kv.second.c_str()));
     }
-    json_object_put(json_doc);
-    return content_size;
+    json_object_object_add(currDoc, "math", mathExprs);
+    json_object_object_add(currDoc, "text",
+                           json_object_new_string(dataItems->text.c_str()));
+
+    json_object_object_add(json_doc, dataItems->id.c_str(), currDoc);
+
+    delete dataItems;
 }
 
 int main(int argc, char* argv[]) {
@@ -138,15 +200,37 @@ int main(int argc, char* argv[]) {
             const std::string& path, const std::string& prefix) {
             UNUSED(prefix);
             if (common::utils::hasSuffix(path, config.harvestFileExtension)) {
-                printf("Loading %s... ", path.c_str());
+                printf("Loading %s...\n", path.c_str());
                 int fd = open(path.c_str(), O_RDONLY);
                 if (fd < 0) {
                     return -1;
                 }
-                ParseResult parseReturn = parseMwsHarvestFromFd(
+                vector<ParseResult*> parseResults = parseMwsHarvestFromFd(
                     config, data.getIndexHandle(), data.getMeaningDictionary(),
                     data.getFormulaDb(), fd);
-                writeHitsToJSON(parseReturn.data, parseReturn.hits, path);
+
+                FILE* file = fopen((path + ".json").c_str(), "w");
+                json_object* json_doc = json_object_new_object();
+
+                for (const ParseResult* parseResult : parseResults) {
+                    addParseResultToJSON(*parseResult, json_doc);
+                    delete parseResult;
+                }
+                string json_string = json_object_to_json_string(json_doc);
+
+                const char* content = json_string.c_str();
+                size_t content_size = json_string.size();
+                size_t bytes_written = 0;
+
+                while (bytes_written < content_size) {
+                    bytes_written += fwrite(content + bytes_written, 1,
+                                            content_size - bytes_written, file);
+                }
+
+                json_object_put(json_doc);
+                fclose(file);
+                PRINT_LOG("Processed %s\n", path.c_str());
+
             } else {
                 printf("Skipping \"%s\": bad extension\n", path.c_str());
             }

@@ -38,9 +38,7 @@ INCLUDE_DIRECTORIES( "${JSON_INCLUDE_DIRS}" )
 # MWS stand-alone xhtml harvester
 ADD_EXECUTABLE( docs2harvest docs2harvest.cpp)
 TARGET_LINK_LIBRARIES( docs2harvest
-    crawlerutils
     crawlerparser
-    crawlertypes
     commonutils
     ${JSON_LIBRARIES}
 )
@@ -49,6 +47,7 @@ INSTALL(TARGETS docs2harvest DESTINATION bin)
 # docs to elasticsearch json
 ADD_EXECUTABLE( harvests2json harvests2json.cpp)
 TARGET_LINK_LIBRARIES( harvests2json
+        crawlerparser
         mwsindex
         mwsdaemon
         commonutils
