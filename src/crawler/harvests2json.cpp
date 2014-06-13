@@ -93,7 +93,7 @@ struct DataItems {
     map<string, string> exprXml;
 };
 
-DataItems* getDataItems(const string& content) {
+static DataItems* getDataItems(const string& content) {
     xmlDocPtr doc = parseDocument(content.c_str(), content.size());
     DataItems* dataItems = new DataItems();
     dataItems->text = getTextByXpath(doc, TEXT_XPATH);
@@ -112,7 +112,7 @@ DataItems* getDataItems(const string& content) {
 
     // get metadata
     processXpathResults(doc, METADATA_XPATH, [&](xmlNode* metadataItem) {
-        string tag((const char*) metadataItem->name);
+        string tag((const char*)metadataItem->name);
         dataItems->metadata[tag] = getEscapedTextFromNode(doc, metadataItem);
     });
 
@@ -120,12 +120,11 @@ DataItems* getDataItems(const string& content) {
     return dataItems;
 }
 
-static void addParseResultToJSON(const ParseResult& parseResult,
-                           json_object* json_doc) {
+static void writeParseResultToFile(const ParseResult& parseResult, FILE* file) {
     DataItems* dataItems = getDataItems(parseResult.data);
-    json_object *currDoc, *metadata, *mws_ids, *id_mappings, *mathExprs;
+    json_object* curr_doc, *metadata, *mws_ids, *id_mappings, *mathExprs;
 
-    currDoc = json_object_new_object();
+    curr_doc = json_object_new_object();
     mws_ids = json_object_new_array();
     id_mappings = json_object_new_object();
     metadata = json_object_new_object();
@@ -135,7 +134,7 @@ static void addParseResultToJSON(const ParseResult& parseResult,
         json_object_object_add(metadata, kv.first.c_str(),
                                json_object_new_string(kv.second.c_str()));
     }
-    json_object_object_add(currDoc, "metadata", metadata);
+    json_object_object_add(curr_doc, "metadata", metadata);
 
     // create JSON for mws_ids and mws_id
     for (const auto& kv : parseResult.idMappings) {
@@ -151,18 +150,22 @@ static void addParseResultToJSON(const ParseResult& parseResult,
                                id_mapping);
     }
 
-    json_object_object_add(currDoc, "mws_ids", mws_ids);
-    json_object_object_add(currDoc, "mws_id", id_mappings);
+    json_object_object_add(curr_doc, "mws_ids", mws_ids);
+    json_object_object_add(curr_doc, "mws_id", id_mappings);
 
     for (const auto& kv : dataItems->exprXml) {
         json_object_object_add(mathExprs, kv.first.c_str(),
                                json_object_new_string(kv.second.c_str()));
     }
-    json_object_object_add(currDoc, "math", mathExprs);
-    json_object_object_add(currDoc, "text",
+    json_object_object_add(curr_doc, "math", mathExprs);
+    json_object_object_add(curr_doc, "text",
                            json_object_new_string(dataItems->text.c_str()));
 
-    json_object_object_add(json_doc, dataItems->id.c_str(), currDoc);
+    fprintf(file, "{\"index\" : { \"_id\" : \"%s\" } }\n",
+            dataItems->id.c_str());
+    fputs(json_object_to_json_string(curr_doc), file);
+    fprintf(file, "\n");
+    json_object_put(curr_doc);
 
     delete dataItems;
 }
@@ -210,24 +213,12 @@ int main(int argc, char* argv[]) {
                     data.getFormulaDb(), fd);
 
                 FILE* file = fopen((path + ".json").c_str(), "w");
-                json_object* json_doc = json_object_new_object();
 
                 for (const ParseResult* parseResult : parseResults) {
-                    addParseResultToJSON(*parseResult, json_doc);
+                    writeParseResultToFile(*parseResult, file);
                     delete parseResult;
                 }
-                string json_string = json_object_to_json_string(json_doc);
 
-                const char* content = json_string.c_str();
-                size_t content_size = json_string.size();
-                size_t bytes_written = 0;
-
-                while (bytes_written < content_size) {
-                    bytes_written += fwrite(content + bytes_written, 1,
-                                            content_size - bytes_written, file);
-                }
-
-                json_object_put(json_doc);
                 fclose(file);
                 PRINT_LOG("Processed %s\n", path.c_str());
 
