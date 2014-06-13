@@ -40,7 +40,6 @@ DAEMON_ARGS="
     -d \
     -I @MWS_HARVEST_PATH@ \
     -D @MWS_DATA_PATH@ \
-    --leveldb \
     --pid-file $PIDFILE \
     --log-file /var/log/$NAME.log \
     --mws-port @MWS_PORT@ \
