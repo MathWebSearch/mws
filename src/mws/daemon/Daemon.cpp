@@ -284,6 +284,7 @@ int Daemon::startAsync(const Config& config) {
     if (_daemonHandler == nullptr) {
         return -1;
     }
+    PRINT_LOG("Listening on port %d\n", config.mwsPort);
 
     return 0;
 }

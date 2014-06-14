@@ -69,9 +69,11 @@ public:
                     PRINT_WARN("Empty key");
                 }
             }
+
+            PRINT_LOG("Loaded IdDictionary\n");
         } catch (...) {
             throw std::runtime_error(
-                        "Cannot import MeaningDictionary " + path + ": " +
+                        "Cannot import IdDictionary " + path + ": " +
                         strerror(errno));
         }
     }

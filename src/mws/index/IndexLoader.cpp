@@ -74,10 +74,12 @@ IndexLoader::IndexLoader(const std::string& path, const LoadingOptions& options)
     auto formulaDb = new LevFormulaDb();
     m_formulaDb = unique_ptr<FormulaDb>(formulaDb);
     formulaDb->open((path + "/" + FORMULA_DB_FILE).c_str());
+    PRINT_LOG("Loaded FormulaDb\n");
 
     auto crawlDb = new LevCrawlDb();
     m_crawlDb = unique_ptr<CrawlDb>(crawlDb);
     crawlDb->open((path + "/" + CRAWL_DB_FILE).c_str());
+    PRINT_LOG("Loaded CrawlDb\n");
 
     m_dbQueryManager =
         unique_ptr<DbQueryManager>(new DbQueryManager(crawlDb, formulaDb));
@@ -87,6 +89,7 @@ IndexLoader::IndexLoader(const std::string& path, const LoadingOptions& options)
         throw runtime_error("Error while loading memsector " + path + "/" +
                             INDEX_MEMSECTOR_FILE);
     }
+    PRINT_LOG("Loaded Index\n");
 
     m_index.ms = m_memsectorHandler.ms;
     m_index.root = memsector_get_root(&m_memsectorHandler);
