@@ -50,7 +50,6 @@ using mws::parser::loadMwsHarvestFromDirectory;
 #include "IndexBuilder.hpp"
 using mws::clearxmlparser;
 #include "common/utils/util.hpp"
-using common::utils::getDirectorySize;
 using common::utils::humanReadableByteCount;
 
 #include "mws/index/IndexWriter.hpp"
@@ -137,10 +136,9 @@ int createCompressedIndex(const IndexingConfiguration& config) {
         }
         printf("Loading from %s...\n", it.c_str());
         printf("%d expressions loaded.\n",
-               parser::loadMwsHarvestFromDirectory(indexBuilder.get(),
-                                                   harvestPath,
-                                                   config.harvestFileExtension,
-                                                   config.recursive));
+               parser::loadMwsHarvestFromDirectory(
+                   indexBuilder.get(), harvestPath, config.harvestFileExtension,
+                   config.recursive));
         fflush(stdout);
     }
 
@@ -153,7 +151,7 @@ int createCompressedIndex(const IndexingConfiguration& config) {
     index.exportToMemsector(&mwsr);
     PRINT_LOG("Created index of %s\n",
               humanReadableByteCount(mwsr.ms.index_size,
-                                     /*si=*/false).c_str());
+                                     /* si= */ false).c_str());
 
     fb.open((output_dir + "/" + MEANING_DICTIONARY_FILE).c_str(),
             std::ios::out);
@@ -161,10 +159,6 @@ int createCompressedIndex(const IndexingConfiguration& config) {
     fb.close();
 
     clearxmlparser();
-
-    PRINT_LOG("Package saved to %s, total size: %s\n", output_dir.c_str(),
-              humanReadableByteCount(getDirectorySize(output_dir),
-                                     /*si=*/false).c_str());
 
     return EXIT_SUCCESS;
 

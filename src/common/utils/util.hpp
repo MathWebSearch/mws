@@ -34,9 +34,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <functional>
 
 struct Tester;
-#define ALLOW_TESTER_ACCESS     friend struct ::Tester
+#define ALLOW_TESTER_ACCESS friend struct ::Tester
 
-namespace common { namespace utils {
+namespace common {
+namespace utils {
 
 // String utils
 
@@ -50,31 +51,30 @@ void removeDuplicateSpaces(std::string* str);
 
 // Directory Structure
 
-std::string
-getFileContents(const std::string& path) throw (std::runtime_error);
+std::string getFileContents(const std::string& path) throw(std::runtime_error);
 
-typedef std::function<int (const std::string& fullPath,
-                           const std::string& directoryPartialPath)>
-FileCallback;
-typedef std::function<bool (const std::string& directoryPartialPath)>
-DirectoryCallback;
+typedef std::function<
+    int(const std::string& fullPath, const std::string& directoryPartialPath)>
+    FileCallback;
+typedef std::function<bool(const std::string& directoryPartialPath)>
+    DirectoryCallback;
 
-static
-DirectoryCallback ignore_directories = [](const std::string partialPath) {
+static DirectoryCallback ignore_directories = [](
+    const std::string partialPath) {
     printf("Skipping directory %s\n", partialPath.c_str());
     return false;
 };
 
-int
-foreachEntryInDirectory(const std::string& path,
-        const FileCallback& fileCallback,
-        const DirectoryCallback& directoryCallback = ignore_directories);
+int foreachEntryInDirectory(const std::string& path,
+                            const FileCallback& fileCallback,
+                            const DirectoryCallback& directoryCallback =
+                                ignore_directories);
 
-int getDirectorySize(const std::string& path);
-
-std::string humanReadableByteCount(int64_t bytes, bool si);
+std::string formattedString(const char* fmt, ...)
+    __attribute__((format(printf, 1, 2)));
+std::string humanReadableByteCount(uint64_t bytes, bool si);
 
 }  // namespace utils
 }  // namespace common
 
-#endif // _COMMON_UTILS_UTIL_HPP
+#endif  // _COMMON_UTILS_UTIL_HPP

@@ -34,8 +34,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <assert.h>
-#include <stdlib.h>                  // C general purpose library
+#include <stdarg.h>
 #include <stdio.h>                   // C Standrad Input Output
+#include <stdlib.h>                  // C general purpose library
 #include <string.h>                  // C string library
 #include <libxml/tree.h>             // LibXML tree headers
 #include <libxml/parser.h>           // LibXML parser headers

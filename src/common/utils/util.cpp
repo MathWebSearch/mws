@@ -30,17 +30,19 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * License: GPL v3
   */
 
+#include <assert.h>
 #include <dirent.h>
 #include <errno.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <ftw.h>
 #include <math.h>
-#include <stdio.h>
 
 #include <algorithm>
 using std::sort;
+#include <cinttypes>
 #include <fstream>
 using std::ifstream;
 #include <functional>
@@ -56,8 +58,8 @@ using std::string;
 #include <vector>
 using std::vector;
 
+#include "common/utils/memstream.h"
 #include "common/utils/compiler_defs.h"
-
 
 #include "util.hpp"
 
@@ -198,39 +200,35 @@ fail:
     return -1;
 }
 
-static int _totalSize = 0;
-static int getTotalSize(const char *fpath, const struct stat *sb,
-                        int typeflag) {
-    UNUSED(fpath);
-    if (typeflag == FTW_F) {
-        _totalSize += sb->st_size;
-    }
-    return 0;
+string formattedString(const char *fmt, ...) {
+    char* buffer;
+    size_t size;
+    FILE* stream = open_memstream(&buffer, &size);
+    va_list va;
+    va_start(va, fmt);
+    vfprintf(stream, fmt, va);
+    va_end(va);
+    fclose(stream);
+    string result(buffer, size);
+    free(buffer);
+
+    return result;
 }
 
-int getDirectorySize(const std::string &path) {
-    _totalSize = 0;
-    ftw(path.c_str(), getTotalSize, /*nopenfd=*/3);
-    return _totalSize;
-}
-
-string humanReadableByteCount(int64_t bytes, bool si) {
-    int unit = si ? 1000 : 1024;
+string humanReadableByteCount(uint64_t bytes, bool si) {
+    unsigned unit = si ? 1000 : 1024;
     if (bytes < unit) {
-        return bytes + " B";
+        return formattedString("%" PRIu64 " B", bytes);
     }
     int exp = static_cast<int>(log(bytes) / log(unit));
-    // Shouldn't happen
+
+    assert(exp <= 6);
     if (exp > 6) {
         exp = 6;
     }
     string prefix = (si ? "kMGTPE" : "KMGTPE")[exp - 1] + string(si ? "" : "i");
 
-    // we shouldn't need it all, but just to make sure
-    char buffer[100];
-    snprintf(buffer, sizeof(buffer), "%.1f %sB", bytes/ pow(unit, exp),
-            prefix.c_str());
-    return string(buffer);
+    return formattedString("%.1f %sB", bytes / pow(unit, exp), prefix.c_str());
 }
 
 }  // namespace utils
