@@ -55,6 +55,7 @@ using mws::types::Query;
 #include "mws/index/IndexAccessor.hpp"
 using mws::index::IndexAccessor;
 #include "mws/query/SearchContext.hpp"
+using mws::query::SearchContext;
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/daemon/Daemon.hpp"
 #include "mws/index/MeaningDictionary.hpp"
@@ -73,26 +74,26 @@ class HarvestParser : public HarvestProcessor {
     CrawlId processData(const string& data);
     vector<ParseResult*> getParseResults();
     HarvestParser(IndexAccessor::Index* index,
-                  MeaningDictionary* meaningictionary, Config config,
-                  FormulaDb* formulaDb);
+                  MeaningDictionary* meaningictionary, Config config);
+
  private:
     IndexAccessor::Index* _index;
     MeaningDictionary* _meaningDictionary;
-    FormulaDb* _formulaDb;
     Config _config;
     CrawlId _idCounter;
+    Query::Options _queryOptions;
     /* each CrawlId uniquely identifies a document */
     map<CrawlId, ParseResult*> documents;
 };
 
 HarvestParser::HarvestParser(IndexAccessor::Index* index,
                              MeaningDictionary* meaningDictionary,
-                             Config config, FormulaDb* formulaDb)
-    :  _index(index),
+                             Config config)
+    : _index(index),
       _meaningDictionary(meaningDictionary),
-      _formulaDb(formulaDb),
       _config(std::move(config)),
       _idCounter(0) {
+    _queryOptions.includeHits = false;
 }
 
 vector<ParseResult*> HarvestParser::getParseResults() {
@@ -112,7 +113,6 @@ int HarvestParser::processExpression(const CmmlToken* token,
     assert(token != nullptr);
     assert(crawlId <= _idCounter);
 
-    dbc::DbQueryManager dbQueryManager(nullptr, _formulaDb);
     index::HarvestEncoder encoder(_meaningDictionary);
     u_int32_t numSubExpressions = 0;
 
@@ -121,12 +121,12 @@ int HarvestParser::processExpression(const CmmlToken* token,
         encoder.encode(_config.indexingOptions, tok, &encodedFormula, nullptr);
 
         MwsAnswset* result;
-        query::SearchContext* ctxt;
-        ctxt = new query::SearchContext(encodedFormula, Query::Options());
-        result = ctxt->getResult<IndexAccessor>(_index, &dbQueryManager,
-                                                /* offset=*/0,
-                                                /* size=*/1,
-                                                /* maxTotal=*/1);
+        SearchContext ctxt(encodedFormula, _queryOptions);
+        result = ctxt.getResult<IndexAccessor>(_index,
+                                               /* dbQueryManager = */ nullptr,
+                                               /* offset = */ 0,
+                                               /* size = */ 1,
+                                               /* maxTotal = */ 1);
         numSubExpressions += result->total;
         auto hit = new Hit();
         FormulaId fmId = *(result->ids.begin());
@@ -136,7 +136,6 @@ int HarvestParser::processExpression(const CmmlToken* token,
         ParseResult* doc = documents[crawlId];
         (doc->idMappings[fmId]).push_back(hit);
         delete result;
-        delete ctxt;
     };
 
     token->foreachSubexpression(tokCallback);
@@ -151,19 +150,15 @@ CrawlId HarvestParser::processData(const string& data) {
     return _idCounter;
 }
 
-vector<ParseResult*>
-parseMwsHarvestFromFd(const Config& config,
-                                  IndexAccessor::Index* index,
-                                  MeaningDictionary* meaningDictionary,
-                                  FormulaDb* formulaDb, int fd) {
-    HarvestProcessor* harvestParser =
-        new HarvestParser(index, meaningDictionary, config, formulaDb);
+vector<ParseResult*> parseMwsHarvestFromFd(const Config& config,
+                                           IndexAccessor::Index* index,
+                                           MeaningDictionary* meaningDictionary,
+                                           int fd) {
+    HarvestParser harvestParser(index, meaningDictionary, config);
 
-    processMwsHarvest(fd, harvestParser);
+    processMwsHarvest(fd, &harvestParser);
 
-    auto ret = ((HarvestParser*) harvestParser)->getParseResults();
-    delete harvestParser;
-    return ret;
+    return harvestParser.getParseResults();
 }
 
 }  // namespace parser

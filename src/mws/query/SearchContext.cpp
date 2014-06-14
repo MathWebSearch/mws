@@ -115,7 +115,7 @@ struct qvarCtxt {
 };
 
 SearchContext::_NodeTriple::_NodeTriple(bool isQvar, MeaningId aMeaningId,
-                                      Arity anArity)
+                                        Arity anArity)
     : isQvar(isQvar), meaningId(aMeaningId), arity(anArity) {}
 
 SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula,
@@ -156,7 +156,7 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula,
 
 template <class A /* Accessor */>
 MwsAnswset* SearchContext::getResult(typename A::Index* index,
-                                     dbc::DbQueryManager* dbQueryManger,
+                                     dbc::DbQueryManager* dbQueryManager,
                                      unsigned int offset, unsigned int size,
                                      unsigned int maxTotal) {
     // Table containing resolved Qvar and backtrack points
@@ -223,9 +223,9 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
                 hitsCount = 1;
             }
 
-            if (found < size + offset &&
-                found + hitsCount > offset) {
+            if (found < size + offset && found + hitsCount > offset) {
                 if (options.includeHits) {
+                    FormulaId formulaId = A::getFormulaId(currentNode);
                     unsigned dbOffset;
                     unsigned dbMaxSize;
                     if (offset < found) {
@@ -235,9 +235,9 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
                         dbOffset = offset - found;
                         dbMaxSize = size;
                     }
-                    dbc::DbAnswerCallback callback = [result](
-                            const FormulaPath& formulaPath,
-                            const CrawlData& crawlData) {
+
+                    auto callback = [result](const FormulaPath& formulaPath,
+                                             const CrawlData& crawlData) {
                         auto answer = new mws::types::Answer();
                         answer->data = crawlData;
                         answer->uri = formulaPath.xmlId;
@@ -245,8 +245,9 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
                         result->answers.push_back(answer);
                         return 0;
                     };
-                    dbQueryManger->query(A::getFormulaId(currentNode), dbOffset,
-                                         dbMaxSize, callback);
+
+                    dbQueryManager->query(formulaId, dbOffset, dbMaxSize,
+                                          callback);
                 }
                 if (options.includeMwsIds) {
                     result->ids.insert(A::getFormulaId(currentNode));

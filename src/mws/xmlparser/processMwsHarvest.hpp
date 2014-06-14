@@ -115,8 +115,7 @@ struct ParseResult {
 std::vector<ParseResult*>
 parseMwsHarvestFromFd(const mws::daemon::Config& config,
                       mws::index::IndexAccessor::Index* index,
-                      mws::index::MeaningDictionary* meaningDictionary,
-                      mws::dbc::FormulaDb* formulaDb, int fd);
+                      mws::index::MeaningDictionary* meaningDictionary, int fd);
 }  // namespace parser
 }  // namespace mws
 

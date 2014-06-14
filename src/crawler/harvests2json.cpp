@@ -40,6 +40,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <string.h>
 #include <json.h>
+#include <errno.h>
 
 #include <cassert>
 #include <fstream>
@@ -203,27 +204,40 @@ int main(int argc, char* argv[]) {
             const std::string& path, const std::string& prefix) {
             UNUSED(prefix);
             if (common::utils::hasSuffix(path, config.harvestFileExtension)) {
-                printf("Loading %s...\n", path.c_str());
+                string outputName = path + ".json";
+                FILE* output = fopen(outputName.c_str(), "wx");
+                if (output == nullptr) {
+                    if (errno == EEXIST) {
+                        PRINT_LOG("Skipping \"%s\": already converted\n",
+                                  path.c_str());
+                        return 0;
+                    } else {
+                        PRINT_WARN("Open %s: %s\n", outputName.c_str(),
+                                   strerror(errno));
+                        return -1;
+                    }
+                }
+
                 int fd = open(path.c_str(), O_RDONLY);
                 if (fd < 0) {
+                    PRINT_WARN("Open %s: %s\n", path.c_str(), strerror(errno));
+                    fclose(output);
                     return -1;
                 }
-                vector<ParseResult*> parseResults = parseMwsHarvestFromFd(
-                    config, data.getIndexHandle(), data.getMeaningDictionary(),
-                    data.getFormulaDb(), fd);
 
-                FILE* file = fopen((path + ".json").c_str(), "w");
-
+                vector<ParseResult*> parseResults =
+                    parseMwsHarvestFromFd(config, data.getIndexHandle(),
+                                          data.getMeaningDictionary(), fd);
                 for (const ParseResult* parseResult : parseResults) {
-                    writeParseResultToFile(*parseResult, file);
+                    writeParseResultToFile(*parseResult, output);
                     delete parseResult;
                 }
 
-                fclose(file);
+                close(fd);
+                fclose(output);
                 PRINT_LOG("Processed %s\n", path.c_str());
-
             } else {
-                printf("Skipping \"%s\": bad extension\n", path.c_str());
+                PRINT_LOG("Skipping \"%s\": bad extension\n", path.c_str());
             }
 
             return 0;
@@ -234,7 +248,7 @@ int main(int argc, char* argv[]) {
             return true;
         };
 
-        printf("Loading harvest files...\n");
+        printf("Processing harvest files...\n");
         if (config.recursive) {
             if (common::utils::foreachEntryInDirectory(
                     config.dataPath, fileCallback, shouldRecurse)) {

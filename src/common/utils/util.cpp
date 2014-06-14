@@ -68,9 +68,8 @@ namespace utils {
 
 bool hasSuffix(const std::string& str, const std::string& suffix) {
     return (str.length() >= suffix.length()) &&
-           (0 ==
-            str.compare(str.length() - suffix.length(), suffix.length(),
-                        suffix));
+           (0 == str.compare(str.length() - suffix.length(), suffix.length(),
+                             suffix));
 }
 
 void removeDuplicateSpaces(string* str) {
@@ -109,11 +108,11 @@ std::string getFileContents(const std::string& path) throw(runtime_error) {
 }
 
 struct FileData {
-    string fullPath;
+    string relativePath;
     string directoryPartialPath;
 
-    FileData(string fullPath, string directoryPartialPath)
-        : fullPath(std::move(fullPath)),
+    FileData(string relativePath, string directoryPartialPath)
+        : relativePath(std::move(relativePath)),
           directoryPartialPath(std::move(directoryPartialPath)) {}
 };
 
@@ -124,7 +123,7 @@ static int getPathsInDirectory(const std::string& directoryPath,
     DIR* directory;
     struct dirent entryData, *currEntry;
     vector<string> directories;
-    vector<string> files;
+    vector<string> fileRelativePaths;
 
     FAIL_ON((directory = opendir(directoryPath.c_str())) == nullptr);
     while (1) {
@@ -133,20 +132,21 @@ static int getPathsInDirectory(const std::string& directoryPath,
             // end of directory
             break;
         }
-        const string name = prefix + "/" + currEntry->d_name;
+        const string fullPath = directoryPath + "/" + currEntry->d_name;
+        const string relativePath = prefix + "/" + currEntry->d_name;
         if (currEntry->d_name[0] == '.') {
-            printf("Skipping entry \"%s\": hidden\n", name.c_str());
+            PRINT_LOG("Skipping \"%s\": hidden\n", fullPath.c_str());
         } else {
             switch (currEntry->d_type) {
             case DT_DIR:
-                directories.push_back(name);
+                directories.push_back(relativePath);
                 break;
             case DT_REG:
-                files.push_back(name);
+                fileRelativePaths.push_back(relativePath);
                 break;
             default:
-                printf("Skiping entry \"%s\": not a regular file\n",
-                       name.c_str());
+                PRINT_LOG("Skipping \"%s\": not a regular file\n",
+                          fullPath.c_str());
                 break;
             }
         }
@@ -154,10 +154,11 @@ static int getPathsInDirectory(const std::string& directoryPath,
     FAIL_ON(closedir(directory) != 0);
 
     sort(directories.begin(), directories.end(), std::less<string>());
-    sort(files.begin(), files.end(), std::less<string>());
+    sort(fileRelativePaths.begin(), fileRelativePaths.end(),
+         std::less<string>());
 
-    for (string file : files) {
-        filesOut->push(FileData(file, prefix));
+    for (string fileRelativePath : fileRelativePaths) {
+        filesOut->push(FileData(fileRelativePath, prefix));
     }
     for (string directory : directories) {
         directoriesOut->push(directory);
@@ -181,7 +182,7 @@ int foreachEntryInDirectory(const std::string& path,
         while (!files.empty()) {
             const FileData fileData = files.front();
             files.pop();
-            FAIL_ON(fileCallback(path + "/" + fileData.fullPath,
+            FAIL_ON(fileCallback(path + "/" + fileData.relativePath,
                                  fileData.directoryPartialPath) != 0);
         }
         if (!directories.empty()) {
@@ -200,7 +201,7 @@ fail:
     return -1;
 }
 
-string formattedString(const char *fmt, ...) {
+string formattedString(const char* fmt, ...) {
     char* buffer;
     size_t size;
     FILE* stream = open_memstream(&buffer, &size);
