@@ -69,20 +69,23 @@ namespace index {
 
 IndexLoader::IndexLoader(const std::string& path, const LoadingOptions& options)
     : m_meaningDictionary(path + "/" + MEANING_DICTIONARY_FILE) {
-    UNUSED(options);
 
-    auto formulaDb = new LevFormulaDb();
-    m_formulaDb = unique_ptr<FormulaDb>(formulaDb);
-    formulaDb->open((path + "/" + FORMULA_DB_FILE).c_str());
-    PRINT_LOG("Loaded FormulaDb\n");
+    // we need the two databases two include hits
+    if (options.includeHits) {
+        auto formulaDb = new LevFormulaDb();
+        m_formulaDb = unique_ptr<FormulaDb>(formulaDb);
+        formulaDb->open((path + "/" + FORMULA_DB_FILE).c_str());
+        PRINT_LOG("Loaded FormulaDb\n");
 
-    auto crawlDb = new LevCrawlDb();
-    m_crawlDb = unique_ptr<CrawlDb>(crawlDb);
-    crawlDb->open((path + "/" + CRAWL_DB_FILE).c_str());
-    PRINT_LOG("Loaded CrawlDb\n");
+        auto crawlDb = new LevCrawlDb();
+        m_crawlDb = unique_ptr<CrawlDb>(crawlDb);
+        crawlDb->open((path + "/" + CRAWL_DB_FILE).c_str());
+        PRINT_LOG("Loaded CrawlDb\n");
 
-    m_dbQueryManager =
-        unique_ptr<DbQueryManager>(new DbQueryManager(crawlDb, formulaDb));
+        m_dbQueryManager =
+                unique_ptr<DbQueryManager>(new DbQueryManager(crawlDb,
+                                                              formulaDb));
+    }
 
     if (memsector_load(&m_memsectorHandler,
                        (path + "/" + INDEX_MEMSECTOR_FILE).c_str()) != 0) {

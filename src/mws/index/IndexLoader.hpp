@@ -41,6 +41,8 @@ namespace mws {
 namespace index {
 
 struct LoadingOptions {
+    bool includeHits;
+    LoadingOptions() : includeHits(true) {}
 };
 
 class IndexLoader {

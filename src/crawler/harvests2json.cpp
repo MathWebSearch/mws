@@ -66,6 +66,7 @@ using common::utils::FlagParser;
 #include "mws/index/index.h"
 #include "mws/index/IndexLoader.hpp"
 using mws::index::IndexLoader;
+using mws::index::LoadingOptions;
 #include "mws/index/IndexAccessor.hpp"
 using mws::index::IndexAccessor;
 #include "mws/daemon/Daemon.hpp"
@@ -198,7 +199,9 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        IndexLoader data(indexPath);
+        LoadingOptions loadingOptions;
+        loadingOptions.includeHits = false;
+        IndexLoader data(indexPath, loadingOptions);
 
         common::utils::FileCallback fileCallback = [&](
             const std::string& path, const std::string& prefix) {
