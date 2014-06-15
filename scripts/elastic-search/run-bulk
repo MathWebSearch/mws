@@ -1,0 +1,36 @@
+#!/bin/bash
+
+curr_dir=${0%/*}
+source $curr_dir/config.sh
+
+MIN_PORT=$PORT
+MAX_PORT=$(($MIN_PORT + $NUM_INSTANCES - 1))
+
+if [ $# -lt 1 ]; then
+cat << EOF
+Expected at least 1 bulk file
+Usage:
+    $0 <bulk_file> ... <bulk_file>
+EOF
+    exit 1
+fi
+
+while [ $# -gt 0 ]; do
+    PORT=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
+    if [ -f "$1.ok" ]; then
+        echo Skipping "$1": already processed
+    else
+        OUTPUT="$(curl -s -S -XPOST $HOST:$PORT/_bulk?index=$INDEX\&type=doc --data-binary @$1 2>&1)"
+        if echo "$OUTPUT" | grep '"errors":false' &> /dev/null; then
+            touch "$1.ok"
+            echo Processed "$1"
+        else
+            echo Error at "$1":
+            echo $OUTPUT
+        fi
+    fi
+
+    shift
+done
+
+curl -s -XPOST $HOST:$PORT/$INDEX/_refresh &> /dev/null

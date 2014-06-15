@@ -1,0 +1,38 @@
+#!/bin/bash -e
+
+curr_dir=${0%/*}
+source $curr_dir/config.sh
+
+curl -s -S -XPUT $HOST:$PORT/$INDEX/ -d '
+{
+"settings" : {
+    "index" : {
+        "refresh_interval" : "-1",
+        "number_of_replicas" : 0,
+        "number_of_shards" : 128,
+        "translog" : {
+            "flush_threshold_ops" : 100000
+        },
+        "mapper" : {
+            "dynamic" : false
+        }
+    },
+    "indices" : {
+        "memory" : {
+            "index_buffer_size" : "50%"
+        }
+    }
+},
+"mappings" : {
+    "doc" : {
+        "_source" : { "enabled" : false },
+        "dynamic" : "strict",
+        "properties" : {
+            "metadata" : { "type" : "object", "store" : false, "index" : "no" },
+            "mws_ids" : { "type" : "long", "store" : false, "index" : "not_analyzed"},
+            "text" : { "type" : "string", "store" : false, "index" : "analyzed" },
+            "mws_id" : { "enabled" : false, "type" : "object", "store" : true, "index" : "no" },
+            "math" : { "enabled" : false, "type" : "object", "store" : true, "index" : "no" }
+        }
+    }
+} }'; echo
