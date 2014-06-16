@@ -100,8 +100,9 @@ extern int verbose;
 #define FAIL_ON(x)                                                          \
     do {                                                                    \
         if (x) {                                                            \
-            fprintf(stderr, "%s:%d: "#x"\n",                                \
-                    __FILE__, __LINE__);                                    \
+            if (verbose) {                                                  \
+                fprintf(stderr, "%s:%d: "#x"\n", __FILE__, __LINE__);       \
+            }                                                               \
             goto fail;                                                      \
         }                                                                   \
     } while (0)

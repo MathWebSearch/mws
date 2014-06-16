@@ -31,20 +31,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <assert.h>
+#include <fcntl.h>
 #include <dirent.h>
 #include <errno.h>
-#include <stdio.h>
+#include <math.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <math.h>
+#include <unistd.h>
 
 #include <algorithm>
 using std::sort;
 #include <cinttypes>
-#include <fstream>
-using std::ifstream;
 #include <functional>
 using std::function;
 #include <queue>
@@ -88,23 +88,32 @@ void removeDuplicateSpaces(string* str) {
 }
 
 std::string getFileContents(const std::string& path) throw(runtime_error) {
-    try {
-        string contents;
-        ifstream file;
-        file.exceptions(ifstream::failbit | ifstream::badbit);
-        // Find file size
-        file.open(path, std::ios::in | std::ios::binary);
-        file.seekg(0, std::ios::end);
-        contents.resize(file.tellg());
-        // Rewind file
-        file.seekg(0, std::ios::beg);
-        // Read into string
-        file.read(&contents[0], contents.size());
-        file.close();
-        return contents;
-    } catch (...) {
-        throw runtime_error(path + ": " + strerror(errno));
-    }
+    int fd = -1;
+    off_t curr, size;
+    struct stat file_stat;
+    string contents;
+
+    FAIL_ON((fd = open(path.c_str(), O_RDONLY)) < 0);
+    FAIL_ON(fstat(fd, &file_stat) < 0);
+
+    curr = 0;
+    size = file_stat.st_size;
+    contents.resize(size);
+    do {
+        ssize_t ret;
+        FAIL_ON((ret = read(fd, &contents[curr], size - curr)) < 0);
+        curr += ret;
+    } while (curr < size);
+    FAIL_ON(curr != size);
+
+    close(fd);
+
+    return contents;
+
+fail:
+    if (fd >= 0) close(fd);
+    assert(errno != 0);
+    throw runtime_error(path + ": " + strerror(errno));
 }
 
 struct FileData {
