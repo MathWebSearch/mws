@@ -15,8 +15,9 @@ cat << EOF
 Usage:
     $progname create [-p <port>] -i <harvest_path> <name> [<extra_args>]
         create configuration for mws deployment
-          -p <port>           port used to run mwsd
-          -i <harvest_path>   path from where to load math harvests
+          -p <port>           port used to run MathWebSearch
+          -i <harvest_path>   path from where to load harvests (can be used
+                              multiple times)
           <extra_args>        extra arguments passed to mws daemon
 
     $progname list
@@ -81,6 +82,7 @@ config_is_enabled() {
 
 error_no_such_config() {
     echo No such configuration \""${name}"\"
+    perform_list
     exit 1
 }
 
@@ -112,6 +114,11 @@ while getopts "p:i:f" opt; do
         ;;
     i)
         harvest_path=$OPTARG
+        canonical_harvest_path=`get_path $harvest_path` || {
+            echo "Invalid path $harvest_path"
+            exit 1
+        }
+        extra_args="$extra_args -I $canonical_harvest_path"
         ;;
     esac
 done
@@ -129,17 +136,13 @@ name="$1"
 shift
 
 # get extra arguments
-extra_args="$@"
+extra_args="$extra_args $@"
 
 if [ -z "$harvest_path" ]; then
     echo "<harvest_path> is mandatory"
     show_help
     exit 1
 fi
-canonical_harvest_path=`get_path $harvest_path` || {
-    echo "Invalid path $harvest_path"
-    exit 1
-}
 
 output_dir="$PREFIX/$SYSCONFDIR/configs"
 
@@ -152,9 +155,6 @@ cat > "$output_dir/${name}" << EOF
 
 # HTTP listen port
 MWS_PORT=${port}
-
-# Path from where to load harvests
-MWS_HARVEST_PATH="${canonical_harvest_path}"
 
 # Extra command-line arguments to be passed to mwsd
 MWS_DAEMON_EXTRA_ARGS="${extra_args}"
@@ -172,7 +172,6 @@ perform_test() {
     # run mwsd in test mode
     echo Testing configuration ${name}...
     MWSD_ARGS="
-        --include-harvest-path $MWS_HARVEST_PATH \
         --mws-port $MWS_PORT \
         $MWS_DAEMON_EXTRA_ARGS
     "
