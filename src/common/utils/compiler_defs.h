@@ -93,6 +93,7 @@ extern int verbose;
         } else {                                                            \
             fprintf(stdout, fmt, ##__VA_ARGS__);                            \
         }                                                                   \
+        fflush(stdout);                                                     \
     } while (0)
 
 /* FAIL_ON */

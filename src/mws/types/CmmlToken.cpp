@@ -46,8 +46,10 @@ using std::stack;
 namespace mws {
 namespace types {
 
-const Meaning MWS_QVAR_MEANING = "mws:qvar";
-const char ROOT_XPATH_SELECTOR[] = "/*[1]";
+constexpr char QVAR_TAG[] = "mws:qvar";
+constexpr char VAR_NAME_ATTRIBUTE[] = "name";
+constexpr char ROOT_XPATH_SELECTOR[] = "/*[1]";
+const Meaning QVAR_MEANING = "mws:qvar";
 
 CmmlToken::CmmlToken(bool aMode)
     : _tag(""),
@@ -152,6 +154,7 @@ string CmmlToken::toString(int indent) const {
     return ss.str();
 }
 
+/// @todo recursive
 uint32_t CmmlToken::getExprDepth() const {
     uint32_t max_depth = 0;
     for (auto child : _childNodes) {
@@ -162,6 +165,7 @@ uint32_t CmmlToken::getExprDepth() const {
     return max_depth;
 }
 
+/// @todo recursive
 uint32_t CmmlToken::getExprSize() const {
     uint32_t size = 1;  // counting current token
 
@@ -173,7 +177,7 @@ uint32_t CmmlToken::getExprSize() const {
 }
 
 CmmlToken::Type CmmlToken::getType() const {
-    if (_tag == MWS_QVAR_MEANING) {
+    if (_tag == QVAR_TAG) {
         return VAR;
     } else {
         return CONSTANT;
@@ -183,37 +187,42 @@ CmmlToken::Type CmmlToken::getType() const {
 const std::string& CmmlToken::getVarName() const {
     assert(getType() == VAR);
 
-    return _textContent;
+    auto it = _attributes.find(VAR_NAME_ATTRIBUTE);
+    if (it == _attributes.end()) {
+        return _textContent;
+    } else {
+        return it->second;
+    }
 }
 
 std::string CmmlToken::getMeaning() const {
-    // assert(getType() == CONSTANT); XXX legacy mwsd still uses this
+    assert(getType() == CONSTANT);
 
-    string meaning;
-    if (_tag == MWS_QVAR_MEANING) {
-        meaning = MWS_QVAR_MEANING;
-    } else {
-        meaning = _tag + "#" + _textContent;
-    }
-
-    return meaning;
+    return _tag + "#" + _textContent;
 }
 
 uint32_t CmmlToken::getArity() const { return _childNodes.size(); }
 
+/// @todo untested, recursive
 bool CmmlToken::equals(const CmmlToken* t) const {
-    if (this->getType() != t->getType()) return false;
-    if (this->getMeaning() != t->getMeaning()) return false;
-    if (_childNodes.size() != t->_childNodes.size()) return false;
+    if (getType() != t->getType()) return false;
+    switch (getType()) {
+    case VAR:
+        return getVarName() == t->getVarName();
+    case CONSTANT: {
+        if (getMeaning() != t->getMeaning()) return false;
+        if (_childNodes.size() != t->_childNodes.size()) return false;
 
-    PtrList::const_iterator it1, it2;
-    it1 = _childNodes.begin();
-    it2 = t->_childNodes.begin();
-    while (it1 != _childNodes.end()) {
-        if (!(*it1)->equals(*it2)) return false;
+        PtrList::const_iterator it1, it2;
+        it1 = _childNodes.begin();
+        it2 = t->_childNodes.begin();
+        while (it1 != _childNodes.end()) {
+            if (!(*it1)->equals(*it2)) return false;
 
-        it1++;
-        it2++;
+            it1++;
+            it2++;
+        }
+    }
     }
 
     return true;
