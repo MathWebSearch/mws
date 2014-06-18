@@ -1,19 +1,20 @@
 #!/bin/sh -e
 
 # Install constants
-PREFIX=@CMAKE_INSTALL_PREFIX@
-SYSCONFDIR=@SYSCONFDIR@
-LOCALSTATEDIR=/var/lib/mws
+PREFIX="@CMAKE_INSTALL_PREFIX@"
+SYSCONFDIR="@SYSCONFDIR@"
+LOCALSTATEDIR="/var/lib/mws"
+CONFIGDIR="$PREFIX/$SYSCONFDIR/configs"
 
 # Initialize our own variables:
 harvest_path=""
-port="9090"
+port=""
 
 show_help() {
 progname=`basename $0`
 cat << EOF
 Usage:
-    $progname create [-p <port>] -i <harvest_path> <name> [<extra_args>]
+    $progname create -p <port> -i <harvest_path> <name> [<extra_args>]
         create configuration for mws deployment
           -p <port>           port used to run MathWebSearch
           -i <harvest_path>   path from where to load harvests (can be used
@@ -132,31 +133,55 @@ if [ $# -lt 1 ]; then
     show_help
     exit 1
 fi
-name="$1"
+suffix="$1"
 shift
 
 # get extra arguments
 extra_args="$extra_args $@"
 
-if [ -z "$harvest_path" ]; then
-    echo "<harvest_path> is mandatory"
+if [ -z "$port" ]; then
+    echo "no <port> provided"
     show_help
     exit 1
 fi
 
-output_dir="$PREFIX/$SYSCONFDIR/configs"
+if [ -z "$harvest_path" ]; then
+    echo "no <harvest_path> provided"
+    show_help
+    exit 1
+fi
 
-install -d "$output_dir"
-install -d "$LOCALSTATEDIR/${name}"
-cat > "$output_dir/${name}" << EOF
-# Configuration file for the service mwsd_${name}
-# logs will be placed in /var/log/mwsd_${name}.log
-# and data to /var/lib/mws/${name}
+NAME="mwsd_$suffix"
+DESC="MathWebSearch $suffix daemon"
+MWS_DATA_PATH="$LOCALSTATEDIR/$suffix"
+MWS_LOG_FILE="/var/log/$NAME.log"
+MWS_PID_FILE="/var/run/$NAME.pid"
+
+# Create user if it doesn't already exist
+id -u $NAME > /dev/null 2>&1 || useradd $NAME
+mkdir -p $MWS_DATA_PATH
+touch $MWS_LOG_FILE
+touch $MWS_PID_FILE
+chown $NAME:$NAME $MWS_DATA_PATH $MWS_LOG_FILE $MWS_PID_FILE
+cat > "$CONFIGDIR/$suffix" << EOF
+# Configuration file for the $NAME
+
+NAME="$NAME"
+DESC="$DESC"
+
+# data directory
+MWS_DATA_PATH="$MWS_DATA_PATH"
 
 # HTTP listen port
-MWS_PORT=${port}
+MWS_PORT="${port}"
 
-# Extra command-line arguments to be passed to mwsd
+# log file
+MWS_LOG_FILE="$MWS_LOG_FILE"
+
+# pid file
+MWS_PID_FILE="$MWS_PID_FILE"
+
+# Extra command-line arguments passed to mwsd
 MWS_DAEMON_EXTRA_ARGS="${extra_args}"
 EOF
 echo Created MathWebSearch configuration ${name}
@@ -203,6 +228,9 @@ perform_enable() {
 # Default-Stop:      0 1 6
 # Description:       This starts the MathWebSearch daemon
 ### END INIT INFO
+
+. $CONFIGDIR/$name
+
 EOF
     chmod +x $target
 
@@ -251,6 +279,9 @@ perform_remove() {
 
     echo Removing configuration $config_file
     rm $config_file
+
+    # Removing user
+    id -u mwsd_$name > /dev/null 2>&1 && userdel mwsd_$name
 }
 
 # Handle initial arguments

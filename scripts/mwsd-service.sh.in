@@ -16,27 +16,18 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
-
 # Author: Corneliu Prodescu <cprodescu@gmail.com>
 #
 
-# Find and include configuration file
-DEPLOY_NAME=`basename $0 | sed 's/mwsd_//'`
-. "@CMAKE_INSTALL_PREFIX@/@SYSCONFDIR@/configs/$DEPLOY_NAME"
-MWS_DATA_PATH="@LOCALSTATEDIR@/$DEPLOY_NAME"
-
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="MathWebSearch $DEPLOY_NAME daemon"
-NAME=mwsd_$DEPLOY_NAME
-PIDFILE=/var/run/$NAME.pid
 DAEMON=@CMAKE_INSTALL_PREFIX@/bin/mwsd
 DAEMON_ARGS="
     --mws-port $MWS_PORT \
     --data-path $MWS_DATA_PATH \
     --delete-old-data \
-    --log-file /var/log/$NAME.log \
-    --pid-file $PIDFILE \
+    --log-file $MWS_LOG_FILE \
+    --pid-file $MWS_PID_FILE \
     --daemonize \
     $MWS_DAEMON_EXTRA_ARGS
 "
@@ -65,9 +56,11 @@ do_start()
 	#   0 if daemon has been started
 	#   1 if daemon was already running
 	#   2 if daemon could not be started
-	start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null 2>&1 \
+	start-stop-daemon --start --test --pidfile $MWS_PID_FILE --exec $DAEMON \
+		> /dev/null 2>&1 \
 		|| return 1
-	start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON -- \
+	start-stop-daemon --start --quiet --pidfile $MWS_PID_FILE --exec $DAEMON \
+		--chuid $NAME:$NAME > /dev/null 2>&1 -- \
 		$DAEMON_ARGS \
 		|| return 2
 	# Add code here, if necessary, that waits for the process to be ready
@@ -85,7 +78,7 @@ do_stop()
 	#   1 if daemon was already stopped
 	#   2 if daemon could not be stopped
 	#   other if a failure occurred
-	start-stop-daemon --stop --quiet --retry=TERM/5/KILL/5 --pidfile $PIDFILE > /dev/null 2>&1
+	start-stop-daemon --stop --quiet --retry=TERM/5/KILL/5 --pidfile $MWS_PID_FILE > /dev/null 2>&1
 	RETVAL="$?"
 	# Many daemons don't delete their pidfiles when they exit.
 	return "$RETVAL"
@@ -93,24 +86,24 @@ do_stop()
 
 case "$1" in
   start)
-	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+	log_daemon_msg "Starting $DESC" "$NAME"
 	do_start
 	case "$?" in
-		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
-		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+		0|1) log_end_msg 0 ;;
+		2) log_end_msg 1 ;;
 	esac
 	;;
   stop)
-	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+	log_daemon_msg "Stopping $DESC" "$NAME"
 	do_stop
 	case "$?" in
-		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
-		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+		0|1) log_end_msg 0 ;;
+		2) log_end_msg 1 ;;
 	esac
 	;;
   status)
-    if [ -r $PIDFILE ]; then 
-	  status_of_proc -p "$PIDFILE" "$DAEMON" "$NAME" && exit 0 || exit $?
+    if [ -r $MWS_PID_FILE ]; then
+	  status_of_proc -p "$MWS_PID_FILE" "$DAEMON" "$NAME" && exit 0 || exit $?
     else
 	  status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
     fi
