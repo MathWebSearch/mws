@@ -28,25 +28,25 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // CMake Exported
 
-#define HARVESTFILES_PATH       "${MWS_DATA_DIR}"
-#define MWS_TESTDATA_PATH       "${MWS_TSTDAT_DIR}"
 #define MWS_NAME                "${PROJECT_NAME}"
 #define MWS_VERSION             "${MWS_FULL_VERSION}"
-#define MATHMLTAGS_PATH         "${MATHMLTAGS_PATH}"
-#define GETRESPONSE_PATH        "${GETRESPONSE_PATH}"
+#define MATHMLTAGS_PATH         "${PROJECT_BINARY_DIR}/src/crawler/utils/MwsMathMLTags.txt"
+#define GETRESPONSE_PATH        "${PROJECT_BINARY_DIR}/src/crawler/daemon/GetResponse.html"
+#define HARVESTFILES_PATH       "${PROJECT_SOURCE_DIR}/data"
+#define MWS_TESTDATA_PATH       "${PROJECT_SOURCE_DIR}/test/data"
 
 #define MWS_BUILD   MWS_NAME "-" MWS_VERSION " as of " __DATE__ " " __TIME__
 
 // Common
 
 //! Extension of Mws Harvest files
-#define DEFAULT_MWS_HARVEST_SUFFIX "harvest"
+#define DEFAULT_MWS_HARVEST_SUFFIX  "harvest"
 
 // MWS Daemon
 
-#define DEFAULT_MWS_PORT                9090
+#define DEFAULT_MWS_PORT            9090
 // Path where to store db files and index
-#define DEFAULT_MWS_DATA_PATH           "/tmp"
+#define DEFAULT_MWS_DATA_PATH       "/tmp"
 
 // MWS Query
 

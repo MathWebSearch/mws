@@ -16,11 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
-# 3rd party libraries
-
-# Google URL
-ADD_SUBDIRECTORY(googleurl)
-SET(GOOGLEURL_FOUND true PARENT_SCOPE)
-SET(GOOGLEURL_INCLUDES
-    "${CMAKE_CURRENT_SOURCE_DIR}/googleurl/src" PARENT_SCOPE)
-SET(GOOGLEURL_LIBRARIES googleurl PARENT_SCOPE)
+CONFIGURE_FILE(config.h.in
+        ${PROJECT_BINARY_DIR}/build-gen/config.h)
+CONFIGURE_FILE(doxyfile.in doxyfile)

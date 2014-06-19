@@ -16,11 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
-# 3rd party libraries
+CONFIGURE_FILE(mws-config.in mws-config @ONLY)
+INSTALL(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/mws-config
+    DESTINATION bin)
 
-# Google URL
-ADD_SUBDIRECTORY(googleurl)
-SET(GOOGLEURL_FOUND true PARENT_SCOPE)
-SET(GOOGLEURL_INCLUDES
-    "${CMAKE_CURRENT_SOURCE_DIR}/googleurl/src" PARENT_SCOPE)
-SET(GOOGLEURL_LIBRARIES googleurl PARENT_SCOPE)
+CONFIGURE_FILE(mwsd-service.sh.in mwsd-service.sh @ONLY)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/mwsd-service.sh
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/${SYSCONFDIR})
+
+INSTALL(DIRECTORY
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/${SYSCONFDIR}/configs)
