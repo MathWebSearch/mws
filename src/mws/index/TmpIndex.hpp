@@ -63,7 +63,7 @@ class TmpIndexNode {
     };
     typedef std::map<encoded_token_t, TmpIndexNode*, EncodedTokenLess> _MapType;
     */
-    typedef mws::VectorMap<encoded_token_t, TmpIndexNode*> _MapType;
+    typedef types::VectorMap<encoded_token_t, TmpIndexNode*> _MapType;
     _MapType children;
 
  public:

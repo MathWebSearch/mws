@@ -33,10 +33,8 @@ namespace mws {
 namespace index {
 
 struct IndexAccessor {
-    typedef index_handle_t Index;
+    typedef const index_handle_t Index;
     typedef const inode_t Node;
-
- public:
     class Iterator {
         Node* _node;
         int _index;
@@ -49,7 +47,7 @@ struct IndexAccessor {
             return *this;
         }
 
-        bool operator==(const Iterator& rhs) {
+        bool operator==(const Iterator& rhs) const {
             return (_index == rhs._index) && (_node == rhs._node);
         }
 

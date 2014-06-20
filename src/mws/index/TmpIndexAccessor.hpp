@@ -35,9 +35,9 @@ namespace mws {
 namespace index {
 
 struct TmpIndexAccessor {
-    typedef TmpIndex Index;
-    typedef TmpIndexNode Node;
-    typedef TmpIndexNode::_MapType::iterator Iterator;
+    typedef const TmpIndex Index;
+    typedef const TmpIndexNode Node;
+    typedef TmpIndexNode::_MapType::const_iterator Iterator;
 
     static Node* getRootNode(Index* index) {
         return index->mRoot;
