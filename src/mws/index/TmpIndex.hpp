@@ -48,7 +48,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace index {
 
-struct TmpIndexAccessor;
+class TmpIndexAccessor;
 class IndexBuilder;
 class TmpIndex;
 
@@ -70,7 +70,7 @@ class TmpIndexNode {
     TmpIndexNode();
 
  private:
-    friend struct TmpIndexAccessor;
+    friend class TmpIndexAccessor;
     friend class TmpIndex;
     ALLOW_TESTER_ACCESS;
     DISALLOW_COPY_AND_ASSIGN(TmpIndexNode);
@@ -86,7 +86,7 @@ class TmpLeafNode : public TmpIndexNode {
     TmpLeafNode();
 
  private:
-    friend struct mws::index::TmpIndexAccessor;
+    friend class mws::index::TmpIndexAccessor;
     friend class IndexBuilder;
     friend class TmpIndex;
     friend class TmpIndexNode;
@@ -117,7 +117,7 @@ class TmpIndex {
     void exportToMemsector(memsector_writer_t* mswr) const;
 
  private:
-    friend struct TmpIndexAccessor;
+    friend class TmpIndexAccessor;
     ALLOW_TESTER_ACCESS;
     DISALLOW_COPY_AND_ASSIGN(TmpIndex);
 };

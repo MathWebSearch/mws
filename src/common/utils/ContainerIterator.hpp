@@ -18,6 +18,9 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+#ifndef _COMMON_UTILS_CONTAINERITERATOR_HPP
+#define _COMMON_UTILS_CONTAINERITERATOR_HPP
+
 /**
   * @brief  Container Iterator
   * @file   ContainerIterator.hpp
@@ -28,24 +31,21 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace common {
 namespace utils {
 
-template<class Container>
+template <class Iterator>
 class ContainerIterator {
-    typedef typename Container::const_iterator Iterator;
     Iterator current;
     Iterator end;
+
  public:
-    explicit ContainerIterator(const Container& container)
-        : current(container.begin()), end(container.end()) {
-    }
-
-    bool hasNext() const {
-        return (current != end);
-    }
-
-    Iterator next() {
-        return current++;
-    }
+    ContainerIterator(const Iterator& begin, const Iterator& end)
+        : current(begin), end(end) {}
+    bool hasNext() const { return (current != end); }
+    Iterator next() { return current++; }
+    Iterator& get() { return current; }
+    const Iterator& get() const { return current; }
 };
 
 }  // namespace utils
 }  // namespace common
+
+#endif  // _COMMON_UTILS_CONTAINERITERATOR_HPP

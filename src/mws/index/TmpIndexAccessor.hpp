@@ -28,42 +28,33 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include "common/utils/compiler_defs.h"
+#include "common/utils/ContainerIterator.hpp"
 #include "mws/index/TmpIndex.hpp"
 #include "mws/types/FormulaPath.hpp"
 
 namespace mws {
 namespace index {
 
-struct TmpIndexAccessor {
+class TmpIndexAccessor {
+    typedef TmpIndexNode::_MapType::const_iterator _Iterator;
+
+ public:
     typedef const TmpIndex Index;
     typedef const TmpIndexNode Node;
-    typedef TmpIndexNode::_MapType::const_iterator Iterator;
+    typedef common::utils::ContainerIterator<_Iterator> Iterator;
 
-    static Node* getRootNode(Index* index) {
-        return index->mRoot;
+    static Node* getRootNode(Index* index) { return index->mRoot; }
+    static Iterator getChildrenIterator(Node* node) {
+        return Iterator(node->children.begin(), node->children.end());
     }
-
-    static Iterator getChildrenBegin(Node* node) {
-        return node->children.begin();
-    }
-
-    static Iterator getChildrenEnd(Node* node) {
-        return node->children.end();
-    }
-
     static encoded_token_t getToken(const Iterator& it) {
-        return it->first;
+        return it.get()->first;
     }
-
-    static Arity getArity(const Iterator& it) {
-        return it->first.arity;
-    }
-
+    static Arity getArity(const Iterator& it) { return it.get()->first.arity; }
     static Node* getNode(Index* index, const Iterator& it) {
         UNUSED(index);
-        return it->second;
+        return it.get()->second;
     }
-
     static Node* getChild(Index* index, Node* node, encoded_token_t token) {
         UNUSED(index);
         auto it = node->children.find(token);
@@ -73,14 +64,12 @@ struct TmpIndexAccessor {
             return it->second;
         }
     }
-
     static types::FormulaId getFormulaId(Node* node) {
-        TmpLeafNode* leaf = (TmpLeafNode*) node;
+        TmpLeafNode* leaf = (TmpLeafNode*)node;
         return leaf->id;
     }
-
     static uint64_t getHitsCount(Node* node) {
-        TmpLeafNode* leaf = (TmpLeafNode*) node;
+        TmpLeafNode* leaf = (TmpLeafNode*)node;
         return leaf->solutions;
     }
 };

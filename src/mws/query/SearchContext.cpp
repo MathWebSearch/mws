@@ -38,6 +38,8 @@ using std::make_pair;
 #include <vector>
 using std::vector;
 
+#include "common/utils/ContainerIterator.hpp"
+using common::utils::ContainerIterator;
 #include "mws/index/encoded_token.h"
 #include "mws/index/TmpIndexAccessor.hpp"
 using mws::index::TmpIndexAccessor;
@@ -55,9 +57,7 @@ namespace query {
 
 template <class Accessor>
 struct qvarCtxt {
-    typedef typename Accessor::Iterator MapIterator;
-
-    list<pair<MapIterator, MapIterator> > backtrackIterators;
+    list<typename Accessor::Iterator> backtrackIterators;
     bool isSolved;
 
     inline qvarCtxt() { isSolved = false; }
@@ -66,15 +66,14 @@ struct qvarCtxt {
                                           typename Accessor::Node* node) {
         int totalArrity = 1;
         while (totalArrity > 0) {
-            auto begin = Accessor::getChildrenBegin(node);
-            auto end = Accessor::getChildrenEnd(node);
-            if (begin == end) {
+            auto iterator = Accessor::getChildrenIterator(node);
+            if (!iterator.hasNext()) {
                 backtrackIterators.clear();
                 return nullptr;
             }
-            backtrackIterators.push_back(std::make_pair(begin, end));
-            totalArrity += Accessor::getArity(begin) - 1;
-            node = Accessor::getNode(index, begin);
+            backtrackIterators.push_back(iterator);
+            totalArrity += Accessor::getArity(iterator) - 1;
+            node = Accessor::getNode(index, iterator);
         }
 
         isSolved = true;
@@ -83,31 +82,28 @@ struct qvarCtxt {
 
     inline typename Accessor::Node* nextSol(typename Accessor::Index* index) {
         int totalArrity = 0;
-        totalArrity -= Accessor::getArity(backtrackIterators.back().first) - 1;
+        totalArrity -= Accessor::getArity(backtrackIterators.back()) - 1;
 
-        backtrackIterators.back().first++;
-        while (backtrackIterators.back().first ==
-               backtrackIterators.back().second) {
+        backtrackIterators.back().next();
+        while (!backtrackIterators.back().hasNext()) {
             backtrackIterators.pop_back();
             if (backtrackIterators.empty()) {
                 isSolved = false;
                 return nullptr;
             }
-            totalArrity +=
-                1 - Accessor::getArity(backtrackIterators.back().first);
-            backtrackIterators.back().first++;
+            totalArrity += 1 - Accessor::getArity(backtrackIterators.back());
+            backtrackIterators.back().next();
         }
-        totalArrity += Accessor::getArity(backtrackIterators.back().first) - 1;
+        totalArrity += Accessor::getArity(backtrackIterators.back()) - 1;
         // Found a valid next, now we need to complete it to the right arrity
         typename Accessor::Node* currentNode =
-            Accessor::getNode(index, backtrackIterators.back().first);
-        while (totalArrity) {
-            auto begin = Accessor::getChildrenBegin(currentNode);
-            auto end = Accessor::getChildrenEnd(currentNode);
-            backtrackIterators.push_back(std::make_pair(begin, end));
+            Accessor::getNode(index, backtrackIterators.back());
+        while (totalArrity > 0) {
+            auto iterator = Accessor::getChildrenIterator(currentNode);
+            backtrackIterators.push_back(iterator);
             // Updating currentNode and arrity
-            currentNode = Accessor::getNode(index, begin);
-            totalArrity += Accessor::getArity(begin) - 1;
+            currentNode = Accessor::getNode(index, iterator);
+            totalArrity += Accessor::getArity(iterator) - 1;
         }
         // We have selected a different solution
         return currentNode;
@@ -191,7 +187,7 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
                 int qvarId = expr[currentToken].arity;
                 if (qvarTable[qvarId].isSolved) {
                     for (auto& elem : qvarTable[qvarId].backtrackIterators) {
-                        encoded_token_t token = A::getToken(elem.first);
+                        encoded_token_t token = A::getToken(elem);
                         currentNode = A::getChild(index, currentNode, token);
                         if (currentNode == nullptr) {
                             backtrack = true;

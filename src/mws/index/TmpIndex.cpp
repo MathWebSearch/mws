@@ -99,11 +99,11 @@ TmpLeafNode* TmpIndex::insertData(
 void TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
     struct NodeContext {
         const TmpIndexNode* node;
-        ContainerIterator<TmpIndexNode::_MapType> childrenIterator;
+        ContainerIterator<TmpIndexNode::_MapType::const_iterator> childrenIterator;
         vector<memsector_off_t> childrenOffsets;
 
         explicit NodeContext(const TmpIndexNode* node)
-            : node(node), childrenIterator(node->children) {
+            : node(node), childrenIterator(node->children.begin(), node->children.end()) {
             childrenOffsets.reserve(node->children.size());
         }
     };
