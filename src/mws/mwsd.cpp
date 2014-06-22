@@ -55,18 +55,18 @@ using mws::index::createCompressedIndex;
 
 #include "build-gen/config.h"
 
-static volatile sig_atomic_t sigQuit = 0;
+static volatile sig_atomic_t shouldQuit = 0;
+unique_ptr<Daemon> mwsDaemon;
 
-static void catch_sigint(int sig) {
-    if (sig == SIGINT || sig == SIGTERM) sigQuit = 1;
-}
+static void catch_sig(int sig);
+static void setup_signals();
+static void wait_for_signal();
 
 int main(int argc, char* argv[]) {
-    sigset_t mask, old_mask;
-    struct sigaction sa, old_sa1, old_sa2;
     int ret;
     Config config;
-    unique_ptr<Daemon> daemon;
+
+    setup_signals();
 
     // Parsing the flags
     FlagParser::addFlag('I', "include-harvest-path", FLAG_OPT, ARG_REQ);
@@ -182,8 +182,8 @@ int main(int argc, char* argv[]) {
         config.dataPath = FlagParser::getArg('D');
         config.indexingConfiguration.dataPath = config.dataPath;
 
-        daemon.reset(new IndexDaemon());
-        ret = daemon->startAsync(config);
+        mwsDaemon.reset(new IndexDaemon());
+        ret = mwsDaemon->startAsync(config);
         if (ret != 0) {
             if (!(FlagParser::hasArg('I'))) {
                 PRINT_WARN("Index not found and no harvest directory provided. "
@@ -198,7 +198,7 @@ int main(int argc, char* argv[]) {
             }
 
             // retry with the built index
-            if (daemon->startAsync(config) != 0) {
+            if (mwsDaemon->startAsync(config) != 0) {
                 PRINT_WARN(
                     "An error occured while loading the fresh index...\n");
                 goto failure;
@@ -209,44 +209,66 @@ int main(int argc, char* argv[]) {
         PRINT_LOG("Using default data path %s\n", DEFAULT_MWS_DATA_PATH);
         PRINT_LOG("Trying to load index in memory.\n");
         config.dataPath = DEFAULT_MWS_DATA_PATH;
-        daemon.reset(new HarvestDaemon());
-        ret = daemon->startAsync(config);
+        mwsDaemon.reset(new HarvestDaemon());
+        ret = mwsDaemon->startAsync(config);
         if (ret != 0) {
             PRINT_WARN("Failure while starting the daemon\n");
             goto failure;
         }
     }
 
-    // Preparing the Signal Action
-    sa.sa_handler = catch_sigint;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    // Preparing the signal mask
-    sigemptyset(&mask);
-    sigaddset(&mask, SIGINT);
-    sigaddset(&mask, SIGTERM);
-    // Block the signals and actions
-    if (sigprocmask(SIG_BLOCK, &mask, &old_mask) == -1)
-        fprintf(stderr, "sigprocmask - SIG_BLOCK");
-    if (sigaction(SIGINT, &sa, &old_sa1) == -1)
-        fprintf(stderr, "sigaction - open");
-    if (sigaction(SIGTERM, &sa, &old_sa2) == -1)
-        fprintf(stderr, "sigaction - open");
+    wait_for_signal();
+    mwsDaemon->stop();
 
-    // Waiting for SIGINT / SIGTERM
-    while (!sigQuit) sigsuspend(&old_mask);
-
-    // UNBLOCK the signals and actions
-    if (sigprocmask(SIG_SETMASK, &old_mask, nullptr) == -1)
-        fprintf(stderr, "sigprocmask - SIG_SETMASK");
-    if (sigaction(SIGINT, &old_sa1, nullptr) == -1)
-        fprintf(stderr, "sigaction - close");
-    if (sigaction(SIGINT, &old_sa2, nullptr) == -1)
-        fprintf(stderr, "sigaction - close");
-
-    daemon->stop();
     return EXIT_SUCCESS;
 
 failure:
     return EXIT_FAILURE;
+}
+
+static void catch_sig(int sig) {
+    switch (sig) {
+    case SIGINT:
+    case SIGTERM:
+        shouldQuit = 1;
+        break;
+    case SIGSEGV:
+    case SIGABRT:
+        mwsDaemon->stop();
+        // unmap the index
+        delete mwsDaemon.release();
+        PRINT_LOG("Index was unmmapped.\n");
+        // disable handling for SIGTERM AND SIGABRT
+        struct sigaction new_sa;
+        memset(&new_sa, 0, sizeof(struct sigaction));
+        new_sa.sa_handler = SIG_DFL;
+        sigaction(SIGTERM, &new_sa, nullptr);
+        sigaction(SIGABRT, &new_sa, nullptr);
+        // let it crash and generate a core dump
+        raise(sig);
+        break;
+    }
+}
+
+static void setup_signals() {
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(struct sigaction));
+
+    sa.sa_handler = catch_sig;
+    sigaction(SIGINT,  &sa, nullptr);
+    sigaction(SIGTERM, &sa, nullptr);
+    sigaction(SIGSEGV, &sa, nullptr);
+    sigaction(SIGABRT, &sa, nullptr);
+}
+
+static void wait_for_signal() {
+    sigset_t mask, old_mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGINT);
+    sigaddset(&mask, SIGTERM);
+    sigprocmask(SIG_BLOCK, &mask, &old_mask);
+    // Waiting for SIGINT / SIGTERM
+    while (!shouldQuit) sigsuspend(&old_mask);
+
+    sigprocmask(SIG_SETMASK, &old_mask, nullptr);
 }
