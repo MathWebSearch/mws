@@ -33,16 +33,21 @@ namespace utils {
 
 template <class Iterator>
 class ContainerIterator {
-    Iterator current;
-    Iterator end;
+    Iterator _current;
+    Iterator _end;
 
  public:
     ContainerIterator(const Iterator& begin, const Iterator& end)
-        : current(begin), end(end) {}
-    bool hasNext() const { return (current != end); }
-    Iterator next() { return current++; }
-    Iterator& get() { return current; }
-    const Iterator& get() const { return current; }
+        : _current(begin), _end(end) {}
+    bool isValid() const { return (_current != _end); }
+    void next() { _current++; }
+    bool hasNext() const {
+        Iterator currentCopy = _current;
+        currentCopy++;
+        return (currentCopy != _end);
+    }
+    Iterator& get() { return _current; }
+    const Iterator& get() const { return _current; }
 };
 
 }  // namespace utils

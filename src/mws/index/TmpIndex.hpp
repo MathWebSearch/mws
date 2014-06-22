@@ -105,8 +105,7 @@ class TmpIndex {
       * @param encodedFormula encoded formula
       * @return leaf node corresponding to the inserted expression
       */
-    TmpLeafNode*
-    insertData(const std::vector<encoded_token_t>& encodedFormula);
+    TmpLeafNode* insertData(const std::vector<encoded_token_t>& encodedFormula);
 
     uint64_t getMemsectorSize() const;
 
@@ -117,6 +116,9 @@ class TmpIndex {
     void exportToMemsector(memsector_writer_t* mswr) const;
 
  private:
+    static memsector_off_t _writeChildrenOffsets(
+        memsector_writer_t* mswr, const TmpIndexNode* node,
+        const std::vector<memsector_off_t>& offsets);
     friend class TmpIndexAccessor;
     ALLOW_TESTER_ACCESS;
     DISALLOW_COPY_AND_ASSIGN(TmpIndex);
@@ -125,4 +127,4 @@ class TmpIndex {
 }  // namespace index
 }  // namespace mws
 
-#endif // _MWSINDEXNODE_HPP
+#endif  // _MWSINDEXNODE_HPP

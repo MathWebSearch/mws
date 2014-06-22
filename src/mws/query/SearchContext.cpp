@@ -48,6 +48,8 @@ using mws::index::IndexAccessor;
 #include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaPath;
 using mws::types::FormulaId;
+#include "mws/index/IndexIterator.hpp"
+using mws::index::IndexIterator;
 #include "mws/dbc/CrawlDb.hpp"
 using mws::dbc::CrawlData;
 #include "mws/query/SearchContext.hpp"
@@ -56,57 +58,29 @@ namespace mws {
 namespace query {
 
 template <class Accessor>
-struct qvarCtxt {
-    list<typename Accessor::Iterator> backtrackIterators;
+struct QvarCtxt {
+    IndexIterator<Accessor> iterator;
+    // list<typename Accessor::Iterator> backtrackIterators;
     bool isSolved;
 
-    inline qvarCtxt() { isSolved = false; }
+    inline QvarCtxt() { isSolved = false; }
 
     inline typename Accessor::Node* solve(typename Accessor::Index* index,
-                                          typename Accessor::Node* node) {
-        int totalArrity = 1;
-        while (totalArrity > 0) {
-            auto iterator = Accessor::getChildrenIterator(node);
-            if (!iterator.hasNext()) {
-                backtrackIterators.clear();
-                return nullptr;
-            }
-            backtrackIterators.push_back(iterator);
-            totalArrity += Accessor::getArity(iterator) - 1;
-            node = Accessor::getNode(index, iterator);
+                                          typename Accessor::Node* root) {
+        iterator.set(root, index);
+        typename Accessor::Node* node = iterator.next();
+        if (node != nullptr) {
+            isSolved = true;
         }
-
-        isSolved = true;
         return node;
     }
 
-    inline typename Accessor::Node* nextSol(typename Accessor::Index* index) {
-        int totalArrity = 0;
-        totalArrity -= Accessor::getArity(backtrackIterators.back()) - 1;
-
-        backtrackIterators.back().next();
-        while (!backtrackIterators.back().hasNext()) {
-            backtrackIterators.pop_back();
-            if (backtrackIterators.empty()) {
-                isSolved = false;
-                return nullptr;
-            }
-            totalArrity += 1 - Accessor::getArity(backtrackIterators.back());
-            backtrackIterators.back().next();
+    inline typename Accessor::Node* nextSol() {
+        typename Accessor::Node* node = iterator.next();
+        if (node == nullptr) {
+            isSolved = false;
         }
-        totalArrity += Accessor::getArity(backtrackIterators.back()) - 1;
-        // Found a valid next, now we need to complete it to the right arrity
-        typename Accessor::Node* currentNode =
-            Accessor::getNode(index, backtrackIterators.back());
-        while (totalArrity > 0) {
-            auto iterator = Accessor::getChildrenIterator(currentNode);
-            backtrackIterators.push_back(iterator);
-            // Updating currentNode and arrity
-            currentNode = Accessor::getNode(index, iterator);
-            totalArrity += Accessor::getArity(iterator) - 1;
-        }
-        // We have selected a different solution
-        return currentNode;
+        return node;
     }
 };
 
@@ -156,7 +130,7 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
                                      unsigned int offset, unsigned int size,
                                      unsigned int maxTotal) {
     // Table containing resolved Qvar and backtrack points
-    vector<qvarCtxt<A> > qvarTable;
+    vector<QvarCtxt<A> > qvarTable;
 
     auto result = new MwsAnswset;
     size_t currentToken = 0;  // index for the expression vector
@@ -186,7 +160,7 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
             if (expr[currentToken].isQvar) {
                 int qvarId = expr[currentToken].arity;
                 if (qvarTable[qvarId].isSolved) {
-                    for (auto& elem : qvarTable[qvarId].backtrackIterators) {
+                    for (auto& elem : qvarTable[qvarId].iterator.getPath()) {
                         encoded_token_t token = A::getToken(elem);
                         currentNode = A::getChild(index, currentNode, token);
                         if (currentNode == nullptr) {
@@ -263,8 +237,8 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
             // Backtracking or going to the next expression token
             // starting with the last
             while (lastSolvedQvar >= 0 &&
-                   nullptr == (currentNode =
-                                   qvarTable[lastSolvedQvar].nextSol(index))) {
+                   nullptr ==
+                       (currentNode = qvarTable[lastSolvedQvar].nextSol())) {
                 lastSolvedQvar--;
             }
 
