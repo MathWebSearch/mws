@@ -16,13 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
-ADD_SUBDIRECTORY( dbc )
-ADD_SUBDIRECTORY( index )
-ADD_SUBDIRECTORY( parser )
-ADD_SUBDIRECTORY( query )
+ADD_SUBDIRECTORY(dbc)
+ADD_SUBDIRECTORY(index)
+ADD_SUBDIRECTORY(parser)
+ADD_SUBDIRECTORY(query)
 
-CONFIGURE_FILE(./mws-integration-test.sh.in
-    mws-integration-test.sh @ONLY)
-ADD_TEST(NAME integration_qvar_query
+CONFIGURE_FILE(mws-integration-test.sh.in mws-integration-test.sh @ONLY)
+ADD_TEST(NAME integration_queries
     COMMAND mws-integration-test.sh)
-SET_TESTS_PROPERTIES(integration_qvar_query PROPERTIES TIMEOUT 10)
+SET_TESTS_PROPERTIES(integration_queries PROPERTIES TIMEOUT 10)

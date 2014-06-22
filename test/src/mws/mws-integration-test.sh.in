@@ -3,20 +3,36 @@ cd @PROJECT_SOURCE_DIR@
 MWSD_PID="$$"
 MWSD_PORT="4444"
 
+QVAR_QUERY="<mws:qvar/>"
+QVAR_TOTAL="28328"
+
+test_query() {
+    QUERY="$1"
+    TOTAL="$2"
+
+    MWS_RESPONSE=`./scripts/send-mws-query.sh $MWSD_PORT 0 0 "$QUERY"`
+
+    # check response
+    echo $MWS_RESPONSE | grep -q "total=\"$TOTAL\"" || {
+        echo Wrong output for query "$QUERY" - expected "$TOTAL"
+        # terminate mwsd if answer is wrong
+        kill -KILL $MWSD_PID
+    }
+}
+
 query_and_close_mwsd() {
     while kill -s 0 $MWSD_PID &> /dev/null; do
         # wait for mwsd port to be up
-        nc -z localhost $MWSD_PORT || continue
+        nc -z localhost $MWSD_PORT 2>&1 > /dev/null || continue
 
-        # check response and terminate mwsd accordingly
-        MWS_RESPONSE=`./scripts/send-qvar-query.sh $MWSD_PORT 0 0`
-        if echo $MWS_RESPONSE | grep -q "28328"; then
-            # terminate mwsd gracefully
-            kill -INT $MWSD_PID
-        else
-            # terminate mwsd with error
-            kill -KILL $MWSD_PID
-        fi
+        # run tests
+        test_query "<mws:qvar/>" "28328"
+        test_query "<apply><mws:qvar name=\"op\"/><mws:qvar name=\"foo\"/><mws:qvar name=\"foo\"/></apply>" "78"
+        test_query "<apply><plus/><mws:qvar name=\"x\"/><mws:qvar name=\"x\"/></apply>" "0"
+        test_query "<apply><plus/><mws:qvar name=\"x\"/><mws:qvar name=\"y\"/></apply>" "276"
+
+        # terminate mwsd gracefully
+        kill -INT $MWSD_PID
         exit 0
     done
 }
