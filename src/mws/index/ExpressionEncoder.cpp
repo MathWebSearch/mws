@@ -32,8 +32,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stack>
 using std::stack;
+#include <stdexcept>
+using std::runtime_error;
 #include <string>
 using std::string;
+using std::to_string;
 #include <unordered_map>
 using std::unordered_map;
 #include <vector>
@@ -165,6 +168,25 @@ MeaningId QueryEncoder::_getConstantEncoding(const Meaning& meaning) {
         return CONSTANT_ID_MIN + id;
     } else {
         return MeaningDictionary::KEY_NOT_FOUND;
+    }
+}
+
+ExpressionDecoder::ExpressionDecoder(const MeaningDictionary& dictionary)
+    : _lookupTable(dictionary.getReverseLookupTable()) {}
+
+Meaning ExpressionDecoder::getMeaning(MeaningId meaningId) const {
+    if (meaningId >= CONSTANT_ID_MIN) {
+        return _lookupTable.get(meaningId - CONSTANT_ID_MIN);
+    } else if (meaningId >= ANON_QVAR_ID_MIN) {
+        return "anonymous_qvar#" + to_string(meaningId - ANON_QVAR_ID_MIN);
+    } else if (meaningId >= QVAR_ID_MIN) {
+        return "qvar#" + to_string(meaningId - QVAR_ID_MIN);
+    } else if (meaningId >= ANON_HVAR_ID_MIN) {
+        return "anonymous_hvar#" + to_string(meaningId - ANON_QVAR_ID_MIN);
+    } else if (meaningId >= HVAR_ID_MIN) {
+        return "hvar#" + to_string(meaningId - HVAR_ID_MIN);
+    } else {
+        throw runtime_error("Invalid meaningId " + to_string(meaningId));
     }
 }
 

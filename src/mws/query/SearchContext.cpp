@@ -67,7 +67,7 @@ struct QvarCtxt {
 
     inline typename Accessor::Node* solve(typename Accessor::Index* index,
                                           typename Accessor::Node* root) {
-        iterator.set(root, index);
+        iterator.set(index, root);
         typename Accessor::Node* node = iterator.next();
         if (node != nullptr) {
             isSolved = true;

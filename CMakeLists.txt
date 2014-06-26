@@ -69,6 +69,7 @@ INCLUDE_DIRECTORIES("src"                           # source files
 
 ENABLE_TESTING()
 
+ADD_SUBDIRECTORY(analytics)
 ADD_SUBDIRECTORY(config)
 ADD_SUBDIRECTORY(scripts)
 

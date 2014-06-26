@@ -43,18 +43,28 @@ template<class Key, class ValueId>
 class IdDictionary {
 private:
     typedef std::map<Key, ValueId>  _MapContainer;
-
-    _MapContainer   _map;
-    ValueId         _nextId;
+    _MapContainer _map;
+    ValueId _nextId;
+    static const ValueId VALUEID_START = 1;
 public:
-    static const ValueId KEY_NOT_FOUND = 0;
+    static const ValueId KEY_NOT_FOUND = VALUEID_START - 1;
+
+    class ReverseLookupTable {
+        std::vector<Key> _keys;
+
+     public:
+        const Key& get(ValueId valueId) const {
+            return _keys.at(valueId - VALUEID_START);
+        }
+        friend class IdDictionary;
+    };
 
     IdDictionary()
-        : _nextId(KEY_NOT_FOUND + 1)  {
+        : _nextId(VALUEID_START)  {
     }
 
     explicit IdDictionary(const std::string& path)
-        : _nextId(KEY_NOT_FOUND + 1) {
+        : _nextId(VALUEID_START) {
         try {
             std::ifstream file;
             file.exceptions(std::ifstream::badbit | std::ifstream::failbit);
@@ -79,16 +89,10 @@ public:
     }
 
     int save(std::ostream& out) const {
-        std::vector<Key> keys;
-        keys.resize(_map.size());
-
-        for (const auto & elem : _map) {
-
-            keys[elem.second - 1] = elem.first;
-        }
+        ReverseLookupTable table = getReverseLookupTable();
 
         try {
-            for (auto & key : keys) {
+            for (auto key : table._keys) {
                 out << key << '\0';
             }
             out.flush();
@@ -120,6 +124,17 @@ public:
         } else {
             return KEY_NOT_FOUND;
         }
+    }
+
+    ReverseLookupTable getReverseLookupTable() const {
+        ReverseLookupTable table;
+        table._keys.resize(_map.size());
+
+        for (const auto & elem : _map) {
+            table._keys[elem.second - VALUEID_START] = elem.first;
+        }
+
+        return table;
     }
 };
 

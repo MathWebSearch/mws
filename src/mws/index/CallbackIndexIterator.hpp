@@ -37,8 +37,7 @@ namespace index {
 
 template <class Accessor>
 class CallbackIndexIterator : public IndexIterator<Accessor> {
-    typedef function<void(typename Accessor::Iterator)> Callback;
-
+    typedef std::function<void(typename Accessor::Iterator)> Callback;
     Callback _onPush;
     Callback _onPop;
 
@@ -46,7 +45,7 @@ class CallbackIndexIterator : public IndexIterator<Accessor> {
     CallbackIndexIterator(typename Accessor::Index* index,
                           typename Accessor::Node* root,
                           Callback onPushCallback, Callback onPopCallback)
-        : IndexIterator<Accessor>(root, index),
+        : IndexIterator<Accessor>(index, root),
           _onPush(onPushCallback),
           _onPop(onPopCallback) {}
 

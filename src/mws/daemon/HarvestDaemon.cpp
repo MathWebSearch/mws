@@ -135,12 +135,11 @@ int HarvestDaemon::initMws(const Config& config) {
 
     for (it = paths.begin(); it != paths.end(); it++) {
         AbsPath harvestPath(*it);
-        printf("Loading from %s...\n", it->c_str());
-        printf("%d expressions loaded.\n",
+        PRINT_LOG("Loading from %s...\n", it->c_str());
+        PRINT_LOG("%d expressions loaded.\n",
                parser::loadMwsHarvestFromDirectory(indexBuilder, harvestPath,
                                                    config.harvestFileExtension,
                                                    config.recursive));
-        fflush(stdout);
     }
 
     return ret;

@@ -51,15 +51,26 @@ constexpr char VAR_NAME_ATTRIBUTE[] = "name";
 constexpr char ROOT_XPATH_SELECTOR[] = "/*[1]";
 const Meaning QVAR_MEANING = "mws:qvar";
 
-CmmlToken::CmmlToken(bool aMode)
+CmmlToken::CmmlToken()
     : _tag(""),
       _textContent(""),
       _parentNode(nullptr),
-      _xpath(ROOT_XPATH_SELECTOR),
-      _mode(aMode) {}
+      _xpath(ROOT_XPATH_SELECTOR) {}
 
-CmmlToken* CmmlToken::newRoot(bool aMode) { return (new CmmlToken(aMode)); }
+CmmlToken* CmmlToken::newRoot() { return (new CmmlToken()); }
 
+CmmlToken* CmmlToken::newChildNode() {
+    CmmlToken* result;
+
+    result = new CmmlToken();
+    _childNodes.push_back(result);
+    result->_parentNode = this;
+    result->_xpath = _xpath + "/*[" + std::to_string(_childNodes.size()) + "]";
+
+    return result;
+}
+
+/// @todo fix recursivity
 CmmlToken::~CmmlToken() {
     while (!_childNodes.empty()) {
         delete _childNodes.front();
@@ -89,20 +100,17 @@ void CmmlToken::appendTextContent(const char* aTextContent, size_t nBytes) {
     }
 }
 
+void CmmlToken::appendTextContent(const string& textContent) {
+    appendTextContent(textContent.c_str(), textContent.size());
+}
+
+void CmmlToken::popLastChild() {
+    _childNodes.pop_back();
+}
+
 const string& CmmlToken::getTextContent() const { return _textContent; }
 
 const string& CmmlToken::getTag() const { return _tag; }
-
-CmmlToken* CmmlToken::newChildNode() {
-    CmmlToken* result;
-
-    result = new CmmlToken(_mode);
-    _childNodes.push_back(result);
-    result->_parentNode = this;
-    result->_xpath = _xpath + "/*[" + std::to_string(_childNodes.size()) + "]";
-
-    return result;
-}
 
 bool CmmlToken::isRoot() const { return (_parentNode == nullptr); }
 

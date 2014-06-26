@@ -211,7 +211,7 @@ static void my_startElement(void* user_data, const xmlChar* name,
         if (data->currentToken != nullptr) {
             data->currentToken = data->currentToken->newChildNode();
         } else {
-            data->currentTokenRoot = CmmlToken::newRoot(false);
+            data->currentTokenRoot = CmmlToken::newRoot();
             data->currentToken = data->currentTokenRoot;
         }
         // Adding the tag name

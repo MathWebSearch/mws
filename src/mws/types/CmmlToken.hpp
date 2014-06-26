@@ -36,106 +36,92 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <functional>
 
+#include "common/utils/compiler_defs.h"
+
 namespace mws {
 namespace types {
 
 class CmmlToken;
 
 typedef std::string Meaning;
-typedef std::function<void (const CmmlToken* token)> TokenCallback;
-
+typedef std::function<void(const CmmlToken* token)> TokenCallback;
 
 /**
   * @brief Class encapsulating the properties of a ContentMathML Token
   */
 class CmmlToken {
-public:
-    typedef std::list<CmmlToken*>      PtrList;
-private:
+ public:
+    typedef std::list<CmmlToken*> PtrList;
+
+ private:
     /// Tag name
-    std::string                        _tag;
+    std::string _tag;
     /// Attributes list
     std::map<std::string, std::string> _attributes;
     /// Text content within the XML node
-    std::string                        _textContent;
+    std::string _textContent;
     /// List of child nodes
-    PtrList                            _childNodes;
+    PtrList _childNodes;
     /// Pointer to parent node
-    CmmlToken*                         _parentNode;
+    CmmlToken* _parentNode;
     /// Xpath of current node relative to the root
-    std::string                        _xpath;
-    /// Mode (Harvest or Query)
-    bool                               _mode;
-public:
+    std::string _xpath;
+
+ public:
     enum Type {
-      VAR,
-      CONSTANT
+        VAR,
+        CONSTANT
     };
 
-    /**
-      * @brief Method to get an instance of a CmmlToken (which can be used as
-      * root).
-      * @param aMode is the mode of the token (true if it is allowed to
-      * make changes to the MeaningDictionary and false otherwise). This
-      * is used as true for Harvests and false for Queries.
-      * @return a pointer to a newly created instance of CmmlToken.
-      */
-    static CmmlToken* newRoot(bool aMode);
-    /**
-      * @brief Destructor of the CmmlToken class.
-      */
     ~CmmlToken();
+    static CmmlToken* newRoot();
+    CmmlToken* newChildNode();
 
-    void                         setTag(const std::string& aTag);
-    void                         addAttribute(const std::string& anAttribute,
-                                              const std::string& aValue);
-    void                         appendTextContent(const char* aTextContent,
-                                                   size_t      nBytes);
-    CmmlToken*                   newChildNode();
-    bool                         isRoot() const;
-    bool                         isVar() const;
-    const std::string&           getTextContent() const;
-    const PtrList&               getChildNodes() const;
-    CmmlToken*                   getParentNode() const;
-    const std::string&           getTag() const;
-    const std::string&           getXpath() const;
-    // Return xpath without leading root selector (useful for concatenation)
-    std::string                  getXpathRelative() const;
+    void setTag(const std::string& aTag);
+    void addAttribute(const std::string& anAttribute,
+                      const std::string& aValue);
+    void appendTextContent(const char* aTextContent, size_t nBytes);
+    void appendTextContent(const std::string& textContent);
+    void popLastChild();
+    bool isRoot() const;
+    bool isVar() const;
+    const std::string& getTextContent() const;
+    const PtrList& getChildNodes() const;
+    CmmlToken* getParentNode() const;
+    const std::string& getTag() const;
+    const std::string& getXpath() const;
+    /**
+     * @brief getXpathRelative
+     * @return Xpath wihout root selector prefix
+     */
+    std::string getXpathRelative() const;
 
-    Type                         getType() const;
+    Type getType() const;
     // VAR specific methods
-    const std::string&           getVarName() const;
+    const std::string& getVarName() const;
     // CONSTANT specific
-    std::string                  getMeaning() const;
+    std::string getMeaning() const;
 
     // Logging / stats
-    std::string                  toString(int indent=0) const;
-    uint32_t                     getExprDepth() const;
-    uint32_t                     getExprSize() const;
-    uint32_t                     getArity() const;
-    bool                         equals(const CmmlToken *t) const;
+    std::string toString(int indent = 0) const;
+    uint32_t getExprDepth() const;
+    uint32_t getExprSize() const;
+    uint32_t getArity() const;
+    bool equals(const CmmlToken* t) const;
 
     /**
      * @brief Apply the callback to all subexpressions
      * @param callback callback to be called on each subexpression
      */
     void foreachSubexpression(TokenCallback callback) const;
-protected:
-    /**
-      * Declared protected to avoid instantiation.
-      * @brief Constructor of the CmmlToken class.
-      * @param aMode is the mode of the token (true if it is allowed to
-      * make changes to the MeaningDictionary and false otherwise). This
-      * is used as true for Harvests and false for Queries.
-      */
-    CmmlToken(bool aMode);
-    /**
-      * Declared protected to avoid copies of the objects.
-      * @brief Copy constructor of the CmmlToken class.
-      */
-    CmmlToken(CmmlToken const&);
+
+ private:
+    CmmlToken();
+
+    DISALLOW_COPY_AND_ASSIGN(CmmlToken);
 };
 
-} }
+}  // namespace types
+}  // namespace mws
 
 #endif

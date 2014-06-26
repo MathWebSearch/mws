@@ -17,12 +17,13 @@
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
 # MWS Modules
-ADD_SUBDIRECTORY( daemon )              # mwsdaemon
-ADD_SUBDIRECTORY( dbc )                 # mwsdbc
-ADD_SUBDIRECTORY( index )               # mwsindex
-ADD_SUBDIRECTORY( query )               # mwsquery
-ADD_SUBDIRECTORY( types )               # mwstypes
-ADD_SUBDIRECTORY( xmlparser )           # mwsxmlparser
+ADD_SUBDIRECTORY(analytics)             # mwsanalytics
+ADD_SUBDIRECTORY(daemon)                # mwsdaemon
+ADD_SUBDIRECTORY(dbc)                   # mwsdbc
+ADD_SUBDIRECTORY(index)                 # mwsindex
+ADD_SUBDIRECTORY(query)                 # mwsquery
+ADD_SUBDIRECTORY(types)                 # mwstypes
+ADD_SUBDIRECTORY(xmlparser)             # mwsxmlparser
 
 # Main MWS executable
 ADD_EXECUTABLE( mwsd mwsd.cpp )

@@ -49,11 +49,11 @@ class IndexIterator {
     typedef std::list<typename Accessor::Iterator> PathContainer;
 
     IndexIterator() {}
-    IndexIterator(typename Accessor::Node* root,
-                  typename Accessor::Index* index)
+    IndexIterator(typename Accessor::Index* index,
+                  typename Accessor::Node* root)
         : _arity(1), _index(index), _root(root) {}
 
-    void set(typename Accessor::Node* root, typename Accessor::Index* index) {
+    void set(typename Accessor::Index* index, typename Accessor::Node* root) {
         _arity = 1;
         _index = index;
         _root = root;

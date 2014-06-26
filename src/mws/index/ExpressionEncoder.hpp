@@ -61,6 +61,7 @@ class ExpressionEncoder {
                const types::CmmlToken* expression,
                std::vector<encoded_token_t> *encodedFormula,
                ExpressionInfo* expressionInfo);
+    types::Meaning decodeMeaning(encoded_token_t token);
  protected:
     virtual MeaningId _getAnonVarOffset() const = 0;
     virtual MeaningId _getNamedVarOffset() const = 0;
@@ -91,6 +92,13 @@ class QueryEncoder : public ExpressionEncoder {
     virtual MeaningId _getAnonVarOffset() const;
     virtual MeaningId _getNamedVarOffset() const;
     virtual MeaningId _getConstantEncoding(const types::Meaning& meaning);
+};
+
+class ExpressionDecoder {
+    MeaningDictionary::ReverseLookupTable _lookupTable;
+ public:
+    explicit ExpressionDecoder(const MeaningDictionary& dictionary);
+    types::Meaning getMeaning(MeaningId meaningId) const;
 };
 
 }  // namespace index
