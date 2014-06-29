@@ -76,6 +76,14 @@ CrawlId HarvestIndexer::processData(const string& data) {
     return indexBuilder->indexCrawlData(data);
 }
 
+/**
+ * @brief loadMwsHarvestFromFd build an index with data from fd
+ * @param indexBuilder
+ * @param fd file descriptor of the harvest file
+ * @return pair, where the first item is the return code and
+ * the second is the number of parsed expressions
+ * XXX: does NOT close the file descriptor
+ */
 pair<int, int> loadMwsHarvestFromFd(mws::index::IndexBuilder* indexBuilder,
                                     int fd) {
     HarvestProcessor* harvestIndexer = new HarvestIndexer(indexBuilder);

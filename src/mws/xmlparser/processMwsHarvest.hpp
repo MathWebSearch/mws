@@ -63,8 +63,6 @@ class HarvestProcessor {
                                   const std::string& exprUri,
                                   const uint32_t& crawlId) = 0;
     /**
-     * crawlId might be CRAWLID_NULL if there was no data associated
-     * with the expression, or processData() did not return a crawlId
      * @brief called when a data element has been parsed
      * @param data contained in the data element
      * @return a CrawlId, if the expressions are linked with data,\

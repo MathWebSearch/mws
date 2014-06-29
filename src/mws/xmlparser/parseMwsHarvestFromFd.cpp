@@ -150,6 +150,15 @@ CrawlId HarvestParser::processData(const string& data) {
     return _idCounter;
 }
 
+/**
+ * @brief parseMwsHarvestFromFd Analyze a harvest, given a complete index
+ * @param config extra configuration options
+ * @param index the loaded index
+ * @param meaningDictionary
+ * @param fd file descriptor of the harvest file
+ * @return a vector, where every element is a ParseResult associated with a doc
+ * XXX: does NOT close the file descriptor
+ */
 vector<ParseResult*> parseMwsHarvestFromFd(const Config& config,
                                            IndexAccessor::Index* index,
                                            MeaningDictionary* meaningDictionary,
