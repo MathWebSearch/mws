@@ -1,6 +1,9 @@
-env:
+language: cpp
+compiler:
+ - gcc
+ - clang
 
-before_install: 
+before_install:
  - lsb_release -a
  - sudo apt-get update
 install:
@@ -18,10 +21,6 @@ install:
  - sudo apt-get install netcat
  - sudo apt-get install curl
 
-language: cpp
-compiler:
- - gcc
- - clang
 script:
  - make
  - make test

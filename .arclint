@@ -1,0 +1,32 @@
+{
+  "exclude": [
+    "(^third_party/)",
+    "(^data/)",
+    "(^test/data/)",
+    "(^\\.)"
+  ],
+  "linters": {
+    "cpplint": {
+      "type": "cpplint",
+      "include": "(\\.cpp$|\\.hpp|\\.c|\\.h)"
+    },
+    "filename": {
+      "type": "filename"
+    },
+    "generated": {
+      "type": "generated"
+    },
+    "merge-conflict": {
+      "type": "merge-conflict"
+    },
+    "nolint": {
+      "type": "nolint"
+    },
+    "text": {
+      "type": "text"
+    },
+    "spelling": {
+      "type": "spelling"
+    }
+  }
+}

@@ -1,5 +1,4 @@
 {
   "project_id"  : "mathwebsearch",
-  "conduit_uri" : "http://phab.code4fun.de/",
-  "lint.engine" : "ArcanistMwsLintEngine"
+  "conduit_uri" : "http://phab.code4fun.de/"
 }
