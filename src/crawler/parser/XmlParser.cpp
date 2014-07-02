@@ -218,6 +218,7 @@ static void dumpNodeToText(const xmlNode* root, stringstream* stream,
                            MathIdDictionary* encodedMathIds) {
     stack<const xmlNode*> nodes;
     nodes.push(root->children);
+    static const char MATH_PREFIX[] = "math";
 
     while (!nodes.empty()) {
         const xmlNode* node = nodes.top();
@@ -231,9 +232,10 @@ static void dumpNodeToText(const xmlNode* root, stringstream* stream,
             const char* id = reinterpret_cast<const char*>(
                 xmlGetProp(const_cast<xmlNode*>(node), BAD_CAST "id"));
             if (encodedMathIds != nullptr) {
-                *stream << " #" << to_string(encodedMathIds->put(id)) << " ";
+                *stream << " " << MATH_PREFIX
+                        << to_string(encodedMathIds->put(id)) << " ";
             } else {
-                *stream << " #" << id << " ";
+                *stream << " " << MATH_PREFIX << id << " ";
             }
             xmlFree((void*)id);
             continue;

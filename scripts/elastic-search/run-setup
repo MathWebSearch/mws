@@ -25,10 +25,10 @@ curl -s -S -XPUT $HOST:$PORT/$INDEX/ -d '
 },
 "mappings" : {
     "doc" : {
-        "_source" : { "enabled" : false },
         "dynamic" : "strict",
         "properties" : {
-            "metadata" : { "type" : "object", "store" : false, "index" : "no" },
+            "metadata" : { "dynamic" : true, "type" : "object", "store" : false,
+                "index" : "analyzed" },
             "mws_ids" : { "type" : "long", "store" : false, "index" : "not_analyzed"},
             "text" : { "type" : "string", "store" : false, "index" : "analyzed" },
             "mws_id" : { "enabled" : false, "type" : "object", "store" : true, "index" : "no" },
