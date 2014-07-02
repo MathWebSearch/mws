@@ -96,11 +96,12 @@ Harvest createHarvestFromDocument(const string& path,
         documentId = path;
     }
 
+    MathIdDictionary mathIdDictionary;
     if (config.shouldSaveData) {
         data << "<mws:data mws:data_id=\"" << config.data_id << "\">\n";
         data << "<id>" << documentId << "</id>\n";
-        data << "<text>" << getTextByXpath(doc, config.textWithMathXpath)
-             << "</text>\n";
+        data << "<text>" << getTextByXpath(doc, config.textWithMathXpath,
+                                           &mathIdDictionary) << "</text>\n";
         data << "<metadata>\n";
         for (HarvesterConfiguration::MetadataItem item : config.metadataItems) {
             data << "<" << item.name << ">" << getTextByXpath(doc, item.xpath)
@@ -126,15 +127,18 @@ Harvest createHarvestFromDocument(const string& path,
         }
 
         if (config.shouldSaveData) {
-            data << "<math local_id=\"" << id << "\">"
+            data << "<math local_id=\"" << mathIdDictionary.get(id) << "\">"
                  << getEscapedXmlFromNode(doc, mathNode) << "</math>\n";
         }
         cleanContentMath(cmmlNode);
 
         stringstream expression;
-        expression << "<mws:expr url=\"" << documentId << "#" << id << "\"";
         if (config.shouldSaveData) {
+            expression << "<mws:expr url=\"" << mathIdDictionary.get(id)
+                       << "\"";
             expression << " mws:data_id=\"" << config.data_id << "\"";
+        } else {
+            expression << "<mws:expr url=\"" << documentId << "#" << id << "\"";
         }
         expression << ">" << getXmlFromNode(doc, cmmlNode) << "</mws:expr>\n";
         harvest.contentMathElements.push_back(expression.str());

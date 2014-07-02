@@ -60,7 +60,7 @@ using std::filebuf;
 using crawler::parser::parseDocument;
 using crawler::parser::getTextByXpath;
 using crawler::parser::processXpathResults;
-using crawler::parser::getEscapedTextFromNode;
+using crawler::parser::getTextFromNode;
 using crawler::parser::getXmlFromNode;
 using common::utils::FlagParser;
 #include "mws/index/index.h"
@@ -109,13 +109,13 @@ static DataItems* getDataItems(const string& content) {
         string id((char*)xmlId);
         xmlFree((void*)xmlId);
 
-        dataItems->exprXml[id] = getXmlFromNode(doc, mathNode);
+        dataItems->exprXml[id] = getTextFromNode(mathNode, nullptr);
     });
 
     // get metadata
     processXpathResults(doc, METADATA_XPATH, [&](xmlNode* metadataItem) {
         string tag((const char*)metadataItem->name);
-        dataItems->metadata[tag] = getEscapedTextFromNode(doc, metadataItem);
+        dataItems->metadata[tag] = getTextFromNode(metadataItem);
     });
 
     xmlFreeDoc(doc);

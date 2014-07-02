@@ -29,10 +29,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
+#include <cinttypes>
 #include <functional>
 #include <string>
 
 #include "common/utils/compiler_defs.h"
+#include "common/types/IdDictionary.hpp"
 
 namespace crawler {
 namespace parser {
@@ -72,15 +74,20 @@ std::string getEscapedXmlFromNode(xmlDoc* doc, xmlNode* node);
 
 std::string getXmlFromNode(xmlDoc* doc, xmlNode* node);
 
-std::string getEscapedTextFromNode(xmlDoc* doc, xmlNode* node);
+typedef common::types::IdDictionary<std::string, uint32_t> MathIdDictionary;
+
+std::string escapeXml(xmlDoc* doc, const std::string& xml);
+std::string getTextFromNode(xmlNode* node,
+                            MathIdDictionary* encodedMathIds = nullptr);
+
+std::string getTextByXpath(xmlDoc* doc,
+                           const std::string& xpath,
+                           MathIdDictionary* encodedMathIds = nullptr,
+                           xmlNode* contextNode = nullptr);
 
 xmlNode* getNodeByXpath(xmlDoc* doc,
                         const std::string& xpath,
                         xmlNode* contextNode = nullptr);
-
-std::string getTextByXpath(xmlDoc* doc,
-                           const std::string& xpath,
-                           xmlNode* contextNode = nullptr);
 
 }  // namespace parser
 }  // namespace crawler

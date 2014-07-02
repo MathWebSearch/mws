@@ -33,17 +33,21 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stack>
 using std::stack;
-#include <string>
-using std::string;
-#include <sstream>
-using std::stringstream;
 #include <stdexcept>
 using std::runtime_error;
+#include <string>
+using std::string;
+using std::to_string;
+#include <sstream>
+using std::stringstream;
 
 #include "common/utils/memstream.h"
 #include "common/utils/util.hpp"
 using common::utils::removeDuplicateSpaces;
 #include "crawler/parser/XmlParser.hpp"
+
+namespace crawler {
+namespace parser {
 
 /*--------------------------------------------------------------------------*/
 /* Local methods                                                            */
@@ -51,14 +55,12 @@ using common::utils::removeDuplicateSpaces;
 
 static xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const char* xpath,
                                        xmlNode* contextNode = nullptr);
-static void dumpNodeToText(const xmlNode* node, stringstream* stream);
+static void dumpNodeToText(const xmlNode* node, stringstream* stream,
+                           MathIdDictionary* encodedMathIds);
 
 /*--------------------------------------------------------------------------*/
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
-
-namespace crawler {
-namespace parser {
 
 xmlDocPtr parseDocument(const char* content, int size) {
     xmlDocPtr doc;
@@ -84,16 +86,20 @@ xmlDocPtr parseDocument(const char* content, int size) {
     throw runtime_error("XML/HTML parse error");
 }
 
-string getEscapedTextFromNode(xmlDoc* doc, xmlNode* node) {
+string escapeXml(xmlDoc* doc, const string& xml) {
+    xmlChar* escapedXml = xmlEncodeSpecialChars(doc, BAD_CAST xml.c_str());
+    string escapedXmlString(reinterpret_cast<char*>(escapedXml));
+    xmlFree(escapedXml);
+    return escapedXmlString;
+}
+
+string getTextFromNode(xmlNode* node, MathIdDictionary* encodedMathIds) {
     stringstream stream;
-    dumpNodeToText(node, &stream);
+    dumpNodeToText(node, &stream, encodedMathIds);
     string text = stream.str();
     removeDuplicateSpaces(&text);
-    xmlChar* escapedText = xmlEncodeSpecialChars(doc, BAD_CAST text.c_str());
-    string escapedTextString((char*)escapedText);
-    xmlFree(escapedText);
 
-    return escapedTextString;
+    return text;
 }
 
 string getXmlFromNode(xmlDoc* doc, xmlNode* node) {
@@ -142,13 +148,13 @@ xmlNode* getNodeByXpath(xmlDocPtr doc, const string& xpath,
 }
 
 string getTextByXpath(xmlDocPtr doc, const string& xpath,
-                      xmlNode* contextNode) {
+                      MathIdDictionary* encodedMathIds, xmlNode* contextNode) {
     xmlNode* node = getNodeByXpath(doc, xpath, contextNode);
     if (node == nullptr) {
         return "";
     }
 
-    return getEscapedTextFromNode(doc, node);
+    return getTextFromNode(node, encodedMathIds);
 }
 
 void processXpathResults(xmlDoc* doc, const std::string& xpath,
@@ -183,9 +189,6 @@ void processXpathResults(xmlDoc* doc, const string& xpath,
     processXpathResults(doc, xpath, &callbackProcessor);
 }
 
-}  // namespace parser
-}  // namespace crawler
-
 /*--------------------------------------------------------------------------*/
 /* Local implementation                                                     */
 /*--------------------------------------------------------------------------*/
@@ -211,7 +214,8 @@ static xmlXPathObjectPtr getXMLNodeset(xmlDocPtr doc, const char* xpath,
     return result;
 }
 
-static void dumpNodeToText(const xmlNode* root, stringstream* stream) {
+static void dumpNodeToText(const xmlNode* root, stringstream* stream,
+                           MathIdDictionary* encodedMathIds) {
     stack<const xmlNode*> nodes;
     nodes.push(root->children);
 
@@ -224,9 +228,13 @@ static void dumpNodeToText(const xmlNode* root, stringstream* stream) {
         nodes.top() = node->next;
 
         if (strcmp((char*)node->name, "math") == 0) {
-            const xmlChar* id =
-                xmlGetProp(const_cast<xmlNode*>(node), BAD_CAST "id");
-            *stream << " #" << reinterpret_cast<const char*>(id) << " ";
+            const char* id = reinterpret_cast<const char*>(
+                xmlGetProp(const_cast<xmlNode*>(node), BAD_CAST "id"));
+            if (encodedMathIds != nullptr) {
+                *stream << " #" << to_string(encodedMathIds->put(id)) << " ";
+            } else {
+                *stream << " #" << id << " ";
+            }
             xmlFree((void*)id);
             continue;
         } else if (node->type == XML_TEXT_NODE) {
@@ -236,3 +244,6 @@ static void dumpNodeToText(const xmlNode* root, stringstream* stream) {
         nodes.push(node->children);
     }
 }
+
+}  // namespace parser
+}  // namespace crawler
