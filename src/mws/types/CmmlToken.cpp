@@ -206,6 +206,10 @@ const std::string& CmmlToken::getVarName() const {
 std::string CmmlToken::getMeaning() const {
     assert(getType() == CONSTANT);
 
+    if (_tag == "mtext") { // mtext content is discarded
+        return "mtext#";
+    }
+
     return _tag + "#" + _textContent;
 }
 

@@ -67,6 +67,9 @@ class CmmlTokenBuilder {
     void pushToken(encoded_token_t encodedToken);
     void popToken(encoded_token_t encodedToken);
     const CmmlToken* get();
+
+ private:
+    DISALLOW_COPY_AND_ASSIGN(CmmlTokenBuilder);
 };
 
 namespace mws {

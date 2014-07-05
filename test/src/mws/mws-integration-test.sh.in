@@ -26,8 +26,8 @@ query_and_close_mwsd() {
         nc -z localhost $MWSD_PORT 2>&1 > /dev/null || continue
 
         # run tests
-        test_query "<mws:qvar/>" "28328"
-        test_query "<apply><mws:qvar name=\"op\"/><mws:qvar name=\"foo\"/><mws:qvar name=\"foo\"/></apply>" "78"
+        test_query "<mws:qvar/>" "28304"
+        test_query "<apply><mws:qvar name=\"op\"/><mws:qvar name=\"foo\"/><mws:qvar name=\"foo\"/></apply>" "82"
         test_query "<apply><plus/><mws:qvar name=\"x\"/><mws:qvar name=\"x\"/></apply>" "0"
         test_query "<apply><plus/><mws:qvar name=\"x\"/><mws:qvar name=\"y\"/></apply>" "276"
 

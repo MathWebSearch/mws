@@ -1,0 +1,9 @@
+{
+    "shouldSaveData" : true,
+    "textWithMathXpath" : "//body",
+    "documentIdXpath" : "//meta[@name='mmturi']/@content",
+    "metadata" : {
+        "title" : "//title",
+        "url" : "//meta[@name='url']/@content"
+    }
+}
