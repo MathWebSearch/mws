@@ -51,6 +51,7 @@ using mws::parser::loadMwsHarvestFromDirectory;
 using mws::clearxmlparser;
 #include "common/utils/util.hpp"
 using common::utils::humanReadableByteCount;
+using common::utils::create_directory;
 
 #include "mws/index/IndexWriter.hpp"
 
@@ -71,38 +72,8 @@ int createCompressedIndex(const IndexingConfiguration& config) {
 
     size_t invalid_paths = 0;
 
-    // if the path exists
-    if (access(output_dir.c_str(), F_OK) == 0) {
-        struct stat status;
-        stat(output_dir.c_str(), &status);
-
-        if (status.st_mode & S_IFDIR) {
-            // Do we have write access?
-            if (access(output_dir.c_str(), W_OK) == 0) {
-                // Everything ok if the folder has no other files called
-                // crawl.db, level.db, index.memsector or meanings.dat
-            } else {
-                PRINT_WARN("%s: Permission denied\n", output_dir.c_str());
-                goto failure;
-            }
-        } else {
-            PRINT_WARN("The path you entered is a file\n");
-            goto failure;
-        }
-    } else {
-        // create the directory (because it doesn't exist)
-        mkdir(output_dir.c_str(), 0755);
-        // Do we have write access, now that we have created it?
-        if (access(output_dir.c_str(), W_OK) == 0) {
-            // Everything ok.
-        } else {
-            // We were not able to create the file
-            PRINT_WARN("%s: Permission denied.\n", output_dir.c_str());
-            goto failure;
-        }
-    }
-
     try {
+        create_directory(output_dir);
         auto crawlLevDb = new dbc::LevCrawlDb();
         crawlLevDb->create_new((output_dir + "/" + CRAWL_DB_FILE).c_str(),
                                /* deleteIfExists = */ false);

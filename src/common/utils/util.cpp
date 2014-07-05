@@ -241,5 +241,33 @@ string humanReadableByteCount(uint64_t bytes, bool si) {
     return formattedString("%.1f %sB", bytes / pow(unit, exp), prefix.c_str());
 }
 
+void create_directory(const string& path, bool error_if_exists) {
+    if (access(path.c_str(), F_OK) == 0) {  // path exists
+        if (error_if_exists) {
+            throw runtime_error(
+                formattedString("path \"%s\" already exists", path.c_str()));
+        }
+
+        struct stat status;
+        stat(path.c_str(), &status);
+
+        if (status.st_mode & S_IFDIR) {
+            // Test read and write access
+            if (access(path.c_str(), R_OK | W_OK) != 0) {
+                throw runtime_error(
+                    formattedString("path \"%s\" is not RW accessible", path.c_str()));
+            }
+        } else {
+            throw runtime_error(
+                formattedString("path \"%s\" is not a directory", path.c_str()));
+        }
+    } else {
+        if (mkdir(path.c_str(), 0755) < 0) {
+            throw runtime_error(
+                formattedString("%s: %s", path.c_str(), strerror(errno)));
+        }
+    }
+}
+
 }  // namespace utils
 }  // namespace common

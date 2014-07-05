@@ -74,6 +74,13 @@ std::string formattedString(const char* fmt, ...)
     __attribute__((format(printf, 1, 2)));
 std::string humanReadableByteCount(uint64_t bytes, bool si);
 
+/**
+ * @brief create directory at the specified path
+ * @param path where to create directory
+ */
+void create_directory(const std::string& path,
+                      bool error_if_exists = false) /* throw runtime_error */;
+
 }  // namespace utils
 }  // namespace common
 

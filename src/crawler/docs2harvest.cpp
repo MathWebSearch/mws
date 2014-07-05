@@ -54,6 +54,7 @@ using crawler::parser::cleanupMathParser;
 using common::utils::FlagParser;
 #include "common/utils/util.hpp"
 using common::utils::getFileContents;
+using common::utils::create_directory;
 
 const char DEFAULT_OUTPUT_DIRECTORY[] = ".";
 
@@ -74,7 +75,10 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    if (FlagParser::hasArg('o')) outputDirectory = FlagParser::getArg('o');
+    if (FlagParser::hasArg('o')) {
+        outputDirectory = FlagParser::getArg('o');
+        create_directory(outputDirectory);
+    }
     if (FlagParser::hasArg('c')) {
         config = readHarvesterConfigurationFile(FlagParser::getArg('c'));
     }
