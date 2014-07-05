@@ -99,12 +99,15 @@ Harvest createHarvestFromDocument(const string& path,
     MathIdDictionary mathIdDictionary;
     if (config.shouldSaveData) {
         data << "<mws:data mws:data_id=\"" << config.data_id << "\">\n";
-        data << "<id>" << documentId << "</id>\n";
-        data << "<text>" << getTextByXpath(doc, config.textWithMathXpath,
-                                           &mathIdDictionary) << "</text>\n";
+        data << "<id>" << escapeXml(doc, documentId) << "</id>\n";
+        data << "<text>"
+             << escapeXml(doc, getTextByXpath(doc, config.textWithMathXpath,
+                                              &mathIdDictionary))
+             << "</text>\n";
         data << "<metadata>\n";
         for (HarvesterConfiguration::MetadataItem item : config.metadataItems) {
-            data << "<" << item.name << ">" << getTextByXpath(doc, item.xpath)
+            data << "<" << item.name << ">"
+                 << escapeXml(doc, getTextByXpath(doc, item.xpath))
                  << "</" << item.name << ">\n";
         }
         data << "</metadata>\n";
