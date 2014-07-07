@@ -70,11 +70,24 @@ CmmlToken* CmmlToken::newChildNode() {
     return result;
 }
 
-/// @todo fix recursivity
 CmmlToken::~CmmlToken() {
+    stack<CmmlToken*> tokStack;
+
     while (!_childNodes.empty()) {
-        delete _childNodes.front();
+        tokStack.push(_childNodes.front());
         _childNodes.pop_front();
+    }
+
+    while (!tokStack.empty()) {
+        CmmlToken* curr = tokStack.top();
+        tokStack.pop();
+        auto& childrenCurr = curr->_childNodes;
+        while (!childrenCurr.empty()) {
+            tokStack.push(childrenCurr.front());
+            childrenCurr.pop_front();
+        }
+
+        delete curr;
     }
 }
 
