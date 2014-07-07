@@ -81,7 +81,6 @@ int JsonResponseFormatter::writeData(const MwsAnswset& answerSet,
 
         json_object_array_add(qvars, qvar);
     }
-
     json_object_object_add(json_doc, "qvars", qvars);
 
     // Creating hits field
