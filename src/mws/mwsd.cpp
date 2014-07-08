@@ -153,7 +153,7 @@ int main(int argc, char* argv[]) {
     }
 
     // should delete old data
-    config.deleteOldData = FlagParser::hasArg('f');
+    config.indexingConfiguration.deleteOldIndex = FlagParser::hasArg('f');
 
 #ifndef __APPLE__
     // daemon

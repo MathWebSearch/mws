@@ -107,8 +107,10 @@ int HarvestDaemon::initMws(const Config& config) {
         string fmdbPath = config.dataPath + "/formula.db";
 
         try {
-            crdb->create_new(crdbPath.c_str(), config.deleteOldData);
-            fmdb->create_new(fmdbPath.c_str(), config.deleteOldData);
+            crdb->create_new(crdbPath.c_str(),
+                             config.indexingConfiguration.deleteOldIndex);
+            fmdb->create_new(fmdbPath.c_str(),
+                             config.indexingConfiguration.deleteOldIndex);
 
             crawlDb = crdb;
             formulaDb = fmdb;

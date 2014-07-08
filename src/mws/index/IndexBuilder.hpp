@@ -40,32 +40,31 @@ namespace index {
 
 struct IndexingOptions {
     bool renameCi;
-    IndexingOptions() : renameCi(false) {
-    }
+    IndexingOptions() : renameCi(false) {}
 };
 
 struct IndexingConfiguration {
     std::vector<std::string> harvestLoadPaths;
-    bool                     recursive;
-    std::string              dataPath;
-    std::string              harvestFileExtension;
-    IndexingOptions          indexingOptions;
+    bool recursive;
+    std::string dataPath;
+    std::string harvestFileExtension;
+    IndexingOptions indexingOptions;
+    bool deleteOldIndex;
 };
 
 class IndexBuilder {
-private:
+ private:
     dbc::FormulaDb* m_formulaDb;
     dbc::CrawlDb* m_crawlDb;
     mws::index::TmpIndex* m_index;
     index::MeaningDictionary* m_meaningDictionary;
     index::IndexingOptions m_indexingOptions;
 
-public:
-    IndexBuilder(dbc::FormulaDb* formulaDb,
-                 dbc::CrawlDb* crawlDb,
+ public:
+    IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                  mws::index::TmpIndex* index,
                  MeaningDictionary* meaningDictionary,
-                 IndexingOptions  indexingOptions);
+                 IndexingOptions indexingOptions);
 
     /**
      * @brief index crawl data

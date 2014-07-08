@@ -76,11 +76,11 @@ int createCompressedIndex(const IndexingConfiguration& config) {
         create_directory(output_dir);
         auto crawlLevDb = new dbc::LevCrawlDb();
         crawlLevDb->create_new((output_dir + "/" + CRAWL_DB_FILE).c_str(),
-                               /* deleteIfExists = */ false);
+                               config.deleteOldIndex);
         crawlDb.reset(crawlLevDb);
         auto formulaLevDb = new dbc::LevFormulaDb();
         formulaLevDb->create_new((output_dir + "/" + FORMULA_DB_FILE).c_str(),
-                                 /* deleteIfExists = */ false);
+                                 config.deleteOldIndex);
         formulaDb.reset(formulaLevDb);
     } catch (exception& e) {
         PRINT_WARN("%s\n", e.what());

@@ -52,7 +52,6 @@ struct Config {
     std::string                  harvestFileExtension;
     index::IndexingOptions       indexingOptions;
     index::IndexingConfiguration indexingConfiguration;
-    bool                         deleteOldData;
     bool                         useExperimentalQueryEngine;
 
     Config();
