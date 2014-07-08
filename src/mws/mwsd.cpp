@@ -140,13 +140,13 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('l')) {
         fprintf(stderr, "Redirecting output to %s\n",
                 FlagParser::getArg('l').c_str());
-        if (freopen(FlagParser::getArg('l').c_str(), "w", stderr) == nullptr) {
-            fprintf(stderr, "ERROR: Unable to redirect stderr to %s\n",
+        if (freopen(FlagParser::getArg('l').c_str(), "w", stdout) == nullptr) {
+            fprintf(stderr, "ERROR: Unable to redirect stdout to %s\n",
                     FlagParser::getArg('l').c_str());
             goto failure;
         }
-        if (freopen(FlagParser::getArg('l').c_str(), "w", stdout) == nullptr) {
-            fprintf(stderr, "ERROR: Unable to redirect stdout to %s\n",
+        if (dup2(STDOUT_FILENO, STDERR_FILENO) < 0) {
+            fprintf(stderr, "ERROR: Unable to redirect stderr to %s\n",
                     FlagParser::getArg('l').c_str());
             goto failure;
         }

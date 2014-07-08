@@ -66,6 +66,7 @@ int loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
             printf("Loading %s... ", path.c_str());
             int fd = open(path.c_str(), O_RDONLY);
             if (fd < 0) {
+                perror(path.c_str());
                 return -1;
             }
             auto loadReturn = loadMwsHarvestFromFd(indexBuilder, fd);
