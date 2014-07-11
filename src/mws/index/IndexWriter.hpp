@@ -29,11 +29,25 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <string>
+#include <vector>
 
 #include "mws/index/IndexBuilder.hpp"
 
 namespace mws {
 namespace index {
+
+struct HarvesterConfiguration {
+    std::vector<std::string> paths;
+    bool recursive;
+    std::string fileExtension;
+};
+
+struct IndexConfiguration {
+    HarvesterConfiguration harvester;
+    EncodingConfiguration encoding;
+    std::string dataPath;
+    bool deleteOldData;
+};
 
 
 /**
@@ -41,7 +55,8 @@ namespace index {
  * @param config
  * @return 0 on success, 1 if an error occurs
  */
-int createCompressedIndex(const IndexingConfiguration& config);
+int createCompressedIndex(const IndexConfiguration& config);
+
 }  // namespace index
 }  // namespace mws
 

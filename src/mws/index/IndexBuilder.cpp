@@ -55,12 +55,12 @@ namespace index {
 IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                            TmpIndex* index,
                            MeaningDictionary* meaningDictionary,
-                           IndexingOptions indexingOptions)
+                           EncodingConfiguration encodingOptions)
     : m_formulaDb(formulaDb),
       m_crawlDb(crawlDb),
       m_index(index),
       m_meaningDictionary(meaningDictionary),
-      m_indexingOptions(std::move(indexingOptions)) {}
+      m_indexingOptions(std::move(encodingOptions)) {}
 
 CrawlId IndexBuilder::indexCrawlData(const CrawlData& crawlData) {
     return m_crawlDb->putData(crawlData);

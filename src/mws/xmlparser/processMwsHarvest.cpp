@@ -58,7 +58,7 @@ using std::map;
 #include <utility>
 
 #include "mws/index/IndexBuilder.hpp"
-using mws::index::IndexingOptions;
+using mws::index::EncodingConfiguration;
 #include "mws/types/CmmlToken.hpp"
 #include "common/utils/compiler_defs.h"
 

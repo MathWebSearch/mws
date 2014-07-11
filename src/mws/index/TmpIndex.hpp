@@ -108,6 +108,11 @@ class TmpIndex {
     TmpLeafNode* insertData(const std::vector<encoded_token_t>& encodedFormula);
 
     /**
+     * @return size of the resulting memsector in bytes
+     */
+    uint64_t computeMemsectorSize() const;
+
+    /**
      * @brief exportToMemsector dump index data to a memsector index
      * @param mswr memsector writer handle
      */

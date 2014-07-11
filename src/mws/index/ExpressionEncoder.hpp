@@ -57,7 +57,7 @@ class ExpressionEncoder {
     explicit ExpressionEncoder(MeaningDictionary* dictionary);
     virtual ~ExpressionEncoder();
 
-    int encode(const IndexingOptions& options,
+    int encode(const EncodingConfiguration& options,
                const types::CmmlToken* expression,
                std::vector<encoded_token_t> *encodedFormula,
                ExpressionInfo* expressionInfo);

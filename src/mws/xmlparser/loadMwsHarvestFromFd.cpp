@@ -40,7 +40,7 @@ using std::pair;
 #include "mws/dbc/CrawlDb.hpp"
 using mws::dbc::CrawlId;
 #include "mws/index/IndexBuilder.hpp"
-using mws::index::IndexingOptions;
+using mws::index::EncodingConfiguration;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 #include "common/utils/compiler_defs.h"

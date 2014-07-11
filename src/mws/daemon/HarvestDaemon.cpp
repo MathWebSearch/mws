@@ -43,9 +43,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <stack>
 
+#include <cinttypes>
 #include <string>
 #include <vector>
-// Local includes
 
 #include "HarvestDaemon.hpp"
 #include "common/socket/InSocket.hpp"
@@ -59,6 +59,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/IndexBuilder.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/xmlparser/processMwsHarvest.hpp"
+using mws::parser::loadHarvests;
 #include "mws/query/SearchContext.hpp"
 #include "common/thread/ThreadWrapper.hpp"
 #include "common/utils/Path.hpp"
@@ -79,8 +80,8 @@ MwsAnswset* HarvestDaemon::handleQuery(Query* mwsQuery) {
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
-    if (encoder.encode(_config.indexingOptions, mwsQuery->tokens[0],
-                       &encodedQuery, &queryInfo) == 0) {
+    if (encoder.encode(_config.index.encoding,
+                       mwsQuery->tokens[0], &encodedQuery, &queryInfo) == 0) {
         dbc::DbQueryManager dbQueryManger(crawlDb, formulaDb);
         ctxt = new query::SearchContext(encodedQuery, mwsQuery->options);
         result = ctxt->getResult<TmpIndexAccessor>(
@@ -100,17 +101,17 @@ MwsAnswset* HarvestDaemon::handleQuery(Query* mwsQuery) {
 int HarvestDaemon::initMws(const Config& config) {
     int ret = Daemon::initMws(config);
 
-    if (config.useLevelDb) {
+    if (config.index.dataPath != "") {
         auto crdb = new dbc::LevCrawlDb();
         auto fmdb = new dbc::LevFormulaDb();
-        string crdbPath = config.dataPath + "/crawl.db";
-        string fmdbPath = config.dataPath + "/formula.db";
+        string crdbPath = config.index.dataPath + "/crawl.db";
+        string fmdbPath = config.index.dataPath + "/formula.db";
 
         try {
             crdb->create_new(crdbPath.c_str(),
-                             config.indexingConfiguration.deleteOldIndex);
+                             config.index.deleteOldData);
             fmdb->create_new(fmdbPath.c_str(),
-                             config.indexingConfiguration.deleteOldIndex);
+                             config.index.deleteOldData);
 
             crawlDb = crdb;
             formulaDb = fmdb;
@@ -127,22 +128,14 @@ int HarvestDaemon::initMws(const Config& config) {
     meaningDictionary = new MeaningDictionary();
 
     indexBuilder = new index::IndexBuilder(
-        formulaDb, crawlDb, data, meaningDictionary, config.indexingOptions);
+                formulaDb, crawlDb, data, meaningDictionary,
+                config.index.encoding);
 
     ret = ThreadWrapper::init();
 
-    // load harvests
-    const vector<string>& paths = config.harvestLoadPaths;
-    vector<string>::const_iterator it;
-
-    for (it = paths.begin(); it != paths.end(); it++) {
-        AbsPath harvestPath(*it);
-        PRINT_LOG("Loading from %s...\n", it->c_str());
-        PRINT_LOG("%d expressions loaded.\n",
-               parser::loadMwsHarvestFromDirectory(indexBuilder, harvestPath,
-                                                   config.harvestFileExtension,
-                                                   config.recursive));
-    }
+    uint64_t loaded = loadHarvests(indexBuilder,
+                                   config.index.harvester);
+    PRINT_LOG("%" PRIu64 " expressions loaded.\n", loaded);
 
     return ret;
 }

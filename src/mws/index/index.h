@@ -101,6 +101,14 @@ typedef struct index_handle_s {
 
 BEGIN_DECLS
 
+static inline uint32_t memsector_inode_size(uint32_t num_children) {
+    return sizeof(inode_t) + num_children * sizeof(encoded_token_dict_entry_t);
+}
+
+static inline uint32_t memsector_leaf_size(void) {
+    return sizeof(leaf_t);
+}
+
 static inline
 memsector_off_t memsector_write_inode_begin(memsector_writer_t *msw,
                                             uint32_t num_children) {

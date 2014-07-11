@@ -55,6 +55,7 @@ using std::filebuf;
 #include "common/utils/compiler_defs.h"
 #include "common/utils/Path.hpp"
 #include "common/utils/util.hpp"
+using common::utils::hasSuffix;
 #include "common/utils/FlagParser.hpp"
 #include "crawler/parser/XmlParser.hpp"
 using crawler::parser::parseDocument;
@@ -67,9 +68,11 @@ using common::utils::FlagParser;
 #include "mws/index/IndexLoader.hpp"
 using mws::index::IndexLoader;
 using mws::index::LoadingOptions;
+#include "mws/index/IndexWriter.hpp"
+using mws::index::HarvesterConfiguration;
+using mws::index::EncodingConfiguration;
 #include "mws/index/IndexAccessor.hpp"
 using mws::index::IndexAccessor;
-#include "mws/daemon/Daemon.hpp"
 #include "mws/dbc/LevFormulaDb.hpp"
 using mws::dbc::FormulaDb;
 using mws::dbc::LevFormulaDb;
@@ -173,7 +176,12 @@ static void writeParseResultToFile(const ParseResult& parseResult, FILE* file) {
 }
 
 int main(int argc, char* argv[]) {
-    mws::daemon::Config config;
+    struct Config {
+        string indexPath;
+        HarvesterConfiguration harvester;
+        EncodingConfiguration encoding;
+    } config;
+
     FlagParser::addFlag('I', "index-path", FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('H', "harvest-path", FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('c', "enable-ci-renaming", FLAG_OPT, ARG_NONE);
@@ -185,28 +193,26 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    // harvest path
-    config.dataPath = FlagParser::getArg('H').c_str();
-    config.indexingOptions.renameCi = FlagParser::hasArg('c');
-    config.recursive = FlagParser::hasArg('r');
-    string indexPath = FlagParser::getArg('I').c_str();
+    config.harvester.paths = {FlagParser::getArg('H').c_str()};
+    config.harvester.recursive = FlagParser::hasArg('r');
+    config.indexPath = FlagParser::getArg('I').c_str();
+    config.encoding.renameCi = FlagParser::hasArg('c');
 
-    // harvest file extension
     if (FlagParser::hasArg('e')) {
-        config.harvestFileExtension = FlagParser::getArg('e');
+        config.harvester.fileExtension = FlagParser::getArg('e');
     } else {
-        config.harvestFileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
+        config.harvester.fileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
     }
 
     try {
         LoadingOptions loadingOptions;
         loadingOptions.includeHits = false;
-        IndexLoader data(indexPath, loadingOptions);
+        IndexLoader data(config.indexPath, loadingOptions);
 
         common::utils::FileCallback fileCallback = [&](
             const std::string& path, const std::string& prefix) {
             UNUSED(prefix);
-            if (common::utils::hasSuffix(path, config.harvestFileExtension)) {
+            if (hasSuffix(path, config.harvester.fileExtension)) {
                 string outputName = path + ".json";
                 FILE* output = fopen(outputName.c_str(), "wx");
                 if (output == nullptr) {
@@ -229,7 +235,8 @@ int main(int argc, char* argv[]) {
                 }
 
                 vector<ParseResult*> parseResults =
-                    parseMwsHarvestFromFd(config, data.getIndexHandle(),
+                    parseMwsHarvestFromFd(config.encoding,
+                                          data.getIndexHandle(),
                                           data.getMeaningDictionary(), fd);
                 for (const ParseResult* parseResult : parseResults) {
                     writeParseResultToFile(*parseResult, output);
@@ -245,23 +252,17 @@ int main(int argc, char* argv[]) {
 
             return 0;
         };
-        common::utils::DirectoryCallback shouldRecurse = [](
+        common::utils::DirectoryCallback shouldRecurse = [&](
             const std::string partialPath) {
             UNUSED(partialPath);
-            return true;
+            return config.harvester.recursive;
         };
 
-        printf("Processing harvest files...\n");
-        if (config.recursive) {
+        for (string harvestPath : config.harvester.paths) {
+            printf("Processing harvest files %s...\n", harvestPath.c_str());
             if (common::utils::foreachEntryInDirectory(
-                    config.dataPath, fileCallback, shouldRecurse)) {
-                PRINT_WARN("Error in foreachEntryInDirectory (recursive)");
-                return EXIT_FAILURE;
-            }
-        } else {
-            if (common::utils::foreachEntryInDirectory(config.dataPath,
-                                                       fileCallback)) {
-                PRINT_WARN("Error in foreachEntryInDirectory (non-recursive)");
+                        harvestPath, fileCallback, shouldRecurse)) {
+                PRINT_WARN("Error in foreachEntryInDirectory");
                 return EXIT_FAILURE;
             }
         }

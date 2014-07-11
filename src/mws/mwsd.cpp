@@ -48,7 +48,7 @@ using mws::daemon::HarvestDaemon;
 #include "mws/daemon/IndexDaemon.hpp"
 using mws::daemon::IndexDaemon;
 #include "index/IndexBuilder.hpp"
-using mws::index::IndexingConfiguration;
+using mws::index::IndexConfiguration;
 #include "mws/index/memsector.h"
 #include "mws/index/IndexWriter.hpp"
 using mws::index::createCompressedIndex;
@@ -80,6 +80,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('e', "harvest-file-extension", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('f', "delete-old-data", FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('6', "enable-ipv6", FLAG_OPT, ARG_NONE);
+    FlagParser::addFlag('s', "log-index-stats", FLAG_OPT, ARG_REQ);
 #ifndef __APPLE__
     FlagParser::addFlag('d', "daemonize", FLAG_OPT, ARG_NONE);
 #endif  // !__APPLE__
@@ -97,29 +98,23 @@ int main(int argc, char* argv[]) {
 
     // harvest paths
     if (FlagParser::hasArg('I')) {
-        config.harvestLoadPaths = FlagParser::getArgs('I');
-        config.indexingConfiguration.harvestLoadPaths = config.harvestLoadPaths;
+        config.index.harvester.paths =
+                FlagParser::getArgs('I');
     }
     config.enableIpv6 = FlagParser::hasArg('6');
 
     // harvest file extension
     if (FlagParser::hasArg('e')) {
-        config.harvestFileExtension = FlagParser::getArg('e');
+        config.index.harvester.fileExtension = FlagParser::getArg('e');
     } else {
-        config.harvestFileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
+        config.index.harvester.fileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
     }
-    config.indexingConfiguration.harvestFileExtension =
-        config.harvestFileExtension;
 
     // recursive
-    config.recursive = FlagParser::hasArg('r');
-    config.indexingConfiguration.recursive = config.recursive;
-    // leveldb
-    config.useLevelDb = FlagParser::hasArg('L');
+    config.index.harvester.recursive = FlagParser::hasArg('r');
 
     // ci renaming
-    config.indexingOptions.renameCi = FlagParser::hasArg('c');
-    config.indexingConfiguration.indexingOptions = config.indexingOptions;
+    config.index.encoding.renameCi = FlagParser::hasArg('c');
 
     // mws-port
     if (FlagParser::hasArg('p')) {
@@ -153,7 +148,11 @@ int main(int argc, char* argv[]) {
     }
 
     // should delete old data
-    config.indexingConfiguration.deleteOldIndex = FlagParser::hasArg('f');
+    config.index.deleteOldData = FlagParser::hasArg('f');
+
+    if (FlagParser::hasArg('s')) {
+        config.indexStatisticsPath = FlagParser::getArg('s');
+    }
 
 #ifndef __APPLE__
     // daemon
@@ -179,8 +178,7 @@ int main(int argc, char* argv[]) {
 
     // data-path
     if (FlagParser::hasArg('D')) {
-        config.dataPath = FlagParser::getArg('D');
-        config.indexingConfiguration.dataPath = config.dataPath;
+        config.index.dataPath = FlagParser::getArg('D');
 
         mwsDaemon.reset(new IndexDaemon());
         ret = mwsDaemon->startAsync(config);
@@ -192,7 +190,7 @@ int main(int argc, char* argv[]) {
             }
             PRINT_LOG("Index not found. Attempting to build it...\n");
 
-            if (createCompressedIndex(config.indexingConfiguration) != 0) {
+            if (createCompressedIndex(config.index) != 0) {
                 PRINT_WARN("Could not build index. Aborting...\n");
                 goto failure;
             }
@@ -206,9 +204,7 @@ int main(int argc, char* argv[]) {
         }
         PRINT_LOG("Index loaded successfully. \n");
     } else {
-        PRINT_LOG("Using default data path %s\n", DEFAULT_MWS_DATA_PATH);
         PRINT_LOG("Trying to load index in memory.\n");
-        config.dataPath = DEFAULT_MWS_DATA_PATH;
         mwsDaemon.reset(new HarvestDaemon());
         ret = mwsDaemon->startAsync(config);
         if (ret != 0) {

@@ -45,8 +45,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 // MWS Daemon
 
 #define DEFAULT_MWS_PORT            9090
-// Path where to store db files and index
-#define DEFAULT_MWS_DATA_PATH       "/tmp"
 
 // MWS Query
 

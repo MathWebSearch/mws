@@ -38,6 +38,8 @@ using mws::index::TmpLeafNode;
 using mws::index::TmpIndex;
 #include "mws/index/index.h"
 #include "mws/index/IndexBuilder.hpp"
+#include "mws/index/IndexWriter.hpp"
+using mws::index::HarvesterConfiguration;
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
 #include "mws/xmlparser/processMwsHarvest.hpp"
@@ -118,9 +120,9 @@ int main(int argc, char* argv[]) {
     TmpIndex data;
     MeaningDictionary* meaningDictionary;
     index::IndexBuilder* indexBuilder;
-    index::IndexingOptions indexingOptions;
-    string harvest_path;
+    index::EncodingConfiguration indexingOptions;
     string tmp_memsector_path;
+    HarvesterConfiguration config;
 
     FlagParser::addFlag('I', "include-harvest-path", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('O', "tmp-memsector-path", FLAG_OPT, ARG_REQ);
@@ -132,12 +134,14 @@ int main(int argc, char* argv[]) {
     }
 
     if (FlagParser::hasArg('I')) {
-        harvest_path = FlagParser::getArg('I');
+        config.paths.push_back(FlagParser::getArg('I'));
     } else {
         PRINT_LOG("Using default include harvest path %s\n",
                   DEFAULT_HARVEST_PATH);
-        harvest_path = DEFAULT_HARVEST_PATH;
+        config.paths.push_back(DEFAULT_HARVEST_PATH);
     }
+    config.fileExtension = "harvest";
+    config.recursive = false;
 
     if (FlagParser::hasArg('O')) {
         tmp_memsector_path = FlagParser::getArg('O');
@@ -162,9 +166,7 @@ int main(int argc, char* argv[]) {
     /* ensure the file does not exist */
     FAIL_ON(unlink(tmp_memsector_path.c_str()) != 0 && errno != ENOENT);
 
-    FAIL_ON(parser::loadMwsHarvestFromDirectory(
-                indexBuilder, AbsPath(harvest_path), ".harvest",
-                /* recursive = */ false) <= 0);
+    FAIL_ON(parser::loadHarvests(indexBuilder, config) <= 0);
     FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str()) != 0);
     data.exportToMemsector(&mswr);
     printf("Index exported to memsector %s (%" PRIu64 "b)\n",

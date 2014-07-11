@@ -32,19 +32,19 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
+#include <stdint.h>
 
 #include <string>
 #include <vector>
 #include <map>
 #include <utility>
 
-// Local includes
-
 #include "mws/index/IndexBuilder.hpp"
+#include "mws/index/IndexWriter.hpp"
 #include "mws/index/IndexAccessor.hpp"
 #include "common/utils/Path.hpp"
 #include "mws/daemon/Daemon.hpp"
+
 namespace mws {
 namespace parser {
 
@@ -85,17 +85,13 @@ processMwsHarvest(int fd, HarvestProcessor* harvestProcessor);
 std::pair<int, int>
 loadMwsHarvestFromFd(index::IndexBuilder* indexBuilder, int fd);
 
-
-int loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
-                                const mws::AbsPath& dirPath,
-                                const std::string& extension,
-                                bool recursive);
+uint64_t loadHarvests(index::IndexBuilder* indexBuilder,
+                 const index::HarvesterConfiguration& config);
 
 struct Hit {
     std::string uri;
     std::string xpath;
 };
-
 
 struct ParseResult {
     std::string data;
@@ -111,9 +107,9 @@ struct ParseResult {
 };
 
 std::vector<ParseResult*>
-parseMwsHarvestFromFd(const mws::daemon::Config& config,
-                      mws::index::IndexAccessor::Index* index,
-                      mws::index::MeaningDictionary* meaningDictionary, int fd);
+parseMwsHarvestFromFd(const index::EncodingConfiguration& encodingConfig,
+                      index::IndexAccessor::Index* index,
+                      index::MeaningDictionary* meaningDictionary, int fd);
 }  // namespace parser
 }  // namespace mws
 

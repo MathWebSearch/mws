@@ -75,7 +75,7 @@ struct Tester {
         dbc::MemFormulaDb formulaDb;
         index::TmpIndex data;
         MeaningDictionary meaningDictionary;
-        index::IndexingOptions indexingOptions;
+        index::EncodingConfiguration indexingOptions;
         indexingOptions.renameCi = true;
         index::IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
                                          &meaningDictionary, indexingOptions);

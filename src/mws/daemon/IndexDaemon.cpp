@@ -125,7 +125,7 @@ MwsAnswset* IndexDaemon::handleQuery(Query* query) {
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
-    if (encoder.encode(_config.indexingOptions, query->tokens[0], &encodedQuery,
+    if (encoder.encode(_config.index.encoding, query->tokens[0], &encodedQuery,
                        &queryInfo) == 0) {
         if (_config.useExperimentalQueryEngine) {
             HandlerStruct ctxt;
@@ -159,7 +159,7 @@ MwsAnswset* IndexDaemon::handleQuery(Query* query) {
 int IndexDaemon::initMws(const Config& config) {
     int ret = Daemon::initMws(config);
     try {
-        m_data = unique_ptr<IndexLoader>(new IndexLoader(config.dataPath));
+        m_data.reset(new IndexLoader(config.index.dataPath));
     } catch (const exception& e) {
         PRINT_WARN("%s\n", e.what());
         return EXIT_FAILURE;

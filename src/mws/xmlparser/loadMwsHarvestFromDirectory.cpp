@@ -19,9 +19,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 /**
-  * @brief File containing the implementation of the loadMwsHarvestFromDirectory
-  * function
-  *
   * @file loadMwsHarvestFromDirectory.cpp
   * @date 30 Apr 2012
   *
@@ -37,13 +34,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <algorithm>
 #include <string>
+#include <vector>
 #include <utility>
 
 #include "common/utils/compiler_defs.h"
 #include "common/utils/Path.hpp"
 #include "common/utils/util.hpp"
-#include "mws/index/IndexBuilder.hpp"
-using mws::index::IndexingOptions;
+using common::utils::foreachEntryInDirectory;
 #include "processMwsHarvest.hpp"
 
 // Namespaces
@@ -53,53 +50,50 @@ using namespace std;
 namespace mws {
 namespace parser {
 
-int loadMwsHarvestFromDirectory(mws::index::IndexBuilder* indexBuilder,
-                                mws::AbsPath const& dirPath,
-                                const std::string& extension, bool recursive) {
-    int totalLoaded = 0;
+uint64_t loadHarvests(mws::index::IndexBuilder* indexBuilder,
+                 const index::HarvesterConfiguration& config) {
+    uint64_t numExpressions = 0;
 
-    common::utils::FileCallback
-        fileCallback = [&totalLoaded, indexBuilder, extension](
-            const std::string& path, const std::string& prefix) {
-        UNUSED(prefix);
-        if (common::utils::hasSuffix(path, extension)) {
-            printf("Loading %s... ", path.c_str());
-            int fd = open(path.c_str(), O_RDONLY);
-            if (fd < 0) {
-                perror(path.c_str());
-                return -1;
-            }
-            auto loadReturn = loadMwsHarvestFromFd(indexBuilder, fd);
-            if (loadReturn.first == 0) {
-                printf("%d loaded\n", loadReturn.second);
+    for (string dirPath : config.paths) {
+        PRINT_LOG("Loading from %s...\n", dirPath.c_str());
+        common::utils::FileCallback
+                fileCallback = [&](
+                const std::string& path, const std::string& prefix) {
+            UNUSED(prefix);
+            if (common::utils::hasSuffix(path, config.fileExtension)) {
+                PRINT_LOG("Loading %s... ", path.c_str());
+                int fd = open(path.c_str(), O_RDONLY);
+                if (fd < 0) {
+                    perror(path.c_str());
+                    return -1;
+                }
+                auto loadReturn = loadMwsHarvestFromFd(indexBuilder, fd);
+                if (loadReturn.first == 0) {
+                    PRINT_LOG("%d loaded\n", loadReturn.second);
+                } else {
+                    PRINT_LOG("%d loaded (with errors)\n", loadReturn.second);
+                }
+                numExpressions += loadReturn.second;
+                close(fd);
             } else {
-                printf("%d loaded (with errors)\n", loadReturn.second);
+                PRINT_LOG("Skipping \"%s\": bad extension\n", path.c_str());
             }
-            totalLoaded += loadReturn.second;
-            close(fd);
-        } else {
-            printf("Skipping \"%s\": bad extension\n", path.c_str());
+
+            return 0;
+        };
+
+        common::utils::DirectoryCallback recursive = [&](
+                const std::string partialPath) {
+            UNUSED(partialPath);
+            return config.recursive;
+        };
+
+        if (foreachEntryInDirectory(dirPath, fileCallback, recursive) != 0) {
+            continue;
         }
-
-        return 0;
-    };
-    common::utils::DirectoryCallback shouldRecurse = [](
-        const std::string partialPath) {
-        UNUSED(partialPath);
-        return true;
-    };
-
-    printf("Loading harvest files...\n");
-    if (recursive) {
-        FAIL_ON(common::utils::foreachEntryInDirectory(
-            dirPath.get(), fileCallback, shouldRecurse));
-    } else {
-        FAIL_ON(common::utils::foreachEntryInDirectory(dirPath.get(),
-                                                       fileCallback));
     }
 
-fail:
-    return totalLoaded;
+    return numExpressions;
 }
 
 }  // namespace parser

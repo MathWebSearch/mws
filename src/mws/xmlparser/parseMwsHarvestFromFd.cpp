@@ -45,7 +45,7 @@ using std::map;
 using namespace mws::dbc;
 using mws::types::FormulaId;
 #include "mws/index/IndexBuilder.hpp"
-using mws::index::IndexingOptions;
+using mws::index::EncodingConfiguration;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::TokenCallback;
@@ -74,12 +74,13 @@ class HarvestParser : public HarvestProcessor {
     CrawlId processData(const string& data);
     vector<ParseResult*> getParseResults();
     HarvestParser(IndexAccessor::Index* index,
-                  MeaningDictionary* meaningictionary, Config config);
+                  MeaningDictionary* meaningictionary,
+                  EncodingConfiguration indexingOptions);
 
  private:
     IndexAccessor::Index* _index;
     MeaningDictionary* _meaningDictionary;
-    Config _config;
+    EncodingConfiguration _indexingOptions;
     CrawlId _idCounter;
     Query::Options _queryOptions;
     /* each CrawlId uniquely identifies a document */
@@ -88,10 +89,10 @@ class HarvestParser : public HarvestProcessor {
 
 HarvestParser::HarvestParser(IndexAccessor::Index* index,
                              MeaningDictionary* meaningDictionary,
-                             Config config)
+                             EncodingConfiguration indexingOptions)
     : _index(index),
       _meaningDictionary(meaningDictionary),
-      _config(std::move(config)),
+      _indexingOptions(std::move(indexingOptions)),
       _idCounter(0) {
     _queryOptions.includeHits = false;
 }
@@ -118,7 +119,7 @@ int HarvestParser::processExpression(const CmmlToken* token,
 
     TokenCallback tokCallback = [&](const CmmlToken* tok) {
         vector<encoded_token_t> encodedFormula;
-        encoder.encode(_config.indexingOptions, tok, &encodedFormula, nullptr);
+        encoder.encode(_indexingOptions, tok, &encodedFormula, nullptr);
 
         MwsAnswset* result;
         SearchContext ctxt(encodedFormula, _queryOptions);
@@ -155,18 +156,16 @@ CrawlId HarvestParser::processData(const string& data) {
  * @param config extra configuration options
  * @param index the loaded index
  * @param meaningDictionary
- * @param fd file descriptor of the harvest file
+ * @param fd file descriptor of the harvest file. The caller is responsable
+ * for closing it.
  * @return a vector, where every element is a ParseResult associated with a doc
- * XXX: does NOT close the file descriptor
  */
-vector<ParseResult*> parseMwsHarvestFromFd(const Config& config,
-                                           IndexAccessor::Index* index,
-                                           MeaningDictionary* meaningDictionary,
-                                           int fd) {
-    HarvestParser harvestParser(index, meaningDictionary, config);
+vector<ParseResult*> parseMwsHarvestFromFd(
+    const EncodingConfiguration& encodingConfig, IndexAccessor::Index* index,
+    MeaningDictionary* meaningDictionary, int fd) {
 
+    HarvestParser harvestParser(index, meaningDictionary, encodingConfig);
     processMwsHarvest(fd, &harvestParser);
-
     return harvestParser.getParseResults();
 }
 

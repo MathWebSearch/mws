@@ -184,7 +184,7 @@ MWS_PID_FILE="$MWS_PID_FILE"
 # Extra command-line arguments passed to mwsd
 MWS_DAEMON_EXTRA_ARGS="${extra_args}"
 EOF
-echo Created MathWebSearch configuration ${name}
+echo Created MathWebSearch configuration ${suffix}
 }
 
 perform_test() {

@@ -39,20 +39,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/types/Query.hpp"
 #include "mws/index/IndexBuilder.hpp"
+#include "mws/index/IndexWriter.hpp"
 
 namespace mws { namespace daemon {
 
 struct Config {
-    std::vector<std::string> harvestLoadPaths;
-    bool                         recursive;
-    bool                         enableIpv6;
-    uint16_t                     mwsPort;
-    std::string                  dataPath;
-    bool                         useLevelDb;
-    std::string                  harvestFileExtension;
-    index::IndexingOptions       indexingOptions;
-    index::IndexingConfiguration indexingConfiguration;
-    bool                         useExperimentalQueryEngine;
+    uint16_t mwsPort;
+    bool enableIpv6;
+    index::IndexConfiguration index;
+    bool useExperimentalQueryEngine;
+    std::string indexStatisticsPath;
 
     Config();
 };

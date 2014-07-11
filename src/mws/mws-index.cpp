@@ -42,9 +42,9 @@ using mws::index::TmpIndex;
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
 #include "mws/xmlparser/processMwsHarvest.hpp"
-using mws::parser::loadMwsHarvestFromDirectory;
+using mws::parser::loadHarvests;
 #include "mws/index/IndexWriter.hpp"
-using mws::index::IndexingConfiguration;
+using mws::index::IndexConfiguration;
 using mws::index::createCompressedIndex;
 #include "mws/xmlparser/clearxmlparser.hpp"
 using mws::clearxmlparser;
@@ -53,7 +53,7 @@ using mws::clearxmlparser;
 using namespace mws;
 
 int main(int argc, char* argv[]) {
-    IndexingConfiguration indexingConfig;
+    IndexConfiguration indexConfig;
 
     FlagParser::addFlag('o', "output-directory", FLAG_REQ, ARG_REQ);
     FlagParser::addFlag('I', "include-harvest-path", FLAG_REQ, ARG_REQ);
@@ -66,16 +66,16 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    indexingConfig.harvestFileExtension = "harvest";
+    indexConfig.harvester.fileExtension = "harvest";
     if (FlagParser::hasArg('e')) {
-        indexingConfig.harvestFileExtension = FlagParser::getArg('e');
+        indexConfig.harvester.fileExtension = FlagParser::getArg('e');
     }
 
-    indexingConfig.recursive = FlagParser::hasArg('r');
+    indexConfig.harvester.recursive = FlagParser::hasArg('r');
 
-    indexingConfig.harvestLoadPaths = FlagParser::getArgs('I');
-    indexingConfig.dataPath = FlagParser::getArg('o');
-    indexingConfig.indexingOptions.renameCi = FlagParser::hasArg('c');
+    indexConfig.harvester.paths = FlagParser::getArgs('I');
+    indexConfig.dataPath = FlagParser::getArg('o');
+    indexConfig.encoding.renameCi = FlagParser::hasArg('c');
 
-    return createCompressedIndex(indexingConfig);
+    return createCompressedIndex(indexConfig);
 }

@@ -45,7 +45,7 @@ using mws::index::TmpIndex;
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
 #include "mws/xmlparser/processMwsHarvest.hpp"
-using mws::parser::loadMwsHarvestFromDirectory;
+using mws::parser::loadHarvests;
 #include "mws/xmlparser/clearxmlparser.hpp"
 #include "IndexBuilder.hpp"
 using mws::clearxmlparser;
@@ -58,9 +58,8 @@ using common::utils::create_directory;
 namespace mws {
 namespace index {
 
-int createCompressedIndex(const IndexingConfiguration& config) {
+int createCompressedIndex(const IndexConfiguration& config) {
     const std::string output_dir = config.dataPath;
-    const IndexingOptions indexingOptions = config.indexingOptions;
     memsector_writer_t mwsr;
     unique_ptr<dbc::CrawlDb> crawlDb;
     unique_ptr<dbc::FormulaDb> formulaDb;
@@ -69,18 +68,17 @@ int createCompressedIndex(const IndexingConfiguration& config) {
     unique_ptr<index::IndexBuilder> indexBuilder;
     std::filebuf fb;
     std::ostream os(&fb);
-
-    size_t invalid_paths = 0;
+    uint64_t numExpressions;
 
     try {
         create_directory(output_dir);
         auto crawlLevDb = new dbc::LevCrawlDb();
         crawlLevDb->create_new((output_dir + "/" + CRAWL_DB_FILE).c_str(),
-                               config.deleteOldIndex);
+                               config.deleteOldData);
         crawlDb.reset(crawlLevDb);
         auto formulaLevDb = new dbc::LevFormulaDb();
         formulaLevDb->create_new((output_dir + "/" + FORMULA_DB_FILE).c_str(),
-                                 config.deleteOldIndex);
+                                 config.deleteOldData);
         formulaDb.reset(formulaLevDb);
     } catch (exception& e) {
         PRINT_WARN("%s\n", e.what());
@@ -90,34 +88,14 @@ int createCompressedIndex(const IndexingConfiguration& config) {
 
     indexBuilder.reset(new index::IndexBuilder(formulaDb.get(), crawlDb.get(),
                                                &index, meaningDictionary.get(),
-                                               indexingOptions));
-    for (string it : config.harvestLoadPaths) {
-        AbsPath harvestPath(it);
-        if (access(it.c_str(), F_OK) != 0) {
-            PRINT_WARN("%s: No such file or directory...skipping\n",
-                       it.c_str());
-            ++invalid_paths;
-            continue;
-        }
-        // do we have read permission?
-        if (access(it.c_str(), R_OK) != 0) {
-            PRINT_WARN("%s: Permission denied.\n", it.c_str());
-            ++invalid_paths;
-            continue;
-        }
-        printf("Loading from %s...\n", it.c_str());
-        printf("%d expressions loaded.\n",
-               parser::loadMwsHarvestFromDirectory(
-                   indexBuilder.get(), harvestPath, config.harvestFileExtension,
-                   config.recursive));
-        fflush(stdout);
-    }
-
-    // Were all paths invalid?
-    if (invalid_paths == config.harvestLoadPaths.size()) {
-        PRINT_WARN("All paths were invalid. Aborting...\n");
+                                               config.encoding));
+    numExpressions = loadHarvests(indexBuilder.get(), config.harvester);
+    if (numExpressions == 0) {
+        PRINT_WARN("No expressions loaded. Aborting...\n");
         goto failure;
     }
+    PRINT_LOG("%" PRIu64 " expressions loaded.\n", numExpressions);
+
     memsector_create(&mwsr, (output_dir + "/" + INDEX_MEMSECTOR_FILE).c_str());
     index.exportToMemsector(&mwsr);
     PRINT_LOG("Created index of %s\n",

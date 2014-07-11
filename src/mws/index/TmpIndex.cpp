@@ -116,6 +116,31 @@ memsector_off_t TmpIndex::_writeChildrenOffsets(
     return offset;
 }
 
+uint64_t TmpIndex::computeMemsectorSize() const {
+    uint64_t size = 0;
+
+    auto onPush = [&](TmpIndexAccessor::Iterator iterator) {
+        UNUSED(iterator);
+    };
+    auto onPop = [&](TmpIndexAccessor::Iterator iterator) {
+        const TmpIndexNode* node = TmpIndexAccessor::getNode(this, iterator);
+        uint32_t num_children = node->children.size();
+        if (num_children > 0) {  // index node
+            size += memsector_inode_size(num_children);
+        } else {  // leaf node
+            size += memsector_leaf_size();
+        }
+    };
+
+    CallbackIndexIterator<TmpIndexAccessor> it(this, mRoot, onPush, onPop);
+    // iterate through entire index, adding sizes of inodes and leafs
+    while (it.next() != nullptr) continue;
+    // add root size
+    size += memsector_inode_size(mRoot->children.size());
+
+    return size;
+}
+
 void TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
     stack<vector<memsector_off_t> > dfsStack;
 

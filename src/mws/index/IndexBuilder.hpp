@@ -28,7 +28,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <string>
-#include <vector>
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/dbc/FormulaDb.hpp"
@@ -38,18 +37,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace index {
 
-struct IndexingOptions {
+struct EncodingConfiguration {
     bool renameCi;
-    IndexingOptions() : renameCi(false) {}
-};
-
-struct IndexingConfiguration {
-    std::vector<std::string> harvestLoadPaths;
-    bool recursive;
-    std::string dataPath;
-    std::string harvestFileExtension;
-    IndexingOptions indexingOptions;
-    bool deleteOldIndex;
+    EncodingConfiguration() : renameCi(false) {}
 };
 
 class IndexBuilder {
@@ -58,13 +48,13 @@ class IndexBuilder {
     dbc::CrawlDb* m_crawlDb;
     mws::index::TmpIndex* m_index;
     index::MeaningDictionary* m_meaningDictionary;
-    index::IndexingOptions m_indexingOptions;
+    index::EncodingConfiguration m_indexingOptions;
 
  public:
     IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                  mws::index::TmpIndex* index,
                  MeaningDictionary* meaningDictionary,
-                 IndexingOptions indexingOptions);
+                 EncodingConfiguration encodingOptions);
 
     /**
      * @brief index crawl data

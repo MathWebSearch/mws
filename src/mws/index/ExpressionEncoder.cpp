@@ -59,7 +59,7 @@ ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary)
 
 ExpressionEncoder::~ExpressionEncoder() {}
 
-int ExpressionEncoder::encode(const IndexingOptions& options,
+int ExpressionEncoder::encode(const EncodingConfiguration& options,
                               const CmmlToken* expression,
                               vector<encoded_token_t>* encodedFormula,
                               ExpressionInfo* expressionInfo) {
