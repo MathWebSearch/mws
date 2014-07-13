@@ -85,6 +85,10 @@ class TmpLeafNode : public TmpIndexNode {
  public:
     TmpLeafNode();
 
+    uint32_t getNumSolutions() const {
+        return solutions;
+    }
+
  private:
     friend class mws::index::TmpIndexAccessor;
     friend class IndexBuilder;

@@ -49,6 +49,8 @@ class IndexIterator {
     typedef std::list<typename Accessor::Iterator> PathContainer;
 
     IndexIterator() {}
+    explicit IndexIterator(typename Accessor::Index* index)
+        : _arity(1), _index(index), _root(Accessor::getRootNode(index)) {}
     IndexIterator(typename Accessor::Index* index,
                   typename Accessor::Node* root)
         : _arity(1), _index(index), _root(root) {}

@@ -39,7 +39,6 @@ using std::make_pair;
 #include <functional>
 using std::function;
 
-#include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/index.h"
 #include "mws/index/TmpIndex.hpp"
 #include "mws/index/TmpIndexAccessor.hpp"

@@ -151,7 +151,7 @@ int main(int argc, char* argv[]) {
     config.index.deleteOldData = FlagParser::hasArg('f');
 
     if (FlagParser::hasArg('s')) {
-        config.indexStatisticsPath = FlagParser::getArg('s');
+        config.index.harvester.statisticsLogFile = FlagParser::getArg('s');
     }
 
 #ifndef __APPLE__

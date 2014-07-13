@@ -37,23 +37,18 @@ using std::string;
 #include <memory>
 using std::unique_ptr;
 
-#include "mws/dbc/LevCrawlDb.hpp"
-#include "mws/dbc/LevFormulaDb.hpp"
-#include "mws/index/TmpIndex.hpp"
-using mws::index::TmpIndex;
-#include "mws/index/memsector.h"
-#include "mws/index/MeaningDictionary.hpp"
-using mws::index::MeaningDictionary;
-#include "mws/xmlparser/processMwsHarvest.hpp"
-using mws::parser::loadHarvests;
-#include "mws/xmlparser/clearxmlparser.hpp"
-#include "IndexBuilder.hpp"
-using mws::clearxmlparser;
 #include "common/utils/util.hpp"
 using common::utils::humanReadableByteCount;
 using common::utils::create_directory;
-
+#include "mws/dbc/LevCrawlDb.hpp"
+#include "mws/dbc/LevFormulaDb.hpp"
+#include "mws/index/TmpIndex.hpp"
+#include "mws/index/memsector.h"
+#include "mws/index/IndexBuilder.hpp"
+#include "mws/index/MeaningDictionary.hpp"
 #include "mws/index/IndexWriter.hpp"
+
+#include "build-gen/config.h"
 
 namespace mws {
 namespace index {
@@ -107,12 +102,9 @@ int createCompressedIndex(const IndexConfiguration& config) {
     meaningDictionary->save(os);
     fb.close();
 
-    clearxmlparser();
-
     return EXIT_SUCCESS;
 
 failure:
-    clearxmlparser();
     return EXIT_FAILURE;
 }
 

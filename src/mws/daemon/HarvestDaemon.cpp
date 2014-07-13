@@ -57,9 +57,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/TmpIndexAccessor.hpp"
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/IndexBuilder.hpp"
+using mws::index::loadHarvests;
 #include "mws/index/ExpressionEncoder.hpp"
-#include "mws/xmlparser/processMwsHarvest.hpp"
-using mws::parser::loadHarvests;
 #include "mws/query/SearchContext.hpp"
 #include "common/thread/ThreadWrapper.hpp"
 #include "common/utils/Path.hpp"

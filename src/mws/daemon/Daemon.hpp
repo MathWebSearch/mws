@@ -48,7 +48,6 @@ struct Config {
     bool enableIpv6;
     index::IndexConfiguration index;
     bool useExperimentalQueryEngine;
-    std::string indexStatisticsPath;
 
     Config();
 };

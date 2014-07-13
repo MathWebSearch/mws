@@ -85,9 +85,6 @@ processMwsHarvest(int fd, HarvestProcessor* harvestProcessor);
 std::pair<int, int>
 loadMwsHarvestFromFd(index::IndexBuilder* indexBuilder, int fd);
 
-uint64_t loadHarvests(index::IndexBuilder* indexBuilder,
-                 const index::HarvesterConfiguration& config);
-
 struct Hit {
     std::string uri;
     std::string xpath;

@@ -36,12 +36,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace index {
 
-struct HarvesterConfiguration {
-    std::vector<std::string> paths;
-    bool recursive;
-    std::string fileExtension;
-};
-
 struct IndexConfiguration {
     HarvesterConfiguration harvester;
     EncodingConfiguration encoding;

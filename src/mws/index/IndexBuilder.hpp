@@ -28,6 +28,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <string>
+#include <vector>
 
 #include "mws/types/CmmlToken.hpp"
 #include "mws/dbc/FormulaDb.hpp"
@@ -56,6 +57,10 @@ class IndexBuilder {
                  MeaningDictionary* meaningDictionary,
                  EncodingConfiguration encodingOptions);
 
+    const mws::index::TmpIndex* getIndex() const {
+        return m_index;
+    }
+
     /**
      * @brief index crawl data
      * @param crawlData URL and opaque data given in the crawled harvest
@@ -74,6 +79,16 @@ class IndexBuilder {
                          const std::string xmlId,
                          const dbc::CrawlId& crawlId = dbc::CRAWLID_NULL);
 };
+
+struct HarvesterConfiguration {
+    std::vector<std::string> paths;
+    bool recursive;
+    std::string fileExtension;
+    std::string statisticsLogFile;
+};
+
+uint64_t loadHarvests(index::IndexBuilder* indexBuilder,
+                      const HarvesterConfiguration& config);
 
 }  // namespace index
 }  // namespace mws

@@ -20,11 +20,12 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
   * @file IndexBuilder.cpp
-  * @brief Indexing Manager implementation
+  * @brief Indexing Builder implementation
   * @date 18 Nov 2013
   */
 
 #include <assert.h>
+#include <fcntl.h>
 
 #include <set>
 using std::set;
@@ -48,9 +49,17 @@ using mws::dbc::CrawlId;
 using mws::dbc::CrawlData;
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/IndexBuilder.hpp"
+#include "mws/index/IndexIterator.hpp"
+#include "mws/index/TmpIndexAccessor.hpp"
+#include "mws/xmlparser/processMwsHarvest.hpp"
+using mws::parser::loadMwsHarvestFromFd;
+#include "common/utils/util.hpp"
+using common::utils::foreachEntryInDirectory;
 
 namespace mws {
 namespace index {
+
+static void logIndexStatistics(const TmpIndex* index, FILE* logFile);
 
 IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                            TmpIndex* index,
@@ -91,5 +100,87 @@ int IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
 
     return numSubExpressions;
 }
+
+uint64_t loadHarvests(mws::index::IndexBuilder* indexBuilder,
+                      const index::HarvesterConfiguration& config) {
+    uint64_t numExpressions = 0;
+    FILE* logFile = nullptr;
+
+    if (config.statisticsLogFile != "") {
+        logFile = fopen(config.statisticsLogFile.c_str(), "w");
+        if (logFile == nullptr) {
+            perror(config.statisticsLogFile.c_str());
+        } else {
+            PRINT_LOG("Dumping index statistics to %s\n",
+                      config.statisticsLogFile.c_str());
+            fprintf(logFile, "#%12s %12s %12s\n", "<formulae>", "<unique>",
+                    "<size>");
+        }
+    }
+
+    for (string dirPath : config.paths) {
+        PRINT_LOG("Loading from %s...\n", dirPath.c_str());
+        common::utils::FileCallback fileCallback = [&](
+            const std::string& path, const std::string& prefix) {
+            UNUSED(prefix);
+            if (common::utils::hasSuffix(path, config.fileExtension)) {
+                PRINT_LOG("Loading %s... ", path.c_str());
+                int fd = open(path.c_str(), O_RDONLY);
+                if (fd < 0) {
+                    perror(path.c_str());
+                    return -1;
+                }
+                auto loadReturn = loadMwsHarvestFromFd(indexBuilder, fd);
+                if (loadReturn.first == 0) {
+                    PRINT_LOG("%d loaded\n", loadReturn.second);
+                } else {
+                    PRINT_LOG("%d loaded (with errors)\n", loadReturn.second);
+                }
+                numExpressions += loadReturn.second;
+                close(fd);
+            } else {
+                PRINT_LOG("Skipping \"%s\": bad extension\n", path.c_str());
+            }
+            if (logFile != nullptr) {
+                logIndexStatistics(indexBuilder->getIndex(), logFile);
+            }
+
+            return 0;
+        };
+
+        common::utils::DirectoryCallback recursive = [&](
+            const std::string partialPath) {
+            UNUSED(partialPath);
+            return config.recursive;
+        };
+
+        if (foreachEntryInDirectory(dirPath, fileCallback, recursive) != 0) {
+            continue;
+        }
+    }
+
+    if (logFile != nullptr) {
+        fclose(logFile);
+    }
+
+    return numExpressions;
 }
+
+static void logIndexStatistics(const TmpIndex* index, FILE* logFile) {
+    assert(logFile != nullptr);
+
+    uint64_t expressions = 0;
+    uint64_t uniqueExpressions = 0;
+    uint64_t indexSize = index->computeMemsectorSize();
+
+    IndexIterator<TmpIndexAccessor> iterator(index);
+    while (auto leaf = static_cast<const TmpLeafNode*>(iterator.next())) {
+        expressions += leaf->getNumSolutions();
+        uniqueExpressions++;
+    }
+    fprintf(logFile, " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 "\n",
+            expressions, uniqueExpressions, indexSize);
 }
+
+}  // namespace index
+}  // namespace mws

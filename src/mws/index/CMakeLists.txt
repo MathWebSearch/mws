@@ -40,7 +40,7 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*
 ADD_LIBRARY( ${MODULE} ${SOURCES} )
 TARGET_LINK_LIBRARIES(${MODULE}
                       mwstypes
-                      mwsdbc # TODO remove after transition to index
+                      mwsdbc
                       commonutils
                       ${CRC32_LIBRARIES}
 )

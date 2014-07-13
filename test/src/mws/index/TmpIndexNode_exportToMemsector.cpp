@@ -38,6 +38,7 @@ using mws::index::TmpLeafNode;
 using mws::index::TmpIndex;
 #include "mws/index/index.h"
 #include "mws/index/IndexBuilder.hpp"
+using mws::index::loadHarvests;
 #include "mws/index/IndexWriter.hpp"
 using mws::index::HarvesterConfiguration;
 #include "mws/index/MeaningDictionary.hpp"
@@ -166,7 +167,7 @@ int main(int argc, char* argv[]) {
     /* ensure the file does not exist */
     FAIL_ON(unlink(tmp_memsector_path.c_str()) != 0 && errno != ENOENT);
 
-    FAIL_ON(parser::loadHarvests(indexBuilder, config) <= 0);
+    FAIL_ON(loadHarvests(indexBuilder, config) <= 0);
     FAIL_ON(memsector_create(&mswr, tmp_memsector_path.c_str()) != 0);
     data.exportToMemsector(&mswr);
     printf("Index exported to memsector %s (%" PRIu64 "b)\n",

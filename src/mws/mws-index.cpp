@@ -41,8 +41,8 @@ using mws::index::TmpIndex;
 #include "mws/index/memsector.h"
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
-#include "mws/xmlparser/processMwsHarvest.hpp"
-using mws::parser::loadHarvests;
+#include "mws/index/IndexBuilder.hpp"
+using mws::index::loadHarvests;
 #include "mws/index/IndexWriter.hpp"
 using mws::index::IndexConfiguration;
 using mws::index::createCompressedIndex;
