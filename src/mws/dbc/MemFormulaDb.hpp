@@ -27,7 +27,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 12 Nov 2013
   */
 
-#include "FormulaDb.hpp"
+#include "mws/dbc/FormulaDb.hpp"
 
 #include <map>
 #include <vector>

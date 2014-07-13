@@ -31,40 +31,42 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-
-// System includes
-
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
 #include <json.h>
 #include <errno.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 
-#include <cassert>
-#include <fstream>
-#include <utility>
-#include <algorithm>
-#include <string>
-#include <vector>
 #include <map>
+using std::map;
+#include <string>
+using std::string;
+using std::to_string;
+#include <vector>
+using std::vector;
+#include <stdexcept>
+using std::exception;
 
-using std::filebuf;
-
+#include "build-gen/config.h"
 #include "common/utils/compiler_defs.h"
 #include "common/utils/Path.hpp"
 #include "common/utils/util.hpp"
 using common::utils::hasSuffix;
 #include "common/utils/FlagParser.hpp"
+using common::utils::FlagParser;
 #include "crawler/parser/XmlParser.hpp"
 using crawler::parser::parseDocument;
 using crawler::parser::getTextByXpath;
 using crawler::parser::processXpathResults;
 using crawler::parser::getTextFromNode;
 using crawler::parser::getXmlFromNode;
-using common::utils::FlagParser;
+#include "mws/xmlparser/processMwsHarvest.hpp"
+using mws::parser::HarvestProcessor;
 #include "mws/index/index.h"
+#include "mws/index/MeaningDictionary.hpp"
+using mws::index::MeaningDictionary;
 #include "mws/index/IndexLoader.hpp"
 using mws::index::IndexLoader;
 using mws::index::LoadingOptions;
@@ -73,23 +75,60 @@ using mws::index::HarvesterConfiguration;
 using mws::index::EncodingConfiguration;
 #include "mws/index/IndexAccessor.hpp"
 using mws::index::IndexAccessor;
+#include "mws/index/ExpressionEncoder.hpp"
+using mws::index::HarvestEncoder;
+#include "mws/types/CmmlToken.hpp"
+using mws::types::CmmlToken;
+using mws::types::TokenCallback;
+#include "mws/types/MwsAnswset.hpp"
+using mws::MwsAnswset;
+#include "mws/types/Query.hpp"
+using mws::types::Query;
 #include "mws/dbc/LevFormulaDb.hpp"
 using mws::dbc::FormulaDb;
 using mws::dbc::LevFormulaDb;
-
-#include "mws/xmlparser/processMwsHarvest.hpp"
-using mws::parser::Hit;
-using mws::parser::ParseResult;
-using mws::parser::parseMwsHarvestFromFd;
-
-// Namespaces
-
-using namespace std;
+#include "mws/dbc/CrawlDb.hpp"
+using mws::dbc::CrawlId;
+#include "mws/query/SearchContext.hpp"
+using mws::query::SearchContext;
+#include "mws/types/FormulaPath.hpp"
+using mws::types::FormulaId;
 
 const char METADATA_XPATH[] = "//metadata/*";
 const char TEXT_XPATH[] = "//text";
 const char ID_XPATH[] = "//id";
 const char MATH_XPATH[] = "//math";
+
+struct Hit {
+    std::string uri;
+    std::string xpath;
+};
+
+struct ParseResult {
+    std::string data;
+    std::map<mws::types::FormulaId, std::vector<Hit*>> idMappings;
+
+    ~ParseResult() {
+        for (auto& kv : idMappings) {
+            for (auto& hit : kv.second) {
+                delete hit;
+            }
+        }
+    }
+};
+
+/**
+ * @brief parseMwsHarvestFromFd Analyze a harvest, given a complete index
+ * @param config extra configuration options
+ * @param index the loaded index
+ * @param meaningDictionary
+ * @param fd file descriptor of the harvest file. The caller is responsable
+ * for closing it.
+ * @return a vector, where every element is a ParseResult associated with a doc
+ */
+static vector<ParseResult*> parseMwsHarvestFromFd(
+    const EncodingConfiguration& encodingConfig, IndexAccessor::Index* index,
+    MeaningDictionary* meaningDictionary, int fd);
 
 struct DataItems {
     string id;
@@ -234,10 +273,9 @@ int main(int argc, char* argv[]) {
                     return -1;
                 }
 
-                vector<ParseResult*> parseResults =
-                    parseMwsHarvestFromFd(config.encoding,
-                                          data.getIndexHandle(),
-                                          data.getMeaningDictionary(), fd);
+                vector<ParseResult*> parseResults = parseMwsHarvestFromFd(
+                    config.encoding, data.getIndexHandle(),
+                    data.getMeaningDictionary(), fd);
                 for (const ParseResult* parseResult : parseResults) {
                     writeParseResultToFile(*parseResult, output);
                     delete parseResult;
@@ -261,7 +299,7 @@ int main(int argc, char* argv[]) {
         for (string harvestPath : config.harvester.paths) {
             printf("Processing harvest files %s...\n", harvestPath.c_str());
             if (common::utils::foreachEntryInDirectory(
-                        harvestPath, fileCallback, shouldRecurse)) {
+                    harvestPath, fileCallback, shouldRecurse)) {
                 PRINT_WARN("Error in foreachEntryInDirectory");
                 return EXIT_FAILURE;
             }
@@ -272,4 +310,96 @@ int main(int argc, char* argv[]) {
     }
 
     return EXIT_SUCCESS;
+}
+
+class HarvestParser : public HarvestProcessor {
+ public:
+    int processExpression(const CmmlToken* tok, const string& exprUri,
+                          const uint32_t& crawlId);
+    CrawlId processData(const string& data);
+    vector<ParseResult*> getParseResults();
+    HarvestParser(IndexAccessor::Index* index,
+                  MeaningDictionary* meaningictionary,
+                  EncodingConfiguration indexingOptions);
+
+ private:
+    IndexAccessor::Index* _index;
+    MeaningDictionary* _meaningDictionary;
+    EncodingConfiguration _indexingOptions;
+    CrawlId _idCounter;
+    Query::Options _queryOptions;
+    /* each CrawlId uniquely identifies a document */
+    map<CrawlId, ParseResult*> documents;
+};
+
+HarvestParser::HarvestParser(IndexAccessor::Index* index,
+                             MeaningDictionary* meaningDictionary,
+                             EncodingConfiguration indexingOptions)
+    : _index(index),
+      _meaningDictionary(meaningDictionary),
+      _indexingOptions(std::move(indexingOptions)),
+      _idCounter(0) {
+    _queryOptions.includeHits = false;
+}
+
+vector<ParseResult*> HarvestParser::getParseResults() {
+    vector<ParseResult*> results;
+    results.reserve(documents.size());
+
+    for (auto& kv : documents) {
+        results.push_back(kv.second);
+    }
+
+    return results;
+}
+
+int HarvestParser::processExpression(const CmmlToken* expression,
+                                     const string& exprUri,
+                                     const uint32_t& crawlId) {
+    assert(expression != nullptr);
+    assert(crawlId <= _idCounter);
+
+    HarvestEncoder encoder(_meaningDictionary);
+    u_int32_t numSubExpressions = 0;
+
+    expression->foreachSubexpression([&](const CmmlToken* subexpression) {
+        vector<encoded_token_t> encodedFormula;
+        encoder.encode(_indexingOptions, subexpression, &encodedFormula,
+                       nullptr);
+
+        MwsAnswset* result;
+        SearchContext ctxt(encodedFormula, _queryOptions);
+        result = ctxt.getResult<IndexAccessor>(_index,
+                                               /* dbQueryManager = */ nullptr,
+                                               /* offset = */ 0,
+                                               /* size = */ 1,
+                                               /* maxTotal = */ 1);
+        numSubExpressions += result->total;
+        auto hit = new Hit();
+        FormulaId fmId = *(result->ids.begin());
+        hit->uri = exprUri;
+        hit->xpath = subexpression->getXpath();
+
+        ParseResult* doc = documents[crawlId];
+        (doc->idMappings[fmId]).push_back(hit);
+        delete result;
+    });
+
+    return numSubExpressions;
+}
+
+CrawlId HarvestParser::processData(const string& data) {
+    documents[++_idCounter] = new ParseResult();
+    documents[_idCounter]->data = data;
+
+    return _idCounter;
+}
+
+static vector<ParseResult*> parseMwsHarvestFromFd(
+    const EncodingConfiguration& encodingConfig, IndexAccessor::Index* index,
+    MeaningDictionary* meaningDictionary, int fd) {
+
+    HarvestParser harvestParser(index, meaningDictionary, encodingConfig);
+    processHarvestFromFd(fd, &harvestParser);
+    return harvestParser.getParseResults();
 }

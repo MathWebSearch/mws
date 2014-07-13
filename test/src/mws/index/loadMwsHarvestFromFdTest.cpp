@@ -29,37 +29,40 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
-
 #include <sys/types.h>      // Primitive System datatypes
 #include <sys/stat.h>       // POSIX File characteristics
 #include <fcntl.h>          // File control operations
 #include <libxml/parser.h>  // LibXML parser header
-#include <string>           // C++ String header
 #include <stdlib.h>
 
-// Local includes
+#include <cinttypes>
+#include <string>
+using std::string;
+#include <vector>
+using std::vector;
 
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
-#include "mws/xmlparser/initxmlparser.hpp"
-#include "mws/xmlparser/clearxmlparser.hpp"
-#include "mws/xmlparser/processMwsHarvest.hpp"
+#include "mws/index/TmpIndex.hpp"
+using mws::index::TmpIndex;
+#include "mws/index/IndexBuilder.hpp"
+using mws::index::IndexBuilder;
+using mws::index::EncodingConfiguration;
+#include "mws/xmlparser/xmlparser.hpp"
+using mws::parser::initxmlparser;
+using mws::parser::clearxmlparser;
 #include "mws/dbc/MemCrawlDb.hpp"
+using mws::dbc::MemCrawlDb;
 #include "mws/dbc/MemFormulaDb.hpp"
+using mws::dbc::MemFormulaDb;
 #include "common/utils/compiler_defs.h"
 
 #include "build-gen/config.h"
 
-// Namespaces
-
-using namespace std;
-using namespace mws;
-
 struct HarvestData {
     string path;
     int returnValue;
-    int expressionCount;
+    uint64_t expressionCount;
 };
 
 const vector<HarvestData> harvests = {{"empty.harvest", -1, 0},
@@ -70,14 +73,14 @@ const vector<HarvestData> harvests = {{"empty.harvest", -1, 0},
                                       {"data4.harvest", 0, 1}};
 
 int main() {
-    dbc::MemCrawlDb crawlDb;
-    dbc::MemFormulaDb formulaDb;
-    index::TmpIndex data;
+    MemCrawlDb crawlDb;
+    MemFormulaDb formulaDb;
+    TmpIndex data;
     MeaningDictionary meaningDictionary;
-    index::EncodingConfiguration indexingOptions;
+    EncodingConfiguration indexingOptions;
     indexingOptions.renameCi = false;
-    index::IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
-                                     &meaningDictionary, indexingOptions);
+    IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data, &meaningDictionary,
+                              indexingOptions);
     FAIL_ON(initxmlparser() != 0);
 
     for (HarvestData harvest : harvests) {
@@ -86,9 +89,9 @@ int main() {
         int fd;
 
         FAIL_ON((fd = open(harvest_path.c_str(), O_RDONLY)) < 0);
-        auto ret = parser::loadMwsHarvestFromFd(&indexBuilder, fd);
-        FAIL_ON(ret.first != harvest.returnValue);
-        FAIL_ON(ret.second != harvest.expressionCount);
+        auto ret = loadHarvestFromFd(&indexBuilder, fd);
+        FAIL_ON(ret.status != harvest.returnValue);
+        FAIL_ON(ret.numExpressions != harvest.expressionCount);
 
         (void)close(fd);
     }

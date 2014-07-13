@@ -36,11 +36,8 @@ INSTALL(TARGETS mwsd DESTINATION bin)
 # MWS index builder
 ADD_EXECUTABLE(mws-index mws-index.cpp)
 TARGET_LINK_LIBRARIES( mws-index
-       commonutils
-       mwsdbc
        mwsindex
-       mwsxmlparser
-       mwstypes
+       commonutils
 )
 
 # Output executables at the root of build tree

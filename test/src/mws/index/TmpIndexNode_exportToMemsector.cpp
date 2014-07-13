@@ -43,7 +43,6 @@ using mws::index::loadHarvests;
 using mws::index::HarvesterConfiguration;
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
-#include "mws/xmlparser/processMwsHarvest.hpp"
 #include "common/utils/compiler_defs.h"
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;

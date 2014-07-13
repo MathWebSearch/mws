@@ -30,7 +30,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 using std::to_string;
 
-#include "MemCrawlDb.hpp"
+#include "mws/dbc/MemCrawlDb.hpp"
 
 using namespace std;
 

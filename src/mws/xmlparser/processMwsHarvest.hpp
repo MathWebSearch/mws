@@ -39,11 +39,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <utility>
 
-#include "mws/index/IndexBuilder.hpp"
-#include "mws/index/IndexWriter.hpp"
-#include "mws/index/IndexAccessor.hpp"
+#include "mws/types/CmmlToken.hpp"
+#include "mws/dbc/CrawlDb.hpp"
 #include "common/utils/Path.hpp"
-#include "mws/daemon/Daemon.hpp"
 
 namespace mws {
 namespace parser {
@@ -73,41 +71,14 @@ class HarvestProcessor {
     virtual ~HarvestProcessor() {}
 };
 
-std::pair<int, int>
-processMwsHarvest(int fd, HarvestProcessor* harvestProcessor);
-
-/** @brief Function to load a MwsHarvest in from a file descriptor.
-  * @param indexBuilder
-  * @param fd is the file descriptor from where to read.
-  * @return a pair with an exit code (0 on success and -1 on failure) and
-  * the number of successfully loaded entries.
-  */
-std::pair<int, int>
-loadMwsHarvestFromFd(index::IndexBuilder* indexBuilder, int fd);
-
-struct Hit {
-    std::string uri;
-    std::string xpath;
+struct HarvestResult {
+    int status;
+    uint64_t numExpressions;
 };
 
-struct ParseResult {
-    std::string data;
-    std::map<mws::types::FormulaId, std::vector<Hit*>> idMappings;
+HarvestResult processHarvestFromFd(int fd, HarvestProcessor* harvestProcessor);
 
-    ~ParseResult() {
-        for (auto& kv : idMappings) {
-            for (auto& hit : kv.second) {
-                delete hit;
-            }
-        }
-    }
-};
-
-std::vector<ParseResult*>
-parseMwsHarvestFromFd(const index::EncodingConfiguration& encodingConfig,
-                      index::IndexAccessor::Index* index,
-                      index::MeaningDictionary* meaningDictionary, int fd);
 }  // namespace parser
 }  // namespace mws
 
-#endif  // _MWS_PARSER_LOADMWSHARVESTFROMFD_HPP
+#endif  // _MWS_PARSER_PROCESSMWSHARVEST_HPP

@@ -35,7 +35,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/compiler_defs.h"
 #include "mws/types/CmmlToken.hpp"
-#include "mws/types/GenericTypes.hpp"
 #include "mws/types/MwsAnswset.hpp"
 
 #include "build-gen/config.h"

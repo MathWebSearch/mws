@@ -47,14 +47,14 @@ using std::unique_ptr;
 #include "mws/daemon/GenericResponses.hpp"
 #include "mws/daemon/microhttpd_linux.h"
 #include "mws/query/SearchContext.hpp"
-#include "mws/xmlparser/clearxmlparser.hpp"
-#include "mws/xmlparser/initxmlparser.hpp"
+#include "mws/xmlparser/xmlparser.hpp"
+using mws::parser::initxmlparser;
+using mws::parser::clearxmlparser;
 #include "mws/xmlparser/processMwsHarvest.hpp"
 #include "mws/types/Query.hpp"
 using mws::types::Query;
 #include "mws/xmlparser/readMwsQuery.hpp"
 using mws::xmlparser::readMwsQuery;
-
 #include "mws/daemon/Daemon.hpp"
 
 namespace mws {

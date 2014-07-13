@@ -44,6 +44,8 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       mwstypes
+                      commontypes
+                      commonutils
                       ${LEVELDB_LIBRARIES}
                       ${SNAPPY_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT}

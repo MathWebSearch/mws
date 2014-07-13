@@ -33,10 +33,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <crc32/crc32.h>
+
 #include "common/utils/mmap.h"
 #include "mws/index/memsector.h"
-
-#include "crc32/crc32.h"
 
 const uint64_t MEMSECTOR_MAGIC = 0x88CAFE88;
 const uint32_t MEMSECTOR_VERSION = 1;

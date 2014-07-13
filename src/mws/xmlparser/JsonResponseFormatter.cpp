@@ -40,7 +40,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 
-#include "JsonResponseFormatter.hpp"
+#include "mws/xmlparser/JsonResponseFormatter.hpp"
 
 using namespace std;
 using namespace mws;

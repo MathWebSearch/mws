@@ -37,7 +37,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include "Daemon.hpp"
+#include "mws/daemon/Daemon.hpp"
 #include "mws/index/IndexLoader.hpp"
 
 namespace mws {

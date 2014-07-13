@@ -45,8 +45,6 @@ TARGET_LINK_LIBRARIES(${MODULE}
                       mwsdbc
                       mwsindex
                       mwsquery
-                      mwsxmlparser
-                      commonsocket
-                      commonthread
-                      commontypes
+                      mwstypes
+                      commonutils
 )

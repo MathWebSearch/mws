@@ -29,7 +29,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <map>
 
-#include "CrawlDb.hpp"
+#include "mws/dbc/CrawlDb.hpp"
 
 namespace mws { namespace dbc {
 

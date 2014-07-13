@@ -31,23 +31,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-// System includes
+#include "mws/daemon/microhttpd_linux.h"
 
-#include "microhttpd_linux.h"           // Linux MicroHTTPd library includes
 
-// Constants
-
-const char* XML_MWS_BAD_QUERY =
+const char XML_MWS_BAD_QUERY[] =
     "<?xml version=\"1.0\"?>\n"
     "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
     "Bad query request</mws:info>";
 
-const char* XML_MWS_SERVER_ERROR =
+const char XML_MWS_SERVER_ERROR[] =
     "<?xml version=\"1.0\"?>\n"
     "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
     "Server error</mws:info>";
 
-const char* EMPTY_RESPONSE = "";
+const char EMPTY_RESPONSE[] = "";
 
 inline int
 sendXmlGenericResponse(struct MHD_Connection* connection,

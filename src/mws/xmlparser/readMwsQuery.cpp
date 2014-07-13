@@ -47,6 +47,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/xmlparser/readMwsQuery.hpp"
 #include "common/utils/compiler_defs.h"
 #include "common/utils/getBoolType.hpp"
+using common::utils::BoolType;
+using common::utils::getBoolType;
 #include "mws/xmlparser/JsonResponseFormatter.hpp"
 using mws::parser::RESPONSE_FORMATTER_JSON;
 #include "mws/xmlparser/XmlResponseFormatter.hpp"

@@ -46,9 +46,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>  // Primitive System datatypes
 #include <sys/stat.h>   // POSIX File characteristics
 #include <fcntl.h>      // File control operations
+#include <unistd.h>
 
-#include <iostream>
-#include <sstream>
+#include <cinttypes>
 #include <string>
 using std::string;
 #include <vector>
@@ -57,12 +57,9 @@ using std::vector;
 using std::map;
 #include <utility>
 
-#include "mws/index/IndexBuilder.hpp"
-using mws::index::EncodingConfiguration;
-#include "mws/types/CmmlToken.hpp"
 #include "common/utils/compiler_defs.h"
-
-#include "processMwsHarvest.hpp"
+#include "mws/types/CmmlToken.hpp"
+#include "mws/xmlparser/processMwsHarvest.hpp"
 
 // Macros
 #define MWSHARVEST_MAIN_NAME "mws:harvest"
@@ -102,7 +99,7 @@ struct MwsHarvest_SaxUserData {
     /// True if an XML structural error is detected
     bool errorDetected;
     /// Number of correctly parsed expressions
-    int parsedExpr;
+    uint64_t parsedExpr;
     /// Variable used to show the number of warnings (-1 for critical error)
     int warnings;
     /// Object that acts when expr or data elements are parsed
@@ -450,17 +447,15 @@ static void my_fatalError(void* user_data, const char* msg, ...) {
 
 // Implementation
 
-std::pair<int, int> processMwsHarvest(int fd,
-                                      HarvestProcessor* harvestProcessor) {
+HarvestResult processHarvestFromFd(int fd,
+                                   HarvestProcessor* harvestProcessor) {
     MwsHarvest_SaxUserData user_data;
     xmlSAXHandler saxHandler;
     xmlParserCtxtPtr ctxtPtr;
-    int ret;
+    HarvestResult result;
+    result.status = -1;
 
     user_data.harvestProcessor = harvestProcessor;
-    ret = -1;
-
-    // Initializing the SAX Handler
     memset(&saxHandler, 0, sizeof(xmlSAXHandler));
 
     // Registering Sax callbacks
@@ -481,7 +476,7 @@ std::pair<int, int> processMwsHarvest(int fd,
         PRINT_WARN("Error while creating the ParserContext\n");
     }
     // Parsing the document
-    else if ((ret = xmlParseDocument(ctxtPtr)) == -1) {
+    else if ((result.status = xmlParseDocument(ctxtPtr)) == -1) {
         PRINT_WARN("Parsing XML document failed\n");
     }
 
@@ -493,7 +488,9 @@ std::pair<int, int> processMwsHarvest(int fd,
     // Unlocking libXML -- to allow multi-threaded use
     xmlUnlockLibrary();
 
-    return make_pair(ret, user_data.parsedExpr);
+    result.numExpressions = user_data.parsedExpr;
+
+    return result;
 }
 
 }  // namespace parser

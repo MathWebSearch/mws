@@ -81,8 +81,6 @@ using mws::types::FormulaPath;
 #include "mws/types/Query.hpp"
 using mws::types::Query;
 #include "mws/xmlparser/processMwsHarvest.hpp"
-#include "mws/xmlparser/initxmlparser.hpp"
-#include "mws/xmlparser/clearxmlparser.hpp"
 #include "mws/daemon/IndexDaemon.hpp"
 
 namespace mws {

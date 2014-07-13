@@ -24,7 +24,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 12 Nov 2013
   */
 
-#include "MemFormulaDb.hpp"
+#include "mws/dbc/MemFormulaDb.hpp"
 
 using namespace std;
 

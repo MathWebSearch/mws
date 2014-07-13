@@ -27,6 +27,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <assert.h>
 #include <fcntl.h>
 
+#include <cinttypes>
 #include <set>
 using std::set;
 #include <stack>
@@ -52,7 +53,8 @@ using mws::dbc::CrawlData;
 #include "mws/index/IndexIterator.hpp"
 #include "mws/index/TmpIndexAccessor.hpp"
 #include "mws/xmlparser/processMwsHarvest.hpp"
-using mws::parser::loadMwsHarvestFromFd;
+using mws::parser::HarvestProcessor;
+using mws::parser::HarvestResult;
 #include "common/utils/util.hpp"
 using common::utils::foreachEntryInDirectory;
 
@@ -130,13 +132,14 @@ uint64_t loadHarvests(mws::index::IndexBuilder* indexBuilder,
                     perror(path.c_str());
                     return -1;
                 }
-                auto loadReturn = loadMwsHarvestFromFd(indexBuilder, fd);
-                if (loadReturn.first == 0) {
-                    PRINT_LOG("%d loaded\n", loadReturn.second);
+                auto loadReturn = loadHarvestFromFd(indexBuilder, fd);
+                PRINT_LOG("%" PRIu64 " loaded", loadReturn.numExpressions);
+                if (loadReturn.status == 0) {
+                    PRINT_LOG("\n");
                 } else {
-                    PRINT_LOG("%d loaded (with errors)\n", loadReturn.second);
+                    PRINT_LOG(" (with errors)\n");
                 }
-                numExpressions += loadReturn.second;
+                numExpressions += loadReturn.numExpressions;
                 close(fd);
             } else {
                 PRINT_LOG("Skipping \"%s\": bad extension\n", path.c_str());
@@ -180,6 +183,28 @@ static void logIndexStatistics(const TmpIndex* index, FILE* logFile) {
     }
     fprintf(logFile, " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 "\n",
             expressions, uniqueExpressions, indexSize);
+}
+
+HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd) {
+    class HarvestIndexer : public HarvestProcessor {
+     public:
+        explicit HarvestIndexer(IndexBuilder* indexBuilder)
+                : _IndexBuilder(indexBuilder) {}
+        int processExpression(const CmmlToken* token, const string& exprUri,
+                              const uint32_t& crawlId) {
+            return _IndexBuilder->indexContentMath(token, exprUri, crawlId);
+        }
+        CrawlId processData(const string& data) {
+            return _IndexBuilder->indexCrawlData(data);
+        }
+
+     private:
+        IndexBuilder* _IndexBuilder;
+    };
+
+    HarvestIndexer harvestIndexer(indexBuilder);
+
+    return processHarvestFromFd(fd, &harvestIndexer);
 }
 
 }  // namespace index

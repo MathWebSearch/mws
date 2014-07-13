@@ -39,6 +39,7 @@ FOREACH(source ${SOURCES})
     ADD_EXECUTABLE(${SourceName} ${source})
     TARGET_LINK_LIBRARIES(${SourceName}
                           mwsdbc
+                          mwstypes
                           commonutils)
     # Add test
     SET(TestName "test_${SourceName}")

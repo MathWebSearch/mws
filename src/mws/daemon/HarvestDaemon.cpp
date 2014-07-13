@@ -47,9 +47,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 
-#include "HarvestDaemon.hpp"
-#include "common/socket/InSocket.hpp"
-#include "common/socket/OutSocket.hpp"
+#include "mws/daemon/HarvestDaemon.hpp"
 #include "mws/dbc/LevFormulaDb.hpp"
 #include "mws/dbc/LevCrawlDb.hpp"
 #include "mws/dbc/MemFormulaDb.hpp"
@@ -60,7 +58,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 using mws::index::loadHarvests;
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/query/SearchContext.hpp"
-#include "common/thread/ThreadWrapper.hpp"
 #include "common/utils/Path.hpp"
 
 using namespace std;
@@ -129,8 +126,6 @@ int HarvestDaemon::initMws(const Config& config) {
     indexBuilder = new index::IndexBuilder(
                 formulaDb, crawlDb, data, meaningDictionary,
                 config.index.encoding);
-
-    ret = ThreadWrapper::init();
 
     uint64_t loaded = loadHarvests(indexBuilder,
                                    config.index.harvester);

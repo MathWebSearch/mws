@@ -47,13 +47,14 @@ INSTALL(TARGETS docs2harvest DESTINATION bin)
 # docs to elasticsearch json
 ADD_EXECUTABLE( harvests2json harvests2json.cpp)
 TARGET_LINK_LIBRARIES( harvests2json
-        crawlerparser
-        mwsindex
-        mwsdaemon
         commonutils
+        crawlerparser
+        mwsdaemon
         mwsdbc
-        mwsxmlparser
+        mwsindex
+        mwsquery
         mwstypes
+        mwsxmlparser
         ${JSON_LIBRARIES}
         ${LIBXML2_LIBRARIES}
 )

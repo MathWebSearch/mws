@@ -18,20 +18,33 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+#ifndef _MWS_PARSER_XMLPARSER_HPP
+#define _MWS_PARSER_XMLPARSER_HPP
+
 /**
-  * @file clearxmlparser.cpp
+  * @file xmlparser.hpp
   * @author Corneliu-Claudiu Prodescu
   * @date 05 May 2011
   *
-  *
   */
 
-// System includes
+namespace mws {
+namespace parser {
+    
+/**
+  * @brief Method to initialize the xmlparser module of Math Web Search.
+  * @return 0 if the initialization succeeds with multi-threading support
+  * @return 1 if the initialization succeeds w/o multi-threading support
+  * @return -1 on failure
+  */
+int initxmlparser();
 
-#include <libxml/parser.h>  // LibXML parser headers
+/**
+ * @brief release xmlparser resources
+ */
+void clearxmlparser();
 
-// Local includes
+}  // namespace parser
+}  // namespace mws
 
-#include "clearxmlparser.hpp"  // MWS clearxmlparser header
-
-void mws::clearxmlparser() { xmlCleanupParser(); }
+#endif  // _MWS_PARSER_XMLPARSER_HPP

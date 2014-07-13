@@ -38,11 +38,10 @@ FOREACH(source ${SOURCES})
     # Generate Binaries
     ADD_EXECUTABLE(${SourceName} ${source})
     TARGET_LINK_LIBRARIES(${SourceName}
-                          mwsindex
-                          mwstypes
                           mwsdbc
-                          commonutils
+                          mwsindex
                           mwsxmlparser
+                          commonutils
                           ${LIBXML2_LIBRARIES})
     # Add test
     SET(TestName "test_${SourceName}")

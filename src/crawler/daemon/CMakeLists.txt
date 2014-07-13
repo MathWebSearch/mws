@@ -42,4 +42,7 @@ FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
 # Binaries
 ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
+                      commonthread
+                      commonutils
+                      crawlertypes
                       ${MICROHTTPD_LIBRARIES})

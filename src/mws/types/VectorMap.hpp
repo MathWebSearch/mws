@@ -35,8 +35,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>  // STL utilities (std::air)
 #include <vector>   // STL vector container
 
-#include "common/utils/util.hpp"
-
 namespace mws {
 namespace types {
 

@@ -40,14 +40,14 @@ using std::unique_ptr;
 #include "common/utils/save_pid_file.h"
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
-#include "daemon/Daemon.hpp"
+#include "mws/daemon/Daemon.hpp"
 using mws::daemon::Daemon;
 using mws::daemon::Config;
 #include "mws/daemon/HarvestDaemon.hpp"
 using mws::daemon::HarvestDaemon;
 #include "mws/daemon/IndexDaemon.hpp"
 using mws::daemon::IndexDaemon;
-#include "index/IndexBuilder.hpp"
+#include "mws/index/IndexBuilder.hpp"
 using mws::index::IndexConfiguration;
 #include "mws/index/memsector.h"
 #include "mws/index/IndexWriter.hpp"

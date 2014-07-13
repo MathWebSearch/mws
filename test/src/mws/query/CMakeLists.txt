@@ -35,6 +35,7 @@ FOREACH(source ${SOURCES})
     # Generate Binaries
     ADD_EXECUTABLE(${SourceName} ${source})
     TARGET_LINK_LIBRARIES(${SourceName}
+                          mwsindex
                           mwsquery
                           commonutils)
     # Add test

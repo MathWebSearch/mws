@@ -41,7 +41,5 @@ ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       crawlertypes
                       crawlerutils
-                      commontypes
-                      commonsocket
                       commonutils)
 

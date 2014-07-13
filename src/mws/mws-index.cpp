@@ -34,23 +34,9 @@ using std::string;
 
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
-#include "mws/dbc/LevCrawlDb.hpp"
-#include "mws/dbc/LevFormulaDb.hpp"
-#include "mws/index/TmpIndex.hpp"
-using mws::index::TmpIndex;
-#include "mws/index/memsector.h"
-#include "mws/index/MeaningDictionary.hpp"
-using mws::index::MeaningDictionary;
-#include "mws/index/IndexBuilder.hpp"
-using mws::index::loadHarvests;
 #include "mws/index/IndexWriter.hpp"
 using mws::index::IndexConfiguration;
 using mws::index::createCompressedIndex;
-#include "mws/xmlparser/clearxmlparser.hpp"
-using mws::clearxmlparser;
-#include "build-gen/config.h"
-
-using namespace mws;
 
 int main(int argc, char* argv[]) {
     IndexConfiguration indexConfig;

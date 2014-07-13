@@ -41,7 +41,7 @@ using std::string;
 #include <stack>
 using std::stack;
 
-#include "CmmlToken.hpp"
+#include "mws/types/CmmlToken.hpp"
 
 namespace mws {
 namespace types {

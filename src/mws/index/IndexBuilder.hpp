@@ -34,6 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/FormulaDb.hpp"
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/index/TmpIndex.hpp"
+#include "mws/xmlparser/processMwsHarvest.hpp"
 
 namespace mws {
 namespace index {
@@ -86,6 +87,8 @@ struct HarvesterConfiguration {
     std::string fileExtension;
     std::string statisticsLogFile;
 };
+
+parser::HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd);
 
 uint64_t loadHarvests(index::IndexBuilder* indexBuilder,
                       const HarvesterConfiguration& config);

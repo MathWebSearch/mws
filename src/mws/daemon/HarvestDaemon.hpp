@@ -31,7 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include "Daemon.hpp"
+#include "mws/daemon/Daemon.hpp"
 #include "mws/dbc/FormulaDb.hpp"
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/dbc/LevFormulaDb.hpp"

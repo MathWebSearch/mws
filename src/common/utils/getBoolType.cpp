@@ -28,17 +28,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * License: GPL v3
   */
 
-// System includes
+#include <string>
+using std::string;
+#include <utility>
+using std::make_pair;
+using std::pair;
 
-#include <string>  // C string header
+#include "common/utils/getBoolType.hpp"
 
-// Local includes
-
-#include "common/utils/getBoolType.hpp"  // GetBoolType function declaration
-
-// Namespaces
-using namespace std;
-using namespace mws;
+namespace common {
+namespace utils {
 
 BoolType getBoolType(string str) {
     BoolType result;
@@ -66,3 +65,6 @@ BoolType getBoolType(string str) {
 
     return result;
 }
+
+}  // namespace utils
+}  // namespace common

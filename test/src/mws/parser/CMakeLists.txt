@@ -41,7 +41,6 @@ FOREACH(source ${SOURCES})
     ADD_EXECUTABLE(${SourceName} ${source})
     TARGET_LINK_LIBRARIES(${SourceName}
                           mwsxmlparser
-                          mwsdbc
                           commonutils
                           ${LIBXML2_LIBRARIES})
     # Add test

@@ -37,18 +37,27 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <libxml/parser.h>  // LibXML parser header
 #include <stdlib.h>
 
-#include <string>  // C++ String header
+#include <string>
+using std::string;
 #include <utility>
 
 // Local includes
 
 #include "mws/dbc/MemCrawlDb.hpp"
+using mws::dbc::MemCrawlDb;
 #include "mws/dbc/MemFormulaDb.hpp"
+using mws::dbc::MemFormulaDb;
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
-#include "mws/xmlparser/initxmlparser.hpp"
-#include "mws/xmlparser/clearxmlparser.hpp"
-#include "mws/xmlparser/processMwsHarvest.hpp"
+#include "mws/index/IndexBuilder.hpp"
+using mws::index::IndexBuilder;
+using mws::index::EncodingConfiguration;
+using mws::parser::HarvestResult;
+#include "mws/index/TmpIndex.hpp"
+using mws::index::TmpIndex;
+#include "mws/xmlparser/xmlparser.hpp"
+using mws::parser::initxmlparser;
+using mws::parser::clearxmlparser;
 #include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/dbc/MemFormulaDb.hpp"
 #include "common/utils/compiler_defs.h"
@@ -66,30 +75,27 @@ using mws::index::MeaningDictionary;
  * and the index size to be only 4
  */
 
-using namespace std;
-using namespace mws;
-
 struct Tester {
     static inline bool ci_renaming_successful() {
-        dbc::MemCrawlDb crawlDb;
-        dbc::MemFormulaDb formulaDb;
-        index::TmpIndex data;
+        MemCrawlDb crawlDb;
+        MemFormulaDb formulaDb;
+        TmpIndex data;
         MeaningDictionary meaningDictionary;
-        index::EncodingConfiguration indexingOptions;
+        EncodingConfiguration indexingOptions;
         indexingOptions.renameCi = true;
-        index::IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
+        HarvestResult result;
+        IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
                                          &meaningDictionary, indexingOptions);
         const string harvest_path =
             (string)MWS_TESTDATA_PATH + "/ci_renaming.harvest";
         int fd;
-        std::pair<int, int> ret;
         FAIL_ON(initxmlparser() != 0);
         FAIL_ON((fd = open(harvest_path.c_str(), O_RDONLY)) < 0);
-        ret = parser::loadMwsHarvestFromFd(&indexBuilder, fd);
+        result = loadHarvestFromFd(&indexBuilder, fd);
         // Fail if the parsing was not sucessful
-        FAIL_ON(ret.first != 0);
+        FAIL_ON(result.status != 0);
         // Fail if we have not indexed all expresions
-        FAIL_ON(ret.second != 8);
+        FAIL_ON(result.numExpressions != 8);
         // Fail if the index is not as compressed as it should
         FAIL_ON(data.mRoot->children.size() != 4);
         (void)close(fd);

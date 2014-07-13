@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _GETBOOLTYPE_HPP
-#define _GETBOOLTYPE_HPP
+#ifndef _COMMON_UTILS_GETBOOLTYPE_HPP
+#define _COMMON_UTILS_GETBOOLTYPE_HPP
 
 /**
   * @brief File containing the header of getBoolType utility function
@@ -31,21 +31,25 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * License: GPL v3
   */
 
-// System includes
-
 #include <string>                      // C string header
 
-// Local includes
+namespace common {
+namespace utils {
 
-#include "mws/types/GenericTypes.hpp"  // MWS generic datatypes
-
+enum BoolType {
+    BOOL_DEFAULT,
+    BOOL_YES,
+    BOOL_NO,
+};
 
 /**
   * @brief Method to parse a char array and get the boolean value.
   * @param str is a char array containing a bool value ("1", "0", "yes", etc)
   * @return a BoolType value corresponding to the input.
   */
-mws::BoolType
-getBoolType(std::string);
+BoolType getBoolType(std::string);
 
-#endif // _GETBOOLTYPE_HPP
+}  // namespace utils
+}  // namespace common
+
+#endif  // _COMMON_UTILS_GETBOOLTYPE_HPP

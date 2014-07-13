@@ -18,30 +18,32 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _GENERICTYPES_HPP
-#define _GENERICTYPES_HPP
-
 /**
-  * @brief This file contains declarations for common MWS types.
-  * @file GenericTypes.hpp
+  * @file xmlparser.cpp
   * @author Corneliu-Claudiu Prodescu
-  * @date 24 Jun 2011
+  * @date 05 May 2011
+  *
+  *
   */
 
+#include <libxml/parser.h>
 
-namespace mws
-{
+#include "mws/xmlparser/xmlparser.hpp"
 
-/**
-  * @brief Type associated with boolean options
-  */
-enum BoolType
-{
-    BOOL_DEFAULT,
-    BOOL_YES,
-    BOOL_NO,
-};
+namespace mws {
+namespace parser {
 
+int initxmlparser() {
+    // Initializing the library and checking potential ABI mismatches between
+    // the version it was compiled for and the actual shared library used.
+    LIBXML_TEST_VERSION
+
+    return 0;
 }
 
-#endif // _GENERICTYPES_HPP
+void clearxmlparser() {
+    xmlCleanupParser();
+}
+
+}  // namespace parser
+}  // namespace mws
