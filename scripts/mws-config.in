@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 # Install constants
 PREFIX="@CMAKE_INSTALL_PREFIX@"
@@ -119,13 +119,11 @@ while getopts "p:i:f" opt; do
             echo "Invalid path $harvest_path"
             exit 1
         }
-        extra_args="$extra_args -I $canonical_harvest_path"
+        MWS_DAEMON_EXTRA_ARGS="$MWS_DAEMON_EXTRA_ARGS -I $canonical_harvest_path"
         ;;
     esac
 done
-
 shift $((OPTIND-1))
-[ "$1" = "--" ] && shift
 
 # get name
 if [ $# -lt 1 ]; then
@@ -136,8 +134,10 @@ fi
 suffix="$1"
 shift
 
+[ "$1" = "--" ] && shift
+
 # get extra arguments
-extra_args="$extra_args $@"
+MWS_DAEMON_EXTRA_ARGS="$MWS_DAEMON_EXTRA_ARGS $@"
 
 if [ -z "$port" ]; then
     echo "no <port> provided"
@@ -153,6 +153,7 @@ fi
 
 NAME="mwsd_$suffix"
 DESC="MathWebSearch $suffix daemon"
+MWS_PORT="${port}"
 MWS_DATA_PATH="$LOCALSTATEDIR/$suffix"
 MWS_LOG_FILE="/var/log/$NAME.log"
 MWS_PID_FILE="/var/run/$NAME.pid"
@@ -164,25 +165,25 @@ touch $MWS_LOG_FILE
 touch $MWS_PID_FILE
 chown $NAME:$NAME $MWS_DATA_PATH $MWS_LOG_FILE $MWS_PID_FILE
 cat > "$CONFIGDIR/$suffix" << EOF
-# Configuration file for the $NAME
+# Configuration file for $NAME service
 
-NAME="$NAME"
-DESC="$DESC"
+`declare -p NAME`
+`declare -p DESC`
 
 # data directory
-MWS_DATA_PATH="$MWS_DATA_PATH"
+`declare -p MWS_DATA_PATH`
 
 # HTTP listen port
-MWS_PORT="${port}"
+`declare -p MWS_PORT`
 
 # log file
-MWS_LOG_FILE="$MWS_LOG_FILE"
+`declare -p MWS_LOG_FILE`
 
 # pid file
-MWS_PID_FILE="$MWS_PID_FILE"
+`declare -p MWS_PID_FILE`
 
 # Extra command-line arguments passed to mwsd
-MWS_DAEMON_EXTRA_ARGS="${extra_args}"
+`declare -p MWS_DAEMON_EXTRA_ARGS`
 EOF
 echo Created MathWebSearch configuration ${suffix}
 }
@@ -201,6 +202,7 @@ perform_test() {
         $MWS_DAEMON_EXTRA_ARGS
     "
     PATH=$PREFIX/bin:$PATH
+    echo "> mwsd" $MWSD_ARGS
     mwsd $MWSD_ARGS
 }
 
