@@ -39,11 +39,6 @@ namespace parser {
   */
 int initxmlparser();
 
-/**
- * @brief release xmlparser resources
- */
-void clearxmlparser();
-
 }  // namespace parser
 }  // namespace mws
 

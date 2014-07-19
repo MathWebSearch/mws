@@ -34,14 +34,20 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/dbc/FormulaDb.hpp"
 #include "mws/dbc/CrawlDb.hpp"
 #include "mws/index/TmpIndex.hpp"
+#include "mws/index/ExpressionEncoder.hpp"
 #include "mws/xmlparser/processMwsHarvest.hpp"
 
 namespace mws {
 namespace index {
 
-struct EncodingConfiguration {
-    bool renameCi;
-    EncodingConfiguration() : renameCi(false) {}
+struct HarvesterConfiguration {
+    std::vector<std::string> paths;
+    bool recursive;
+    std::string fileExtension;
+    std::string statisticsLogFile;
+    ExpressionEncoder::Config encoding;
+
+    HarvesterConfiguration();
 };
 
 class IndexBuilder {
@@ -50,17 +56,16 @@ class IndexBuilder {
     dbc::CrawlDb* m_crawlDb;
     mws::index::TmpIndex* m_index;
     index::MeaningDictionary* m_meaningDictionary;
-    index::EncodingConfiguration m_indexingOptions;
+    index::ExpressionEncoder::Config m_indexingOptions;
 
  public:
     IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                  mws::index::TmpIndex* index,
                  MeaningDictionary* meaningDictionary,
-                 EncodingConfiguration encodingOptions);
+                 index::ExpressionEncoder::Config encodingConfig =
+                     index::ExpressionEncoder::Config());
 
-    const mws::index::TmpIndex* getIndex() const {
-        return m_index;
-    }
+    const mws::index::TmpIndex* getIndex() const { return m_index; }
 
     /**
      * @brief index crawl data
@@ -81,16 +86,9 @@ class IndexBuilder {
                          const dbc::CrawlId& crawlId = dbc::CRAWLID_NULL);
 };
 
-struct HarvesterConfiguration {
-    std::vector<std::string> paths;
-    bool recursive;
-    std::string fileExtension;
-    std::string statisticsLogFile;
-};
-
 parser::HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd);
 
-uint64_t loadHarvests(index::IndexBuilder* indexBuilder,
+uint64_t loadHarvests(IndexBuilder* indexBuilder,
                       const HarvesterConfiguration& config);
 
 }  // namespace index

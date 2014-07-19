@@ -27,44 +27,35 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <assert.h>
-#include <fcntl.h>  // File control operations
-#include <signal.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>  // Primitive System datatypes
-#include <sys/stat.h>   // POSIX File characteristics
-#include <sys/socket.h>
 #include <unistd.h>
 
 #include <memory>
 using std::unique_ptr;
-#include <stack>
-#include <string>
+#include <stdexcept>
+using std::runtime_error;
 
 #include "common/utils/compiler_defs.h"
 #include "common/utils/memstream.h"
-#include "mws/daemon/GenericResponses.hpp"
-#include "mws/daemon/microhttpd_linux.h"
-#include "mws/query/SearchContext.hpp"
-#include "mws/xmlparser/xmlparser.hpp"
-using mws::parser::initxmlparser;
-using mws::parser::clearxmlparser;
-#include "mws/xmlparser/processMwsHarvest.hpp"
+#include "common/utils/util.hpp"
+using common::utils::formattedString;
 #include "mws/types/Query.hpp"
 using mws::types::Query;
 #include "mws/xmlparser/readMwsQuery.hpp"
 using mws::xmlparser::readMwsQuery;
+#include "mws/daemon/GenericResponses.hpp"
+#include "mws/daemon/microhttpd_linux.h"
 #include "mws/daemon/Daemon.hpp"
+
+#include "build-gen/config.h"
 
 namespace mws {
 namespace daemon {
 
-Config::Config() : useExperimentalQueryEngine(false) {}
-
-Daemon::Daemon() : _daemonHandler(nullptr) {}
-
-static void cleanupMws() { clearxmlparser(); }
+Daemon::Config::Config() : port(DEFAULT_MWS_PORT), enableIpv6(false) {}
 
 class MemStream {
     enum Mode {
@@ -149,8 +140,8 @@ class MemStream {
     }
 };
 
-static int my_MHD_AcceptPolicyCallback(void* cls, const sockaddr* addr,
-                                       socklen_t addrlen) {
+static int acceptPolicyCallback(void* cls, const sockaddr* addr,
+                                socklen_t addrlen) {
     UNUSED(cls);
     UNUSED(addr);
     UNUSED(addrlen);
@@ -159,12 +150,10 @@ static int my_MHD_AcceptPolicyCallback(void* cls, const sockaddr* addr,
     return MHD_YES;
 }
 
-static int my_MHD_AccessHandlerCallback(void* cls,
-                                        struct MHD_Connection* connection,
-                                        const char* url, const char* method,
-                                        const char* version,
-                                        const char* upload_data,
-                                        size_t* upload_data_size, void** ptr) {
+static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
+                                 const char* url, const char* method,
+                                 const char* version, const char* upload_data,
+                                 size_t* upload_data_size, void** ptr) {
     UNUSED(url);
     UNUSED(version);
 
@@ -216,8 +205,8 @@ static int my_MHD_AccessHandlerCallback(void* cls,
 #ifdef APPLY_RESTRICTIONS
     mwsQuery->applyRestrictions();
 #endif
-    Daemon* daemon = (Daemon*)cls;
-    unique_ptr<MwsAnswset> answset(daemon->handleQuery(mwsQuery.get()));
+    QueryHandler* qh = reinterpret_cast<QueryHandler*>(cls);
+    unique_ptr<MwsAnswset> answset(qh->handleQuery(mwsQuery.get()));
     if (answset == nullptr) {
         PRINT_WARN("Error while obtaining answer set\n");
         return sendXmlGenericResponse(connection, XML_MWS_SERVER_ERROR,
@@ -260,50 +249,31 @@ static int my_MHD_AccessHandlerCallback(void* cls,
     return ret;
 }
 
-Daemon::~Daemon() {
-    if (_daemonHandler != nullptr) {
-        MHD_stop_daemon(_daemonHandler);
-    }
-}
+Daemon::Daemon(QueryHandler* queryHandler, const Config& config)
+    : _queryHandler(queryHandler) {
 
-int Daemon::startAsync(const Config& config) {
-    if (initMws(config) != EXIT_SUCCESS) {
-        return EXIT_FAILURE;
-    }
-
-    atexit(cleanupMws);
-
-    unsigned int mhd_flags = MHD_USE_THREAD_PER_CONNECTION;
+    unsigned int mhd_flags = 0;
+    mhd_flags |= MHD_USE_THREAD_PER_CONNECTION;
     if (config.enableIpv6) {
         mhd_flags |= MHD_USE_IPv6;
     }
-    _daemonHandler =
-        MHD_start_daemon(mhd_flags, config.mwsPort, my_MHD_AcceptPolicyCallback,
-                         nullptr, my_MHD_AccessHandlerCallback, this,
-                         MHD_OPTION_CONNECTION_LIMIT, 20, MHD_OPTION_END);
-    if (_daemonHandler == nullptr) {
-        return -1;
+    _mhd = MHD_start_daemon(mhd_flags, config.port,
+                            acceptPolicyCallback, /* PolicyContext = */ nullptr,
+                            accessHandlerCallback, _queryHandler.get(),
+                            MHD_OPTION_CONNECTION_LIMIT, 20,
+                            MHD_OPTION_END);
+    if (_mhd == nullptr) {
+        throw runtime_error(
+            formattedString("MHD_start_daemon: %s", strerror(errno)));
     }
-    PRINT_LOG("Listening on port %d\n", config.mwsPort);
 
-    return 0;
+    PRINT_LOG("Listening on port %d\n", config.port);
 }
 
-void Daemon::stop() {
-    if (_daemonHandler != nullptr) {
-        MHD_stop_daemon(_daemonHandler);
-        _daemonHandler = nullptr;
+Daemon::~Daemon() {
+    if (_mhd != nullptr) {
+        MHD_stop_daemon(_mhd);
     }
-}
-
-int Daemon::initMws(const Config& config) {
-    _config = config;
-    if (initxmlparser() != 0) {
-        PRINT_WARN("Error while initializing xmlparser module\n");
-        return -1;
-    }
-
-    return 0;
 }
 
 }  // namespace daemon

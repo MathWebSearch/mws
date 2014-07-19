@@ -59,7 +59,7 @@ ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary)
 
 ExpressionEncoder::~ExpressionEncoder() {}
 
-int ExpressionEncoder::encode(const EncodingConfiguration& options,
+int ExpressionEncoder::encode(const Config& config,
                               const CmmlToken* expression,
                               vector<encoded_token_t>* encodedFormula,
                               ExpressionInfo* expressionInfo) {
@@ -92,7 +92,7 @@ int ExpressionEncoder::encode(const EncodingConfiguration& options,
             }
         } else {
             encoded_token.arity = token->getArity();
-            if (options.renameCi && token->getTag() == "ci") {
+            if (config.renameCi && token->getTag() == "ci") {
                 encoded_token.id = _getCiMeaning((token));
             } else {
                 encoded_token.id = _getConstantEncoding(token->getMeaning());

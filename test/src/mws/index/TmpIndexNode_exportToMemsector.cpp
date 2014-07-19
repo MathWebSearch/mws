@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
     TmpIndex data;
     MeaningDictionary* meaningDictionary;
     index::IndexBuilder* indexBuilder;
-    index::EncodingConfiguration indexingOptions;
+    index::ExpressionEncoder::Config indexEncoding;
     string tmp_memsector_path;
     HarvesterConfiguration config;
 
@@ -152,16 +152,16 @@ int main(int argc, char* argv[]) {
     }
 
     if (FlagParser::hasArg('c')) {
-        indexingOptions.renameCi = true;
+        indexEncoding.renameCi = true;
     } else {
-        indexingOptions.renameCi = false;
+        indexEncoding.renameCi = false;
     }
 
     crawlDb = new dbc::MemCrawlDb();
     formulaDb = new dbc::MemFormulaDb();
     meaningDictionary = new MeaningDictionary();
     indexBuilder = new index::IndexBuilder(formulaDb, crawlDb, &data,
-                                           meaningDictionary, indexingOptions);
+                                           meaningDictionary, indexEncoding);
 
     /* ensure the file does not exist */
     FAIL_ON(unlink(tmp_memsector_path.c_str()) != 0 && errno != ENOENT);

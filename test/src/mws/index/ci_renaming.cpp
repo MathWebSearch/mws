@@ -51,13 +51,12 @@ using mws::dbc::MemFormulaDb;
 using mws::index::MeaningDictionary;
 #include "mws/index/IndexBuilder.hpp"
 using mws::index::IndexBuilder;
-using mws::index::EncodingConfiguration;
+using mws::index::ExpressionEncoder;
 using mws::parser::HarvestResult;
 #include "mws/index/TmpIndex.hpp"
 using mws::index::TmpIndex;
 #include "mws/xmlparser/xmlparser.hpp"
 using mws::parser::initxmlparser;
-using mws::parser::clearxmlparser;
 #include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/dbc/MemFormulaDb.hpp"
 #include "common/utils/compiler_defs.h"
@@ -81,7 +80,7 @@ struct Tester {
         MemFormulaDb formulaDb;
         TmpIndex data;
         MeaningDictionary meaningDictionary;
-        EncodingConfiguration indexingOptions;
+        ExpressionEncoder::Config indexingOptions;
         indexingOptions.renameCi = true;
         HarvestResult result;
         IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data,
@@ -99,8 +98,6 @@ struct Tester {
         // Fail if the index is not as compressed as it should
         FAIL_ON(data.mRoot->children.size() != 4);
         (void)close(fd);
-
-        (void)clearxmlparser();
 
         return true;
 

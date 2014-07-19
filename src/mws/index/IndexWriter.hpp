@@ -32,17 +32,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include "mws/index/IndexBuilder.hpp"
+#include "mws/index/ExpressionEncoder.hpp"
 
 namespace mws {
 namespace index {
 
 struct IndexConfiguration {
     HarvesterConfiguration harvester;
-    EncodingConfiguration encoding;
     std::string dataPath;
     bool deleteOldData;
 };
-
 
 /**
  * @brief Write an index, and associated data to disk

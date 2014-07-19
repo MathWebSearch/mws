@@ -26,6 +26,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
+#include <stdlib.h>
 #include <libxml/parser.h>
 
 #include "mws/xmlparser/xmlparser.hpp"
@@ -36,13 +37,10 @@ namespace parser {
 int initxmlparser() {
     // Initializing the library and checking potential ABI mismatches between
     // the version it was compiled for and the actual shared library used.
-    LIBXML_TEST_VERSION
+    LIBXML_TEST_VERSION;
 
-    return 0;
-}
-
-void clearxmlparser() {
-    xmlCleanupParser();
+    // Register xmlCleanupParser to be called at program exit
+    return atexit(xmlCleanupParser);
 }
 
 }  // namespace parser

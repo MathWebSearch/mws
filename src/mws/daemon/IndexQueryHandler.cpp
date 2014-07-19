@@ -81,7 +81,7 @@ using mws::types::FormulaPath;
 #include "mws/types/Query.hpp"
 using mws::types::Query;
 #include "mws/xmlparser/processMwsHarvest.hpp"
-#include "mws/daemon/IndexDaemon.hpp"
+#include "mws/daemon/IndexQueryHandler.hpp"
 
 namespace mws {
 namespace daemon {
@@ -117,30 +117,30 @@ static result_cb_return_t result_callback(void* _ctxt, const leaf_t* leaf) {
     return QUERY_CONTINUE;
 }
 
-MwsAnswset* IndexDaemon::handleQuery(Query* query) {
+MwsAnswset* IndexQueryHandler::handleQuery(Query* query) {
     MwsAnswset* result;
-    QueryEncoder encoder(m_data->getMeaningDictionary());
+    QueryEncoder encoder(_index.getMeaningDictionary());
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
-    if (encoder.encode(_config.index.encoding, query->tokens[0], &encodedQuery,
+    if (encoder.encode(_config.encoding, query->tokens[0], &encodedQuery,
                        &queryInfo) == 0) {
         if (_config.useExperimentalQueryEngine) {
             HandlerStruct ctxt;
             ctxt.result = result = new MwsAnswset();
             ctxt.mwsQuery = query;
-            ctxt.dbQueryManager = m_data->getDbQueryManager();
+            ctxt.dbQueryManager = _index.getDbQueryManager();
 
             encoded_formula_t encodedFormula;
             encodedFormula.data = encodedQuery.data(),
             encodedFormula.size = encodedQuery.size();
 
-            query_engine_run(m_data->getIndexHandle(), &encodedFormula,
+            query_engine_run(_index.getIndexHandle(), &encodedFormula,
                              result_callback, &ctxt);
         } else {
             SearchContext ctxt(encodedQuery, query->options);
             result = ctxt.getResult<IndexAccessor>(
-                m_data->getIndexHandle(), m_data->getDbQueryManager(),
+                _index.getIndexHandle(), _index.getDbQueryManager(),
                 query->attrResultLimitMin, query->attrResultMaxSize,
                 query->attrResultTotalReqNr);
         }
@@ -154,20 +154,11 @@ MwsAnswset* IndexDaemon::handleQuery(Query* query) {
     return result;
 }
 
-int IndexDaemon::initMws(const Config& config) {
-    int ret = Daemon::initMws(config);
-    try {
-        m_data.reset(new IndexLoader(config.index.dataPath));
-    } catch (const exception& e) {
-        PRINT_WARN("%s\n", e.what());
-        return EXIT_FAILURE;
-    }
-    return ret;
-}
+IndexQueryHandler::IndexQueryHandler(const std::string& indexPath,
+                                     const Config& config)
+    : _index(indexPath), _config(config) {}
 
-IndexDaemon::IndexDaemon() {}
-
-IndexDaemon::~IndexDaemon() {}
+IndexQueryHandler::~IndexQueryHandler() {}
 
 }  // namespace daemon
 }  // namespace mws

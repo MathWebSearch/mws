@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+Copyright (C) 2010-2014 KWARC Group <kwarc.info>
 
 This file is part of MathWebSearch.
 
@@ -18,44 +18,44 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _HARVEST_DAEMON_HPP
-#define _HARVEST_DAEMON_HPP
+#ifndef _MWS_DAEMON_HARVESTQUERYHANDLER_HPP
+#define _MWS_DAEMON_HARVESTQUERYHANDLER_HPP
 
 /**
-  * @brief File containing the header of the HarvestDaemon class.
-  * @file HarvestDaemon.hpp
+  * @brief HarvestQueryHandler interface
+  * @file HarvestQueryHandler.hpp
   * @author Corneliu-Claudiu Prodescu
-  * @date 18 Jun 2011
-  *
-  * License: GPL v3
-  *
+  * @date 15 Jun 2014
   */
 
-#include "mws/daemon/Daemon.hpp"
-#include "mws/dbc/FormulaDb.hpp"
-#include "mws/dbc/CrawlDb.hpp"
-#include "mws/dbc/LevFormulaDb.hpp"
-#include "mws/dbc/LevCrawlDb.hpp"
+#include "mws/daemon/QueryHandler.hpp"
+#include "mws/dbc/MemFormulaDb.hpp"
+#include "mws/dbc/MemCrawlDb.hpp"
 #include "mws/index/TmpIndex.hpp"
 #include "mws/index/MeaningDictionary.hpp"
 #include "mws/index/IndexBuilder.hpp"
 
-namespace mws { namespace daemon {
+namespace mws {
+namespace daemon {
 
-class HarvestDaemon: public Daemon {
- public :
-    HarvestDaemon();
-    ~HarvestDaemon();
- private:
+class HarvestQueryHandler: public QueryHandler {
+ public:
+    explicit HarvestQueryHandler(const index::HarvesterConfiguration& config);
+    ~HarvestQueryHandler();
+
     MwsAnswset* handleQuery(types::Query* query);
-    int initMws(const Config& config);
- private:
-    index::IndexBuilder* indexBuilder;
-    index::MeaningDictionary* meaningDictionary;
-    dbc::CrawlDb* crawlDb;
-    dbc::FormulaDb* formulaDb;
-    index::TmpIndex* data;
-};
-}}
 
-#endif  // _HARVEST_DAEMON_HPP
+ private:
+    index::MeaningDictionary _meaningDictionary;
+    dbc::MemCrawlDb _crawlDb;
+    dbc::MemFormulaDb _formulaDb;
+    index::TmpIndex _index;
+    index::ExpressionEncoder::Config _encodingConfig;
+
+    DISALLOW_COPY_AND_ASSIGN(HarvestQueryHandler);
+};
+
+}  // namespace daemon
+}  // namespace mws
+
+#endif  // _MWS_DAEMON_HARVESTQUERYHANDLER_HPP

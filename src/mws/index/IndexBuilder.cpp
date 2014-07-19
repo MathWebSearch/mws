@@ -58,15 +58,20 @@ using mws::parser::HarvestResult;
 #include "common/utils/util.hpp"
 using common::utils::foreachEntryInDirectory;
 
+#include "build-gen/config.h"
+
 namespace mws {
 namespace index {
 
 static void logIndexStatistics(const TmpIndex* index, FILE* logFile);
 
+HarvesterConfiguration::HarvesterConfiguration()
+    : recursive(false), fileExtension(DEFAULT_MWS_HARVEST_SUFFIX) {}
+
 IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                            TmpIndex* index,
                            MeaningDictionary* meaningDictionary,
-                           EncodingConfiguration encodingOptions)
+                           ExpressionEncoder::Config encodingOptions)
     : m_formulaDb(formulaDb),
       m_crawlDb(crawlDb),
       m_index(index),
@@ -103,8 +108,8 @@ int IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
     return numSubExpressions;
 }
 
-uint64_t loadHarvests(mws::index::IndexBuilder* indexBuilder,
-                      const index::HarvesterConfiguration& config) {
+uint64_t loadHarvests(IndexBuilder* indexBuilder,
+                      const HarvesterConfiguration& config) {
     uint64_t numExpressions = 0;
     FILE* logFile = nullptr;
 

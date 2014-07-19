@@ -37,7 +37,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 
 #include "mws/index/encoded_token.h"
-#include "mws/index/IndexBuilder.hpp"
 #include "mws/index/MeaningDictionary.hpp"
 #include "mws/types/CmmlToken.hpp"
 
@@ -45,7 +44,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Type Declarations                                                        */
 /****************************************************************************/
 
-namespace mws { namespace index {
+namespace mws {
+namespace index {
+
 
 struct ExpressionInfo {
     std::vector<std::string> qvarNames;
@@ -54,10 +55,17 @@ struct ExpressionInfo {
 
 class ExpressionEncoder {
  public:
+    struct Config {
+        bool renameCi;
+
+        Config() : renameCi(false) {}
+    };
+
+
     explicit ExpressionEncoder(MeaningDictionary* dictionary);
     virtual ~ExpressionEncoder();
 
-    int encode(const EncodingConfiguration& options,
+    int encode(const Config& config,
                const types::CmmlToken* expression,
                std::vector<encoded_token_t> *encodedFormula,
                ExpressionInfo* expressionInfo);

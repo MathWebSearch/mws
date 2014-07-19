@@ -59,8 +59,7 @@ int createCompressedIndex(const IndexConfiguration& config) {
     unique_ptr<dbc::CrawlDb> crawlDb;
     unique_ptr<dbc::FormulaDb> formulaDb;
     TmpIndex index;
-    unique_ptr<MeaningDictionary> meaningDictionary;
-    unique_ptr<index::IndexBuilder> indexBuilder;
+    MeaningDictionary meaningDictionary;
     std::filebuf fb;
     std::ostream os(&fb);
     uint64_t numExpressions;
@@ -77,17 +76,15 @@ int createCompressedIndex(const IndexConfiguration& config) {
         formulaDb.reset(formulaLevDb);
     } catch (exception& e) {
         PRINT_WARN("%s\n", e.what());
-        goto failure;
+        return EXIT_FAILURE;
     }
-    meaningDictionary.reset(new MeaningDictionary());
 
-    indexBuilder.reset(new index::IndexBuilder(formulaDb.get(), crawlDb.get(),
-                                               &index, meaningDictionary.get(),
-                                               config.encoding));
-    numExpressions = loadHarvests(indexBuilder.get(), config.harvester);
+    IndexBuilder indexBuilder(formulaDb.get(), crawlDb.get(), &index,
+                              &meaningDictionary, config.harvester.encoding);
+    numExpressions = loadHarvests(&indexBuilder, config.harvester);
     if (numExpressions == 0) {
         PRINT_WARN("No expressions loaded. Aborting...\n");
-        goto failure;
+        return EXIT_FAILURE;
     }
     PRINT_LOG("%" PRIu64 " expressions loaded.\n", numExpressions);
 
@@ -99,13 +96,10 @@ int createCompressedIndex(const IndexConfiguration& config) {
 
     fb.open((output_dir + "/" + MEANING_DICTIONARY_FILE).c_str(),
             std::ios::out);
-    meaningDictionary->save(os);
+    meaningDictionary.save(os);
     fb.close();
 
     return EXIT_SUCCESS;
-
-failure:
-    return EXIT_FAILURE;
 }
 
 }  // namespace index

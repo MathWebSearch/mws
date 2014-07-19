@@ -60,8 +60,8 @@ int main(int argc, char* argv[]) {
     indexConfig.harvester.recursive = FlagParser::hasArg('r');
 
     indexConfig.harvester.paths = FlagParser::getArgs('I');
+    indexConfig.harvester.encoding.renameCi = FlagParser::hasArg('c');
     indexConfig.dataPath = FlagParser::getArg('o');
-    indexConfig.encoding.renameCi = FlagParser::hasArg('c');
 
     return createCompressedIndex(indexConfig);
 }

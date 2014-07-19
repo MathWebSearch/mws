@@ -72,11 +72,11 @@ using mws::index::IndexLoader;
 using mws::index::LoadingOptions;
 #include "mws/index/IndexWriter.hpp"
 using mws::index::HarvesterConfiguration;
-using mws::index::EncodingConfiguration;
 #include "mws/index/IndexAccessor.hpp"
 using mws::index::IndexAccessor;
 #include "mws/index/ExpressionEncoder.hpp"
 using mws::index::HarvestEncoder;
+using mws::index::ExpressionEncoder;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::TokenCallback;
@@ -127,8 +127,8 @@ struct ParseResult {
  * @return a vector, where every element is a ParseResult associated with a doc
  */
 static vector<ParseResult*> parseMwsHarvestFromFd(
-    const EncodingConfiguration& encodingConfig, IndexAccessor::Index* index,
-    MeaningDictionary* meaningDictionary, int fd);
+    const ExpressionEncoder::Config& encodingConfig,
+    IndexAccessor::Index* index, MeaningDictionary* meaningDictionary, int fd);
 
 struct DataItems {
     string id;
@@ -218,7 +218,7 @@ int main(int argc, char* argv[]) {
     struct Config {
         string indexPath;
         HarvesterConfiguration harvester;
-        EncodingConfiguration encoding;
+        ExpressionEncoder::Config encoding;
     } config;
 
     FlagParser::addFlag('I', "index-path", FLAG_REQ, ARG_REQ);
@@ -320,12 +320,12 @@ class HarvestParser : public HarvestProcessor {
     vector<ParseResult*> getParseResults();
     HarvestParser(IndexAccessor::Index* index,
                   MeaningDictionary* meaningictionary,
-                  EncodingConfiguration indexingOptions);
+                  ExpressionEncoder::Config indexingOptions);
 
  private:
     IndexAccessor::Index* _index;
     MeaningDictionary* _meaningDictionary;
-    EncodingConfiguration _indexingOptions;
+    ExpressionEncoder::Config _indexingOptions;
     CrawlId _idCounter;
     Query::Options _queryOptions;
     /* each CrawlId uniquely identifies a document */
@@ -334,7 +334,7 @@ class HarvestParser : public HarvestProcessor {
 
 HarvestParser::HarvestParser(IndexAccessor::Index* index,
                              MeaningDictionary* meaningDictionary,
-                             EncodingConfiguration indexingOptions)
+                             ExpressionEncoder::Config indexingOptions)
     : _index(index),
       _meaningDictionary(meaningDictionary),
       _indexingOptions(std::move(indexingOptions)),
@@ -396,8 +396,8 @@ CrawlId HarvestParser::processData(const string& data) {
 }
 
 static vector<ParseResult*> parseMwsHarvestFromFd(
-    const EncodingConfiguration& encodingConfig, IndexAccessor::Index* index,
-    MeaningDictionary* meaningDictionary, int fd) {
+    const ExpressionEncoder::Config& encodingConfig,
+    IndexAccessor::Index* index, MeaningDictionary* meaningDictionary, int fd) {
 
     HarvestParser harvestParser(index, meaningDictionary, encodingConfig);
     processHarvestFromFd(fd, &harvestParser);

@@ -47,10 +47,10 @@ using mws::index::MeaningDictionary;
 using mws::index::TmpIndex;
 #include "mws/index/IndexBuilder.hpp"
 using mws::index::IndexBuilder;
-using mws::index::EncodingConfiguration;
+#include "mws/index/ExpressionEncoder.hpp"
+using mws::index::ExpressionEncoder;
 #include "mws/xmlparser/xmlparser.hpp"
 using mws::parser::initxmlparser;
-using mws::parser::clearxmlparser;
 #include "mws/dbc/MemCrawlDb.hpp"
 using mws::dbc::MemCrawlDb;
 #include "mws/dbc/MemFormulaDb.hpp"
@@ -77,7 +77,7 @@ int main() {
     MemFormulaDb formulaDb;
     TmpIndex data;
     MeaningDictionary meaningDictionary;
-    EncodingConfiguration indexingOptions;
+    ExpressionEncoder::Config indexingOptions;
     indexingOptions.renameCi = false;
     IndexBuilder indexBuilder(&formulaDb, &crawlDb, &data, &meaningDictionary,
                               indexingOptions);
@@ -95,8 +95,6 @@ int main() {
 
         (void)close(fd);
     }
-
-    (void)clearxmlparser();
 
     return EXIT_SUCCESS;
 

@@ -46,14 +46,6 @@ struct LoadingOptions {
 };
 
 class IndexLoader {
- private:
-    index::MeaningDictionary m_meaningDictionary;
-    std::unique_ptr<dbc::FormulaDb> m_formulaDb;
-    std::unique_ptr<dbc::CrawlDb> m_crawlDb;
-    std::unique_ptr<dbc::DbQueryManager> m_dbQueryManager;
-    index_handle_t m_index;
-    memsector_handle_t m_memsectorHandler;
-
  public:
     /**
      * @brief Method to load an index stored on disk
@@ -69,6 +61,13 @@ class IndexLoader {
     index::MeaningDictionary* getMeaningDictionary();
 
  private:
+    index::MeaningDictionary m_meaningDictionary;
+    std::unique_ptr<dbc::FormulaDb> m_formulaDb;
+    std::unique_ptr<dbc::CrawlDb> m_crawlDb;
+    std::unique_ptr<dbc::DbQueryManager> m_dbQueryManager;
+    index_handle_t m_index;
+    memsector_handle_t m_memsectorHandler;
+
     DISALLOW_COPY_AND_ASSIGN(IndexLoader);
 };
 

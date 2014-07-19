@@ -30,42 +30,39 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * License: GPL v3
   */
 
-#include <signal.h>
+#include <memory>
+
 #include "mws/daemon/microhttpd_linux.h"
+#include "mws/daemon/QueryHandler.hpp"
 
-#include <vector>
-#include <string>
-
-#include "mws/types/MwsAnswset.hpp"
-#include "mws/types/Query.hpp"
-#include "mws/index/IndexBuilder.hpp"
-#include "mws/index/IndexWriter.hpp"
-
-namespace mws { namespace daemon {
-
-struct Config {
-    uint16_t mwsPort;
-    bool enableIpv6;
-    index::IndexConfiguration index;
-    bool useExperimentalQueryEngine;
-
-    Config();
-};
+namespace mws {
+namespace daemon {
 
 class Daemon {
  public:
-    int startAsync(const Config& config);
-    void stop();
-    virtual MwsAnswset* handleQuery(types::Query* query) = 0;
-    Daemon();
-    virtual ~Daemon();
+    struct Config {
+        uint16_t port;
+        bool enableIpv6;
 
- protected:
-    virtual int initMws(const Config& config);
-    Config _config;
+        Config();
+    };
+
+    /**
+     * @brief Daemon
+     * @param queryHandler query handler used for each request
+     *
+     * Daemon owns the query handler
+     */
+    Daemon(QueryHandler* queryHandler, const Config& config = Config());
+    ~Daemon();
+
  private:
-    struct MHD_Daemon* _daemonHandler;
+    std::unique_ptr<QueryHandler> _queryHandler;
+    struct MHD_Daemon* _mhd;
+
+    DISALLOW_COPY_AND_ASSIGN(Daemon);
 };
+
 }  // namespace daemon
 }  // namespace mws
 
