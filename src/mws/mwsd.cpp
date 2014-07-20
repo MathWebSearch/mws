@@ -171,27 +171,27 @@ int main(int argc, char* argv[]) {
     // data-path and harvest paths
     if (FlagParser::hasArg('D')) {
         try {
-            string dataPath = FlagParser::getArg('D');
+            indexConfig.dataPath = FlagParser::getArg('D');
             IndexQueryHandler::Config config;
             config.encoding = indexConfig.harvester.encoding;
             config.useExperimentalQueryEngine = FlagParser::hasArg('x');
-            QueryHandler* queryHandler = nullptr;
+            QueryHandler* qh = nullptr;
 
             try {
-                queryHandler = new IndexQueryHandler(dataPath, config);
+                qh = new IndexQueryHandler(indexConfig.dataPath, config);
             } catch (const exception& e) {
                 PRINT_LOG("Could not load index: %s\n", e.what());
             }
 
-            if (queryHandler == nullptr && FlagParser::hasArg('I')) {
+            if (qh == nullptr && FlagParser::hasArg('I')) {
                 PRINT_LOG("Attempting to build it from harvests\n");
                 createCompressedIndex(indexConfig);
-                queryHandler = new IndexQueryHandler(dataPath, config);
+                qh = new IndexQueryHandler(indexConfig.dataPath, config);
             }
 
             PRINT_LOG("Index loaded successfully.\n");
             setup_signals();
-            mwsDaemon.reset(new Daemon(queryHandler, daemonConfig));
+            mwsDaemon.reset(new Daemon(qh, daemonConfig));
         } catch (const exception& e) {
             PRINT_WARN("Aborting: %s", e.what());
             return EXIT_FAILURE;
