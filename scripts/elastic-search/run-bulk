@@ -16,19 +16,27 @@ EOF
 fi
 
 while [ $# -gt 0 ]; do
-    PORT=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
-    if [ -f "$1.ok" ]; then
+    if [ -f "$1.ok" ] || [ -f "$1.err" ]; then
         echo Skipping "$1": already processed
     else
-        OUTPUT="$(curl -s -S -XPOST $HOST:$PORT/_bulk?index=$INDEX\&type=doc --data-binary @$1 2>&1)"
-        if echo "$OUTPUT" | grep '"errors":false' &> /dev/null; then
-            touch "$1.ok"
+        TMP_DIR="/tmp/bulk-split"
+        rm -rf $TMP_DIR
+        mkdir -p $TMP_DIR
+        split --lines 100 "$1" "$TMP_DIR/file"
+        for file in $TMP_DIR/*; do
+            PORT=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
+            OUTPUT="$(curl -s -S -XPOST $HOST:$PORT/_bulk?index=$INDEX\&type=doc --data-binary @$file 2>&1)"
+            echo "$OUTPUT" | grep '"errors":false' &> /dev/null || {
+                echo Error at "$1"
+                echo $OUTPUT > "$1.err"
+                break
+            }
+        done
+        rm -rf $TMP_DIR
+        [[ -r "$1.err" ]] || {
             echo Processed "$1"
-        else
-            echo Error at "$1":
-            echo $OUTPUT
-            exit 1
-        fi
+            touch "$1.ok"
+        }
     fi
 
     shift
