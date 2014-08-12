@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
     if (FlagParser::hasArg('e')) {
         config.harvester.fileExtension = FlagParser::getArg('e');
     } else {
-        config.harvester.fileExtension = DEFAULT_MWS_HARVEST_SUFFIX;
+        config.harvester.fileExtension = DEFAULT_MWS_HARVEST_EXTENSION;
     }
 
     try {
@@ -251,7 +251,7 @@ int main(int argc, char* argv[]) {
         common::utils::FileCallback fileCallback = [&](
             const std::string& path, const std::string& prefix) {
             UNUSED(prefix);
-            if (hasSuffix(path, config.harvester.fileExtension)) {
+            if (hasSuffix(path, "." + config.harvester.fileExtension)) {
                 string outputName = path + ".json";
                 FILE* output = fopen(outputName.c_str(), "wx");
                 if (output == nullptr) {

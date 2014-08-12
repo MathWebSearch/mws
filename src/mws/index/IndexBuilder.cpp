@@ -66,7 +66,7 @@ namespace index {
 static void logIndexStatistics(const TmpIndex* index, FILE* logFile);
 
 HarvesterConfiguration::HarvesterConfiguration()
-    : recursive(false), fileExtension(DEFAULT_MWS_HARVEST_SUFFIX) {}
+    : recursive(false), fileExtension(DEFAULT_MWS_HARVEST_EXTENSION) {}
 
 IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                            TmpIndex* index,
