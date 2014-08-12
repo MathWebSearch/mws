@@ -4,7 +4,7 @@
     "documentIdXpath" : "//meta[@name='mmturi']/@content",
     "metadata" : {
         "title" : "//title",
-        "url" : "//meta[@name='url']/@content"
-        "mmturi" : "//meta[@name='mmturi']/@content",
+        "url" : "//meta[@name='url']/@content",
+        "mmturi" : "//meta[@name='mmturi']/@content"
     }
 }
