@@ -228,24 +228,31 @@ static void dumpNodeToText(const xmlNode* root, stringstream* stream,
         }
         nodes.top() = node->next;
 
-        if (strcmp((char*)node->name, "math") == 0) {
-            const char* id = reinterpret_cast<const char*>(
-                xmlGetProp(const_cast<xmlNode*>(node), BAD_CAST "id"));
-            if (id != nullptr) {
-                if (encodedMathIds != nullptr) {
-                    *stream << " " << MATH_PREFIX
-                            << to_string(encodedMathIds->put(id)) << " ";
-                } else {
-                    *stream << " " << MATH_PREFIX << id << " ";
-                }
-                xmlFree((void*)id);
-            }
-            continue;
-        } else if (node->type == XML_TEXT_NODE) {
+        switch (node->type) {
+        case XML_TEXT_NODE:
             *stream << " " << reinterpret_cast<char*>(node->content) << " ";
-        }
+            break;
 
-        nodes.push(node->children);
+        case XML_ELEMENT_NODE:
+            if (strcmp((char*)node->name, "math") == 0) {
+                const char* id = reinterpret_cast<const char*>(
+                            xmlGetProp(const_cast<xmlNode*>(node), BAD_CAST "id"));
+                if (id != nullptr) {
+                    if (encodedMathIds != nullptr) {
+                        *stream << " " << MATH_PREFIX
+                                << to_string(encodedMathIds->put(id)) << " ";
+                    } else {
+                        *stream << " " << MATH_PREFIX << id << " ";
+                    }
+                    xmlFree((void*)id);
+                }
+            } else {
+                nodes.push(node->children);
+            }
+
+        default:
+            break;
+        }
     }
 }
 
