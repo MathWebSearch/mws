@@ -66,7 +66,7 @@ xmlDocPtr parseDocument(const char* content, int size) {
     xmlDocPtr doc;
 
     // Try as XHTML
-    doc = xmlReadMemory(content, size, /* URL = */ "", /* encoding = */ nullptr,
+    doc = xmlReadMemory(content, size, /* URL = */ "", "UTF-8",
                         XML_PARSE_NOWARNING | XML_PARSE_NOERROR);
     if (doc != nullptr) {
         return doc;
@@ -75,8 +75,7 @@ xmlDocPtr parseDocument(const char* content, int size) {
     // Try as HTML
     htmlParserCtxtPtr htmlParserCtxt = htmlNewParserCtxt();
     doc = htmlCtxtReadMemory(
-        htmlParserCtxt, content, size, /* URL = */ "",
-        /* encoding = */ nullptr,
+        htmlParserCtxt, content, size, /* URL = */ "", "UTF-8",
         HTML_PARSE_RECOVER | HTML_PARSE_NOWARNING | HTML_PARSE_NOERROR);
     htmlFreeParserCtxt(htmlParserCtxt);
     if (doc != nullptr) {
