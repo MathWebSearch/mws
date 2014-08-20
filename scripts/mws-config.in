@@ -221,7 +221,7 @@ perform_enable() {
     target=/etc/init.d/mwsd_$name
     echo Creating $target
     cat - $PREFIX/$SYSCONFDIR/mwsd-service.sh > $target << EOF
-#! /bin/sh
+#! /bin/bash
 ### BEGIN INIT INFO
 # Provides:          mwsd_$name
 # Required-Start:    \$remote_fs \$syslog

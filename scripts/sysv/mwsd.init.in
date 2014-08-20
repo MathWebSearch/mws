@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          mwsd_@MWS_DEPLOY_NAME@
 # Required-Start:    $remote_fs $syslog
