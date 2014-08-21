@@ -48,6 +48,7 @@ using mws::types::FormulaPath;
 #include "mws/dbc/CrawlDb.hpp"
 using mws::dbc::CrawlId;
 using mws::dbc::CrawlData;
+using mws::dbc::CRAWLID_NULL;
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/IndexBuilder.hpp"
 #include "mws/index/IndexIterator.hpp"
@@ -66,7 +67,8 @@ namespace index {
 static void logIndexStatistics(const TmpIndex* index, FILE* logFile);
 
 HarvesterConfiguration::HarvesterConfiguration()
-    : recursive(false), fileExtension(DEFAULT_MWS_HARVEST_EXTENSION) {}
+    : recursive(false), shouldIgnoreData(false),
+      fileExtension(DEFAULT_MWS_HARVEST_EXTENSION) {}
 
 IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
                            TmpIndex* index,
@@ -79,7 +81,11 @@ IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
       m_indexingOptions(std::move(encodingOptions)) {}
 
 CrawlId IndexBuilder::indexCrawlData(const CrawlData& crawlData) {
-    return m_crawlDb->putData(crawlData);
+    if (m_crawlDb != nullptr) {
+        return m_crawlDb->putData(crawlData);
+    } else {
+        return CRAWLID_NULL;
+    }
 }
 
 int IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
@@ -137,7 +143,8 @@ uint64_t loadHarvests(IndexBuilder* indexBuilder,
                     perror(path.c_str());
                     return -1;
                 }
-                auto loadReturn = loadHarvestFromFd(indexBuilder, fd);
+                auto loadReturn = loadHarvestFromFd(indexBuilder, fd,
+                                                    !config.shouldIgnoreData);
                 PRINT_LOG("%" PRIu64 " loaded", loadReturn.numExpressions);
                 if (loadReturn.status == 0) {
                     PRINT_LOG("\n");
@@ -190,11 +197,12 @@ static void logIndexStatistics(const TmpIndex* index, FILE* logFile) {
             expressions, uniqueExpressions, indexSize);
 }
 
-HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd) {
+HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd,
+                                bool shouldProcessData) {
     class HarvestIndexer : public HarvestProcessor {
      public:
         explicit HarvestIndexer(IndexBuilder* indexBuilder)
-                : _IndexBuilder(indexBuilder) {}
+            : _IndexBuilder(indexBuilder) {}
         int processExpression(const CmmlToken* token, const string& exprUri,
                               const uint32_t& crawlId) {
             return _IndexBuilder->indexContentMath(token, exprUri, crawlId);
@@ -209,7 +217,7 @@ HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd) {
 
     HarvestIndexer harvestIndexer(indexBuilder);
 
-    return processHarvestFromFd(fd, &harvestIndexer);
+    return processHarvestFromFd(fd, &harvestIndexer, shouldProcessData);
 }
 
 }  // namespace index

@@ -63,7 +63,7 @@ class HarvestProcessor {
     /**
      * @brief called when a data element has been parsed
      * @param data contained in the data element
-     * @return a CrawlId, if the expressions are linked with data,\
+     * @return a CrawlId, if the expressions are linked with data,
      * CRAWLID_NULL otherwise
      */
     virtual dbc::CrawlId processData(const std::string& data) = 0;
@@ -76,7 +76,8 @@ struct HarvestResult {
     uint64_t numExpressions;
 };
 
-HarvestResult processHarvestFromFd(int fd, HarvestProcessor* harvestProcessor);
+HarvestResult processHarvestFromFd(int fd, HarvestProcessor* harvestProcessor,
+                                   bool shouldProcessData = true);
 
 }  // namespace parser
 }  // namespace mws

@@ -72,6 +72,7 @@ int main(int argc, char* argv[]) {
 
     // Parsing the flags
     FlagParser::addFlag('I', "include-harvest-path", FLAG_OPT, ARG_REQ);
+    FlagParser::addFlag('n', "ignore-harvest-data", FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('D', "data-path", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('x', "experimental-query-engine", FLAG_OPT, ARG_NONE);
     FlagParser::addFlag('p', "mws-port", FLAG_OPT, ARG_REQ);
@@ -117,8 +118,11 @@ int main(int argc, char* argv[]) {
         indexConfig.harvester.fileExtension = FlagParser::getArg('e');
     }
 
-    // recursive
+    // harvest recursively
     indexConfig.harvester.recursive = FlagParser::hasArg('r');
+
+    // ignore harvest data
+    indexConfig.harvester.shouldIgnoreData = FlagParser::hasArg('n');
 
     // ci renaming
     indexConfig.harvester.encoding.renameCi = FlagParser::hasArg('c');
@@ -200,7 +204,7 @@ int main(int argc, char* argv[]) {
         try {
             HarvestQueryHandler* queryHandler;
             queryHandler = new HarvestQueryHandler(indexConfig.harvester);
-            PRINT_LOG("Index loaded successfully.\n");
+            PRINT_LOG("Index built successfully.\n");
             setup_signals();
             mwsDaemon.reset(new Daemon(queryHandler, daemonConfig));
         } catch (const exception& e) {

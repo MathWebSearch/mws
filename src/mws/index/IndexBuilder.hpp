@@ -43,6 +43,7 @@ namespace index {
 struct HarvesterConfiguration {
     std::vector<std::string> paths;
     bool recursive;
+    bool shouldIgnoreData;
     std::string fileExtension;
     std::string statisticsLogFile;
     ExpressionEncoder::Config encoding;
@@ -86,7 +87,8 @@ class IndexBuilder {
                          const dbc::CrawlId& crawlId = dbc::CRAWLID_NULL);
 };
 
-parser::HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd);
+parser::HarvestResult loadHarvestFromFd(IndexBuilder* indexBuilder, int fd,
+                                        bool shouldProcessData = true);
 
 uint64_t loadHarvests(IndexBuilder* indexBuilder,
                       const HarvesterConfiguration& config);

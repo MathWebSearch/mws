@@ -104,6 +104,7 @@ struct MwsHarvest_SaxUserData {
     int warnings;
     /// Object that acts when expr or data elements are parsed
     HarvestProcessor* harvestProcessor;
+    bool shouldProcessData;
 
     xmlTextWriter* stringWriter;
     int copyDepth;
@@ -241,7 +242,7 @@ static void my_startElement(void* user_data, const xmlChar* name,
 
                 attrs = &attrs[2];
             }
-            if (data->localId != "" &&
+            if (data->shouldProcessData && data->localId != "" &&
                 (data->localIdToCrawlIds.find(data->localId) ==
                  data->localIdToCrawlIds.end())) {
                 PRINT_WARN("%s \"%s\" does not point to any %s element\n",
@@ -350,7 +351,8 @@ static void my_endElement(void* user_data, const xmlChar* name) {
         } else if (data->currentToken->isRoot()) {
             int ret;
             auto it = data->localIdToCrawlIds.find(data->localId);
-            if (it != data->localIdToCrawlIds.end()) {
+            if (data->shouldProcessData &&
+                    it != data->localIdToCrawlIds.end()) {
                 CrawlId crawlId = it->second;
                 ret = data->harvestProcessor->processExpression(
                     data->currentToken, data->exprUri, crawlId);
@@ -377,8 +379,13 @@ static void my_endElement(void* user_data, const xmlChar* name) {
             data->state = MWSHARVESTSTATE_IN_MWS_HARVEST;
 
             // Insert data in db
-            CrawlId crawlId = data->harvestProcessor->processData(data->data);
-            data->localIdToCrawlIds[data->localId] = crawlId;
+            if (data->shouldProcessData) {
+                CrawlId crawlId =
+                        data->harvestProcessor->processData(data->data);
+                if (crawlId != CRAWLID_NULL) {
+                    data->localIdToCrawlIds[data->localId] = crawlId;
+                }
+            }
         }
         break;
 
@@ -448,7 +455,8 @@ static void my_fatalError(void* user_data, const char* msg, ...) {
 // Implementation
 
 HarvestResult processHarvestFromFd(int fd,
-                                   HarvestProcessor* harvestProcessor) {
+                                   HarvestProcessor* harvestProcessor,
+                                   bool shouldProcessData) {
     MwsHarvest_SaxUserData user_data;
     xmlSAXHandler saxHandler;
     xmlParserCtxtPtr ctxtPtr;
@@ -456,6 +464,7 @@ HarvestResult processHarvestFromFd(int fd,
     result.status = -1;
 
     user_data.harvestProcessor = harvestProcessor;
+    user_data.shouldProcessData = shouldProcessData;
     memset(&saxHandler, 0, sizeof(xmlSAXHandler));
 
     // Registering Sax callbacks
