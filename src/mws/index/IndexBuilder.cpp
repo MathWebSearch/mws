@@ -126,7 +126,7 @@ uint64_t loadHarvests(IndexBuilder* indexBuilder,
         } else {
             PRINT_LOG("Dumping index statistics to %s\n",
                       config.statisticsLogFile.c_str());
-            fprintf(logFile, "#%12s %12s %12s\n", "<formulae>", "<unique>",
+            fprintf(logFile, "#%12s,%12s,%12s\n", "<formulae>", "<unique>",
                     "<size>");
         }
     }
@@ -193,7 +193,7 @@ static void logIndexStatistics(const TmpIndex* index, FILE* logFile) {
         expressions += leaf->getNumSolutions();
         uniqueExpressions++;
     }
-    fprintf(logFile, " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 "\n",
+    fprintf(logFile, " %12" PRIu64 ",%12" PRIu64 ",%12" PRIu64 "\n",
             expressions, uniqueExpressions, indexSize);
 }
 
