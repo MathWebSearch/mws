@@ -55,6 +55,8 @@ using mws::index::HarvesterConfiguration;
 using mws::index::IndexConfiguration;
 using mws::index::createCompressedIndex;
 #include "mws/index/memsector.h"
+#include "mws/xmlparser/xmlparser.hpp"
+using mws::parser::initxmlparser;
 
 #include "build-gen/config.h"
 
@@ -202,6 +204,7 @@ int main(int argc, char* argv[]) {
         }
     } else if (FlagParser::hasArg('I')) {
         try {
+            initxmlparser();
             HarvestQueryHandler* queryHandler;
             queryHandler = new HarvestQueryHandler(indexConfig.harvester);
             PRINT_LOG("Index built successfully.\n");
