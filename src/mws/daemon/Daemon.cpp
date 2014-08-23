@@ -252,6 +252,10 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
 Daemon::Daemon(QueryHandler* queryHandler, const Config& config)
     : _queryHandler(queryHandler) {
 
+    if (queryHandler == nullptr) {
+        throw runtime_error("queryHandler is NULL\n");
+    }
+
     unsigned int mhd_flags = 0;
     mhd_flags |= MHD_USE_THREAD_PER_CONNECTION;
     if (config.enableIpv6) {
