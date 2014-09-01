@@ -193,7 +193,7 @@ int main(int argc, char* argv[]) {
                 PRINT_LOG("Attempting to build it from harvests\n");
                 createCompressedIndex(indexConfig);
                 qh = new IndexQueryHandler(indexConfig.dataPath, config);
-            } else if (!FlagParser::hasArg('I')) {
+            } else if (qh == nullptr) {
                 PRINT_WARN("Invalid index and no harvests supplied."\
                            "Aborting...\n");
                 return EXIT_FAILURE;
