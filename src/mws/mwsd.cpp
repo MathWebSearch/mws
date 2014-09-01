@@ -30,14 +30,15 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #include <signal.h>
 
-#include <string>
-using std::string;
-#include <vector>
-using std::vector;
+
 #include <memory>
 using std::unique_ptr;
 #include <stdexcept>
 using std::exception;
+#include <string>
+using std::string;
+#include <vector>
+using std::vector;
 
 #include "common/utils/save_pid_file.h"
 #include "common/utils/FlagParser.hpp"

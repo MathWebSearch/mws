@@ -30,3 +30,6 @@ CMakeLists.txt.user*
 
 # ctags
 tags
+
+# idea
+.idea
