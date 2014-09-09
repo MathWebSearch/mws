@@ -16,5 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
+CONFIGURE_FILE(mws-config.in mws-config @ONLY)
+INSTALL(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/mws-config
+    DESTINATION bin)
 
-ADD_SUBDIRECTORY(sysv)
+CONFIGURE_FILE(mwsd-service.sh.in mwsd-service.sh @ONLY)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/mwsd-service.sh
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/${SYSCONFDIR})
+
+INSTALL(DIRECTORY
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/${SYSCONFDIR}/configs)

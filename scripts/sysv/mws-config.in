@@ -162,8 +162,7 @@ MWS_PID_FILE="/var/run/$NAME.pid"
 id -u $NAME > /dev/null 2>&1 || useradd $NAME
 mkdir -p $MWS_DATA_PATH
 touch $MWS_LOG_FILE
-touch $MWS_PID_FILE
-chown $NAME:$NAME $MWS_DATA_PATH $MWS_LOG_FILE $MWS_PID_FILE
+chown $NAME:$NAME $MWS_DATA_PATH $MWS_LOG_FILE
 cat > "$CONFIGDIR/$suffix" << EOF
 # Configuration file for $NAME service
 
