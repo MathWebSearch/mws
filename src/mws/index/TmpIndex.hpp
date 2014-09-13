@@ -123,9 +123,9 @@ class TmpIndex {
     void exportToMemsector(memsector_writer_t* mswr) const;
 
  private:
-    static memsector_off_t _writeChildrenOffsets(
+    static memsector_long_off_t _writeChildrenOffsets(
         memsector_writer_t* mswr, const TmpIndexNode* node,
-        const std::vector<memsector_off_t>& offsets);
+        const std::vector<memsector_long_off_t>& offsets);
     friend class TmpIndexAccessor;
     ALLOW_TESTER_ACCESS;
     DISALLOW_COPY_AND_ASSIGN(TmpIndex);

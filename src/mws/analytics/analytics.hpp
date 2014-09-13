@@ -46,7 +46,8 @@ enum AnalyticsStatus {
  * @return ANALYTICS_OK if the analytics job should continue
  * @return ANALYTICS_STOP if the analytics job should stop
  */
-AnalyticsStatus analyze_begin(const index_handle_t* index, const inode_t* root);
+AnalyticsStatus analyze_begin(const index_handle_t* index,
+                              const inode_t* root);
 /**
  * @brief Callback for each expression in the index
  * @param cmmlToken ContentMathML expression

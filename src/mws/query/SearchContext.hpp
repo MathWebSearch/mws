@@ -72,7 +72,7 @@ class SearchContext {
 
  private:
     struct _NodeTriple {
-        bool           isQvar;
+        bool      isQvar;
         MeaningId meaningId;
         Arity     arity;
         _NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity);

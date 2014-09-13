@@ -109,7 +109,7 @@ extern int verbose;
     } while (0)
 
 #define DISALLOW_CONSTRUCTION(TypeName)                                     \
-    TypeName() = delete                                                     \
+    TypeName() = delete;                                                    \
     TypeName(const TypeName&) = delete;                                     \
     TypeName(const TypeName&&) = delete
 

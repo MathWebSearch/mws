@@ -51,37 +51,82 @@ class IndexAccessor {
         bool operator!=(const _Iterator& rhs) const { return !(*this == rhs); }
     };
 
+ private:
+    typedef const inode_long_t LongNode;
+
  public:
     typedef const inode_t Node;
     typedef const index_handle_t Index;
     typedef common::utils::ContainerIterator<_Iterator> Iterator;
 
-    static Node* getRootNode(Index* index) { return index->root; }
+    static Node* getRootNode(Index* index) { return (Node*)index->root; }
 
     static Iterator getChildrenIterator(Node* node) {
-        assert(node->type == INTERNAL_NODE);
+        assert(node->type == INTERNAL_NODE || node->type == LONG_INTERNAL_NODE);
         return Iterator(_Iterator(node, 0), _Iterator(node, node->size));
     }
     static encoded_token_t getToken(const Iterator& it) {
         _Iterator _it = it.get();
-        assert(_it._node->type == INTERNAL_NODE);
-        return _it._node->data[_it._index].token;
+        encoded_token_t tok;
+
+        switch (_it._node->type) {
+        case INTERNAL_NODE:
+            tok = _it._node->data[_it._index].token;
+            break;
+        case LONG_INTERNAL_NODE:
+            tok =
+                reinterpret_cast<LongNode*>(_it._node)->data[_it._index].token;
+            break;
+        default:
+            assert(_it._node->type == INTERNAL_NODE ||
+                   _it._node->type == LONG_INTERNAL_NODE);
+            break;
+        }
+
+        return tok;
     }
     static Arity getArity(const Iterator& it) { return getToken(it).arity; }
     static Node* getNode(Index* index, const Iterator& it) {
+        UNUSED(index);
         _Iterator _it = it.get();
-        assert(_it._node->type == INTERNAL_NODE);
-        memsector_off_t off = _it._node->data[_it._index].off;
+        memsector_long_off_t off;
+        switch (_it._node->type) {
+        case INTERNAL_NODE:
+            off = _it._node->data[_it._index].off;
+            break;
+        case LONG_INTERNAL_NODE:
+            off = reinterpret_cast<LongNode*>(_it._node)->data[_it._index].off;
+            break;
+        default:
+            assert(_it._node->type == INTERNAL_NODE ||
+                   _it._node->type == LONG_INTERNAL_NODE);
+            break;
+        }
+
         assert(off != MEMSECTOR_OFF_NULL);
-        return (Node*)memsector_off2addr(index->ms, off);
+        return (Node*)memsector_relOff2addr((char*)_it._node, off);
     }
     static Node* getChild(Index* index, Node* node, encoded_token_t token) {
-        assert(node->type == INTERNAL_NODE);
-        memsector_off_t off = inode_get_child(node, token);
+        UNUSED(index);
+        memsector_long_off_t off;
+        switch (node->type) {
+        case INTERNAL_NODE:
+            off = inode_get_child(node, token);
+            break;
+        case LONG_INTERNAL_NODE:
+            off =
+                inode_long_get_child(reinterpret_cast<LongNode*>(node), token);
+            break;
+        default:
+            assert(node->type == INTERNAL_NODE ||
+                   node->type == LONG_INTERNAL_NODE);
+            break;
+        }
+
         if (off == MEMSECTOR_OFF_NULL) {
             return nullptr;
         }
-        return (Node*)memsector_off2addr(index->ms, off);
+        return (Node*)memsector_relOff2addr((char*)node, off);
     }
     static uint64_t getFormulaId(Node* node) {
         leaf_t* leaf = (leaf_t*)node;

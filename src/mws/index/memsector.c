@@ -90,7 +90,7 @@ void memsector_write(memsector_writer_t* msw,
     msw->ms.checksum = crc32(msw->ms.checksum, data, size);
 }
 
-int memsector_save(memsector_writer_t *msw, memsector_off_t index_off) {
+int memsector_save(memsector_writer_t *msw, memsector_long_off_t index_off) {
     msw->ms.root_off = index_off;
     msw->ms.index_size = msw->offset - sizeof(msw->ms);
     fseek(msw->file, 0, SEEK_SET);

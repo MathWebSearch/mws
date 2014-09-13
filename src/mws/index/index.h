@@ -49,8 +49,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  * @brief Index node types
  */
 typedef enum node_type_e {
-    INTERNAL_NODE   = 1,
-    LEAF_NODE       = 2
+    INTERNAL_NODE      = 1,
+    LONG_INTERNAL_NODE = 2,
+    LEAF_NODE          = 3
 } node_type_t;
 
 /**
@@ -62,6 +63,12 @@ struct encoded_token_dict_entry_s {
 } PACKED;
 typedef struct encoded_token_dict_entry_s encoded_token_dict_entry_t;
 
+struct encoded_token_dict_entry_long_s {
+    encoded_token_t token;
+    memsector_long_off_t off;
+} PACKED;
+typedef struct encoded_token_dict_entry_long_s encoded_token_dict_entry_long_t;
+
 /**
  * @brief Internal index node
  */
@@ -71,6 +78,13 @@ struct inode_s {
     encoded_token_dict_entry_t data[];
 } PACKED;
 typedef struct inode_s inode_t;
+
+struct inode_long_s {
+    node_type_t type    : 2;  /* should be LONG_INTERNAL_NODE */
+    uint64_t    size    : 62;
+    encoded_token_dict_entry_long_t data[];
+} PACKED;
+typedef struct inode_long_s inode_long_t;
 
 /**
  * @brief Leaf index node
@@ -91,7 +105,7 @@ struct index_header_s {
 typedef struct index_header_s index_header_t;
 
 typedef struct index_handle_s {
-    const inode_t *root;
+    const inode_long_t *root;
     memsector_header_t *ms;
 } index_handle_t;
 
@@ -110,35 +124,52 @@ static inline uint32_t memsector_leaf_size(void) {
 }
 
 static inline
-memsector_off_t memsector_write_inode_begin(memsector_writer_t *msw,
-                                            uint32_t num_children) {
+memsector_long_off_t memsector_write_inode_begin(memsector_writer_t *msw,
+                                uint32_t num_children,
+                                memsector_long_off_t furthermost_child_off) {
     // No inode write should be in progress
     assert(msw->inode.entries_delivered == 0);
     assert(msw->inode.entries_promised == 0);
     msw->inode.entries_promised = num_children;
 
-    memsector_off_t off = memsector_get_current_offset(msw);
+    memsector_long_off_t currOff = memsector_get_current_offset(msw);
 
-    inode_t inode;
-    inode.type = INTERNAL_NODE;
-    inode.size = num_children;
-    memsector_write(msw, &inode, sizeof(inode));
+    memsector_long_off_t maxRelOff = currOff - furthermost_child_off;
+    msw->inode.has_long_offsets = maxRelOff >= MEMSECTOR_LONG_OFF_START;
 
-    return off;
+    if (msw->inode.has_long_offsets) {
+        inode_long_t inode;
+        inode.type = LONG_INTERNAL_NODE;
+        inode.size = num_children;
+        memsector_write(msw, &inode, sizeof(inode));
+    } else {
+        inode_t inode;
+        inode.type = INTERNAL_NODE;
+        inode.size = num_children;
+        memsector_write(msw, &inode, sizeof(inode));
+    }
+
+    return currOff;
 }
 
 static inline
 void memsector_write_inode_encoded_token_entry(memsector_writer_t *msw,
                                                encoded_token_t encoded_token,
-                                               memsector_off_t off) {
+                                               memsector_long_off_t off) {
     assert(msw->inode.entries_promised > msw->inode.entries_delivered++);
     assert(off != MEMSECTOR_OFF_NULL);
 
-    encoded_token_dict_entry_t entry;
-    entry.token = encoded_token;
-    entry.off = off;
-
-    memsector_write(msw, &entry, sizeof(entry));
+    if (msw->inode.has_long_offsets) {
+        encoded_token_dict_entry_long_t entry;
+        entry.token = encoded_token;
+        entry.off = off;
+        memsector_write(msw, &entry, sizeof(entry));
+    } else {
+        encoded_token_dict_entry_t entry;
+        entry.token = encoded_token;
+        entry.off = off;
+        memsector_write(msw, &entry, sizeof(entry));
+    }
 }
 
 static inline
@@ -150,10 +181,10 @@ void memsector_write_inode_end(memsector_writer_t *msw) {
 }
 
 static inline
-memsector_off_t memsector_write_leaf(memsector_writer_t* mswr,
-                                     uint32_t num_hits,
-                                     uint32_t formula_id) {
-    memsector_off_t off = memsector_get_current_offset(mswr);
+memsector_long_off_t memsector_write_leaf(memsector_writer_t* mswr,
+                                          uint32_t num_hits,
+                                          uint32_t formula_id) {
+    memsector_long_off_t off = memsector_get_current_offset(mswr);
 
     // No inode write should be in progress
     assert(mswr->inode.entries_delivered == 0);
@@ -169,12 +200,37 @@ memsector_off_t memsector_write_leaf(memsector_writer_t* mswr,
 }
 
 static inline
-const inode_t* memsector_get_root(memsector_handle_t* msHandle) {
-    return (inode_t*) memsector_off2addr(msHandle->ms, msHandle->ms->root_off);
+const inode_long_t* memsector_get_root(memsector_handle_t* msHandle) {
+    return (inode_long_t*) memsector_off2addr(msHandle->ms,
+                                              msHandle->ms->root_off);
 }
 
 static inline
-memsector_off_t inode_get_child(const inode_t* inode, encoded_token_t token) {
+memsector_off_t inode_get_child(const inode_t* inode,
+                                      encoded_token_t token) {
+    int32_t left, right;
+
+    left = 0;
+    right = inode->size - 1;
+
+    while (left <= right) {
+        int32_t center = left + (right - left) / 2;
+        int result = memcmp(&inode->data[center].token, &token, sizeof(token));
+        if (result > 0) {
+            right = center - 1;
+        } else if (result == 0) {
+            return inode->data[center].off;
+        } else {
+            left = center + 1;
+        }
+    }
+
+    return MEMSECTOR_OFF_NULL;
+}
+
+static inline
+memsector_long_off_t inode_long_get_child(const inode_long_t* inode,
+                                      encoded_token_t token) {
     int32_t left, right;
 
     left = 0;

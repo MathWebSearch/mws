@@ -159,7 +159,7 @@ void query_ctxt_init(query_ctxt_t* RESTRICT      query_ctxt,
     }
 
     // intialize index
-    query_ctxt->curr_index_inode = index->root;
+    query_ctxt->curr_index_inode = (inode_t*) index->root;
     query_ctxt->index_stack.size = 0;
 
     // initialize memsector alloc
@@ -210,7 +210,6 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
         }
 
         token_stack_push(query, query_token);
-
     } else {  // constant query token
         if (!token_stack_empty(&query_ctxt->index_stack)) {  // index stack
             encoded_token_t index_token =
@@ -236,10 +235,17 @@ int process_query_token(query_ctxt_t* RESTRICT query_ctxt) {
             token_stack_push(&query_ctxt->index_stack, index_token);
         } else {  // regular index
             const inode_t* curr = query_ctxt->curr_index_inode;
-            memsector_off_t off = inode_get_child(curr, query_token);
+            memsector_long_off_t off;
+            if (curr->type == LONG_INTERNAL_NODE) {
+                off = inode_long_get_child((inode_long_t*)curr, query_token);
+            } else if (curr->type == INTERNAL_NODE) {
+                off = inode_get_child(curr, query_token);
+            } else {
+                assert(false);
+            }
             if (off != MEMSECTOR_OFF_NULL) {  // move to corresponding child
                 const inode_t* child =
-                        (inode_t*) memsector_off2addr(query_ctxt->alloc, off);
+                        (inode_t*) memsector_relOff2addr((char*)curr, off);
 
                 query_ctxt->curr_index_inode = child;
 
@@ -295,15 +301,28 @@ int match_var_to_index(query_ctxt_t* RESTRICT query_ctxt, uint32_t arity) {
     } else {  // regular index
         uint32_t i;
         uint32_t size = query_ctxt->curr_index_inode->size;
-        const encoded_token_dict_entry_t* data =
-                query_ctxt->curr_index_inode->data;
-
+        const encoded_token_dict_entry_t* data;
+        const encoded_token_dict_entry_long_t* long_data;
+        const node_type_t node_type = query_ctxt->curr_index_inode->type;
+        if (node_type == LONG_INTERNAL_NODE) {
+            long_data = ((inode_long_t*)query_ctxt->curr_index_inode)->data;
+        } else {
+            data = query_ctxt->curr_index_inode->data;
+        }
         for (i = 0; i < size; ++i) {
-            const encoded_token_dict_entry_t* entry = &data[i];
+            encoded_token_t entry_token;
+            memsector_long_off_t entry_off;
+            if (node_type == LONG_INTERNAL_NODE) {
+                entry_token = long_data->token;
+                entry_off = long_data->off;
+            } else {
+                entry_token = data->token;
+                entry_off = data->off;
+            }
             int pushed_var_tokens = 0;
             token_stack_t var_stack;
             var_stack.size = 0;
-            token_stack_push(&var_stack, entry->token);
+            token_stack_push(&var_stack, entry_token);
 
             while (!token_stack_empty(&var_stack)) {
                 encoded_token_t token = token_stack_pop(&var_stack);
@@ -343,12 +362,12 @@ int match_var_to_index(query_ctxt_t* RESTRICT query_ctxt, uint32_t arity) {
             // advance in the index
             const inode_t* curr = query_ctxt->curr_index_inode;
             const inode_t* child = (inode_t*)
-                    memsector_off2addr(query_ctxt->alloc, entry->off);
+                    memsector_relOff2addr((char*)curr, entry_off);
             query_ctxt->curr_index_inode = child;
 
             // continue
             ret = match_var_to_index(query_ctxt,
-                                     arity + entry->token.arity - 1);
+                                     arity + entry_token.arity - 1);
             if (ret != QUERY_CONTINUE) return ret;
 
 revert_index:

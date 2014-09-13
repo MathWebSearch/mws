@@ -51,28 +51,40 @@ using common::utils::FlagParser;
 
 #define DEFAULT_TMP_MEMSECTOR_PATH "/tmp/test.memsector"
 #define DEFAULT_HARVEST_PATH MWS_TESTDATA_PATH
+/* force use of both types of internal nodes */
+#undef MEMSECTOR_LONG_OFF_START
+#define MEMSECTOR_LONG_OFF_START (1UL << 8)
 
 using namespace mws;
 
 struct Tester {
     static const memsector_header_t* ms;
 
-    static inline bool memsector_inode_consistent(const TmpIndexNode* tmp_node,
-                                                  memsector_off_t off) {
+    static inline bool memsector_inode_consistent(
+        const TmpIndexNode* tmp_node, memsector_long_off_t baseOff) {
         if (tmp_node->children.size() > 0) {  // child
-            inode_t* inode = (inode_t*)memsector_off2addr(ms, off);
-            if (inode->type != INTERNAL_NODE) {
-                PRINT_LOG("inode at offset %" PRIu32 " corrupted!\n", off);
+            inode_t* inode = (inode_t*)memsector_off2addr(ms, baseOff);
+
+            if (inode->type != INTERNAL_NODE &&
+                inode->type != LONG_INTERNAL_NODE) {
+                PRINT_LOG("inode at offset %" PRIu64 " corrupted!\n", baseOff);
                 return false;
             }
             if (tmp_node->children.size() != inode->size) return false;
+
             int i = 0;
             for (auto& kv : tmp_node->children) {
                 MeaningId meaningId = kv.first.id;
                 Arity arity = kv.first.arity;
 
-                if (meaningId != inode->data[i].token.id) return false;
-                if (arity != inode->data[i].token.arity) return false;
+                encoded_token_t token;
+                if (inode->type == LONG_INTERNAL_NODE) {
+                    token = ((inode_long_t*)inode)->data[i].token;
+                } else {
+                    token = inode->data[i].token;
+                }
+                if (meaningId != token.id) return false;
+                if (arity != token.arity) return false;
 
                 i++;
             }
@@ -80,8 +92,13 @@ struct Tester {
             i = 0;
             for (auto& kv : tmp_node->children) {
                 const TmpIndexNode* child_node = kv.second;
-                if (!memsector_inode_consistent(child_node,
-                                                inode->data[i].off)) {
+                memsector_long_off_t offset;
+                if (inode->type == LONG_INTERNAL_NODE) {
+                    offset = ((inode_long_t*)inode)->data[i].off;
+                } else {
+                    offset = inode->data[i].off;
+                }
+                if (!memsector_inode_consistent(child_node, baseOff - offset)) {
                     return false;
                 }
 
@@ -89,9 +106,10 @@ struct Tester {
             }
             return true;
         } else {  // leaf
-            leaf_t* leaf = (leaf_t*)memsector_off2addr(ms, off);
+            leaf_t* leaf = (leaf_t*)memsector_off2addr(ms, baseOff);
             if (leaf->type != LEAF_NODE) {
-                PRINT_LOG("leaf node at offset %" PRIu32 " corrupted!\n", off);
+                PRINT_LOG("leaf node at offset %" PRIu64 " corrupted!\n",
+                          baseOff);
                 return false;
             }
             TmpLeafNode* tmpLeaf = (TmpLeafNode*)tmp_node;

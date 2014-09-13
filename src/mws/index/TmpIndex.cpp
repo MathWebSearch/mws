@@ -99,20 +99,23 @@ TmpLeafNode* TmpIndex::insertData(
     return node;
 }
 
-memsector_off_t TmpIndex::_writeChildrenOffsets(
+memsector_long_off_t TmpIndex::_writeChildrenOffsets(
     memsector_writer_t* mswr, const TmpIndexNode* node,
-    const vector<memsector_off_t>& offsets) {
+    const vector<memsector_long_off_t>& offsets) {
     assert(node->children.size() == offsets.size());
-    memsector_off_t offset =
-        memsector_write_inode_begin(mswr, node->children.size());
+
+    memsector_long_off_t currOffset =
+            memsector_write_inode_begin(mswr, node->children.size(),
+                                        offsets.front());
+
     int i = 0;
     for (const auto& entry : node->children) {
         memsector_write_inode_encoded_token_entry(mswr, entry.first,
-                                                  offsets[i]);
+                                                  currOffset - offsets[i]);
         i++;
     }
     memsector_write_inode_end(mswr);
-    return offset;
+    return currOffset;
 }
 
 uint64_t TmpIndex::computeMemsectorSize() const {
@@ -141,12 +144,12 @@ uint64_t TmpIndex::computeMemsectorSize() const {
 }
 
 void TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
-    stack<vector<memsector_off_t> > dfsStack;
+    stack<vector<memsector_long_off_t> > dfsStack;
 
     auto onPush = [&](TmpIndexAccessor::Iterator iterator) {
         const TmpIndexNode* node = TmpIndexAccessor::getNode(this, iterator);
         if (node->children.size() > 0) {
-            dfsStack.push(vector<memsector_off_t>());
+            dfsStack.push(vector<memsector_long_off_t>());
             dfsStack.top().reserve(node->children.size());
         }
     };
@@ -154,25 +157,27 @@ void TmpIndex::exportToMemsector(memsector_writer_t* mswr) const {
     auto onPop = [&](TmpIndexAccessor::Iterator iterator) {
         const TmpIndexNode* node = TmpIndexAccessor::getNode(this, iterator);
         if (node->children.size() > 0) {  // index node
-            memsector_off_t offset =
+            memsector_long_off_t offset =
                 _writeChildrenOffsets(mswr, node, dfsStack.top());
             dfsStack.pop();
             dfsStack.top().push_back(offset);
         } else {  // leaf
             auto leaf = reinterpret_cast<const TmpLeafNode*>(node);
-            dfsStack.top().push_back(
-                memsector_write_leaf(mswr, leaf->solutions, leaf->id));
+            memsector_long_off_t offset =
+                    memsector_write_leaf(mswr, leaf->solutions, leaf->id);
+            dfsStack.top().push_back(offset);
         }
     };
 
-    dfsStack.push(vector<memsector_off_t>());
+    dfsStack.push(vector<memsector_long_off_t>());
     CallbackIndexIterator<TmpIndexAccessor> it(this, mRoot, onPush, onPop);
 
     // iterate through entire index, writing inodes and leafs
     while (it.next() != nullptr) continue;
-    // write the root
-    memsector_off_t rootOffset =
+    // write the root, always use 64b offset for root
+    memsector_long_off_t rootOffset =
         _writeChildrenOffsets(mswr, mRoot, dfsStack.top());
+
     dfsStack.pop();
     assert(dfsStack.empty());
     memsector_save(mswr, rootOffset);

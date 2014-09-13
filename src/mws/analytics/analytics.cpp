@@ -88,7 +88,8 @@ void analyze(IndexLoader* indexLoader) {
         cmmlBuilder.popToken(IndexAccessor::getToken(iterator));
     };
 
-    CallbackIndexIterator<IndexAccessor> iterator(index, root, onPush, onPop);
+    CallbackIndexIterator<IndexAccessor> iterator(index, root,
+                                                  onPush, onPop);
 
     const inode_t* node;
     while ((node = iterator.next()) != nullptr) {

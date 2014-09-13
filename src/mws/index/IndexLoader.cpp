@@ -70,7 +70,7 @@ namespace index {
 IndexLoader::IndexLoader(const std::string& path, const LoadingOptions& options)
     : m_meaningDictionary(path + "/" + MEANING_DICTIONARY_FILE) {
 
-    // we need the two databases two include hits
+    // we need the two databases to include hits
     if (options.includeHits) {
         auto formulaDb = new LevFormulaDb();
         m_formulaDb = unique_ptr<FormulaDb>(formulaDb);
