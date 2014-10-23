@@ -74,7 +74,7 @@ int FlagParser::parse(const int argc, char* const argv[]) {
     map<char, FlagOpt>::iterator it;
     vector<struct option> longOpts;
     string optString;
-    char ch;
+    signed char ch;
     struct option currentOpt;
     const struct option zeroOpt = {nullptr, 0, nullptr, 0};
     int optIndex;

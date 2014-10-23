@@ -52,7 +52,7 @@ typedef uint64_t memsector_long_off_t;
 
 #define MEMSECTOR_OFF_NULL      (memsector_off_t) 0
 #define MEMSECTOR_ALLOC_UNIT    (uint32_t) 4
-#define MEMSECTOR_LONG_OFF_START (1UL << 32)
+#define MEMSECTOR_LONG_OFF_START (1ULL << 32)
 
 /**
  * @brief Memsector header
