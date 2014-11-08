@@ -110,7 +110,8 @@ class MemStream {
         closeWritingMode();
         _mode = MODE_READING_FILE;
         _output = fmemopen(_buffer, _buffer_size, "r");
-        assert(_output != nullptr);
+        // fmemopen shouldn't fail if _buffer_size > 0
+        if (_buffer_size != 0) assert(_output != nullptr);
         return _output;
     }
 
@@ -129,13 +130,13 @@ class MemStream {
  private:
     void closeWritingMode() {
         assert(_mode == MODE_WRITING);
-        fclose(_input);
+        if (_input != nullptr ) fclose(_input);
         _input = nullptr;
     }
 
     void closeReadingFileMode() {
         assert(_mode == MODE_READING_FILE);
-        fclose(_output);
+        if (_output != nullptr) fclose(_output);
         _output = nullptr;
     }
 };

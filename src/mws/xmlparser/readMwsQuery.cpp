@@ -330,6 +330,8 @@ namespace mws {
 namespace xmlparser {
 
 Query* readMwsQuery(FILE* file) {
+    // file might be nullptr, if no data was sent
+    if (file == nullptr) return nullptr;
     MwsQuery_SaxUserData user_data;
     xmlSAXHandler saxHandler;
     xmlParserCtxtPtr ctxtPtr;
