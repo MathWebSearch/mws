@@ -35,6 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <utility>
 
 #include "mws/index/encoded_token.h"
 #include "mws/index/MeaningDictionary.hpp"
@@ -51,6 +52,8 @@ namespace index {
 struct ExpressionInfo {
     std::vector<std::string> qvarNames;
     std::vector<std::string> qvarXpaths;
+
+    std::unordered_map<MeaningId, std::pair<double, double>> rangeBounds;
 };
 
 class ExpressionEncoder {
@@ -73,6 +76,7 @@ class ExpressionEncoder {
  protected:
     virtual MeaningId _getAnonVarOffset() const = 0;
     virtual MeaningId _getNamedVarOffset() const = 0;
+    virtual MeaningId _getRangeOffset() const = 0;
     virtual MeaningId _getConstantEncoding(const types::Meaning& meaning) = 0;
 
     MeaningId _getCiMeaning(const mws::types::CmmlToken* token);
@@ -89,6 +93,7 @@ class HarvestEncoder : public ExpressionEncoder {
  protected:
     virtual MeaningId _getAnonVarOffset() const;
     virtual MeaningId _getNamedVarOffset() const;
+    virtual MeaningId _getRangeOffset() const;
     virtual MeaningId _getConstantEncoding(const types::Meaning& meaning);
 };
 
@@ -99,6 +104,7 @@ class QueryEncoder : public ExpressionEncoder {
  protected:
     virtual MeaningId _getAnonVarOffset() const;
     virtual MeaningId _getNamedVarOffset() const;
+    virtual MeaningId _getRangeOffset() const;
     virtual MeaningId _getConstantEncoding(const types::Meaning& meaning);
 };
 

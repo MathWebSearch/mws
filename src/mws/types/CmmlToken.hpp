@@ -35,6 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <string>
 #include <functional>
+#include <utility>
 
 #include "common/utils/compiler_defs.h"
 
@@ -70,6 +71,7 @@ class CmmlToken {
  public:
     enum Type {
         VAR,
+        RANGE,
         CONSTANT
     };
 
@@ -85,6 +87,7 @@ class CmmlToken {
     void popLastChild();
     bool isRoot() const;
     bool isVar() const;
+    bool isRange() const;
     const std::string& getTextContent() const;
     const PtrList& getChildNodes() const;
     CmmlToken* getParentNode() const;
@@ -99,6 +102,8 @@ class CmmlToken {
     Type getType() const;
     // VAR specific methods
     const std::string& getVarName() const;
+    // RANGE specific methods
+    const std::pair<double, double> getRangeBounds() const;
     // CONSTANT specific
     std::string getMeaning() const;
 

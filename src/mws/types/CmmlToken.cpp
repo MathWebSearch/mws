@@ -31,6 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <assert.h>
 #include <ctype.h>
 #include <string.h>
+#include <utility>
 
 #include <map>
 using std::map;
@@ -40,6 +41,8 @@ using std::stringstream;
 using std::string;
 #include <stack>
 using std::stack;
+#include <limits>
+using std::numeric_limits;
 
 #include "mws/types/CmmlToken.hpp"
 
@@ -47,9 +50,16 @@ namespace mws {
 namespace types {
 
 constexpr char QVAR_TAG[] = "mws:qvar";
-constexpr char VAR_NAME_ATTRIBUTE[] = "name";
-constexpr char ROOT_XPATH_SELECTOR[] = "/*[1]";
+constexpr char VAR_NAME_ATTR[] = "name";
 const Meaning QVAR_MEANING = "mws:qvar";
+
+constexpr char RANGE_TAG[] = "mws:range";
+constexpr char RANGE_LOW_ATTR[] = "low";
+constexpr char RANGE_HIGH_ATTR[] = "high";
+
+
+constexpr char ROOT_XPATH_SELECTOR[] = "/*[1]";
+
 
 CmmlToken::CmmlToken()
     : _tag(""),
@@ -129,6 +139,8 @@ bool CmmlToken::isRoot() const { return (_parentNode == nullptr); }
 
 bool CmmlToken::isVar() const { return (getType() == VAR); }
 
+bool CmmlToken::isRange() const { return (getType() == RANGE); }
+
 CmmlToken* CmmlToken::getParentNode() const { return _parentNode; }
 
 const CmmlToken::PtrList& CmmlToken::getChildNodes() const {
@@ -200,6 +212,8 @@ uint32_t CmmlToken::getExprSize() const {
 CmmlToken::Type CmmlToken::getType() const {
     if (_tag == QVAR_TAG) {
         return VAR;
+    } else if (_tag == RANGE_TAG) {
+        return RANGE;
     } else {
         return CONSTANT;
     }
@@ -208,12 +222,53 @@ CmmlToken::Type CmmlToken::getType() const {
 const std::string& CmmlToken::getVarName() const {
     assert(getType() == VAR);
 
-    auto it = _attributes.find(VAR_NAME_ATTRIBUTE);
+    auto it = _attributes.find(VAR_NAME_ATTR);
     if (it == _attributes.end()) {
         return _textContent;
     } else {
         return it->second;
     }
+}
+
+/**
+ * @brief CmmlToken::getRangeBounds
+ * @return a pair with the first field set to the low bound
+ * (MIN_DOUBLE if no low bound found)
+ * and the second field set to the upper bound
+ * (MAX_DOUBLE if no upper bound found)
+ */
+const std::pair<double, double> CmmlToken::getRangeBounds() const {
+    assert(getType() == RANGE);
+
+    std::pair<double, double> bounds;
+
+    auto itLow = _attributes.find(RANGE_LOW_ATTR);
+    if (itLow == _attributes.end()) {
+        bounds.first = numeric_limits<double>::min();
+    } else {
+        try {
+            bounds.first = std::stod(itLow->second);
+        } catch (std::exception& e) {
+            UNUSED(e);
+            PRINT_WARN("Invalid low bound for range.");
+            bounds.first = numeric_limits<double>::min();
+        }
+    }
+
+    auto itHigh = _attributes.find(RANGE_HIGH_ATTR);
+    if (itHigh == _attributes.end()) {
+        bounds.second = numeric_limits<double>::max();
+    } else {
+        try {
+            bounds.second = std::stod(itHigh->second);
+        } catch (std::exception& e) {
+            UNUSED(e);
+            PRINT_WARN("Invalid upper bound for range.");
+            bounds.second = numeric_limits<double>::max();
+        }
+    }
+
+    return bounds;
 }
 
 std::string CmmlToken::getMeaning() const {
@@ -248,6 +303,9 @@ bool CmmlToken::equals(const CmmlToken* t) const {
             it2++;
         }
     }
+    case RANGE:
+        // We don't allow named ranges.
+        return false;
     }
 
     return true;

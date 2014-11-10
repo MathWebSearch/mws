@@ -51,7 +51,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #define ANON_QVAR_ID_MIN    97
 #define ANON_QVAR_ID_MAX    128
 #define VAR_ID_MAX          128
-#define CONSTANT_ID_MIN     129
+#define RANGE_ID_MIN        129
+#define RANGE_ID_MAX        160
+#define CONSTANT_ID_MIN     161
 
 /*--------------------------------------------------------------------------*/
 /* Type declarations                                                        */
@@ -109,6 +111,11 @@ encoded_token_t encoded_token(MeaningId id, Arity arity) {
 static inline
 bool encoded_token_is_var(encoded_token_t token) {
     return (token.id <= VAR_ID_MAX);
+}
+
+static inline
+bool encoded_token_is_range(encoded_token_t token) {
+    return (RANGE_ID_MIN <= token.id && token.id <= RANGE_ID_MAX);
 }
 
 static inline

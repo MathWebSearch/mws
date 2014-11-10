@@ -34,6 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <stdexcept>
 
+#include "common/utils/util.hpp"
 #include "common/utils/compiler_defs.h"
 
 namespace common {
@@ -46,6 +47,7 @@ private:
     _MapContainer _map;
     ValueId _nextId;
     static const ValueId VALUEID_START = 1;
+    ALLOW_TESTER_ACCESS;
 public:
     static const ValueId KEY_NOT_FOUND = VALUEID_START - 1;
 

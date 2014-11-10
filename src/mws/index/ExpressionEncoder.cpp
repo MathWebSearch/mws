@@ -67,6 +67,7 @@ int ExpressionEncoder::encode(const Config& config,
     stack<const CmmlToken*> dfs_stack;
     MeaningDictionary namedVarDictionary;
     int anonVarId = 0;
+    int anonRangeId = 0;  // we only allow anonymous ranges
 
     encodedFormula->clear();
 
@@ -81,6 +82,7 @@ int ExpressionEncoder::encode(const Config& config,
             encoded_token.arity = 1;
             if (qvarName == "") {
                 encoded_token.id = _getAnonVarOffset() + anonVarId;
+                anonVarId++;
             } else {
                 encoded_token.id =
                     _getNamedVarOffset() + namedVarDictionary.put(qvarName);
@@ -89,6 +91,15 @@ int ExpressionEncoder::encode(const Config& config,
                     expressionInfo->qvarXpaths.push_back(
                         token->getXpathRelative());
                 }
+            }
+        } else if (token->isRange()) {
+            encoded_token.arity = 1;
+            encoded_token.id = _getRangeOffset() + anonRangeId;
+            anonRangeId++;
+            if (expressionInfo != nullptr) {
+                MeaningId tokenId = encoded_token.id;
+                expressionInfo->rangeBounds.insert({tokenId,
+                                                    token->getRangeBounds()});
             }
         } else {
             encoded_token.arity = token->getArity();
@@ -148,6 +159,8 @@ MeaningId HarvestEncoder::_getAnonVarOffset() const { return ANON_HVAR_ID_MIN; }
 
 MeaningId HarvestEncoder::_getNamedVarOffset() const { return HVAR_ID_MIN; }
 
+MeaningId HarvestEncoder::_getRangeOffset() const { return RANGE_ID_MIN; }
+
 MeaningId HarvestEncoder::_getConstantEncoding(const Meaning& meaning) {
     return CONSTANT_ID_MIN + _meaningDictionary->put(meaning);
 }
@@ -160,6 +173,8 @@ QueryEncoder::~QueryEncoder() {}
 MeaningId QueryEncoder::_getAnonVarOffset() const { return ANON_HVAR_ID_MIN; }
 
 MeaningId QueryEncoder::_getNamedVarOffset() const { return HVAR_ID_MIN; }
+
+MeaningId QueryEncoder::_getRangeOffset() const { return RANGE_ID_MIN; }
 
 MeaningId QueryEncoder::_getConstantEncoding(const Meaning& meaning) {
     MeaningId id = _meaningDictionary->get(meaning);
@@ -177,6 +192,8 @@ ExpressionDecoder::ExpressionDecoder(const MeaningDictionary& dictionary)
 Meaning ExpressionDecoder::getMeaning(MeaningId meaningId) const {
     if (meaningId >= CONSTANT_ID_MIN) {
         return _lookupTable.get(meaningId - CONSTANT_ID_MIN);
+    } else if (meaningId >= RANGE_ID_MIN) {
+        return "range#" + to_string(meaningId - RANGE_ID_MIN);
     } else if (meaningId >= ANON_QVAR_ID_MIN) {
         return "anonymous_qvar#" + to_string(meaningId - ANON_QVAR_ID_MIN);
     } else if (meaningId >= QVAR_ID_MIN) {

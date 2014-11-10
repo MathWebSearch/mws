@@ -100,6 +100,7 @@ encoded_token_t apply4_tok  = encoded_token(constantId++, 4);
 encoded_token_t f_tok       = encoded_token(constantId++, 0);
 encoded_token_t h_tok       = encoded_token(constantId++, 0);
 encoded_token_t t_tok       = encoded_token(constantId++, 0);
+encoded_token_t cn_tok      = encoded_token(constantId++, 0);
 
 // Hvars
 MeaningId hvarId = HVAR_ID_MIN;

@@ -138,7 +138,9 @@ MwsAnswset* IndexQueryHandler::handleQuery(Query* query) {
             query_engine_run(_index.getIndexHandle(), &encodedFormula,
                              result_callback, &ctxt);
         } else {
-            SearchContext ctxt(encodedQuery, query->options);
+            SearchContext ctxt(encodedQuery, query->options,
+                               queryInfo.rangeBounds,
+                               _index.getMeaningDictionary());
             result = ctxt.getResult<IndexAccessor>(
                 _index.getIndexHandle(), _index.getDbQueryManager(),
                 query->attrResultLimitMin, query->attrResultMaxSize,

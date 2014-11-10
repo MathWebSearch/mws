@@ -36,9 +36,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 #include <list>
+#include <unordered_map>
+#include <memory>
 
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/encoded_token.h"
+#include "mws/index/MeaningDictionary.hpp"
+#include "mws/index/ExpressionEncoder.hpp"
 #include "mws/types/CmmlToken.hpp"
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/types/Query.hpp"
@@ -47,11 +51,12 @@ namespace mws { namespace query {
 
 class SearchContext {
  public:
-    /**
-      * @param encodedFormula
-      */
+    typedef std::unordered_map<MeaningId, std::pair<double, double>> RangeBounds;
+
     SearchContext(const std::vector<encoded_token_t>& encodedFormula,
-                  const types::Query::Options& options);
+                  const types::Query::Options& options,
+                  const RangeBounds& rangeBounds = RangeBounds(),
+                  const index::MeaningDictionary* meaningDict = nullptr);
 
     /**
       * @brief Method to get the result of the search context, starting with
@@ -71,20 +76,28 @@ class SearchContext {
                                unsigned int aMaxTotal);
 
  private:
-    struct _NodeTriple {
-        bool      isQvar;
-        MeaningId meaningId;
-        Arity     arity;
-        _NodeTriple(bool isQvar, MeaningId aMeaningId, Arity anArity);
+    enum TokType {
+        QVAR,
+        RANGE,
+        CONST
     };
 
-    int mQvarCount;
+    struct _NodeTriple {
+        TokType   type;
+        MeaningId meaningId;
+        Arity     arity;
+        _NodeTriple(TokType type, MeaningId aMeaningId, Arity anArity);
+    };
+
+    int mSpecialCount;
     /// Vector containing the DFS traversal of the query expression
     std::vector<_NodeTriple> expr;
-    /// Qvar points in the Cmml Dfs Vector from where to backtrack. The
-    /// vector starts with -1 to mark the beginning
+    /// Qvar or Range points in the Cmml Dfs Vector from where to backtrack.
+    /// The vector starts with -1 to mark the beginning
     std::vector<int> backtrackPoints;
     types::Query::Options options;
+    RangeBounds rangeBounds;
+    std::unique_ptr<index::ExpressionDecoder> decoder;
 };
 
 }  // namespace query

@@ -80,7 +80,8 @@ MwsAnswset* HarvestQueryHandler::handleQuery(Query* mwsQuery) {
     if (encoder.encode(_encodingConfig, mwsQuery->tokens[0],
                        &encodedQuery, &queryInfo) == 0) {
         dbc::DbQueryManager dbQueryManger(&_crawlDb, &_formulaDb);
-        SearchContext ctxt(encodedQuery, mwsQuery->options);
+        SearchContext ctxt(encodedQuery, mwsQuery->options,
+                           queryInfo.rangeBounds, &_meaningDictionary);
         result = ctxt.getResult<TmpIndexAccessor>(
             &_index, &dbQueryManger, mwsQuery->attrResultLimitMin,
             mwsQuery->attrResultMaxSize, mwsQuery->attrResultTotalReqNr);
