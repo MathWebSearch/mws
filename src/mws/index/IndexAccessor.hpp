@@ -89,7 +89,8 @@ class IndexAccessor {
     static Node* getNode(Index* index, const Iterator& it) {
         UNUSED(index);
         _Iterator _it = it.get();
-        memsector_long_off_t off;
+        memsector_long_off_t off = MEMSECTOR_OFF_NULL;
+
         switch (_it._node->type) {
         case INTERNAL_NODE:
             off = _it._node->data[_it._index].off;
@@ -108,14 +109,15 @@ class IndexAccessor {
     }
     static Node* getChild(Index* index, Node* node, encoded_token_t token) {
         UNUSED(index);
-        memsector_long_off_t off;
+        memsector_long_off_t off = MEMSECTOR_OFF_NULL;
+
         switch (node->type) {
         case INTERNAL_NODE:
             off = inode_get_child(node, token);
             break;
         case LONG_INTERNAL_NODE:
-            off =
-                inode_long_get_child(reinterpret_cast<LongNode*>(node), token);
+            off = inode_long_get_child(reinterpret_cast<LongNode*>(node),
+                                       token);
             break;
         default:
             assert(node->type == INTERNAL_NODE ||
@@ -126,6 +128,7 @@ class IndexAccessor {
         if (off == MEMSECTOR_OFF_NULL) {
             return nullptr;
         }
+
         return (Node*)memsector_relOff2addr((char*)node, off);
     }
     static uint64_t getFormulaId(Node* node) {
