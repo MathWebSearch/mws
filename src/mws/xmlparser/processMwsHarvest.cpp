@@ -133,9 +133,7 @@ struct MwsHarvest_SaxUserData {
 static inline int copyToCharBufCallback(void* vectorPtr, const char* buffer,
                                         int len) {
     vector<char>* vec = (vector<char>*)vectorPtr;
-    for (int i = 0; i < len; ++i) {
-        vec->push_back(buffer[i]);
-    }
+    vec->insert(vec->end(), buffer, buffer + len);
 
     return len;
 }
