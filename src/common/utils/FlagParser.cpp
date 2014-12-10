@@ -41,8 +41,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/FlagParser.hpp"  // FlagParser class declaration
 
-// Namespaces
-
+#include "build-gen/config.h"
 using namespace std;
 
 // Static declarations
@@ -79,9 +78,10 @@ int FlagParser::parse(const int argc, char* const argv[]) {
     const struct option zeroOpt = {nullptr, 0, nullptr, 0};
     int optIndex;
 
-    // Add help and verbose flags
+    // these default flags should always be present
     addFlag('h', "help", FLAG_OPT, ARG_NONE);
     addFlag('v', "verbose", FLAG_OPT, ARG_NONE);
+    addFlag('V', "version", FLAG_OPT, ARG_NONE);
 
     // Storing program name
     _progName = argv[0];
@@ -110,16 +110,19 @@ int FlagParser::parse(const int argc, char* const argv[]) {
 
     while ((ch = getopt_long(argc, argv, optString.c_str(), longOpts.data(),
                              &optIndex)) != -1) {
-        // Handle -h / --help
-        if (ch == 'h') {
-            fprintf(stdout, "%s", getUsage().c_str());
-            exit(EXIT_SUCCESS);
-        }
-
-        // Handle -v / --verbose
-        if (ch == 'v') {
-            fprintf(stdout, "%s: verbose mode\n", argv[0]);
-            verbose = true;
+        switch (ch) {
+            case 'h':
+                fprintf(stdout, "%s", getUsage().c_str());
+                exit(EXIT_SUCCESS);
+                break;
+            case 'v':
+                fprintf(stdout, "%s: verbose mode\n", argv[0]);
+                verbose = true;
+                break;
+            case 'V':
+                fprintf(stdout, "%s %s\n", MWS_NAME ,MWS_VERSION);
+                exit(EXIT_SUCCESS);
+                break;
         }
 
         // Record flags (and arguments)
