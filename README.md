@@ -70,6 +70,9 @@ The test target requires:
   - netcat
   - curl
 
+The config step requires:
+  - cmake-curses-gui
+
 Makefile targets
 ----------------
 * `all` builds all the binaries of the project and tests
