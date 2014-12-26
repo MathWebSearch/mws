@@ -31,25 +31,32 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 
-#include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
+#include "mws/index/MeaningDictionary.hpp"
+#include"mws/index/index.h"
+#include "mws/types/CmmlToken.hpp"
 
-#define DEFAULT_DEPTH 3;
+constexpr uint8_t DEFAULT_SCHEMA_DEPTH = 3;
 
-namespace mws { namespace query {
+namespace mws {
+namespace query {
 
-struct SchemaOptions {
-    uint8_t depth;
-    SchemaOptions() : depth(DEFAULT_DEPTH) {}
-};
+typedef std::vector<encoded_token_t> EncodedFormula;
 
 class SchemaEngine {
- public:
-    typedef std::vector<encoded_token_t> EncodedFormula;
-    SchemaEngine(std::vector<EncodedFormula> formulae, SchemaOptions opt = SchemaOptions());
+public:
+  explicit SchemaEngine(const index::MeaningDictionary* meaningDictionary);
+  std::vector<types::CmmlToken *>
+      getSchemata(const std::vector<EncodedFormula> &formulae,
+                  uint8_t depth = DEFAULT_SCHEMA_DEPTH);
+
+private:
+  const index::MeaningDictionary* _meaningDict;
+  EncodedFormula reduceFormula(EncodedFormula expr, uint8_t depth);
+  size_t completeExpression(EncodedFormula expr, size_t startExpr);
 };
 
-}  // namespace query
-}  // namespace mws
+} // namespace query
+} // namespace mws
 
 #endif //  _SEARCHCONTEXT_HPP
