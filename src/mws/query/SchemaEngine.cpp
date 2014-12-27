@@ -188,6 +188,7 @@ EncodedFormula unhashExpr(const std::string& exprHash) {
 
 CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr, uint8_t max_depth) {
     if (expr.size() == 0) return nullptr;
+    uint32_t qvar_count = 1;
     stack<uint32_t> unexplored;
     CmmlToken* currCmml = CmmlToken::newRoot();
     size_t currTok = 0;
@@ -198,6 +199,21 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr, uint8_t max_d
     while (currTok < expr.size()) {
 
     }
+}
+
+pair<string, string> SchemaEngine::decodeMeaning(const types::Meaning& meaning) {
+    size_t delim_pos = meaning.find('#');
+    if (delim_pos == string::npos) {
+        return {meaning, ""};
+    }
+
+    string tag = meaning.substr(0, delim_pos);
+    if (delim_pos + 1 == meaning.size()) {
+        return {tag, ""};
+    }
+
+    string text = meaning.substr(delim_pos + 1);
+    return {tag, text};
 }
 
 }  // namespace query

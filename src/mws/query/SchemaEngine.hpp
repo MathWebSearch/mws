@@ -31,6 +31,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 #include <string>
+#include <utility>
 
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/MeaningDictionary.hpp"
@@ -54,11 +55,13 @@ public:
 
 private:
   const index::MeaningDictionary::ReverseLookupTable _lookupTable;
+
   EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth);
   size_t completeExpression(const EncodedFormula& expr, size_t startExpr);
   std::string hashExpr(const EncodedFormula& expr);
   EncodedFormula unhashExpr(const std::string& exprHash);
   types::CmmlToken* decodeFormula(const EncodedFormula& expr);
+  std::pair decodeMeaning(const types::Meaning& meaning);
 };
 
 } // namespace query
