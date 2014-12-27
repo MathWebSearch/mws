@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010-2014 KWARC Group <kwarc.info>
+Copyright (C) 2010-2015 KWARC Group <kwarc.info>
 
 This file is part of MathWebSearch.
 
@@ -30,6 +30,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <vector>
+#include <string>
 
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/MeaningDictionary.hpp"
@@ -48,12 +49,16 @@ public:
   explicit SchemaEngine(const index::MeaningDictionary* meaningDictionary);
   std::vector<types::CmmlToken *>
       getSchemata(const std::vector<EncodedFormula> &formulae,
+                  uint32_t max_total,
                   uint8_t depth = DEFAULT_SCHEMA_DEPTH);
 
 private:
-  const index::MeaningDictionary* _meaningDict;
-  EncodedFormula reduceFormula(EncodedFormula expr, uint8_t depth);
-  size_t completeExpression(EncodedFormula expr, size_t startExpr);
+  const index::MeaningDictionary::ReverseLookupTable _lookupTable;
+  EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth);
+  size_t completeExpression(const EncodedFormula& expr, size_t startExpr);
+  std::string hashExpr(const EncodedFormula& expr);
+  EncodedFormula unhashExpr(const std::string& exprHash);
+  types::CmmlToken* decodeFormula(const EncodedFormula& expr);
 };
 
 } // namespace query
