@@ -136,10 +136,8 @@ size_t SchemaEngine::completeExpression(const EncodedFormula& expr,
                                         size_t startExpr) {
     stack<uint32_t> unexplored;
     size_t currTok = startExpr;
-    unexplored.push(expr[currTok].arity);
-    currTok++;
 
-    while (!unexplored.empty()) {
+    do {
         uint32_t ary = expr[currTok].arity;
         if (ary != 0) {
             unexplored.push(ary);
@@ -152,7 +150,7 @@ size_t SchemaEngine::completeExpression(const EncodedFormula& expr,
             }
         }
         currTok++;
-    }
+    } while (!unexplored.empty());
 
     return currTok;
 }
