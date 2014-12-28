@@ -91,14 +91,16 @@ EncodedFormula SchemaEngine::reduceFormula(const EncodedFormula& expr,
                                            uint8_t max_depth) {
     EncodedFormula reducedExpr;
     if (expr.empty()) return {};
+    if (max_depth == 0) return {};
 
     stack<uint32_t> unexplored;
     size_t currToken = 0;
+    reducedExpr.push_back(expr[currToken]);
     unexplored.push(expr[currToken].arity);
     currToken++;
 
     while (currToken < expr.size()) {
-        if (unexplored.size() > max_depth) {
+        if (unexplored.size() >= max_depth) {
             uint32_t exprToComplete = unexplored.top();
             unexplored.pop();
             for (size_t i = 1; i <= exprToComplete; i++) {
@@ -166,7 +168,7 @@ string SchemaEngine::hashExpr(const EncodedFormula& expr) {
     return serial.str();
 }
 
-EncodedFormula unhashExpr(const std::string& exprHash) {
+EncodedFormula SchemaEngine::unhashExpr(const std::string& exprHash) {
     istringstream serial(exprHash);
     EncodedFormula expr;
 
@@ -186,7 +188,12 @@ EncodedFormula unhashExpr(const std::string& exprHash) {
 
 CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
                                        uint8_t max_depth) {
-    if (expr.size() == 0) return nullptr;
+    if (expr.size() == 0) {
+        CmmlToken* unifZero = CmmlToken::newRoot();
+        unifZero->setTag(types::QVAR_TAG);
+        unifZero->appendTextContent("x0");
+        return unifZero;
+    }
 
     stack<uint32_t> unexplored;
     CmmlToken* currCmml = CmmlToken::newRoot();
@@ -199,7 +206,7 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
 
     uint32_t qvar_count = 1;
     while (currTok < expr.size()) {
-        if (unexplored.size() > max_depth) {
+        if (unexplored.size() >= max_depth) {
             uint32_t anonExprs = unexplored.top();
             unexplored.pop();
             for (size_t i = 1; i <= anonExprs; i++) {

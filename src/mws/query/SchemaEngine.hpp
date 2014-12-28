@@ -35,8 +35,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/MeaningDictionary.hpp"
-#include"mws/index/index.h"
+#include "mws/index/index.h"
 #include "mws/types/CmmlToken.hpp"
+#include "common/utils/util.hpp"
 
 namespace mws {
 namespace query {
@@ -61,7 +62,9 @@ class SchemaEngine {
     std::string hashExpr(const EncodedFormula& expr);
     EncodedFormula unhashExpr(const std::string& exprHash);
     types::CmmlToken* decodeFormula(const EncodedFormula& expr, uint8_t depth);
-    std::pair<string, string> decodeMeaning(const types::Meaning& meaning);
+    std::pair<std::string, std::string> decodeMeaning(
+            const types::Meaning& meaning);
+    ALLOW_TESTER_ACCESS;
 };
 
 }  // namespace query
