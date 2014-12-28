@@ -51,15 +51,14 @@ using mws::types::Meaning;
 
 namespace mws {
 namespace query {
-SchemaEngine::SchemaEngine(const MeaningDictionary* meaningDictionary) {
-    _lookupTable = meaningDictionary->getReverseLookupTable();
-}
+SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary) :
+    _lookupTable(meaningDictionary.getReverseLookupTable()) {}
 
 vector<CmmlToken *>
 SchemaEngine::getSchemata(const vector<EncodedFormula> &formulae,
                           uint32_t max_total, uint8_t depth) {
     unordered_map<string, int> exprCount;
-    for (EncodedFormula& expr : formulae) {
+    for (const EncodedFormula& expr : formulae) {
         string hash = hashExpr(reduceFormula(expr, depth));
         auto it = exprCount.find(hash);
         if (it != exprCount.end()) {
@@ -161,7 +160,7 @@ string SchemaEngine::hashExpr(const EncodedFormula& expr) {
     ostringstream serial;
     serial << expr.size();
 
-    for (encoded_token_t& tok : expr) {
+    for (const encoded_token_t& tok : expr) {
         serial << tok.id << " " << tok.arity;
     }
 
@@ -176,7 +175,7 @@ EncodedFormula unhashExpr(const std::string& exprHash) {
     serial >> exprSize;
     expr.reserve(exprSize);
 
-    for (int i = 0; i < exprSize; i++) {
+    for (size_t i = 0; i < exprSize; i++) {
         uint32_t id;
         uint32_t arity;
         serial >> id >> arity;

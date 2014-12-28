@@ -48,7 +48,7 @@ typedef std::vector<encoded_token_t> EncodedFormula;
 
 class SchemaEngine {
 public:
-  explicit SchemaEngine(const index::MeaningDictionary* meaningDictionary);
+  explicit SchemaEngine(const index::MeaningDictionary& meaningDictionary);
   std::vector<types::CmmlToken *>
       getSchemata(const std::vector<EncodedFormula> &formulae,
                   uint32_t max_total,
@@ -61,8 +61,8 @@ private:
   size_t completeExpression(const EncodedFormula& expr, size_t startExpr);
   std::string hashExpr(const EncodedFormula& expr);
   EncodedFormula unhashExpr(const std::string& exprHash);
-  types::CmmlToken* decodeFormula(const EncodedFormula& expr);
-  std::pair decodeMeaning(const types::Meaning& meaning);
+  types::CmmlToken* decodeFormula(const EncodedFormula& expr, uint8_t depth);
+  std::pair<string, string> decodeMeaning(const types::Meaning& meaning);
 };
 
 } // namespace query

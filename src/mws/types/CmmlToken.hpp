@@ -42,6 +42,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace types {
 
+class CmmlToken;
+
+typedef std::string Meaning;
+typedef std::function<void(const CmmlToken* token)> TokenCallback;
+
 constexpr char QVAR_TAG[] = "mws:qvar";
 constexpr char VAR_NAME_ATTR[] = "name";
 const Meaning QVAR_MEANING = "mws:qvar";
@@ -51,11 +56,6 @@ constexpr char RANGE_LOW_ATTR[] = "low";
 constexpr char RANGE_HIGH_ATTR[] = "high";
 
 constexpr char ROOT_XPATH_SELECTOR[] = "/*[1]";
-
-class CmmlToken;
-
-typedef std::string Meaning;
-typedef std::function<void(const CmmlToken* token)> TokenCallback;
 
 /**
   * @brief Class encapsulating the properties of a ContentMathML Token
