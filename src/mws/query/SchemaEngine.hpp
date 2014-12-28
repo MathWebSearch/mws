@@ -47,25 +47,24 @@ constexpr char DEFAULT_QVAR_PREFIX[] = "x";
 typedef std::vector<encoded_token_t> EncodedFormula;
 
 class SchemaEngine {
-public:
-  explicit SchemaEngine(const index::MeaningDictionary& meaningDictionary);
-  std::vector<types::CmmlToken *>
-      getSchemata(const std::vector<EncodedFormula> &formulae,
-                  uint32_t max_total,
-                  uint8_t depth = DEFAULT_SCHEMA_DEPTH);
+ public:
+    explicit SchemaEngine(const index::MeaningDictionary& meaningDictionary);
+    std::vector<types::CmmlToken*> getSchemata(
+        const std::vector<EncodedFormula>& formulae, uint32_t max_total,
+        uint8_t depth = DEFAULT_SCHEMA_DEPTH);
 
-private:
-  const index::MeaningDictionary::ReverseLookupTable _lookupTable;
+ private:
+    const index::MeaningDictionary::ReverseLookupTable _lookupTable;
 
-  EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth);
-  size_t completeExpression(const EncodedFormula& expr, size_t startExpr);
-  std::string hashExpr(const EncodedFormula& expr);
-  EncodedFormula unhashExpr(const std::string& exprHash);
-  types::CmmlToken* decodeFormula(const EncodedFormula& expr, uint8_t depth);
-  std::pair<string, string> decodeMeaning(const types::Meaning& meaning);
+    EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth);
+    size_t completeExpression(const EncodedFormula& expr, size_t startExpr);
+    std::string hashExpr(const EncodedFormula& expr);
+    EncodedFormula unhashExpr(const std::string& exprHash);
+    types::CmmlToken* decodeFormula(const EncodedFormula& expr, uint8_t depth);
+    std::pair<string, string> decodeMeaning(const types::Meaning& meaning);
 };
 
-} // namespace query
-} // namespace mws
+}  // namespace query
+}  // namespace mws
 
-#endif //  _SEARCHCONTEXT_HPP
+#endif  // _SEARCHCONTEXT_HPP

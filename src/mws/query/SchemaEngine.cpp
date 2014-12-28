@@ -51,12 +51,11 @@ using mws::types::Meaning;
 
 namespace mws {
 namespace query {
-SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary) :
-    _lookupTable(meaningDictionary.getReverseLookupTable()) {}
+SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary)
+    : _lookupTable(meaningDictionary.getReverseLookupTable()) {}
 
-vector<CmmlToken *>
-SchemaEngine::getSchemata(const vector<EncodedFormula> &formulae,
-                          uint32_t max_total, uint8_t depth) {
+vector<CmmlToken*> SchemaEngine::getSchemata(
+    const vector<EncodedFormula>& formulae, uint32_t max_total, uint8_t depth) {
     unordered_map<string, int> exprCount;
     for (const EncodedFormula& expr : formulae) {
         string hash = hashExpr(reduceFormula(expr, depth));
@@ -70,7 +69,7 @@ SchemaEngine::getSchemata(const vector<EncodedFormula> &formulae,
 
     vector<pair<string, int>> topExpr(exprCount.begin(), exprCount.end());
     std::sort(topExpr.begin(), topExpr.end(),
-              [](const pair<string, int>& p1, const pair<string, int>& p2) {
+              [](const pair<string, int> & p1, const pair<string, int> & p2) {
         return p1.second < p2.second;
     });
 
@@ -108,7 +107,7 @@ EncodedFormula SchemaEngine::reduceFormula(const EncodedFormula& expr,
             uint32_t parentExpr = 0;
             while (!unexplored.empty() && (parentExpr == 0)) {
                 parentExpr = unexplored.top() - 1;
-                unexplored.pop() ;
+                unexplored.pop();
                 if (parentExpr != 0) unexplored.push(parentExpr);
             }
         } else {
@@ -120,7 +119,7 @@ EncodedFormula SchemaEngine::reduceFormula(const EncodedFormula& expr,
                 uint32_t parentExpr = 0;
                 while (!unexplored.empty() && (parentExpr == 0)) {
                     parentExpr = unexplored.top() - 1;
-                    unexplored.pop() ;
+                    unexplored.pop();
                     if (parentExpr != 0) unexplored.push(parentExpr);
                 }
             }
@@ -146,7 +145,7 @@ size_t SchemaEngine::completeExpression(const EncodedFormula& expr,
             uint32_t parentExpr = 0;
             while (!unexplored.empty() && (parentExpr == 0)) {
                 parentExpr = unexplored.top() - 1;
-                unexplored.pop() ;
+                unexplored.pop();
                 if (parentExpr != 0) unexplored.push(parentExpr);
             }
         }
@@ -185,7 +184,8 @@ EncodedFormula unhashExpr(const std::string& exprHash) {
     return expr;
 }
 
-CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr, uint8_t max_depth) {
+CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
+                                       uint8_t max_depth) {
     if (expr.size() == 0) return nullptr;
 
     stack<uint32_t> unexplored;
@@ -212,7 +212,7 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr, uint8_t max_d
             uint32_t parentExpr = 0;
             while (!unexplored.empty() && (parentExpr == 0)) {
                 parentExpr = unexplored.top() - 1;
-                unexplored.pop() ;
+                unexplored.pop();
                 currCmml = currCmml->getParentNode();
                 if (parentExpr != 0) unexplored.push(parentExpr);
             }
@@ -230,7 +230,7 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr, uint8_t max_d
                 uint32_t parentExpr = 0;
                 while (!unexplored.empty() && (parentExpr == 0)) {
                     parentExpr = unexplored.top() - 1;
-                    unexplored.pop() ;
+                    unexplored.pop();
                     currCmml = currCmml->getParentNode();
                     if (parentExpr != 0) unexplored.push(parentExpr);
                 }
@@ -242,7 +242,8 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr, uint8_t max_d
     return currCmml;
 }
 
-pair<string, string> SchemaEngine::decodeMeaning(const types::Meaning& meaning) {
+pair<string, string> SchemaEngine::decodeMeaning(
+    const types::Meaning& meaning) {
     size_t delim_pos = meaning.find('#');
     if (delim_pos == string::npos) {
         return {meaning, ""};
