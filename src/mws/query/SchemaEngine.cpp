@@ -188,17 +188,59 @@ EncodedFormula unhashExpr(const std::string& exprHash) {
 
 CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr, uint8_t max_depth) {
     if (expr.size() == 0) return nullptr;
-    uint32_t qvar_count = 1;
+
     stack<uint32_t> unexplored;
     CmmlToken* currCmml = CmmlToken::newRoot();
     size_t currTok = 0;
-    Meaning meaning = _lookupTable.get(expr[currTok].id);
+    auto meaning = decodeMeaning(_lookupTable.get(expr[currTok].id));
+    currCmml->setTag(meaning.first);
+    currCmml->appendTextContent(meaning.second);
     unexplored.push(expr[currTok].arity);
     currTok++;
 
+    uint32_t qvar_count = 1;
     while (currTok < expr.size()) {
+        if (unexplored.size() > max_depth) {
+            uint32_t anonExprs = unexplored.top();
+            unexplored.pop();
+            for (size_t i = 1; i <= anonExprs; i++) {
+                auto qvar = currCmml->newChildNode();
+                qvar->setTag(types::QVAR_TAG);
+                qvar->appendTextContent(DEFAULT_QVAR_PREFIX +
+                                        std::to_string(qvar_count));
+                qvar_count++;
+            }
+            uint32_t parentExpr = 0;
+            while (!unexplored.empty() && (parentExpr == 0)) {
+                parentExpr = unexplored.top() - 1;
+                unexplored.pop() ;
+                currCmml = currCmml->getParentNode();
+                if (parentExpr != 0) unexplored.push(parentExpr);
+            }
+            currTok++;
+        } else {
+            currCmml = currCmml->newChildNode();
+            meaning = decodeMeaning(_lookupTable.get(expr[currTok].id));
+            currCmml->setTag(meaning.first);
+            currCmml->appendTextContent(meaning.second);
 
+            uint32_t ary = expr[currTok].arity;
+            if (ary != 0) {
+                unexplored.push(ary);
+            } else {
+                uint32_t parentExpr = 0;
+                while (!unexplored.empty() && (parentExpr == 0)) {
+                    parentExpr = unexplored.top() - 1;
+                    unexplored.pop() ;
+                    currCmml = currCmml->getParentNode();
+                    if (parentExpr != 0) unexplored.push(parentExpr);
+                }
+            }
+            currTok++;
+        }
     }
+
+    return currCmml;
 }
 
 pair<string, string> SchemaEngine::decodeMeaning(const types::Meaning& meaning) {

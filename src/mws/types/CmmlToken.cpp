@@ -49,18 +49,6 @@ using std::numeric_limits;
 namespace mws {
 namespace types {
 
-constexpr char QVAR_TAG[] = "mws:qvar";
-constexpr char VAR_NAME_ATTR[] = "name";
-const Meaning QVAR_MEANING = "mws:qvar";
-
-constexpr char RANGE_TAG[] = "mws:range";
-constexpr char RANGE_LOW_ATTR[] = "low";
-constexpr char RANGE_HIGH_ATTR[] = "high";
-
-
-constexpr char ROOT_XPATH_SELECTOR[] = "/*[1]";
-
-
 CmmlToken::CmmlToken()
     : _tag(""),
       _textContent(""),

@@ -38,10 +38,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include"mws/index/index.h"
 #include "mws/types/CmmlToken.hpp"
 
-constexpr uint8_t DEFAULT_SCHEMA_DEPTH = 3;
-
 namespace mws {
 namespace query {
+
+constexpr uint8_t DEFAULT_SCHEMA_DEPTH = 3;
+constexpr char DEFAULT_QVAR_PREFIX[] = "x";
 
 typedef std::vector<encoded_token_t> EncodedFormula;
 
