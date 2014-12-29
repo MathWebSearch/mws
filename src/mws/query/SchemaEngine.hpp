@@ -44,6 +44,7 @@ namespace query {
 
 constexpr uint8_t DEFAULT_SCHEMA_DEPTH = 3;
 constexpr char DEFAULT_QVAR_PREFIX[] = "x";
+constexpr uint32_t RETRIEVE_ALL = 0;
 
 typedef std::vector<encoded_token_t> EncodedFormula;
 
@@ -55,7 +56,7 @@ class SchemaEngine {
         uint8_t depth = DEFAULT_SCHEMA_DEPTH);
 
  private:
-    const index::MeaningDictionary::ReverseLookupTable _lookupTable;
+    const index::ExpressionDecoder decoder;
 
     EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth);
     size_t completeExpression(const EncodedFormula& expr, size_t startExpr);

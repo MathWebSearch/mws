@@ -28,13 +28,19 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __MWS_QUERY_SCHEMA_ENGINE_TESTER_H
 #define __MWS_QUERY_SCHEMA_ENGINE_TESTER_H
 
+#include <vector>
+using std::vector;
+
+#include "common/utils/compiler_defs.h"
+#include "mws/index/encoded_token.h"
+#include "mws/types/CmmlToken.hpp"
+using mws::types::CmmlToken;
 #include "mws/index/MeaningDictionary.hpp"
 using mws::index::MeaningDictionary;
 #include "mws/query/SchemaEngine.hpp"
 using mws::query::SchemaEngine;
 using mws::query::EncodedFormula;
-#include "common/utils/compiler_defs.h"
-#include "mws/index/encoded_token.h"
+using mws::query::RETRIEVE_ALL;
 
 uint32_t g_meaning_dict_val_off = 1;
 MeaningId constantId = CONSTANT_ID_MIN + g_meaning_dict_val_off;
@@ -69,11 +75,26 @@ struct Tester {
         for (size_t i = 0; i < result.size(); i++) {
             encoded_token_t expected = expectedExpr[i];
             encoded_token_t returned = result[i];
-            if (expected.id != returned.id || expected.arity != returned.arity) {
+            if (expected.id != returned.id ||
+                    expected.arity != returned.arity) {
                 return EXIT_FAILURE;
             }
         }
 
+        return EXIT_SUCCESS;
+    }
+
+    static inline int test_expr_hashing(const vector<EncodedFormula>& exprs,
+                                        size_t expected, uint8_t depth) {
+        MeaningDictionary dict = get_meaning_dict();
+        SchemaEngine schEng(dict);
+        vector<CmmlToken*> schemata = schEng.getSchemata(exprs, RETRIEVE_ALL,
+                                                         depth);
+        size_t nrSch = schemata.size();
+        for (auto& rootTok : schemata) {
+            free(rootTok);
+        }
+        if (nrSch != expected) return EXIT_FAILURE;
         return EXIT_SUCCESS;
     }
 };

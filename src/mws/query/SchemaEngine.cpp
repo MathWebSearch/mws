@@ -52,10 +52,10 @@ using mws::types::Meaning;
 namespace mws {
 namespace query {
 SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary)
-    : _lookupTable(meaningDictionary.getReverseLookupTable()) {}
+    : decoder(meaningDictionary) {}
 
 vector<CmmlToken*> SchemaEngine::getSchemata(
-    const vector<EncodedFormula>& formulae, uint32_t max_total, uint8_t depth) {
+        const vector<EncodedFormula>& formulae, uint32_t max_total, uint8_t depth) {
     unordered_map<string, int> exprCount;
     for (const EncodedFormula& expr : formulae) {
         string hash = hashExpr(reduceFormula(expr, depth));
@@ -73,12 +73,13 @@ vector<CmmlToken*> SchemaEngine::getSchemata(
         return p1.second < p2.second;
     });
 
-    if (max_total < topExpr.size()) {
+    // By convention, max_total=0  means "retrieve all schemata"
+    if (topExpr.size() > max_total && max_total != 0) {
         topExpr.resize(max_total);
     }
 
     vector<CmmlToken*> schemata;
-    schemata.resize(topExpr.size());
+    schemata.reserve(topExpr.size());
     for (auto& p : topExpr) {
         EncodedFormula e = unhashExpr(p.first);
         schemata.push_back(decodeFormula(e, depth));
@@ -160,7 +161,7 @@ string SchemaEngine::hashExpr(const EncodedFormula& expr) {
     serial << expr.size();
 
     for (const encoded_token_t& tok : expr) {
-        serial << tok.id << " " << tok.arity;
+        serial << " " << tok.id << " " << tok.arity;
     }
 
     return serial.str();
@@ -196,14 +197,19 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
     stack<uint32_t> unexplored;
     CmmlToken* currCmml = CmmlToken::newRoot();
     size_t currTok = 0;
-    auto meaning = decodeMeaning(_lookupTable.get(expr[currTok].id));
+    auto meaning = decodeMeaning(decoder.getMeaning(expr[currTok].id));
     currCmml->setTag(meaning.first);
     currCmml->appendTextContent(meaning.second);
     unexplored.push(expr[currTok].arity);
     currTok++;
 
+    // Corner case when the query consists of a single token with arity 0 */
+    if (unexplored.top() == 0) {
+        return currCmml;
+    }
+
     uint32_t qvar_count = 1;
-    while (currTok < expr.size()) {
+    do {
         if (unexplored.size() >= max_depth) {
             uint32_t anonExprs = unexplored.top();
             unexplored.pop();
@@ -221,11 +227,10 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
                 currCmml = currCmml->getParentNode();
                 if (parentExpr != 0) unexplored.push(parentExpr);
             }
-            currTok++;
         } else {
             currCmml = currCmml->newChildNode();
-            meaning = decodeMeaning(_lookupTable.get(expr[currTok].id));
-            currCmml->setTag(meaning.first);
+            meaning = decodeMeaning(decoder.getMeaning(expr[currTok].id));
+            currCmml->setTag("m:" + meaning.first);
             currCmml->appendTextContent(meaning.second);
 
             uint32_t ary = expr[currTok].arity;
@@ -242,13 +247,13 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
             }
             currTok++;
         }
-    }
+    } while (currTok < expr.size());
 
     return currCmml;
 }
 
 pair<string, string> SchemaEngine::decodeMeaning(
-    const types::Meaning& meaning) {
+        const types::Meaning& meaning) {
     size_t delim_pos = meaning.find('#');
     if (delim_pos == string::npos) {
         return {meaning, ""};
