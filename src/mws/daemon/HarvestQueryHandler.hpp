@@ -43,7 +43,7 @@ class HarvestQueryHandler: public QueryHandler {
     explicit HarvestQueryHandler(const index::HarvesterConfiguration& config);
     ~HarvestQueryHandler();
 
-    MwsAnswset* handleQuery(types::Query* query);
+    GenericAnswer* handleQuery(types::Query* query);
 
  private:
     index::MeaningDictionary _meaningDictionary;

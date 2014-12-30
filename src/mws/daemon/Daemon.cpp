@@ -46,7 +46,7 @@ using common::utils::formattedString;
 using mws::types::Query;
 #include "mws/xmlparser/readMwsQuery.hpp"
 using mws::xmlparser::readMwsQuery;
-#include "mws/daemon/GenericResponses.hpp"
+#include "mws/daemon/GenericHttpResponses.hpp"
 #include "mws/daemon/microhttpd_linux.h"
 #include "mws/daemon/Daemon.hpp"
 
@@ -207,7 +207,7 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
     mwsQuery->applyRestrictions();
 #endif
     QueryHandler* qh = reinterpret_cast<QueryHandler*>(cls);
-    unique_ptr<MwsAnswset> answset(qh->handleQuery(mwsQuery.get()));
+    unique_ptr<GenericAnswer> answset(qh->handleQuery(mwsQuery.get()));
     if (answset == nullptr) {
         PRINT_WARN("Error while obtaining answer set\n");
         return sendXmlGenericResponse(connection, XML_MWS_SERVER_ERROR,
@@ -216,7 +216,7 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
 
     // Write answer
     MemStream responseData;
-    int ret = mwsQuery->responseFormatter->writeData(*answset,
+    int ret = mwsQuery->responseFormatter->writeData(answset.get(),
                                                      responseData.getInput());
     if (ret < 0) {
         PRINT_WARN("Error while writing the Answer Set\n");

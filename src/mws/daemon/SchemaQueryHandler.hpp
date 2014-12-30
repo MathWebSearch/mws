@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+Copyright (C) 2010-2014 KWARC Group <kwarc.info>
 
 This file is part of MathWebSearch.
 
@@ -18,22 +18,39 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_DAEMON_QUERYHANDLER_HPP
-#define _MWS_DAEMON_QUERYHANDLER_HPP
+#ifndef _MWS_DAEMON_SCHEMAQUERYHANDLER_HPP
+#define _MWS_DAEMON_SCHEMAQUERYHANDLER_HPP
 
-#include "mws/types/Query.hpp"
+/**
+  * @author Radu Hambasan
+  * @date 30 Dec 2014
+  */
+
+#include "mws/daemon/QueryHandler.hpp"
+#include "mws/index/ExpressionEncoder.hpp"
+using mws::index::ExpressionEncoder;
+#include "mws/query/SchemaEngine.hpp"
 #include "mws/types/GenericAnswer.hpp"
 
 namespace mws {
 namespace daemon {
 
-class QueryHandler {
+class SchemaQueryHandler : public QueryHandler {
  public:
-    virtual ~QueryHandler() {}
-    virtual GenericAnswer* handleQuery(types::Query* query) = 0;
+    SchemaQueryHandler(const ExpressionEncoder::Config& encodingConfig =
+            ExpressionEncoder::Config());
+
+    ~SchemaQueryHandler();
+
+    GenericAnswer* handleQuery(types::Query* query);
+
+ private:
+    index::ExpressionEncoder::Config _encodingConfig;
+
+    DISALLOW_COPY_AND_ASSIGN(SchemaQueryHandler);
 };
 
 }  // namespace daemon
 }  // namespace mws
 
-#endif  // _MWS_DAEMON_QUERYHANDLER_HPP
+#endif  // _MWS_DAEMON_SCHEMAQUERYHANDLER_HPP

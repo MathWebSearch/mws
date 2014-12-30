@@ -117,7 +117,7 @@ static result_cb_return_t result_callback(void* _ctxt, const leaf_t* leaf) {
     return QUERY_CONTINUE;
 }
 
-MwsAnswset* IndexQueryHandler::handleQuery(Query* query) {
+GenericAnswer* IndexQueryHandler::handleQuery(Query* query) {
     MwsAnswset* result;
     QueryEncoder encoder(_index.getMeaningDictionary());
     vector<encoded_token_t> encodedQuery;

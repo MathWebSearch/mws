@@ -1,0 +1,3354 @@
+<?xml version="1.0" ?>
+<mws:query
+    xmlns:m="http://www.w3.org/1998/Math/MathML"
+    xmlns:mws="http://search.mathweb.org/ns"
+    output="schema">
+<mws:expr url="#m1.1" mws:data_id="0">
+<apply xml:id="m1.1.3.cmml">
+  <times xml:id="m1.1.3.1.cmml"/>
+  <ci xml:id="m1.1.1.cmml">G</ci>
+  <ci xml:id="m1.1.2.cmml">L</ci>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="0">
+<apply xml:id="m2.1.3.cmml">
+  <times xml:id="m2.1.3.1.cmml"/>
+  <ci xml:id="m2.1.1.cmml">G</ci>
+  <ci xml:id="m2.1.2.cmml">L</ci>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="0">
+<ci xml:id="m3.1.1.cmml">X</ci></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="0">
+<ci xml:id="m4.1.1.cmml">L</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="0">
+<ci xml:id="m5.1.1.cmml">X</ci></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="0">
+<ci xml:id="m6.1.1.cmml">L</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="0">
+<apply xml:id="m7.1.6.cmml">
+  <interval closure="closed" xml:id="m7.1.6.1.cmml"/>
+  <cn type="integer" xml:id="m7.1.2.cmml">0</cn>
+  <ci xml:id="m7.1.4.cmml">c</ci>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="0">
+<apply xml:id="m8.1.6.cmml">
+  <interval closure="closed" xml:id="m8.1.6.1.cmml"/>
+  <cn type="integer" xml:id="m8.1.2.cmml">0</cn>
+  <ci xml:id="m8.1.4.cmml">c</ci>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="0">
+<ci xml:id="m9.1.1.cmml">X</ci></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="0">
+<apply xml:id="m10.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m10.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m10.1.1.cmml">I</ci>
+  <ci xml:id="m10.1.2.1.cmml">X</ci>
+</apply></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="0">
+<ci xml:id="m11.1.1.cmml">c</ci></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="2">
+<apply xml:id="m1.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m1.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m1.1.1.cmml">L</ci>
+  <ci xml:id="m1.1.2.1.cmml">p</ci>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="2">
+<apply xml:id="m2.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m2.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m2.1.1.cmml">L</ci>
+  <ci xml:id="m2.1.2.1.cmml">p</ci>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="3">
+<apply xml:id="m1.1.4.cmml">
+  <geq xml:id="m1.1.2.cmml"/>
+  <ci xml:id="m1.1.1.cmml">p</ci>
+  <cn type="integer" xml:id="m1.1.3.cmml">3</cn>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex1.m1.1" mws:data_id="3">
+<apply xml:id="S0.Ex1.m1.1.20.cmml">
+  <eq xml:id="S0.Ex1.m1.1.7.cmml"/>
+  <apply xml:id="S0.Ex1.m1.1.20.1.cmml">
+    <times xml:id="S0.Ex1.m1.1.20.1.1.cmml"/>
+    <ci xml:id="S0.Ex1.m1.1.1.cmml">K</ci>
+    <apply xml:id="S0.Ex1.m1.1.20.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.20.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="S0.Ex1.m1.1.2.cmml">l</ci>
+      <ci xml:id="S0.Ex1.m1.1.3.1.cmml">m</ci>
+    </apply>
+    <ci xml:id="S0.Ex1.m1.1.5.cmml">p</ci>
+  </apply>
+  <apply xml:id="S0.Ex1.m1.1.20.2.cmml">
+    <apply xml:id="S0.Ex1.m1.1.20.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.20.2.1.1.cmml">superscript</csymbol>
+      <apply xml:id="S0.Ex1.m1.1.20.2.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.20.2.1.2.1.cmml">subscript</csymbol>
+        <sum xml:id="S0.Ex1.m1.1.8.cmml"/>
+        <apply xml:id="S0.Ex1.m1.1.9.1.cmml">
+          <eq xml:id="S0.Ex1.m1.1.9.1.3.cmml"/>
+          <apply xml:id="S0.Ex1.m1.1.9.1.5.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.9.1.5.1.cmml">subscript</csymbol>
+            <ci xml:id="S0.Ex1.m1.1.9.1.1.cmml">d</ci>
+            <cn type="integer" xml:id="S0.Ex1.m1.1.9.1.2.1.cmml">1</cn>
+          </apply>
+          <cn type="integer" xml:id="S0.Ex1.m1.1.9.1.4.cmml">1</cn>
+        </apply>
+      </apply>
+      <apply xml:id="S0.Ex1.m1.1.10.1.cmml">
+        <minus xml:id="S0.Ex1.m1.1.10.1.2.cmml"/>
+        <ci xml:id="S0.Ex1.m1.1.10.1.1.cmml">p</ci>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.10.1.3.cmml">1</cn>
+      </apply>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.20.2.2.cmml">
+      <times xml:id="S0.Ex1.m1.1.20.2.2.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.11.cmml">normal-⋯</ci>
+      <apply xml:id="S0.Ex1.m1.1.20.2.2.2.cmml">
+        <apply xml:id="S0.Ex1.m1.1.20.2.2.2.1.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.20.2.2.2.1.1.cmml">superscript</csymbol>
+          <apply xml:id="S0.Ex1.m1.1.20.2.2.2.1.2.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.20.2.2.2.1.2.1.cmml">subscript</csymbol>
+            <sum xml:id="S0.Ex1.m1.1.12.cmml"/>
+            <apply xml:id="S0.Ex1.m1.1.13.1.cmml">
+              <eq xml:id="S0.Ex1.m1.1.13.1.3.cmml"/>
+              <apply xml:id="S0.Ex1.m1.1.13.1.5.cmml">
+                <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.13.1.5.1.cmml">subscript</csymbol>
+                <ci xml:id="S0.Ex1.m1.1.13.1.1.cmml">d</ci>
+                <ci xml:id="S0.Ex1.m1.1.13.1.2.1.cmml">m</ci>
+              </apply>
+              <cn type="integer" xml:id="S0.Ex1.m1.1.13.1.4.cmml">1</cn>
+            </apply>
+          </apply>
+          <apply xml:id="S0.Ex1.m1.1.14.1.cmml">
+            <minus xml:id="S0.Ex1.m1.1.14.1.2.cmml"/>
+            <ci xml:id="S0.Ex1.m1.1.14.1.1.cmml">p</ci>
+            <cn type="integer" xml:id="S0.Ex1.m1.1.14.1.3.cmml">1</cn>
+          </apply>
+        </apply>
+        <apply xml:id="S0.Ex1.m1.1.20.2.2.2.2.cmml">
+          <times xml:id="S0.Ex1.m1.1.20.2.2.2.2.1.cmml"/>
+          <ci xml:id="S0.Ex1.m1.1.15.cmml">e</ci>
+          <apply xml:id="S0.Ex1.m1.1.17.cmml">
+            <divide xml:id="S0.Ex1.m1.1.17.1.cmml"/>
+            <apply xml:id="S0.Ex1.m1.1.17.2.cmml">
+              <plus xml:id="S0.Ex1.m1.1.17.2.3.cmml"/>
+              <apply xml:id="S0.Ex1.m1.1.17.2.10.cmml">
+                <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.17.2.10.1.cmml">subscript</csymbol>
+                <ci xml:id="S0.Ex1.m1.1.17.2.1.cmml">d</ci>
+                <cn type="integer" xml:id="S0.Ex1.m1.1.17.2.2.1.cmml">1</cn>
+              </apply>
+              <ci xml:id="S0.Ex1.m1.1.17.2.4.cmml">normal-⋯</ci>
+              <apply xml:id="S0.Ex1.m1.1.17.2.11.cmml">
+                <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.17.2.11.1.cmml">subscript</csymbol>
+                <ci xml:id="S0.Ex1.m1.1.17.2.6.cmml">d</ci>
+                <ci xml:id="S0.Ex1.m1.1.17.2.7.1.cmml">m</ci>
+              </apply>
+              <apply xml:id="S0.Ex1.m1.1.17.2.9.cmml">
+                <ci xml:id="S0.Ex1.m1.1.17.2.9.1.cmml">normal-¯</ci>
+                <apply xml:id="S0.Ex1.m1.1.17.2.9.2.cmml">
+                  <times xml:id="S0.Ex1.m1.1.17.2.9.2.6.cmml"/>
+                  <apply xml:id="S0.Ex1.m1.1.17.2.9.2.7.cmml">
+                    <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.17.2.9.2.7.1.cmml">subscript</csymbol>
+                    <ci xml:id="S0.Ex1.m1.1.17.2.9.2.1.cmml">d</ci>
+                    <cn type="integer" xml:id="S0.Ex1.m1.1.17.2.9.2.2.1.cmml">1</cn>
+                  </apply>
+                  <ci xml:id="S0.Ex1.m1.1.17.2.9.2.3.cmml">normal-⋯</ci>
+                  <apply xml:id="S0.Ex1.m1.1.17.2.9.2.8.cmml">
+                    <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.17.2.9.2.8.1.cmml">subscript</csymbol>
+                    <ci xml:id="S0.Ex1.m1.1.17.2.9.2.4.cmml">d</ci>
+                    <ci xml:id="S0.Ex1.m1.1.17.2.9.2.5.1.cmml">m</ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+            <ci xml:id="S0.Ex1.m1.1.17.3.cmml">p</ci>
+          </apply>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="3">
+<apply xml:id="m2.1.1.cmml">
+  <ci xml:id="m2.1.1.1.1.cmml">pmod</ci>
+  <ci xml:id="m2.1.1.1.2.cmml">p</ci>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="3">
+<apply xml:id="m3.1.15.cmml">
+  <times xml:id="m3.1.15.1.cmml"/>
+  <ci xml:id="m3.1.1.cmml">K</ci>
+  <apply xml:id="m3.1.15.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m3.1.15.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m3.1.2.cmml">l</ci>
+    <ci xml:id="m3.1.3.1.cmml">m</ci>
+  </apply>
+  <apply xml:id="m3.1.15.3.cmml">
+    <vector xml:id="m3.1.15.3.1.cmml"/>
+    <ci xml:id="m3.1.5.cmml">p</ci>
+    <apply xml:id="m3.1.15.3.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m3.1.15.3.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m3.1.7.cmml">x</ci>
+      <cn type="integer" xml:id="m3.1.8.1.cmml">1</cn>
+    </apply>
+    <ci xml:id="m3.1.10.cmml">normal-…</ci>
+    <apply xml:id="m3.1.15.3.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m3.1.15.3.3.1.cmml">subscript</csymbol>
+      <ci xml:id="m3.1.12.cmml">x</ci>
+      <ci xml:id="m3.1.13.1.cmml">m</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="3">
+<apply xml:id="m4.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m4.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m4.1.1.cmml">d</ci>
+  <ci xml:id="m4.1.2.1.cmml">i</ci>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="3">
+<apply xml:id="m5.1.7.cmml">
+  <interval closure="closed" xml:id="m5.1.7.1.cmml"/>
+  <cn type="integer" xml:id="m5.1.2.cmml">1</cn>
+  <apply xml:id="m5.1.7.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m5.1.7.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m5.1.4.cmml">x</ci>
+    <ci xml:id="m5.1.5.1.cmml">i</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex2.m1.1" mws:data_id="3">
+<apply xml:id="S0.Ex2.m1.1.42.cmml">
+  <csymbol cd="latexml" xml:id="S0.Ex2.m1.1.15.cmml">much-less-than</csymbol>
+  <apply xml:id="S0.Ex2.m1.1.42.1.cmml">
+    <times xml:id="S0.Ex2.m1.1.42.1.1.cmml"/>
+    <ci xml:id="S0.Ex2.m1.1.1.cmml">K</ci>
+    <apply xml:id="S0.Ex2.m1.1.42.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="S0.Ex2.m1.1.2.cmml">l</ci>
+      <ci xml:id="S0.Ex2.m1.1.3.1.cmml">m</ci>
+    </apply>
+    <apply xml:id="S0.Ex2.m1.1.42.1.3.cmml">
+      <vector xml:id="S0.Ex2.m1.1.42.1.3.1.cmml"/>
+      <ci xml:id="S0.Ex2.m1.1.5.cmml">p</ci>
+      <apply xml:id="S0.Ex2.m1.1.42.1.3.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.1.3.2.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex2.m1.1.7.cmml">x</ci>
+        <cn type="integer" xml:id="S0.Ex2.m1.1.8.1.cmml">1</cn>
+      </apply>
+      <ci xml:id="S0.Ex2.m1.1.10.cmml">normal-…</ci>
+      <apply xml:id="S0.Ex2.m1.1.42.1.3.3.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.1.3.3.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex2.m1.1.12.cmml">x</ci>
+        <ci xml:id="S0.Ex2.m1.1.13.1.cmml">m</ci>
+      </apply>
+    </apply>
+  </apply>
+  <apply xml:id="S0.Ex2.m1.1.42.2.cmml">
+    <plus xml:id="S0.Ex2.m1.1.23.cmml"/>
+    <apply xml:id="S0.Ex2.m1.1.42.2.1.cmml">
+      <divide xml:id="S0.Ex2.m1.1.21.cmml"/>
+      <apply xml:id="S0.Ex2.m1.1.42.2.1.1.cmml">
+        <times xml:id="S0.Ex2.m1.1.42.2.1.1.1.cmml"/>
+        <apply xml:id="S0.Ex2.m1.1.42.2.1.1.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.1.1.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex2.m1.1.16.cmml">x</ci>
+          <cn type="integer" xml:id="S0.Ex2.m1.1.17.1.cmml">1</cn>
+        </apply>
+        <ci xml:id="S0.Ex2.m1.1.18.cmml">normal-⋯</ci>
+        <apply xml:id="S0.Ex2.m1.1.42.2.1.1.3.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.1.1.3.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex2.m1.1.19.cmml">x</ci>
+          <ci xml:id="S0.Ex2.m1.1.20.1.cmml">m</ci>
+        </apply>
+      </apply>
+      <ci xml:id="S0.Ex2.m1.1.22.cmml">p</ci>
+    </apply>
+    <apply xml:id="S0.Ex2.m1.1.42.2.2.cmml">
+      <times xml:id="S0.Ex2.m1.1.42.2.2.1.cmml"/>
+      <apply xml:id="S0.Ex2.m1.1.42.2.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.2.2.1.cmml">superscript</csymbol>
+        <ci xml:id="S0.Ex2.m1.1.24.cmml">p</ci>
+        <apply xml:id="S0.Ex2.m1.1.25.1.cmml">
+          <divide xml:id="S0.Ex2.m1.1.25.1.2.cmml"/>
+          <cn type="integer" xml:id="S0.Ex2.m1.1.25.1.1.cmml">1</cn>
+          <cn type="integer" xml:id="S0.Ex2.m1.1.25.1.3.cmml">2</cn>
+        </apply>
+      </apply>
+      <apply xml:id="S0.Ex2.m1.1.42.2.2.3.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.2.3.1.cmml">superscript</csymbol>
+        <apply xml:id="S0.Ex2.m1.1.42.2.2.3.2.cmml">
+          <times xml:id="S0.Ex2.m1.1.42.2.2.3.2.1.cmml"/>
+          <apply xml:id="S0.Ex2.m1.1.42.2.2.3.2.2.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.2.3.2.2.1.cmml">subscript</csymbol>
+            <ci xml:id="S0.Ex2.m1.1.27.cmml">x</ci>
+            <cn type="integer" xml:id="S0.Ex2.m1.1.28.1.cmml">1</cn>
+          </apply>
+          <ci xml:id="S0.Ex2.m1.1.29.cmml">normal-⋯</ci>
+          <apply xml:id="S0.Ex2.m1.1.42.2.2.3.2.3.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.2.3.2.3.1.cmml">subscript</csymbol>
+            <ci xml:id="S0.Ex2.m1.1.30.cmml">x</ci>
+            <ci xml:id="S0.Ex2.m1.1.31.1.cmml">m</ci>
+          </apply>
+        </apply>
+        <apply xml:id="S0.Ex2.m1.1.33.1.cmml">
+          <minus xml:id="S0.Ex2.m1.1.33.1.2.cmml"/>
+          <cn type="integer" xml:id="S0.Ex2.m1.1.33.1.1.cmml">1</cn>
+          <apply xml:id="S0.Ex2.m1.1.33.1.6.cmml">
+            <divide xml:id="S0.Ex2.m1.1.33.1.4.cmml"/>
+            <cn type="integer" xml:id="S0.Ex2.m1.1.33.1.3.cmml">1</cn>
+            <ci xml:id="S0.Ex2.m1.1.33.1.5.cmml">r</ci>
+          </apply>
+        </apply>
+      </apply>
+      <apply xml:id="S0.Ex2.m1.1.42.2.2.4.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.2.4.1.cmml">superscript</csymbol>
+        <apply xml:id="S0.Ex2.m1.1.42.2.2.4.2.cmml">
+          <times xml:id="S0.Ex2.m1.1.42.2.2.4.2.1.cmml"/>
+          <apply xml:id="S0.Ex2.m1.1.42.2.2.4.2.2.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.2.4.2.2.1.cmml">superscript</csymbol>
+            <ci xml:id="S0.Ex2.m1.1.35.cmml">p</ci>
+            <apply xml:id="S0.Ex2.m1.1.36.1.cmml">
+              <times xml:id="S0.Ex2.m1.1.36.1.9.cmml"/>
+              <apply xml:id="S0.Ex2.m1.1.36.1.10.cmml">
+                <divide xml:id="S0.Ex2.m1.1.36.1.2.cmml"/>
+                <cn type="integer" xml:id="S0.Ex2.m1.1.36.1.1.cmml">1</cn>
+                <cn type="integer" xml:id="S0.Ex2.m1.1.36.1.3.cmml">4</cn>
+              </apply>
+              <apply xml:id="S0.Ex2.m1.1.36.1.11.cmml">
+                <minus xml:id="S0.Ex2.m1.1.36.1.6.cmml"/>
+                <ci xml:id="S0.Ex2.m1.1.36.1.5.cmml">r</ci>
+                <cn type="integer" xml:id="S0.Ex2.m1.1.36.1.7.cmml">1</cn>
+              </apply>
+            </apply>
+          </apply>
+          <apply xml:id="S0.Ex2.m1.1.42.2.2.4.2.3.cmml">
+            <apply xml:id="S0.Ex2.m1.1.42.2.2.4.2.3.1.cmml">
+              <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.42.2.2.4.2.3.1.1.cmml">superscript</csymbol>
+              <log xml:id="S0.Ex2.m1.1.37.cmml"/>
+              <cn type="integer" xml:id="S0.Ex2.m1.1.38.1.cmml">2</cn>
+            </apply>
+            <ci xml:id="S0.Ex2.m1.1.39.cmml">p</ci>
+          </apply>
+        </apply>
+        <ci xml:id="S0.Ex2.m1.1.41.1.cmml">m</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="3">
+<apply xml:id="m6.1.4.cmml">
+  <geq xml:id="m6.1.2.cmml"/>
+  <ci xml:id="m6.1.1.cmml">r</ci>
+  <cn type="integer" xml:id="m6.1.3.cmml">2</cn>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="5">
+<ci xml:id="m1.1.1.cmml">normal-Ω</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="5">
+<apply xml:id="m2.1.6.cmml">
+  <and xml:id="m2.1.6a.cmml"/>
+  <apply xml:id="m2.1.6b.cmml">
+    <leq xml:id="m2.1.2.cmml"/>
+    <cn type="integer" xml:id="m2.1.1.cmml">1</cn>
+    <ci xml:id="m2.1.3.cmml">p</ci>
+  </apply>
+  <apply xml:id="m2.1.6c.cmml">
+    <lt xml:id="m2.1.4.cmml"/>
+    <share href="#m2.1.3.cmml" xml:id="m2.1.6d.cmml"/>
+    <infinity xml:id="m2.1.5.cmml"/>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="5">
+<apply xml:id="m3.1.6.cmml">
+  <times xml:id="m3.1.6.1.cmml"/>
+  <apply xml:id="m3.1.6.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m3.1.6.2.1.cmml">superscript</csymbol>
+    <ci xml:id="m3.1.1.cmml">H</ci>
+    <ci xml:id="m3.1.2.1.cmml">p</ci>
+  </apply>
+  <ci xml:id="m3.1.4.cmml">normal-Ω</ci>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="5">
+<ci xml:id="m4.1.1.cmml">f</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="5">
+<ci xml:id="m5.1.1.cmml">normal-Ω</ci></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="5">
+<apply xml:id="m6.1.8.cmml">
+  <csymbol cd="ambiguous" xml:id="m6.1.8.1.cmml">superscript</csymbol>
+  <apply xml:id="m6.1.8.2.cmml">
+    <abs xml:id="m6.1.8.2.1.cmml"/>
+    <apply xml:id="m6.1.8.2.2.cmml">
+      <times xml:id="m6.1.8.2.2.1.cmml"/>
+      <ci xml:id="m6.1.2.cmml">f</ci>
+      <ci xml:id="m6.1.4.cmml">z</ci>
+    </apply>
+  </apply>
+  <ci xml:id="m6.1.7.1.cmml">p</ci>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="5">
+<ci xml:id="m7.1.1.cmml">g</ci></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="5">
+<ci xml:id="m8.1.1.cmml">normal-Ω</ci></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="5">
+<apply xml:id="m9.1.5.cmml">
+  <csymbol cd="ambiguous" xml:id="m9.1.5.1.cmml">subscript</csymbol>
+  <apply xml:id="m9.1.5.2.cmml">
+    <csymbol cd="latexml" xml:id="m9.1.5.2.1.cmml">norm</csymbol>
+    <ci xml:id="m9.1.2.cmml">g</ci>
+  </apply>
+  <ci xml:id="m9.1.4.1.cmml">e</ci>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="5">
+<ci xml:id="m10.1.1.cmml">D</ci></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="5">
+<ci xml:id="m11.1.1.cmml">D</ci></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="5">
+<apply xml:id="m12.1.4.cmml">
+  <in xml:id="m12.1.2.cmml"/>
+  <ci xml:id="m12.1.1.cmml">p</ci>
+  <ci xml:id="m12.1.3.cmml">D</ci>
+</apply></mws:expr>
+<mws:expr url="#m13.1" mws:data_id="5">
+<apply xml:id="m13.1.8.cmml">
+  <times xml:id="m13.1.8.1.cmml"/>
+  <apply xml:id="m13.1.8.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m13.1.8.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m13.1.1.cmml">g</ci>
+    <ci xml:id="m13.1.2.1.cmml">D</ci>
+  </apply>
+  <apply xml:id="m13.1.8.3.cmml">
+    <list xml:id="m13.1.8.3.1.cmml"/>
+    <ci xml:id="m13.1.4.cmml">normal-Ω</ci>
+    <ci xml:id="m13.1.6.cmml">p</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m14.1" mws:data_id="5">
+<apply xml:id="m14.1.6.cmml">
+  <ci xml:id="m14.1.2.cmml">normal-:</ci>
+  <ci xml:id="m14.1.1.cmml">ϕ</ci>
+  <apply xml:id="m14.1.6.1.cmml">
+    <ci xml:id="m14.1.4.cmml">normal-→</ci>
+    <ci xml:id="m14.1.3.cmml">normal-Ω</ci>
+    <ci xml:id="m14.1.5.cmml">normal-Ω</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m15.1" mws:data_id="5">
+<ci xml:id="m15.1.1.cmml">ϕ</ci></mws:expr>
+<mws:expr url="#m16.1" mws:data_id="5">
+<apply xml:id="m16.1.17.cmml">
+  <eq xml:id="m16.1.6.cmml"/>
+  <apply xml:id="m16.1.17.1.cmml">
+    <times xml:id="m16.1.17.1.1.cmml"/>
+    <apply xml:id="m16.1.17.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m16.1.17.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m16.1.1.cmml">N</ci>
+      <ci xml:id="m16.1.2.1.cmml">ϕ</ci>
+    </apply>
+    <ci xml:id="m16.1.4.cmml">w</ci>
+  </apply>
+  <apply xml:id="m16.1.17.2.cmml">
+    <apply xml:id="m16.1.17.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m16.1.17.2.1.1.cmml">subscript</csymbol>
+      <sum xml:id="m16.1.7.cmml"/>
+      <apply xml:id="m16.1.8.1.cmml">
+        <eq xml:id="m16.1.8.1.5.cmml"/>
+        <apply xml:id="m16.1.8.1.7.cmml">
+          <times xml:id="m16.1.8.1.7.1.cmml"/>
+          <ci xml:id="m16.1.8.1.1.cmml">ϕ</ci>
+          <ci xml:id="m16.1.8.1.3.cmml">z</ci>
+        </apply>
+        <ci xml:id="m16.1.8.1.6.cmml">w</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m16.1.17.2.2.cmml">
+      <times xml:id="m16.1.17.2.2.1.cmml"/>
+      <apply xml:id="m16.1.17.2.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m16.1.17.2.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m16.1.9.cmml">g</ci>
+        <ci xml:id="m16.1.10.1.cmml">normal-Ω</ci>
+      </apply>
+      <apply xml:id="m16.1.17.2.2.3.cmml">
+        <list xml:id="m16.1.17.2.2.3.1.cmml"/>
+        <ci xml:id="m16.1.12.cmml">z</ci>
+        <apply xml:id="m16.1.17.2.2.3.2.cmml">
+          <csymbol cd="ambiguous" xml:id="m16.1.17.2.2.3.2.1.cmml">subscript</csymbol>
+          <ci xml:id="m16.1.14.cmml">t</ci>
+          <cn type="integer" xml:id="m16.1.15.1.cmml">0</cn>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m17.1" mws:data_id="5">
+<apply xml:id="m17.1.12.cmml">
+  <in xml:id="m17.1.2.cmml"/>
+  <ci xml:id="m17.1.1.cmml">w</ci>
+  <apply xml:id="m17.1.12.1.cmml">
+    <setdiff xml:id="m17.1.4.cmml"/>
+    <ci xml:id="m17.1.3.cmml">normal-Ω</ci>
+    <apply xml:id="m17.1.12.1.1.cmml">
+      <set xml:id="m17.1.12.1.1.1.cmml"/>
+      <apply xml:id="m17.1.12.1.1.2.cmml">
+        <times xml:id="m17.1.12.1.1.2.1.cmml"/>
+        <ci xml:id="m17.1.6.cmml">ϕ</ci>
+        <apply xml:id="m17.1.12.1.1.2.2.cmml">
+          <csymbol cd="ambiguous" xml:id="m17.1.12.1.1.2.2.1.cmml">subscript</csymbol>
+          <ci xml:id="m17.1.8.cmml">t</ci>
+          <cn type="integer" xml:id="m17.1.9.1.cmml">0</cn>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m18.1" mws:data_id="5">
+<apply xml:id="m18.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m18.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m18.1.1.cmml">C</ci>
+  <ci xml:id="m18.1.2.1.cmml">ϕ</ci>
+</apply></mws:expr>
+<mws:expr url="#m19.1" mws:data_id="5">
+<apply xml:id="m19.1.24.cmml">
+  <and xml:id="m19.1.24a.cmml"/>
+  <apply xml:id="m19.1.24b.cmml">
+    <eq xml:id="m19.1.9.cmml"/>
+    <apply xml:id="m19.1.24.2.cmml">
+      <times xml:id="m19.1.24.2.1.cmml"/>
+      <apply xml:id="m19.1.24.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m19.1.24.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m19.1.1.cmml">C</ci>
+        <ci xml:id="m19.1.2.1.cmml">ϕ</ci>
+      </apply>
+      <ci xml:id="m19.1.4.cmml">f</ci>
+      <ci xml:id="m19.1.7.cmml">z</ci>
+    </apply>
+    <apply xml:id="m19.1.24.3.cmml">
+      <times xml:id="m19.1.24.3.1.cmml"/>
+      <apply xml:id="m19.1.24.3.2.cmml">
+        <compose xml:id="m19.1.11.cmml"/>
+        <ci xml:id="m19.1.10.cmml">f</ci>
+        <ci xml:id="m19.1.12.cmml">ϕ</ci>
+      </apply>
+      <ci xml:id="m19.1.14.cmml">z</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m19.1.24c.cmml">
+    <eq xml:id="m19.1.16.cmml"/>
+    <share href="#m19.1.24.3.cmml" xml:id="m19.1.24d.cmml"/>
+    <apply xml:id="m19.1.24.4.cmml">
+      <times xml:id="m19.1.24.4.1.cmml"/>
+      <ci xml:id="m19.1.17.cmml">f</ci>
+      <apply xml:id="m19.1.24.4.2.cmml">
+        <times xml:id="m19.1.24.4.2.1.cmml"/>
+        <ci xml:id="m19.1.19.cmml">ϕ</ci>
+        <ci xml:id="m19.1.21.cmml">z</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m20.1" mws:data_id="5">
+<ci xml:id="m20.1.1.cmml">normal-Ω</ci></mws:expr>
+<mws:expr url="#m21.1" mws:data_id="5">
+<apply xml:id="m21.1.6.cmml">
+  <ci xml:id="m21.1.2.cmml">normal-:</ci>
+  <ci xml:id="m21.1.1.cmml">ϕ</ci>
+  <apply xml:id="m21.1.6.1.cmml">
+    <ci xml:id="m21.1.4.cmml">normal-→</ci>
+    <ci xml:id="m21.1.3.cmml">normal-Ω</ci>
+    <ci xml:id="m21.1.5.cmml">normal-Ω</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m22.1" mws:data_id="5">
+<apply xml:id="m22.1.9.cmml">
+  <eq xml:id="m22.1.6.cmml"/>
+  <apply xml:id="m22.1.9.1.cmml">
+    <times xml:id="m22.1.9.1.1.cmml"/>
+    <ci xml:id="m22.1.1.cmml">ϕ</ci>
+    <apply xml:id="m22.1.9.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m22.1.9.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m22.1.3.cmml">t</ci>
+      <cn type="integer" xml:id="m22.1.4.1.cmml">0</cn>
+    </apply>
+  </apply>
+  <apply xml:id="m22.1.9.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m22.1.9.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m22.1.7.cmml">t</ci>
+    <cn type="integer" xml:id="m22.1.8.1.cmml">0</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m23.1" mws:data_id="5">
+<apply xml:id="m23.1.23.cmml">
+  <eq xml:id="m23.1.7.cmml"/>
+  <apply xml:id="m23.1.23.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m23.1.23.1.1.cmml">subscript</csymbol>
+    <apply xml:id="m23.1.23.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m23.1.23.1.2.1.cmml">superscript</csymbol>
+      <apply xml:id="m23.1.23.1.2.2.cmml">
+        <csymbol cd="latexml" xml:id="m23.1.23.1.2.2.1.cmml">norm</csymbol>
+        <apply xml:id="m23.1.23.1.2.2.2.cmml">
+          <csymbol cd="ambiguous" xml:id="m23.1.23.1.2.2.2.1.cmml">subscript</csymbol>
+          <ci xml:id="m23.1.2.cmml">C</ci>
+          <ci xml:id="m23.1.3.1.cmml">ϕ</ci>
+        </apply>
+      </apply>
+      <cn type="integer" xml:id="m23.1.5.1.cmml">2</cn>
+    </apply>
+    <apply xml:id="m23.1.6.1.cmml">
+      <ci xml:id="m23.1.6.1.2.cmml">normal-→</ci>
+      <ci xml:id="m23.1.6.1.1.cmml">e</ci>
+      <ci xml:id="m23.1.6.1.3.cmml">e</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m23.1.23.2.cmml">
+    <apply xml:id="m23.1.23.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m23.1.23.2.1.1.cmml">subscript</csymbol>
+      <csymbol cd="latexml" xml:id="m23.1.8.cmml">limit-supremum</csymbol>
+      <apply xml:id="m23.1.9.1.cmml">
+        <ci xml:id="m23.1.9.1.2.cmml">normal-→</ci>
+        <ci xml:id="m23.1.9.1.1.cmml">w</ci>
+        <cn type="integer" xml:id="m23.1.9.1.3.cmml">1</cn>
+      </apply>
+    </apply>
+    <apply xml:id="m23.1.23.2.2.cmml">
+      <times xml:id="m23.1.23.2.2.1.cmml"/>
+      <apply xml:id="m23.1.23.2.2.2.cmml">
+        <divide xml:id="m23.1.15.cmml"/>
+        <apply xml:id="m23.1.23.2.2.2.1.cmml">
+          <times xml:id="m23.1.23.2.2.2.1.1.cmml"/>
+          <apply xml:id="m23.1.23.2.2.2.1.2.cmml">
+            <csymbol cd="ambiguous" xml:id="m23.1.23.2.2.2.1.2.1.cmml">subscript</csymbol>
+            <ci xml:id="m23.1.10.cmml">N</ci>
+            <ci xml:id="m23.1.11.1.cmml">ϕ</ci>
+          </apply>
+          <ci xml:id="m23.1.13.cmml">w</ci>
+        </apply>
+        <ci xml:id="m23.1.16.cmml">g</ci>
+      </apply>
+      <apply xml:id="m23.1.23.2.2.3.cmml">
+        <list xml:id="m23.1.23.2.2.3.1.cmml"/>
+        <ci xml:id="m23.1.18.cmml">w</ci>
+        <apply xml:id="m23.1.23.2.2.3.2.cmml">
+          <csymbol cd="ambiguous" xml:id="m23.1.23.2.2.3.2.1.cmml">subscript</csymbol>
+          <ci xml:id="m23.1.20.cmml">t</ci>
+          <cn type="integer" xml:id="m23.1.21.1.cmml">0</cn>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m24.1" mws:data_id="5">
+<apply xml:id="m24.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m24.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m24.1.1.cmml">C</ci>
+  <ci xml:id="m24.1.2.1.cmml">ϕ</ci>
+</apply></mws:expr>
+<mws:expr url="#m25.1" mws:data_id="5">
+<apply xml:id="m25.1.6.cmml">
+  <times xml:id="m25.1.6.1.cmml"/>
+  <apply xml:id="m25.1.6.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m25.1.6.2.1.cmml">superscript</csymbol>
+    <ci xml:id="m25.1.1.cmml">H</ci>
+    <cn type="integer" xml:id="m25.1.2.1.cmml">2</cn>
+  </apply>
+  <ci xml:id="m25.1.4.cmml">normal-Ω</ci>
+</apply></mws:expr>
+<mws:expr url="#m26.1" mws:data_id="5">
+<apply xml:id="m26.1.18.cmml">
+  <eq xml:id="m26.1.16.cmml"/>
+  <apply xml:id="m26.1.18.1.cmml">
+    <apply xml:id="m26.1.18.1.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m26.1.18.1.1.1.cmml">subscript</csymbol>
+      <limit xml:id="m26.1.1.cmml"/>
+      <apply xml:id="m26.1.2.1.cmml">
+        <in xml:id="m26.1.2.1.2.cmml"/>
+        <ci xml:id="m26.1.2.1.1.cmml">w</ci>
+        <ci xml:id="m26.1.2.1.3.cmml">normal-Γ</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m26.1.18.1.2.cmml">
+      <times xml:id="m26.1.18.1.2.1.cmml"/>
+      <apply xml:id="m26.1.18.1.2.2.cmml">
+        <divide xml:id="m26.1.8.cmml"/>
+        <apply xml:id="m26.1.18.1.2.2.1.cmml">
+          <times xml:id="m26.1.18.1.2.2.1.1.cmml"/>
+          <apply xml:id="m26.1.18.1.2.2.1.2.cmml">
+            <csymbol cd="ambiguous" xml:id="m26.1.18.1.2.2.1.2.1.cmml">subscript</csymbol>
+            <ci xml:id="m26.1.3.cmml">N</ci>
+            <ci xml:id="m26.1.4.1.cmml">ϕ</ci>
+          </apply>
+          <ci xml:id="m26.1.6.cmml">w</ci>
+        </apply>
+        <ci xml:id="m26.1.9.cmml">g</ci>
+      </apply>
+      <apply xml:id="m26.1.18.1.2.3.cmml">
+        <list xml:id="m26.1.18.1.2.3.1.cmml"/>
+        <ci xml:id="m26.1.11.cmml">w</ci>
+        <apply xml:id="m26.1.18.1.2.3.2.cmml">
+          <csymbol cd="ambiguous" xml:id="m26.1.18.1.2.3.2.1.cmml">subscript</csymbol>
+          <ci xml:id="m26.1.13.cmml">t</ci>
+          <cn type="integer" xml:id="m26.1.14.1.cmml">0</cn>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+  <cn type="integer" xml:id="m26.1.17.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m27.1" mws:data_id="5">
+<ci xml:id="m27.1.1.cmml">normal-Γ</ci></mws:expr>
+<mws:expr url="#m28.1" mws:data_id="5">
+<ci xml:id="m28.1.1.cmml">normal-Ω</ci></mws:expr>
+<mws:expr url="#m29.1" mws:data_id="5">
+<apply xml:id="m29.1.4.cmml">
+  <eq xml:id="m29.1.2.cmml"/>
+  <ci xml:id="m29.1.1.cmml">normal-Ω</ci>
+  <ci xml:id="m29.1.3.cmml">normal-Δ</ci>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="6">
+<apply xml:id="m1.1.6.cmml">
+  <csymbol cd="ambiguous" xml:id="m1.1.6.1.cmml">subscript</csymbol>
+  <apply xml:id="m1.1.6.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m1.1.6.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m1.1.2.cmml">X</ci>
+    <ci xml:id="m1.1.3.1.cmml">t</ci>
+  </apply>
+  <apply xml:id="m1.1.5.1.cmml">
+    <in xml:id="m1.1.5.1.2.cmml"/>
+    <ci xml:id="m1.1.5.1.1.cmml">t</ci>
+    <ci xml:id="m1.1.5.1.3.cmml">Z</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex1.m1.1" mws:data_id="6">
+<apply xml:id="S0.Ex1.m1.1.42.cmml">
+  <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42a.cmml">formulae-sequence</csymbol>
+  <apply xml:id="S0.Ex1.m1.1.42.2.cmml">
+    <eq xml:id="S0.Ex1.m1.1.3.cmml"/>
+    <apply xml:id="S0.Ex1.m1.1.42.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.2.1.1.cmml">subscript</csymbol>
+      <ci xml:id="S0.Ex1.m1.1.1.cmml">X</ci>
+      <ci xml:id="S0.Ex1.m1.1.2.1.cmml">t</ci>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.42.2.2.cmml">
+      <plus xml:id="S0.Ex1.m1.1.8.cmml"/>
+      <apply xml:id="S0.Ex1.m1.1.42.2.2.1.cmml">
+        <times xml:id="S0.Ex1.m1.1.42.2.2.1.1.cmml"/>
+        <apply xml:id="S0.Ex1.m1.1.42.2.2.1.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.2.2.1.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex1.m1.1.4.cmml">ϕ</ci>
+          <cn type="integer" xml:id="S0.Ex1.m1.1.5.1.cmml">1</cn>
+        </apply>
+        <apply xml:id="S0.Ex1.m1.1.42.2.2.1.3.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.2.2.1.3.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex1.m1.1.6.cmml">X</ci>
+          <apply xml:id="S0.Ex1.m1.1.7.1.cmml">
+            <minus xml:id="S0.Ex1.m1.1.7.1.2.cmml"/>
+            <ci xml:id="S0.Ex1.m1.1.7.1.1.cmml">t</ci>
+            <cn type="integer" xml:id="S0.Ex1.m1.1.7.1.3.cmml">1</cn>
+          </apply>
+        </apply>
+      </apply>
+      <ci xml:id="S0.Ex1.m1.1.11.cmml">normal-…</ci>
+      <apply xml:id="S0.Ex1.m1.1.42.2.2.2.cmml">
+        <times xml:id="S0.Ex1.m1.1.42.2.2.2.1.cmml"/>
+        <apply xml:id="S0.Ex1.m1.1.42.2.2.2.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.2.2.2.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex1.m1.1.13.cmml">ϕ</ci>
+          <ci xml:id="S0.Ex1.m1.1.14.1.cmml">p</ci>
+        </apply>
+        <apply xml:id="S0.Ex1.m1.1.42.2.2.2.3.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.2.2.2.3.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex1.m1.1.15.cmml">X</ci>
+          <apply xml:id="S0.Ex1.m1.1.16.1.cmml">
+            <minus xml:id="S0.Ex1.m1.1.16.1.2.cmml"/>
+            <ci xml:id="S0.Ex1.m1.1.16.1.1.cmml">t</ci>
+            <ci xml:id="S0.Ex1.m1.1.16.1.3.cmml">p</ci>
+          </apply>
+        </apply>
+      </apply>
+      <apply xml:id="S0.Ex1.m1.1.42.2.2.3.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.2.2.3.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex1.m1.1.18.cmml">ε</ci>
+        <ci xml:id="S0.Ex1.m1.1.19.1.cmml">t</ci>
+      </apply>
+    </apply>
+  </apply>
+  <apply xml:id="S0.Ex1.m1.1.42.3.cmml">
+    <eq xml:id="S0.Ex1.m1.1.37.cmml"/>
+    <apply xml:id="S0.Ex1.m1.1.42.3.1.cmml">
+      <times xml:id="S0.Ex1.m1.1.42.3.1.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.22.cmml">E</ci>
+      <apply xml:id="S0.Ex1.m1.1.42.3.1.2.cmml">
+        <csymbol cd="latexml" xml:id="S0.Ex1.m1.1.42.3.1.2.1.cmml">conditional-set</csymbol>
+        <apply xml:id="S0.Ex1.m1.1.42.3.1.2.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.3.1.2.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex1.m1.1.24.cmml">ε</ci>
+          <ci xml:id="S0.Ex1.m1.1.25.1.cmml">t</ci>
+        </apply>
+        <apply xml:id="S0.Ex1.m1.1.42.3.1.2.3.cmml">
+          <list xml:id="S0.Ex1.m1.1.42.3.1.2.3.1.cmml"/>
+          <apply xml:id="S0.Ex1.m1.1.42.3.1.2.3.2.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.3.1.2.3.2.1.cmml">subscript</csymbol>
+            <ci xml:id="S0.Ex1.m1.1.27.cmml">X</ci>
+            <apply xml:id="S0.Ex1.m1.1.28.1.cmml">
+              <minus xml:id="S0.Ex1.m1.1.28.1.2.cmml"/>
+              <ci xml:id="S0.Ex1.m1.1.28.1.1.cmml">t</ci>
+              <cn type="integer" xml:id="S0.Ex1.m1.1.28.1.3.cmml">1</cn>
+            </apply>
+          </apply>
+          <ci xml:id="S0.Ex1.m1.1.32.cmml">normal-…</ci>
+          <apply xml:id="S0.Ex1.m1.1.42.3.1.2.3.3.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.42.3.1.2.3.3.1.cmml">subscript</csymbol>
+            <ci xml:id="S0.Ex1.m1.1.34.cmml">X</ci>
+            <apply xml:id="S0.Ex1.m1.1.35.1.cmml">
+              <minus xml:id="S0.Ex1.m1.1.35.1.2.cmml"/>
+              <ci xml:id="S0.Ex1.m1.1.35.1.1.cmml">t</ci>
+              <ci xml:id="S0.Ex1.m1.1.35.1.3.cmml">p</ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.42.3.2.cmml">
+      <list xml:id="S0.Ex1.m1.1.42.3.2.1.cmml"/>
+      <cn type="integer" xml:id="S0.Ex1.m1.1.38.cmml">0</cn>
+      <mtext xml:id="S0.Ex1.m1.1.40.cmml">a.s.</mtext>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex2.m1.1" mws:data_id="6">
+<apply xml:id="S0.Ex2.m1.1.38.cmml">
+  <eq xml:id="S0.Ex2.m1.1.17.cmml"/>
+  <apply xml:id="S0.Ex2.m1.1.38.1.cmml">
+    <times xml:id="S0.Ex2.m1.1.38.1.1.cmml"/>
+    <ci xml:id="S0.Ex2.m1.1.1.cmml">E</ci>
+    <apply xml:id="S0.Ex2.m1.1.38.1.2.cmml">
+      <csymbol cd="latexml" xml:id="S0.Ex2.m1.1.38.1.2.1.cmml">conditional-set</csymbol>
+      <apply xml:id="S0.Ex2.m1.1.38.1.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.1.2.2.1.cmml">superscript</csymbol>
+        <apply xml:id="S0.Ex2.m1.1.38.1.2.2.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.1.2.2.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex2.m1.1.3.cmml">ε</ci>
+          <ci xml:id="S0.Ex2.m1.1.4.1.cmml">t</ci>
+        </apply>
+        <cn type="integer" xml:id="S0.Ex2.m1.1.5.1.cmml">2</cn>
+      </apply>
+      <apply xml:id="S0.Ex2.m1.1.38.1.2.3.cmml">
+        <list xml:id="S0.Ex2.m1.1.38.1.2.3.1.cmml"/>
+        <apply xml:id="S0.Ex2.m1.1.38.1.2.3.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.1.2.3.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex2.m1.1.7.cmml">X</ci>
+          <apply xml:id="S0.Ex2.m1.1.8.1.cmml">
+            <minus xml:id="S0.Ex2.m1.1.8.1.2.cmml"/>
+            <ci xml:id="S0.Ex2.m1.1.8.1.1.cmml">t</ci>
+            <cn type="integer" xml:id="S0.Ex2.m1.1.8.1.3.cmml">1</cn>
+          </apply>
+        </apply>
+        <ci xml:id="S0.Ex2.m1.1.12.cmml">normal-…</ci>
+        <apply xml:id="S0.Ex2.m1.1.38.1.2.3.3.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.1.2.3.3.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex2.m1.1.14.cmml">X</ci>
+          <apply xml:id="S0.Ex2.m1.1.15.1.cmml">
+            <minus xml:id="S0.Ex2.m1.1.15.1.2.cmml"/>
+            <ci xml:id="S0.Ex2.m1.1.15.1.1.cmml">t</ci>
+            <ci xml:id="S0.Ex2.m1.1.15.1.3.cmml">p</ci>
+          </apply>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+  <apply xml:id="S0.Ex2.m1.1.38.2.cmml">
+    <plus xml:id="S0.Ex2.m1.1.20.cmml"/>
+    <apply xml:id="S0.Ex2.m1.1.38.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.2.1.1.cmml">subscript</csymbol>
+      <ci xml:id="S0.Ex2.m1.1.18.cmml">a</ci>
+      <cn type="integer" xml:id="S0.Ex2.m1.1.19.1.cmml">0</cn>
+    </apply>
+    <apply xml:id="S0.Ex2.m1.1.38.2.2.cmml">
+      <times xml:id="S0.Ex2.m1.1.38.2.2.1.cmml"/>
+      <apply xml:id="S0.Ex2.m1.1.38.2.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.2.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex2.m1.1.21.cmml">a</ci>
+        <cn type="integer" xml:id="S0.Ex2.m1.1.22.1.cmml">1</cn>
+      </apply>
+      <apply xml:id="S0.Ex2.m1.1.38.2.2.3.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.2.2.3.1.cmml">superscript</csymbol>
+        <apply xml:id="S0.Ex2.m1.1.38.2.2.3.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.2.2.3.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex2.m1.1.23.cmml">ε</ci>
+          <apply xml:id="S0.Ex2.m1.1.24.1.cmml">
+            <minus xml:id="S0.Ex2.m1.1.24.1.2.cmml"/>
+            <ci xml:id="S0.Ex2.m1.1.24.1.1.cmml">t</ci>
+            <cn type="integer" xml:id="S0.Ex2.m1.1.24.1.3.cmml">1</cn>
+          </apply>
+        </apply>
+        <cn type="integer" xml:id="S0.Ex2.m1.1.25.1.cmml">2</cn>
+      </apply>
+    </apply>
+    <ci xml:id="S0.Ex2.m1.1.29.cmml">normal-…</ci>
+    <apply xml:id="S0.Ex2.m1.1.38.2.3.cmml">
+      <times xml:id="S0.Ex2.m1.1.38.2.3.1.cmml"/>
+      <apply xml:id="S0.Ex2.m1.1.38.2.3.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.2.3.2.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex2.m1.1.31.cmml">a</ci>
+        <ci xml:id="S0.Ex2.m1.1.32.1.cmml">p</ci>
+      </apply>
+      <apply xml:id="S0.Ex2.m1.1.38.2.3.3.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.2.3.3.1.cmml">superscript</csymbol>
+        <apply xml:id="S0.Ex2.m1.1.38.2.3.3.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.38.2.3.3.2.1.cmml">subscript</csymbol>
+          <ci xml:id="S0.Ex2.m1.1.33.cmml">ε</ci>
+          <apply xml:id="S0.Ex2.m1.1.34.1.cmml">
+            <minus xml:id="S0.Ex2.m1.1.34.1.2.cmml"/>
+            <ci xml:id="S0.Ex2.m1.1.34.1.1.cmml">t</ci>
+            <ci xml:id="S0.Ex2.m1.1.34.1.3.cmml">p</ci>
+          </apply>
+        </apply>
+        <cn type="integer" xml:id="S0.Ex2.m1.1.35.1.cmml">2</cn>
+      </apply>
+      <mtext xml:id="S0.Ex2.m1.1.36.cmml">a.s.</mtext>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="6">
+<apply xml:id="m2.1.18.cmml">
+  <neq xml:id="m2.1.15.cmml"/>
+  <apply xml:id="m2.1.18.1.cmml">
+    <minus xml:id="m2.1.2.cmml"/>
+    <cn type="integer" xml:id="m2.1.1.cmml">1</cn>
+    <apply xml:id="m2.1.18.1.1.cmml">
+      <times xml:id="m2.1.18.1.1.1.cmml"/>
+      <apply xml:id="m2.1.18.1.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m2.1.18.1.1.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m2.1.3.cmml">ϕ</ci>
+        <cn type="integer" xml:id="m2.1.4.1.cmml">1</cn>
+      </apply>
+      <ci xml:id="m2.1.5.cmml">z</ci>
+    </apply>
+    <ci xml:id="m2.1.9.cmml">normal-…</ci>
+    <apply xml:id="m2.1.18.1.2.cmml">
+      <times xml:id="m2.1.18.1.2.1.cmml"/>
+      <apply xml:id="m2.1.18.1.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m2.1.18.1.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m2.1.11.cmml">ϕ</ci>
+        <ci xml:id="m2.1.12.1.cmml">p</ci>
+      </apply>
+      <apply xml:id="m2.1.18.1.2.3.cmml">
+        <csymbol cd="ambiguous" xml:id="m2.1.18.1.2.3.1.cmml">superscript</csymbol>
+        <ci xml:id="m2.1.13.cmml">z</ci>
+        <ci xml:id="m2.1.14.1.cmml">p</ci>
+      </apply>
+    </apply>
+  </apply>
+  <cn type="integer" xml:id="m2.1.16.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="6">
+<apply xml:id="m3.1.7.cmml">
+  <leq xml:id="m3.1.4.cmml"/>
+  <apply xml:id="m3.1.7.1.cmml">
+    <abs xml:id="m3.1.7.1.1.cmml"/>
+    <ci xml:id="m3.1.2.cmml">z</ci>
+  </apply>
+  <cn type="integer" xml:id="m3.1.5.cmml">1</cn>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="6">
+<apply xml:id="m4.1.6.cmml">
+  <gt xml:id="m4.1.3.cmml"/>
+  <apply xml:id="m4.1.6.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m4.1.6.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m4.1.1.cmml">a</ci>
+    <cn type="integer" xml:id="m4.1.2.1.cmml">0</cn>
+  </apply>
+  <cn type="integer" xml:id="m4.1.4.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="6">
+<apply xml:id="m5.1.6.cmml">
+  <geq xml:id="m5.1.3.cmml"/>
+  <apply xml:id="m5.1.6.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m5.1.6.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m5.1.1.cmml">a</ci>
+    <ci xml:id="m5.1.2.1.cmml">i</ci>
+  </apply>
+  <cn type="integer" xml:id="m5.1.4.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="6">
+<apply xml:id="m6.1.10.cmml">
+  <eq xml:id="m6.1.2.cmml"/>
+  <ci xml:id="m6.1.1.cmml">i</ci>
+  <apply xml:id="m6.1.10.1.cmml">
+    <list xml:id="m6.1.10.1.1.cmml"/>
+    <cn type="integer" xml:id="m6.1.3.cmml">1</cn>
+    <ci xml:id="m6.1.7.cmml">normal-…</ci>
+    <ci xml:id="m6.1.9.cmml">p</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="6">
+<apply xml:id="m7.1.9.cmml">
+  <ci xml:id="m7.1.3.cmml">normal-:</ci>
+  <apply xml:id="m7.1.9.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m7.1.9.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m7.1.1.cmml">H</ci>
+    <cn type="integer" xml:id="m7.1.2.1.cmml">0</cn>
+  </apply>
+  <apply xml:id="m7.1.9.2.cmml">
+    <eq xml:id="m7.1.6.cmml"/>
+    <apply xml:id="m7.1.9.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m7.1.9.2.1.1.cmml">subscript</csymbol>
+      <ci xml:id="m7.1.4.cmml">a</ci>
+      <ci xml:id="m7.1.5.1.cmml">i</ci>
+    </apply>
+    <cn type="integer" xml:id="m7.1.7.cmml">0</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="6">
+<apply xml:id="m8.1.10.cmml">
+  <eq xml:id="m8.1.2.cmml"/>
+  <ci xml:id="m8.1.1.cmml">i</ci>
+  <apply xml:id="m8.1.10.1.cmml">
+    <list xml:id="m8.1.10.1.1.cmml"/>
+    <cn type="integer" xml:id="m8.1.3.cmml">1</cn>
+    <ci xml:id="m8.1.7.cmml">normal-…</ci>
+    <ci xml:id="m8.1.9.cmml">p</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="6">
+<apply xml:id="m9.1.4.cmml">
+  <ci xml:id="m9.1.3.cmml">normal-:</ci>
+  <apply xml:id="m9.1.4.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m9.1.4.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m9.1.1.cmml">H</ci>
+    <cn type="integer" xml:id="m9.1.2.1.cmml">1</cn>
+  </apply>
+  <csymbol cd="latexml" xml:id="m9.1.4.2.cmml">absent</csymbol>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="6">
+<apply xml:id="m10.1.10.cmml">
+  <eq xml:id="m10.1.2.cmml"/>
+  <ci xml:id="m10.1.1.cmml">i</ci>
+  <apply xml:id="m10.1.10.1.cmml">
+    <list xml:id="m10.1.10.1.1.cmml"/>
+    <cn type="integer" xml:id="m10.1.3.cmml">1</cn>
+    <ci xml:id="m10.1.7.cmml">normal-…</ci>
+    <ci xml:id="m10.1.9.cmml">p</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="6">
+<apply xml:id="m11.1.5.cmml">
+  <gt xml:id="m11.1.3.cmml"/>
+  <apply xml:id="m11.1.5.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m11.1.5.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m11.1.1.cmml">a</ci>
+    <ci xml:id="m11.1.2.1.cmml">i</ci>
+  </apply>
+  <cn type="integer" xml:id="m11.1.4.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex1.m1.1" mws:data_id="8">
+<mtext xml:id="S0.Ex1.m1.1.1.cmml">=⁢ρu⁢tt⁢λx=⁢ρw⁢ttνx=-+-⁢λsinφ⁢νcosφ⁢Iρφ⁢tt⁢EJφ⁢xx0=+1uxcosφ=wxsinφ</mtext></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="8">
+<ci xml:id="m1.1.1.cmml">u</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="8">
+<ci xml:id="m2.1.1.cmml">w</ci></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="8">
+<ci xml:id="m3.1.1.cmml">φ</ci></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="8">
+<ci xml:id="m4.1.1.cmml">λ</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="8">
+<ci xml:id="m5.1.1.cmml">ν</ci></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="8">
+<ci xml:id="m6.1.1.cmml">x</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="8">
+<ci xml:id="m7.1.1.cmml">t</ci></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="8">
+<apply xml:id="m8.1.6.cmml">
+  <and xml:id="m8.1.6a.cmml"/>
+  <apply xml:id="m8.1.6b.cmml">
+    <leq xml:id="m8.1.2.cmml"/>
+    <cn type="integer" xml:id="m8.1.1.cmml">0</cn>
+    <ci xml:id="m8.1.3.cmml">x</ci>
+  </apply>
+  <apply xml:id="m8.1.6c.cmml">
+    <leq xml:id="m8.1.4.cmml"/>
+    <share href="#m8.1.3.cmml" xml:id="m8.1.6d.cmml"/>
+    <ci xml:id="m8.1.5.cmml">L</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="8">
+<apply xml:id="m9.1.4.cmml">
+  <gt xml:id="m9.1.2.cmml"/>
+  <ci xml:id="m9.1.1.cmml">t</ci>
+  <cn type="integer" xml:id="m9.1.3.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="8">
+<apply xml:id="m10.1.4.cmml">
+  <eq xml:id="m10.1.2.cmml"/>
+  <ci xml:id="m10.1.1.cmml">x</ci>
+  <cn type="integer" xml:id="m10.1.3.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="8">
+<apply xml:id="m11.1.4.cmml">
+  <eq xml:id="m11.1.2.cmml"/>
+  <ci xml:id="m11.1.1.cmml">x</ci>
+  <ci xml:id="m11.1.3.cmml">L</ci>
+</apply></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="8">
+<apply xml:id="m12.1.22.cmml">
+  <csymbol cd="latexml" xml:id="m12.1.8.cmml">assign</csymbol>
+  <apply xml:id="m12.1.22.1.cmml">
+    <times xml:id="m12.1.22.1.1.cmml"/>
+    <ci xml:id="m12.1.1.cmml">E</ci>
+    <apply xml:id="m12.1.22.1.2.cmml">
+      <interval closure="open" xml:id="m12.1.22.1.2.1.cmml"/>
+      <ci xml:id="m12.1.3.cmml">t</ci>
+      <ci xml:id="m12.1.5.cmml">φ</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m12.1.22.2.cmml">
+    <plus xml:id="m12.1.15.cmml"/>
+    <apply xml:id="m12.1.22.2.1.cmml">
+      <times xml:id="m12.1.22.2.1.1.cmml"/>
+      <ci xml:id="m12.1.9.cmml">K</ci>
+      <apply xml:id="m12.1.22.2.1.2.cmml">
+        <interval closure="open" xml:id="m12.1.22.2.1.2.1.cmml"/>
+        <ci xml:id="m12.1.11.cmml">t</ci>
+        <ci xml:id="m12.1.13.cmml">φ</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m12.1.22.2.2.cmml">
+      <times xml:id="m12.1.22.2.2.1.cmml"/>
+      <ci xml:id="m12.1.16.cmml">U</ci>
+      <apply xml:id="m12.1.22.2.2.2.cmml">
+        <interval closure="open" xml:id="m12.1.22.2.2.2.1.cmml"/>
+        <ci xml:id="m12.1.18.cmml">t</ci>
+        <ci xml:id="m12.1.20.cmml">φ</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="9">
+<ci xml:id="m1.1.1.cmml">H</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="9">
+<ci xml:id="m2.1.1.cmml">H</ci></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="9">
+<ci xml:id="m3.1.1.cmml">H</ci></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="10">
+<ci xml:id="m1.1.1.cmml">l</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="10">
+<apply xml:id="m2.1.17.cmml">
+  <ci xml:id="m2.1.2.cmml">normal-:</ci>
+  <apply xml:id="m2.1.1.cmml">
+    <ci xml:id="m2.1.1.1.cmml">normal-^</ci>
+    <ci xml:id="m2.1.1.2.cmml">ρ</ci>
+  </apply>
+  <apply xml:id="m2.1.17.1.cmml">
+    <ci xml:id="m2.1.9.cmml">normal-→</ci>
+    <apply xml:id="m2.1.17.1.1.cmml">
+      <times xml:id="m2.1.17.1.1.1.cmml"/>
+      <mtext xml:id="m2.1.3.cmml">Gal</mtext>
+      <apply xml:id="m2.1.17.1.1.2.cmml">
+        <divide xml:id="m2.1.6.cmml"/>
+        <apply xml:id="m2.1.5.cmml">
+          <ci xml:id="m2.1.5.1.cmml">normal-¯</ci>
+          <ci xml:id="m2.1.5.2.cmml">ℚ</ci>
+        </apply>
+        <ci xml:id="m2.1.7.cmml">ℚ</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m2.1.17.1.2.cmml">
+      <times xml:id="m2.1.17.1.2.1.cmml"/>
+      <mtext xml:id="m2.1.10.cmml">GL</mtext>
+      <apply xml:id="m2.1.17.1.2.2.cmml">
+        <interval closure="open" xml:id="m2.1.17.1.2.2.1.cmml"/>
+        <cn type="integer" xml:id="m2.1.12.cmml">2</cn>
+        <apply xml:id="m2.1.17.1.2.2.2.cmml">
+          <csymbol cd="ambiguous" xml:id="m2.1.17.1.2.2.2.1.cmml">subscript</csymbol>
+          <ci xml:id="m2.1.14.cmml">F</ci>
+          <ci xml:id="m2.1.15.1.cmml">l</ci>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="10">
+<ci xml:id="m3.1.1.cmml">l</ci></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="10">
+<apply xml:id="m4.1.4.cmml">
+  <eq xml:id="m4.1.2.cmml"/>
+  <ci xml:id="m4.1.1.cmml">l</ci>
+  <cn type="integer" xml:id="m4.1.3.cmml">5</cn>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="10">
+<apply xml:id="m5.1.4.cmml">
+  <eq xml:id="m5.1.2.cmml"/>
+  <ci xml:id="m5.1.1.cmml">l</ci>
+  <cn type="integer" xml:id="m5.1.3.cmml">2</cn>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="10">
+<apply xml:id="m6.1.4.cmml">
+  <gt xml:id="m6.1.2.cmml"/>
+  <ci xml:id="m6.1.1.cmml">l</ci>
+  <cn type="integer" xml:id="m6.1.3.cmml">2</cn>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="11">
+<apply xml:id="m1.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m1.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m1.1.1.cmml">e</ci>
+  <apply xml:id="m1.1.2.1.cmml">
+    <times xml:id="m1.1.2.1.3.cmml"/>
+    <ci xml:id="m1.1.2.1.1.cmml">i</ci>
+    <ci xml:id="m1.1.2.1.2.cmml">θ</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="11">
+<ci xml:id="m2.1.1.cmml">c</ci></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="11">
+<ci xml:id="m3.1.1.cmml">θ</ci></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="11">
+<ci xml:id="m4.1.1.cmml">a</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="11">
+<apply xml:id="m5.1.8.cmml">
+  <eq xml:id="m5.1.2.cmml"/>
+  <ci xml:id="m5.1.1.cmml">a</ci>
+  <apply xml:id="m5.1.8.1.cmml">
+    <times xml:id="m5.1.8.1.1.cmml"/>
+    <apply xml:id="m5.1.8.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m5.1.8.1.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m5.1.3.cmml">a</ci>
+      <times xml:id="m5.1.4.1.cmml"/>
+    </apply>
+    <ci xml:id="m5.1.6.cmml">θ</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="11">
+<ci xml:id="m6.1.1.cmml">θ</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="11">
+<apply xml:id="m7.1.6.cmml">
+  <times xml:id="m7.1.6.1.cmml"/>
+  <apply xml:id="m7.1.6.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m7.1.6.2.1.cmml">superscript</csymbol>
+    <ci xml:id="m7.1.1.cmml">a</ci>
+    <times xml:id="m7.1.2.1.cmml"/>
+  </apply>
+  <ci xml:id="m7.1.4.cmml">θ</ci>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="11">
+<ci xml:id="m8.1.1.cmml">a</ci></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="11">
+<apply xml:id="m9.1.7.cmml">
+  <ci xml:id="m9.1.3.cmml">normal-:</ci>
+  <apply xml:id="m9.1.7.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m9.1.7.1.1.cmml">superscript</csymbol>
+    <ci xml:id="m9.1.1.cmml">a</ci>
+    <times xml:id="m9.1.2.1.cmml"/>
+  </apply>
+  <apply xml:id="m9.1.7.2.cmml">
+    <ci xml:id="m9.1.5.cmml">normal-→</ci>
+    <ci xml:id="m9.1.4.cmml">ℝ</ci>
+    <ci xml:id="m9.1.6.cmml">ℝ</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="11">
+<ci xml:id="m10.1.1.cmml">θ</ci></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="11">
+<apply xml:id="m11.1.3.cmml">
+  <tan xml:id="m11.1.1.cmml"/>
+  <ci xml:id="m11.1.2.cmml">θ</ci>
+</apply></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="11">
+<apply xml:id="m12.1.3.cmml">
+  <tan xml:id="m12.1.1.cmml"/>
+  <ci xml:id="m12.1.2.cmml">θ</ci>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="12">
+<ci xml:id="m1.1.1.cmml">C</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="12">
+<ci xml:id="m2.1.1.cmml">C</ci></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="13">
+<apply xml:id="m1.1.6.cmml">
+  <set xml:id="m1.1.6.1.cmml"/>
+  <cn type="integer" xml:id="m1.1.2.cmml">5</cn>
+  <cn type="integer" xml:id="m1.1.4.cmml">6</cn>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="13">
+<apply xml:id="m2.1.9.cmml">
+  <times xml:id="m2.1.9.1.cmml"/>
+  <ci xml:id="m2.1.1.cmml">S</ci>
+  <apply xml:id="m2.1.9.2.cmml">
+    <vector xml:id="m2.1.9.2.1.cmml"/>
+    <ci xml:id="m2.1.3.cmml">t</ci>
+    <ci xml:id="m2.1.5.cmml">K</ci>
+    <ci xml:id="m2.1.7.cmml">v</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="13">
+<ci xml:id="m3.1.1.cmml">v</ci></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="13">
+<ci xml:id="m4.1.1.cmml">t</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="13">
+<ci xml:id="m5.1.1.cmml">K</ci></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="13">
+<apply xml:id="m6.1.10.cmml">
+  <times xml:id="m6.1.10.1.cmml"/>
+  <ci xml:id="m6.1.1.cmml">S</ci>
+  <apply xml:id="m6.1.10.2.cmml">
+    <vector xml:id="m6.1.10.2.1.cmml"/>
+    <cn type="integer" xml:id="m6.1.3.cmml">4</cn>
+    <ci xml:id="m6.1.5.cmml">K</ci>
+    <cn type="integer" xml:id="m6.1.8.cmml">17</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="13">
+<apply xml:id="m7.1.6.cmml">
+  <geq xml:id="m7.1.4.cmml"/>
+  <apply xml:id="m7.1.6.1.cmml">
+    <abs xml:id="m7.1.6.1.1.cmml"/>
+    <ci xml:id="m7.1.2.cmml">K</ci>
+  </apply>
+  <cn type="integer" xml:id="m7.1.5.cmml">2</cn>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="14">
+<apply xml:id="m1.1.10.cmml">
+  <eq xml:id="m1.1.7.cmml"/>
+  <apply xml:id="m1.1.10.1.cmml">
+    <times xml:id="m1.1.10.1.1.cmml"/>
+    <apply xml:id="m1.1.10.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m1.1.10.1.2.1.cmml">superscript</csymbol>
+      <apply xml:id="m1.1.10.1.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m1.1.10.1.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m1.1.1.cmml">ϕ</ci>
+        <ci xml:id="m1.1.2.1.cmml">x</ci>
+      </apply>
+      <cn type="integer" xml:id="m1.1.3.1.cmml">3</cn>
+    </apply>
+    <apply xml:id="m1.1.10.1.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m1.1.10.1.3.1.cmml">subscript</csymbol>
+      <ci xml:id="m1.1.4.cmml">ϕ</ci>
+      <ci xml:id="m1.1.5.1.cmml">x</ci>
+    </apply>
+    <ci xml:id="m1.1.6.cmml">x</ci>
+  </apply>
+  <apply xml:id="m1.1.10.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m1.1.10.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m1.1.8.cmml">ϕ</ci>
+    <apply xml:id="m1.1.9.1.cmml">
+      <times xml:id="m1.1.9.1.3.cmml"/>
+      <apply xml:id="m1.1.9.1.1.cmml">
+        <ci xml:id="m1.1.9.1.1.1.cmml">normal-~</ci>
+        <ci xml:id="m1.1.9.1.1.2.cmml">y</ci>
+      </apply>
+      <apply xml:id="m1.1.9.1.2.cmml">
+        <ci xml:id="m1.1.9.1.2.1.cmml">normal-~</ci>
+        <ci xml:id="m1.1.9.1.2.2.cmml">y</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="14">
+<apply xml:id="m2.1.10.cmml">
+  <eq xml:id="m2.1.7.cmml"/>
+  <apply xml:id="m2.1.10.1.cmml">
+    <times xml:id="m2.1.10.1.1.cmml"/>
+    <apply xml:id="m2.1.10.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m2.1.10.1.2.1.cmml">superscript</csymbol>
+      <apply xml:id="m2.1.10.1.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m2.1.10.1.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m2.1.1.cmml">ϕ</ci>
+        <ci xml:id="m2.1.2.1.cmml">x</ci>
+      </apply>
+      <cn type="integer" xml:id="m2.1.3.1.cmml">3</cn>
+    </apply>
+    <apply xml:id="m2.1.10.1.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m2.1.10.1.3.1.cmml">subscript</csymbol>
+      <ci xml:id="m2.1.4.cmml">ϕ</ci>
+      <ci xml:id="m2.1.5.1.cmml">x</ci>
+    </apply>
+    <ci xml:id="m2.1.6.cmml">x</ci>
+  </apply>
+  <apply xml:id="m2.1.10.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m2.1.10.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m2.1.8.cmml">ϕ</ci>
+    <apply xml:id="m2.1.9.1.cmml">
+      <times xml:id="m2.1.9.1.3.cmml"/>
+      <apply xml:id="m2.1.9.1.1.cmml">
+        <ci xml:id="m2.1.9.1.1.1.cmml">normal-~</ci>
+        <ci xml:id="m2.1.9.1.1.2.cmml">y</ci>
+      </apply>
+      <apply xml:id="m2.1.9.1.2.cmml">
+        <ci xml:id="m2.1.9.1.2.1.cmml">normal-~</ci>
+        <ci xml:id="m2.1.9.1.2.2.cmml">y</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="14">
+<ci xml:id="m3.1.1.cmml">ϕ</ci></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="14">
+<apply xml:id="m4.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m4.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m4.1.1.cmml">x</ci>
+  <ci xml:id="m4.1.2.1.cmml">n</ci>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="14">
+<apply xml:id="m5.1.8.cmml">
+  <and xml:id="m5.1.8a.cmml"/>
+  <apply xml:id="m5.1.8b.cmml">
+    <leq xml:id="m5.1.4.cmml"/>
+    <apply xml:id="m5.1.8.2.cmml">
+      <divide xml:id="m5.1.2.cmml"/>
+      <cn type="integer" xml:id="m5.1.1.cmml">2</cn>
+      <cn type="integer" xml:id="m5.1.3.cmml">7</cn>
+    </apply>
+    <ci xml:id="m5.1.5.cmml">n</ci>
+  </apply>
+  <apply xml:id="m5.1.8c.cmml">
+    <lt xml:id="m5.1.6.cmml"/>
+    <share href="#m5.1.5.cmml" xml:id="m5.1.8d.cmml"/>
+    <cn type="integer" xml:id="m5.1.7.cmml">1</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="14">
+<ci xml:id="m6.1.1.cmml">x</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="14">
+<apply xml:id="m7.1.6.cmml">
+  <eq xml:id="m7.1.2.cmml"/>
+  <ci xml:id="m7.1.1.cmml">n</ci>
+  <apply xml:id="m7.1.6.1.cmml">
+    <divide xml:id="m7.1.4.cmml"/>
+    <cn type="integer" xml:id="m7.1.3.cmml">2</cn>
+    <cn type="integer" xml:id="m7.1.5.cmml">7</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="14">
+<apply xml:id="m8.1.8.cmml">
+  <and xml:id="m8.1.8a.cmml"/>
+  <apply xml:id="m8.1.8b.cmml">
+    <lt xml:id="m8.1.4.cmml"/>
+    <apply xml:id="m8.1.8.2.cmml">
+      <divide xml:id="m8.1.2.cmml"/>
+      <cn type="integer" xml:id="m8.1.1.cmml">2</cn>
+      <cn type="integer" xml:id="m8.1.3.cmml">7</cn>
+    </apply>
+    <ci xml:id="m8.1.5.cmml">n</ci>
+  </apply>
+  <apply xml:id="m8.1.8c.cmml">
+    <lt xml:id="m8.1.6.cmml"/>
+    <share href="#m8.1.5.cmml" xml:id="m8.1.8d.cmml"/>
+    <cn type="integer" xml:id="m8.1.7.cmml">1</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="14">
+<apply xml:id="m9.1.7.cmml">
+  <eq xml:id="m9.1.2.cmml"/>
+  <ci xml:id="m9.1.1.cmml">y</ci>
+  <apply xml:id="m9.1.7.1.cmml">
+    <csymbol cd="latexml" xml:id="m9.1.3.cmml">plus-or-minus</csymbol>
+    <apply xml:id="m9.1.7.1.1.cmml">
+      <times xml:id="m9.1.7.1.1.1.cmml"/>
+      <ci xml:id="m9.1.4.cmml">ε</ci>
+      <apply xml:id="m9.1.7.1.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m9.1.7.1.1.2.1.cmml">superscript</csymbol>
+        <ci xml:id="m9.1.5.cmml">x</ci>
+        <apply xml:id="m9.1.6.1.cmml">
+          <divide xml:id="m9.1.6.1.2.cmml"/>
+          <cn type="integer" xml:id="m9.1.6.1.1.cmml">2</cn>
+          <cn type="integer" xml:id="m9.1.6.1.3.cmml">7</cn>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="15">
+<ci xml:id="m1.1.1.cmml">U</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="15">
+<apply xml:id="m2.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m2.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m2.1.1.cmml">ℝ</ci>
+  <cn type="integer" xml:id="m2.1.2.1.cmml">2</cn>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="15">
+<apply xml:id="m3.1.6.cmml">
+  <ci xml:id="m3.1.2.cmml">normal-:</ci>
+  <ci xml:id="m3.1.1.cmml">F</ci>
+  <apply xml:id="m3.1.6.1.cmml">
+    <ci xml:id="m3.1.4.cmml">normal-→</ci>
+    <ci xml:id="m3.1.3.cmml">U</ci>
+    <ci xml:id="m3.1.5.cmml">ℝ</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="15">
+<apply xml:id="m4.1.19.cmml">
+  <csymbol cd="latexml" xml:id="m4.1.4.cmml">assign</csymbol>
+  <apply xml:id="m4.1.19.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m4.1.19.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m4.1.1.cmml">M</ci>
+    <ci xml:id="m4.1.2.1.cmml">F</ci>
+  </apply>
+  <apply xml:id="m4.1.19.2.cmml">
+    <set xml:id="m4.1.19.2.1.cmml"/>
+    <apply xml:id="m4.1.19.2.2.cmml">
+      <vector xml:id="m4.1.19.2.2.1.cmml"/>
+      <ci xml:id="m4.1.7.cmml">x</ci>
+      <ci xml:id="m4.1.9.cmml">y</ci>
+      <apply xml:id="m4.1.19.2.2.2.cmml">
+        <times xml:id="m4.1.19.2.2.2.1.cmml"/>
+        <ci xml:id="m4.1.11.cmml">F</ci>
+        <apply xml:id="m4.1.19.2.2.2.2.cmml">
+          <interval closure="open" xml:id="m4.1.19.2.2.2.2.1.cmml"/>
+          <ci xml:id="m4.1.13.cmml">x</ci>
+          <ci xml:id="m4.1.15.cmml">y</ci>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="16">
+<ci xml:id="m1.1.1.cmml">A</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="16">
+<apply xml:id="m2.1.1.cmml">
+  <csymbol cd="latexml" xml:id="m2.1.1.1.cmml">binomial</csymbol>
+  <ci xml:id="m2.1.1.2.cmml">n</ci>
+  <apply xml:id="m2.1.1.3.cmml">
+    <csymbol cd="ambiguous" xml:id="m2.1.1.3.3.cmml">subscript</csymbol>
+    <ci xml:id="m2.1.1.3.1.cmml">k</ci>
+    <ci xml:id="m2.1.1.3.2.1.cmml">n</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="16">
+<apply xml:id="m3.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m3.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m3.1.1.cmml">k</ci>
+  <ci xml:id="m3.1.2.1.cmml">n</ci>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="16">
+<apply xml:id="m4.1.10.cmml">
+  <list xml:id="m4.1.10.1.cmml"/>
+  <cn type="integer" xml:id="m4.1.2.cmml">1</cn>
+  <cn type="integer" xml:id="m4.1.4.cmml">2</cn>
+  <ci xml:id="m4.1.6.cmml">normal-…</ci>
+  <ci xml:id="m4.1.8.cmml">n</ci>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="16">
+<apply xml:id="m5.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m5.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m5.1.1.cmml">B</ci>
+  <ci xml:id="m5.1.2.1.cmml">h</ci>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="16">
+<ci xml:id="m6.1.1.cmml">h</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="16">
+<ci xml:id="m7.1.1.cmml">A</ci></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="16">
+<apply xml:id="m8.1.8.cmml">
+  <ci xml:id="m8.1.6.cmml">normal-→</ci>
+  <apply xml:id="m8.1.8.1.cmml">
+    <divide xml:id="m8.1.3.cmml"/>
+    <apply xml:id="m8.1.8.1.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m8.1.8.1.1.1.cmml">subscript</csymbol>
+      <ci xml:id="m8.1.1.cmml">k</ci>
+      <ci xml:id="m8.1.2.1.cmml">n</ci>
+    </apply>
+    <apply xml:id="m8.1.8.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m8.1.8.1.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m8.1.4.cmml">n</ci>
+      <apply xml:id="m8.1.5.1.cmml">
+        <times xml:id="m8.1.5.1.5.cmml"/>
+        <apply xml:id="m8.1.5.1.6.cmml">
+          <divide xml:id="m8.1.5.1.2.cmml"/>
+          <cn type="integer" xml:id="m8.1.5.1.1.cmml">1</cn>
+          <cn type="integer" xml:id="m8.1.5.1.3.cmml">2</cn>
+        </apply>
+        <ci xml:id="m8.1.5.1.4.cmml">h</ci>
+      </apply>
+    </apply>
+  </apply>
+  <ci xml:id="m8.1.7.cmml">normal-Λ</ci>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="16">
+<apply xml:id="m9.1.4.cmml">
+  <ci xml:id="m9.1.2.cmml">normal-→</ci>
+  <ci xml:id="m9.1.1.cmml">n</ci>
+  <infinity xml:id="m9.1.3.cmml"/>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="16">
+<apply xml:id="m10.1.9.cmml">
+  <exp xml:id="m10.1.1.cmml"/>
+  <apply xml:id="m10.1.9.1.cmml">
+    <minus xml:id="m10.1.3.cmml"/>
+    <apply xml:id="m10.1.9.1.1.cmml">
+      <times xml:id="m10.1.9.1.1.1.cmml"/>
+      <apply xml:id="m10.1.9.1.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m10.1.9.1.1.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m10.1.4.cmml">κ</ci>
+        <ci xml:id="m10.1.5.1.cmml">h</ci>
+      </apply>
+      <apply xml:id="m10.1.9.1.1.3.cmml">
+        <csymbol cd="ambiguous" xml:id="m10.1.9.1.1.3.1.cmml">superscript</csymbol>
+        <ci xml:id="m10.1.6.cmml">normal-Λ</ci>
+        <apply xml:id="m10.1.7.1.cmml">
+          <times xml:id="m10.1.7.1.3.cmml"/>
+          <cn type="integer" xml:id="m10.1.7.1.1.cmml">2</cn>
+          <ci xml:id="m10.1.7.1.2.cmml">k</ci>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="16">
+<apply xml:id="m11.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m11.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m11.1.1.cmml">κ</ci>
+  <ci xml:id="m11.1.2.1.cmml">h</ci>
+</apply></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="16">
+<apply xml:id="m12.1.8.cmml">
+  <ci xml:id="m12.1.6.cmml">normal-→</ci>
+  <apply xml:id="m12.1.8.1.cmml">
+    <divide xml:id="m12.1.3.cmml"/>
+    <apply xml:id="m12.1.8.1.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m12.1.8.1.1.1.cmml">subscript</csymbol>
+      <ci xml:id="m12.1.1.cmml">k</ci>
+      <ci xml:id="m12.1.2.1.cmml">n</ci>
+    </apply>
+    <apply xml:id="m12.1.8.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m12.1.8.1.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m12.1.4.cmml">n</ci>
+      <apply xml:id="m12.1.5.1.cmml">
+        <times xml:id="m12.1.5.1.5.cmml"/>
+        <apply xml:id="m12.1.5.1.6.cmml">
+          <divide xml:id="m12.1.5.1.2.cmml"/>
+          <cn type="integer" xml:id="m12.1.5.1.1.cmml">1</cn>
+          <cn type="integer" xml:id="m12.1.5.1.3.cmml">2</cn>
+        </apply>
+        <ci xml:id="m12.1.5.1.4.cmml">h</ci>
+      </apply>
+    </apply>
+  </apply>
+  <cn type="integer" xml:id="m12.1.7.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m13.1" mws:data_id="16">
+<apply xml:id="m13.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m13.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m13.1.1.cmml">B</ci>
+  <ci xml:id="m13.1.2.1.cmml">h</ci>
+</apply></mws:expr>
+<mws:expr url="#m14.1" mws:data_id="16">
+<apply xml:id="m14.1.8.cmml">
+  <ci xml:id="m14.1.6.cmml">normal-→</ci>
+  <apply xml:id="m14.1.8.1.cmml">
+    <divide xml:id="m14.1.3.cmml"/>
+    <apply xml:id="m14.1.8.1.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m14.1.8.1.1.1.cmml">subscript</csymbol>
+      <ci xml:id="m14.1.1.cmml">k</ci>
+      <ci xml:id="m14.1.2.1.cmml">n</ci>
+    </apply>
+    <apply xml:id="m14.1.8.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m14.1.8.1.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m14.1.4.cmml">n</ci>
+      <apply xml:id="m14.1.5.1.cmml">
+        <times xml:id="m14.1.5.1.5.cmml"/>
+        <apply xml:id="m14.1.5.1.6.cmml">
+          <divide xml:id="m14.1.5.1.2.cmml"/>
+          <cn type="integer" xml:id="m14.1.5.1.1.cmml">1</cn>
+          <cn type="integer" xml:id="m14.1.5.1.3.cmml">2</cn>
+        </apply>
+        <ci xml:id="m14.1.5.1.4.cmml">h</ci>
+      </apply>
+    </apply>
+  </apply>
+  <infinity xml:id="m14.1.7.cmml"/>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="17">
+<apply xml:id="m1.1.6.cmml">
+  <interval closure="open" xml:id="m1.1.6.1.cmml"/>
+  <ci xml:id="m1.1.2.cmml">M</ci>
+  <ci xml:id="m1.1.4.cmml">g</ci>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="17">
+<apply xml:id="m2.1.6.cmml">
+  <interval closure="open" xml:id="m2.1.6.1.cmml"/>
+  <ci xml:id="m2.1.2.cmml">N</ci>
+  <ci xml:id="m2.1.4.cmml">h</ci>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="17">
+<apply xml:id="m3.1.5.cmml">
+  <eq xml:id="m3.1.3.cmml"/>
+  <apply xml:id="m3.1.5.1.cmml">
+    <csymbol cd="latexml" xml:id="m3.1.1.cmml">dimension</csymbol>
+    <ci xml:id="m3.1.2.cmml">M</ci>
+  </apply>
+  <ci xml:id="m3.1.4.cmml">m</ci>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="17">
+<apply xml:id="m4.1.6.cmml">
+  <interval closure="open" xml:id="m4.1.6.1.cmml"/>
+  <ci xml:id="m4.1.2.cmml">N</ci>
+  <ci xml:id="m4.1.4.cmml">h</ci>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="17">
+<apply xml:id="m5.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m5.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m5.1.1.cmml">ℝ</ci>
+  <ci xml:id="m5.1.2.1.cmml">l</ci>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="17">
+<ci xml:id="m6.1.1.cmml">N</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="17">
+<apply xml:id="m7.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m7.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m7.1.1.cmml">ℝ</ci>
+  <ci xml:id="m7.1.2.1.cmml">l</ci>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="17">
+<apply xml:id="m8.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m8.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m8.1.1.cmml">C</ci>
+  <cn type="integer" xml:id="m8.1.2.1.cmml">1</cn>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="17">
+<apply xml:id="m9.1.9.cmml">
+  <ci xml:id="m9.1.2.cmml">normal-:</ci>
+  <ci xml:id="m9.1.1.cmml">u</ci>
+  <apply xml:id="m9.1.9.1.cmml">
+    <and xml:id="m9.1.9.1a.cmml"/>
+    <apply xml:id="m9.1.9.1b.cmml">
+      <ci xml:id="m9.1.4.cmml">normal-→</ci>
+      <ci xml:id="m9.1.3.cmml">M</ci>
+      <ci xml:id="m9.1.5.cmml">N</ci>
+    </apply>
+    <apply xml:id="m9.1.9.1c.cmml">
+      <subset xml:id="m9.1.6.cmml"/>
+      <share href="#m9.1.5.cmml" xml:id="m9.1.9.1d.cmml"/>
+      <apply xml:id="m9.1.9.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m9.1.9.1.2.1.cmml">superscript</csymbol>
+        <ci xml:id="m9.1.7.cmml">ℝ</ci>
+        <ci xml:id="m9.1.8.1.cmml">l</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex1.m1.1" mws:data_id="17">
+<apply xml:id="S0.Ex1.m1.1.24.cmml">
+  <and xml:id="S0.Ex1.m1.1.24a.cmml"/>
+  <apply xml:id="S0.Ex1.m1.1.24b.cmml">
+    <eq xml:id="S0.Ex1.m1.1.5.cmml"/>
+    <apply xml:id="S0.Ex1.m1.1.24.2.cmml">
+      <times xml:id="S0.Ex1.m1.1.24.2.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.1.cmml">e</ci>
+      <ci xml:id="S0.Ex1.m1.1.3.cmml">u</ci>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.24.3.cmml">
+      <times xml:id="S0.Ex1.m1.1.24.3.1.cmml"/>
+      <apply xml:id="S0.Ex1.m1.1.6.cmml">
+        <divide xml:id="S0.Ex1.m1.1.6.1.cmml"/>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.6.2.cmml">1</cn>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.6.3.cmml">2</cn>
+      </apply>
+      <apply xml:id="S0.Ex1.m1.1.24.3.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.24.3.2.1.cmml">superscript</csymbol>
+        <apply xml:id="S0.Ex1.m1.1.24.3.2.2.cmml">
+          <abs xml:id="S0.Ex1.m1.1.24.3.2.2.1.cmml"/>
+          <apply xml:id="S0.Ex1.m1.1.24.3.2.2.2.cmml">
+            <ci xml:id="S0.Ex1.m1.1.8.cmml">normal-∇</ci>
+            <ci xml:id="S0.Ex1.m1.1.9.cmml">u</ci>
+          </apply>
+        </apply>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.11.1.cmml">2</cn>
+      </apply>
+    </apply>
+  </apply>
+  <apply xml:id="S0.Ex1.m1.1.24c.cmml">
+    <eq xml:id="S0.Ex1.m1.1.12.cmml"/>
+    <share href="#S0.Ex1.m1.1.24.3.cmml" xml:id="S0.Ex1.m1.1.24d.cmml"/>
+    <apply xml:id="S0.Ex1.m1.1.24.4.cmml">
+      <times xml:id="S0.Ex1.m1.1.24.4.1.cmml"/>
+      <apply xml:id="S0.Ex1.m1.1.13.cmml">
+        <divide xml:id="S0.Ex1.m1.1.13.1.cmml"/>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.13.2.cmml">1</cn>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.13.3.cmml">2</cn>
+      </apply>
+      <apply xml:id="S0.Ex1.m1.1.24.4.2.cmml">
+        <apply xml:id="S0.Ex1.m1.1.24.4.2.1.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.24.4.2.1.1.cmml">subscript</csymbol>
+          <apply xml:id="S0.Ex1.m1.1.24.4.2.1.2.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.24.4.2.1.2.1.cmml">superscript</csymbol>
+            <sum xml:id="S0.Ex1.m1.1.14.cmml"/>
+            <ci xml:id="S0.Ex1.m1.1.15.1.cmml">m</ci>
+          </apply>
+          <apply xml:id="S0.Ex1.m1.1.16.1.cmml">
+            <eq xml:id="S0.Ex1.m1.1.16.1.4.cmml"/>
+            <apply xml:id="S0.Ex1.m1.1.16.1.6.cmml">
+              <list xml:id="S0.Ex1.m1.1.16.1.6.1.cmml"/>
+              <ci xml:id="S0.Ex1.m1.1.16.1.1.cmml">i</ci>
+              <ci xml:id="S0.Ex1.m1.1.16.1.3.cmml">j</ci>
+            </apply>
+            <cn type="integer" xml:id="S0.Ex1.m1.1.16.1.5.cmml">1</cn>
+          </apply>
+        </apply>
+        <apply xml:id="S0.Ex1.m1.1.24.4.2.2.cmml">
+          <apply xml:id="S0.Ex1.m1.1.24.4.2.2.1.cmml">
+            <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.24.4.2.2.1.1.cmml">subscript</csymbol>
+            <apply xml:id="S0.Ex1.m1.1.24.4.2.2.1.2.cmml">
+              <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.24.4.2.2.1.2.1.cmml">superscript</csymbol>
+              <sum xml:id="S0.Ex1.m1.1.17.cmml"/>
+              <ci xml:id="S0.Ex1.m1.1.18.1.cmml">l</ci>
+            </apply>
+            <apply xml:id="S0.Ex1.m1.1.19.1.cmml">
+              <eq xml:id="S0.Ex1.m1.1.19.1.2.cmml"/>
+              <ci xml:id="S0.Ex1.m1.1.19.1.1.cmml">k</ci>
+              <cn type="integer" xml:id="S0.Ex1.m1.1.19.1.3.cmml">1</cn>
+            </apply>
+          </apply>
+          <apply xml:id="S0.Ex1.m1.1.24.4.2.2.2.cmml">
+            <times xml:id="S0.Ex1.m1.1.24.4.2.2.2.1.cmml"/>
+            <apply xml:id="S0.Ex1.m1.1.24.4.2.2.2.2.cmml">
+              <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.24.4.2.2.2.2.1.cmml">superscript</csymbol>
+              <ci xml:id="S0.Ex1.m1.1.20.cmml">g</ci>
+              <apply xml:id="S0.Ex1.m1.1.21.1.cmml">
+                <times xml:id="S0.Ex1.m1.1.21.1.3.cmml"/>
+                <ci xml:id="S0.Ex1.m1.1.21.1.1.cmml">i</ci>
+                <ci xml:id="S0.Ex1.m1.1.21.1.2.cmml">j</ci>
+              </apply>
+            </apply>
+            <apply xml:id="S0.Ex1.m1.1.22.cmml">
+              <divide xml:id="S0.Ex1.m1.1.22.1.cmml"/>
+              <apply xml:id="S0.Ex1.m1.1.22.2.cmml">
+                <partialdiff xml:id="S0.Ex1.m1.1.22.2.1.cmml"/>
+                <apply xml:id="S0.Ex1.m1.1.22.2.4.cmml">
+                  <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.22.2.4.1.cmml">superscript</csymbol>
+                  <ci xml:id="S0.Ex1.m1.1.22.2.2.cmml">u</ci>
+                  <ci xml:id="S0.Ex1.m1.1.22.2.3.1.cmml">k</ci>
+                </apply>
+              </apply>
+              <apply xml:id="S0.Ex1.m1.1.22.3.cmml">
+                <partialdiff xml:id="S0.Ex1.m1.1.22.3.1.cmml"/>
+                <apply xml:id="S0.Ex1.m1.1.22.3.4.cmml">
+                  <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.22.3.4.1.cmml">superscript</csymbol>
+                  <ci xml:id="S0.Ex1.m1.1.22.3.2.cmml">x</ci>
+                  <ci xml:id="S0.Ex1.m1.1.22.3.3.1.cmml">i</ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply xml:id="S0.Ex1.m1.1.23.cmml">
+              <divide xml:id="S0.Ex1.m1.1.23.1.cmml"/>
+              <apply xml:id="S0.Ex1.m1.1.23.2.cmml">
+                <partialdiff xml:id="S0.Ex1.m1.1.23.2.1.cmml"/>
+                <apply xml:id="S0.Ex1.m1.1.23.2.4.cmml">
+                  <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.23.2.4.1.cmml">superscript</csymbol>
+                  <ci xml:id="S0.Ex1.m1.1.23.2.2.cmml">u</ci>
+                  <ci xml:id="S0.Ex1.m1.1.23.2.3.1.cmml">k</ci>
+                </apply>
+              </apply>
+              <apply xml:id="S0.Ex1.m1.1.23.3.cmml">
+                <partialdiff xml:id="S0.Ex1.m1.1.23.3.1.cmml"/>
+                <apply xml:id="S0.Ex1.m1.1.23.3.4.cmml">
+                  <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.23.3.4.1.cmml">superscript</csymbol>
+                  <ci xml:id="S0.Ex1.m1.1.23.3.2.cmml">x</ci>
+                  <ci xml:id="S0.Ex1.m1.1.23.3.3.1.cmml">j</ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex2.m1.1" mws:data_id="17">
+<apply xml:id="S0.Ex2.m1.1.15.cmml">
+  <eq xml:id="S0.Ex2.m1.1.5.cmml"/>
+  <apply xml:id="S0.Ex2.m1.1.15.1.cmml">
+    <times xml:id="S0.Ex2.m1.1.15.1.1.cmml"/>
+    <ci xml:id="S0.Ex2.m1.1.1.cmml">E</ci>
+    <ci xml:id="S0.Ex2.m1.1.3.cmml">u</ci>
+  </apply>
+  <apply xml:id="S0.Ex2.m1.1.15.2.cmml">
+    <apply xml:id="S0.Ex2.m1.1.15.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.15.2.1.1.cmml">subscript</csymbol>
+      <int xml:id="S0.Ex2.m1.1.6.cmml"/>
+      <ci xml:id="S0.Ex2.m1.1.7.1.cmml">M</ci>
+    </apply>
+    <apply xml:id="S0.Ex2.m1.1.15.2.2.cmml">
+      <times xml:id="S0.Ex2.m1.1.15.2.2.1.cmml"/>
+      <ci xml:id="S0.Ex2.m1.1.8.cmml">e</ci>
+      <ci xml:id="S0.Ex2.m1.1.10.cmml">u</ci>
+      <ci xml:id="S0.Ex2.m1.1.12.cmml">d</ci>
+      <apply xml:id="S0.Ex2.m1.1.15.2.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.15.2.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex2.m1.1.13.cmml">v</ci>
+        <ci xml:id="S0.Ex2.m1.1.14.1.cmml">g</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="17">
+<ci xml:id="m10.1.1.cmml">u</ci></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="17">
+<apply xml:id="m11.1.5.cmml">
+  <times xml:id="m11.1.5.1.cmml"/>
+  <ci xml:id="m11.1.1.cmml">E</ci>
+  <ci xml:id="m11.1.3.cmml">u</ci>
+</apply></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="17">
+<ci xml:id="m12.1.1.cmml">u</ci></mws:expr>
+<mws:expr url="#S0.Ex3.m1.1" mws:data_id="17">
+<apply xml:id="S0.Ex3.m1.1.23.cmml">
+  <and xml:id="S0.Ex3.m1.1.23a.cmml"/>
+  <apply xml:id="S0.Ex3.m1.1.23b.cmml">
+    <equivalent xml:id="S0.Ex3.m1.1.5.cmml"/>
+    <apply xml:id="S0.Ex3.m1.1.23.2.cmml">
+      <times xml:id="S0.Ex3.m1.1.23.2.1.cmml"/>
+      <ci xml:id="S0.Ex3.m1.1.1.cmml">τ</ci>
+      <ci xml:id="S0.Ex3.m1.1.3.cmml">u</ci>
+    </apply>
+    <apply xml:id="S0.Ex3.m1.1.23.3.cmml">
+      <minus xml:id="S0.Ex3.m1.1.8.cmml"/>
+      <apply xml:id="S0.Ex3.m1.1.23.3.1.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.23.3.1.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex3.m1.1.6.cmml">normal-Δ</ci>
+        <ci xml:id="S0.Ex3.m1.1.7.1.cmml">M</ci>
+      </apply>
+      <apply xml:id="S0.Ex3.m1.1.23.3.2.cmml">
+        <times xml:id="S0.Ex3.m1.1.23.3.2.1.cmml"/>
+        <ci xml:id="S0.Ex3.m1.1.9.cmml">A</ci>
+        <ci xml:id="S0.Ex3.m1.1.11.cmml">u</ci>
+        <apply xml:id="S0.Ex3.m1.1.23.3.2.2.cmml">
+          <interval closure="open" xml:id="S0.Ex3.m1.1.23.3.2.2.1.cmml"/>
+          <apply xml:id="S0.Ex3.m1.1.23.3.2.2.2.cmml">
+            <ci xml:id="S0.Ex3.m1.1.14.cmml">normal-∇</ci>
+            <ci xml:id="S0.Ex3.m1.1.15.cmml">u</ci>
+          </apply>
+          <apply xml:id="S0.Ex3.m1.1.23.3.2.2.3.cmml">
+            <ci xml:id="S0.Ex3.m1.1.17.cmml">normal-∇</ci>
+            <ci xml:id="S0.Ex3.m1.1.18.cmml">u</ci>
+          </apply>
+        </apply>
+      </apply>
+    </apply>
+  </apply>
+  <apply xml:id="S0.Ex3.m1.1.23c.cmml">
+    <eq xml:id="S0.Ex3.m1.1.20.cmml"/>
+    <share href="#S0.Ex3.m1.1.23.3.cmml" xml:id="S0.Ex3.m1.1.23d.cmml"/>
+    <cn type="integer" xml:id="S0.Ex3.m1.1.21.cmml">0</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m13.1" mws:data_id="17">
+<apply xml:id="m13.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m13.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m13.1.1.cmml">normal-Δ</ci>
+  <ci xml:id="m13.1.2.1.cmml">M</ci>
+</apply></mws:expr>
+<mws:expr url="#m14.1" mws:data_id="17">
+<ci xml:id="m14.1.1.cmml">M</ci></mws:expr>
+<mws:expr url="#m15.1" mws:data_id="17">
+<apply xml:id="m15.1.5.cmml">
+  <times xml:id="m15.1.5.1.cmml"/>
+  <ci xml:id="m15.1.1.cmml">A</ci>
+  <ci xml:id="m15.1.3.cmml">u</ci>
+</apply></mws:expr>
+<mws:expr url="#m16.1" mws:data_id="17">
+<ci xml:id="m16.1.1.cmml">N</ci></mws:expr>
+<mws:expr url="#m17.1" mws:data_id="17">
+<apply xml:id="m17.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m17.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m17.1.1.cmml">ℝ</ci>
+  <ci xml:id="m17.1.2.1.cmml">l</ci>
+</apply></mws:expr>
+<mws:expr url="#m18.1" mws:data_id="17">
+<apply xml:id="m18.1.5.cmml">
+  <times xml:id="m18.1.5.1.cmml"/>
+  <ci xml:id="m18.1.1.cmml">τ</ci>
+  <ci xml:id="m18.1.3.cmml">u</ci>
+</apply></mws:expr>
+<mws:expr url="#m19.1" mws:data_id="17">
+<ci xml:id="m19.1.1.cmml">M</ci></mws:expr>
+<mws:expr url="#m20.1" mws:data_id="17">
+<apply xml:id="m20.1.5.cmml">
+  <times xml:id="m20.1.5.1.cmml"/>
+  <ci xml:id="m20.1.1.cmml">E</ci>
+  <ci xml:id="m20.1.3.cmml">u</ci>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex4.m1.1" mws:data_id="17">
+<apply xml:id="S0.Ex4.m1.1.23.cmml">
+  <csymbol cd="ambiguous" xml:id="S0.Ex4.m1.1.23a.cmml">formulae-sequence</csymbol>
+  <apply xml:id="S0.Ex4.m1.1.23.2.cmml">
+    <eq xml:id="S0.Ex4.m1.1.3.cmml"/>
+    <apply xml:id="S0.Ex4.m1.1.23.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex4.m1.1.23.2.1.1.cmml">subscript</csymbol>
+      <ci xml:id="S0.Ex4.m1.1.1.cmml">u</ci>
+      <ci xml:id="S0.Ex4.m1.1.2.1.cmml">t</ci>
+    </apply>
+    <apply xml:id="S0.Ex4.m1.1.23.2.2.cmml">
+      <times xml:id="S0.Ex4.m1.1.23.2.2.1.cmml"/>
+      <ci xml:id="S0.Ex4.m1.1.4.cmml">τ</ci>
+      <ci xml:id="S0.Ex4.m1.1.6.cmml">u</ci>
+    </apply>
+  </apply>
+  <apply xml:id="S0.Ex4.m1.1.23.3.cmml">
+    <eq xml:id="S0.Ex4.m1.1.16.cmml"/>
+    <apply xml:id="S0.Ex4.m1.1.23.3.1.cmml">
+      <times xml:id="S0.Ex4.m1.1.23.3.1.1.cmml"/>
+      <ci xml:id="S0.Ex4.m1.1.10.cmml">u</ci>
+      <apply xml:id="S0.Ex4.m1.1.23.3.1.2.cmml">
+        <interval closure="open" xml:id="S0.Ex4.m1.1.23.3.1.2.1.cmml"/>
+        <cn type="integer" xml:id="S0.Ex4.m1.1.12.cmml">0</cn>
+        <ci xml:id="S0.Ex4.m1.1.14.cmml">x</ci>
+      </apply>
+    </apply>
+    <apply xml:id="S0.Ex4.m1.1.23.3.2.cmml">
+      <times xml:id="S0.Ex4.m1.1.23.3.2.1.cmml"/>
+      <apply xml:id="S0.Ex4.m1.1.23.3.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex4.m1.1.23.3.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex4.m1.1.17.cmml">u</ci>
+        <cn type="integer" xml:id="S0.Ex4.m1.1.18.1.cmml">0</cn>
+      </apply>
+      <ci xml:id="S0.Ex4.m1.1.20.cmml">x</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m21.1" mws:data_id="17">
+<apply xml:id="m21.1.21.cmml">
+  <in xml:id="m21.1.7.cmml"/>
+  <apply xml:id="m21.1.21.1.cmml">
+    <times xml:id="m21.1.21.1.1.cmml"/>
+    <ci xml:id="m21.1.1.cmml">u</ci>
+    <apply xml:id="m21.1.21.1.2.cmml">
+      <interval closure="open" xml:id="m21.1.21.1.2.1.cmml"/>
+      <ci xml:id="m21.1.3.cmml">x</ci>
+      <ci xml:id="m21.1.5.cmml">t</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m21.1.21.2.cmml">
+    <times xml:id="m21.1.21.2.1.cmml"/>
+    <apply xml:id="m21.1.21.2.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m21.1.21.2.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m21.1.8.cmml">C</ci>
+      <infinity xml:id="m21.1.9.1.cmml"/>
+    </apply>
+    <apply xml:id="m21.1.21.2.3.cmml">
+      <interval closure="open" xml:id="m21.1.21.2.3.1.cmml"/>
+      <apply xml:id="m21.1.21.2.3.2.cmml">
+        <times xml:id="m21.1.12.cmml"/>
+        <ci xml:id="m21.1.11.cmml">M</ci>
+        <apply xml:id="m21.1.21.2.3.2.1.cmml">
+          <interval closure="closed-open" xml:id="m21.1.21.2.3.2.1.1.cmml"/>
+          <cn type="integer" xml:id="m21.1.14.cmml">0</cn>
+          <ci xml:id="m21.1.16.cmml">T</ci>
+        </apply>
+      </apply>
+      <ci xml:id="m21.1.19.cmml">N</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m22.1" mws:data_id="17">
+<apply xml:id="m22.1.7.cmml">
+  <interval closure="open" xml:id="m22.1.7.1.cmml"/>
+  <apply xml:id="m22.1.7.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m22.1.7.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m22.1.2.cmml">x</ci>
+    <cn type="integer" xml:id="m22.1.3.1.cmml">0</cn>
+  </apply>
+  <ci xml:id="m22.1.5.cmml">T</ci>
+</apply></mws:expr>
+<mws:expr url="#m23.1" mws:data_id="17">
+<apply xml:id="m23.1.7.cmml">
+  <times xml:id="m23.1.7.1.cmml"/>
+  <ci xml:id="m23.1.1.cmml">u</ci>
+  <apply xml:id="m23.1.7.2.cmml">
+    <interval closure="open" xml:id="m23.1.7.2.1.cmml"/>
+    <ci xml:id="m23.1.3.cmml">x</ci>
+    <ci xml:id="m23.1.5.cmml">t</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m24.1" mws:data_id="17">
+<apply xml:id="m24.1.13.cmml">
+  <leq xml:id="m24.1.11.cmml"/>
+  <apply xml:id="m24.1.13.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m24.1.13.1.1.cmml">superscript</csymbol>
+    <apply xml:id="m24.1.13.1.2.cmml">
+      <abs xml:id="m24.1.13.1.2.1.cmml"/>
+      <apply xml:id="m24.1.13.1.2.2.cmml">
+        <times xml:id="m24.1.13.1.2.2.1.cmml"/>
+        <apply xml:id="m24.1.13.1.2.2.2.cmml">
+          <ci xml:id="m24.1.2.cmml">normal-∇</ci>
+          <ci xml:id="m24.1.3.cmml">u</ci>
+        </apply>
+        <apply xml:id="m24.1.13.1.2.2.3.cmml">
+          <interval closure="open" xml:id="m24.1.13.1.2.2.3.1.cmml"/>
+          <ci xml:id="m24.1.5.cmml">x</ci>
+          <ci xml:id="m24.1.7.cmml">t</ci>
+        </apply>
+      </apply>
+    </apply>
+    <cn type="integer" xml:id="m24.1.10.1.cmml">2</cn>
+  </apply>
+  <apply xml:id="m24.1.12.cmml">
+    <divide xml:id="m24.1.12.1.cmml"/>
+    <ci xml:id="m24.1.12.2.cmml">C</ci>
+    <apply xml:id="m24.1.12.3.cmml">
+      <minus xml:id="m24.1.12.3.2.cmml"/>
+      <ci xml:id="m24.1.12.3.1.cmml">T</ci>
+      <ci xml:id="m24.1.12.3.3.cmml">t</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m25.1" mws:data_id="17">
+<apply xml:id="m25.1.7.cmml">
+  <interval closure="open" xml:id="m25.1.7.1.cmml"/>
+  <apply xml:id="m25.1.7.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m25.1.7.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m25.1.2.cmml">x</ci>
+    <cn type="integer" xml:id="m25.1.3.1.cmml">0</cn>
+  </apply>
+  <ci xml:id="m25.1.5.cmml">T</ci>
+</apply></mws:expr>
+<mws:expr url="#m26.1" mws:data_id="17">
+<apply xml:id="m26.1.7.cmml">
+  <interval closure="open" xml:id="m26.1.7.1.cmml"/>
+  <apply xml:id="m26.1.7.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m26.1.7.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m26.1.2.cmml">x</ci>
+    <cn type="integer" xml:id="m26.1.3.1.cmml">0</cn>
+  </apply>
+  <ci xml:id="m26.1.5.cmml">T</ci>
+</apply></mws:expr>
+<mws:expr url="#m27.1" mws:data_id="17">
+<apply xml:id="m27.1.7.cmml">
+  <interval closure="open" xml:id="m27.1.7.1.cmml"/>
+  <apply xml:id="m27.1.7.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m27.1.7.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m27.1.2.cmml">x</ci>
+    <cn type="integer" xml:id="m27.1.3.1.cmml">0</cn>
+  </apply>
+  <ci xml:id="m27.1.5.cmml">T</ci>
+</apply></mws:expr>
+<mws:expr url="#m28.1" mws:data_id="17">
+<apply xml:id="m28.1.7.cmml">
+  <times xml:id="m28.1.7.1.cmml"/>
+  <ci xml:id="m28.1.1.cmml">u</ci>
+  <apply xml:id="m28.1.7.2.cmml">
+    <interval closure="open" xml:id="m28.1.7.2.1.cmml"/>
+    <ci xml:id="m28.1.3.cmml">x</ci>
+    <ci xml:id="m28.1.5.cmml">t</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="18">
+<apply xml:id="m1.1.12.cmml">
+  <eq xml:id="m1.1.2.cmml"/>
+  <ci xml:id="m1.1.1.cmml">u</ci>
+  <apply xml:id="m1.1.12.1.cmml">
+    <vector xml:id="m1.1.12.1.1.cmml"/>
+    <apply xml:id="m1.1.12.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m1.1.12.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m1.1.4.cmml">u</ci>
+      <cn type="integer" xml:id="m1.1.5.1.cmml">1</cn>
+    </apply>
+    <ci xml:id="m1.1.7.cmml">normal-…</ci>
+    <apply xml:id="m1.1.12.1.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m1.1.12.1.3.1.cmml">subscript</csymbol>
+      <ci xml:id="m1.1.9.cmml">u</ci>
+      <ci xml:id="m1.1.10.1.cmml">n</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="18">
+<apply xml:id="m2.1.9.cmml">
+  <eq xml:id="m2.1.2.cmml"/>
+  <ci xml:id="m2.1.1.cmml">D</ci>
+  <apply xml:id="m2.1.9.1.cmml">
+    <times xml:id="m2.1.9.1.1.cmml"/>
+    <apply xml:id="m2.1.9.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m2.1.9.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m2.1.4.cmml">δ</ci>
+      <apply xml:id="m2.1.5.1.cmml">
+        <times xml:id="m2.1.5.1.3.cmml"/>
+        <ci xml:id="m2.1.5.1.1.cmml">j</ci>
+        <ci xml:id="m2.1.5.1.2.cmml">k</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m2.1.9.1.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m2.1.9.1.3.1.cmml">subscript</csymbol>
+      <ci xml:id="m2.1.6.cmml">a</ci>
+      <ci xml:id="m2.1.7.1.cmml">k</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="18">
+<apply xml:id="m3.1.6.cmml">
+  <leq xml:id="m3.1.4.cmml"/>
+  <apply xml:id="m3.1.6.1.cmml">
+    <list xml:id="m3.1.6.1.1.cmml"/>
+    <ci xml:id="m3.1.1.cmml">j</ci>
+    <ci xml:id="m3.1.3.cmml">k</ci>
+  </apply>
+  <ci xml:id="m3.1.5.cmml">n</ci>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="18">
+<apply xml:id="m4.1.5.cmml">
+  <gt xml:id="m4.1.3.cmml"/>
+  <apply xml:id="m4.1.5.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m4.1.5.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m4.1.1.cmml">a</ci>
+    <ci xml:id="m4.1.2.1.cmml">k</ci>
+  </apply>
+  <cn type="integer" xml:id="m4.1.4.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="18">
+<apply xml:id="m5.1.5.cmml">
+  <times xml:id="m5.1.5.1.cmml"/>
+  <ci xml:id="m5.1.1.cmml">F</ci>
+  <ci xml:id="m5.1.3.cmml">u</ci>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="18">
+<apply xml:id="m6.1.13.cmml">
+  <eq xml:id="m6.1.3.cmml"/>
+  <apply xml:id="m6.1.13.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m6.1.13.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m6.1.1.cmml">u</ci>
+    <cn type="integer" xml:id="m6.1.2.1.cmml">0</cn>
+  </apply>
+  <apply xml:id="m6.1.13.2.cmml">
+    <vector xml:id="m6.1.13.2.1.cmml"/>
+    <apply xml:id="m6.1.13.2.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m6.1.13.2.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m6.1.5.cmml">u</ci>
+      <cn type="integer" xml:id="m6.1.6.1.cmml">01</cn>
+    </apply>
+    <ci xml:id="m6.1.8.cmml">normal-…</ci>
+    <apply xml:id="m6.1.13.2.3.cmml">
+      <csymbol cd="ambiguous" xml:id="m6.1.13.2.3.1.cmml">subscript</csymbol>
+      <ci xml:id="m6.1.10.cmml">u</ci>
+      <apply xml:id="m6.1.11.1.cmml">
+        <times xml:id="m6.1.11.1.3.cmml"/>
+        <cn type="integer" xml:id="m6.1.11.1.1.cmml">0</cn>
+        <ci xml:id="m6.1.11.1.2.cmml">n</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="18">
+<apply xml:id="m7.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m7.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m7.1.1.cmml">A</ci>
+  <cn type="integer" xml:id="m7.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="18">
+<apply xml:id="m8.1.6.cmml">
+  <times xml:id="m8.1.6.1.cmml"/>
+  <ci xml:id="m8.1.1.cmml">σ</ci>
+  <apply xml:id="m8.1.6.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m8.1.6.2.1.cmml">subscript</csymbol>
+    <ci xml:id="m8.1.3.cmml">A</ci>
+    <cn type="integer" xml:id="m8.1.4.1.cmml">0</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="18">
+<apply xml:id="m9.1.9.cmml">
+  <lt xml:id="m9.1.7.cmml"/>
+  <apply xml:id="m9.1.9.1.cmml">
+    <times xml:id="m9.1.9.1.1.cmml"/>
+    <mtext xml:id="m9.1.1.cmml">Re </mtext>
+    <ci xml:id="m9.1.2.cmml">σ</ci>
+    <apply xml:id="m9.1.9.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m9.1.9.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m9.1.4.cmml">A</ci>
+      <cn type="integer" xml:id="m9.1.5.1.cmml">0</cn>
+    </apply>
+  </apply>
+  <cn type="integer" xml:id="m9.1.8.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="18">
+<apply xml:id="m10.1.8.cmml">
+  <in xml:id="m10.1.2.cmml"/>
+  <ci xml:id="m10.1.1.cmml">λ</ci>
+  <apply xml:id="m10.1.8.1.cmml">
+    <times xml:id="m10.1.8.1.1.cmml"/>
+    <ci xml:id="m10.1.3.cmml">σ</ci>
+    <apply xml:id="m10.1.8.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m10.1.8.1.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m10.1.5.cmml">A</ci>
+      <cn type="integer" xml:id="m10.1.6.1.cmml">0</cn>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="18">
+<apply xml:id="m11.1.5.cmml">
+  <gt xml:id="m11.1.3.cmml"/>
+  <apply xml:id="m11.1.5.1.cmml">
+    <times xml:id="m11.1.5.1.1.cmml"/>
+    <mtext xml:id="m11.1.1.cmml">Re </mtext>
+    <ci xml:id="m11.1.2.cmml">λ</ci>
+  </apply>
+  <cn type="integer" xml:id="m11.1.4.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="18">
+<ci xml:id="m12.1.1.cmml">H</ci></mws:expr>
+<mws:expr url="#m13.1" mws:data_id="18">
+<apply xml:id="m13.1.7.cmml">
+  <csymbol cd="ambiguous" xml:id="m13.1.7.1.cmml">subscript</csymbol>
+  <cerror xml:id="m13.1.7.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m13.1.7.2a.cmml">fragments</csymbol>
+    <ci xml:id="m13.1.1.cmml">normal-(</ci>
+    <ci xml:id="m13.1.2.cmml">normal-.</ci>
+    <ci xml:id="m13.1.3.cmml">normal-,</ci>
+    <ci xml:id="m13.1.4.cmml">normal-.</ci>
+    <ci xml:id="m13.1.5.cmml">normal-)</ci>
+  </cerror>
+  <ci xml:id="m13.1.6.1.cmml">H</ci>
+</apply></mws:expr>
+<mws:expr url="#m14.1" mws:data_id="18">
+<cerror xml:id="m14.1a.cmml">
+  <csymbol cd="ambiguous" xml:id="m14.1b.cmml">fragments</csymbol>
+  <ci xml:id="m14.1.1.cmml">normal-|</ci>
+  <ci xml:id="m14.1.2.cmml">normal-.</ci>
+  <apply xml:id="m14.1.5.cmml">
+    <csymbol cd="ambiguous" xml:id="m14.1.5.1.cmml">subscript</csymbol>
+    <ci xml:id="m14.1.3.cmml">normal-|</ci>
+    <ci xml:id="m14.1.4.1.cmml">H</ci>
+  </apply>
+</cerror></mws:expr>
+<mws:expr url="#m15.1" mws:data_id="18">
+<ci xml:id="m15.1.1.cmml">μ</ci></mws:expr>
+<mws:expr url="#m16.1" mws:data_id="18">
+<apply xml:id="m16.1.9.cmml">
+  <eq xml:id="m16.1.2.cmml"/>
+  <ci xml:id="m16.1.1.cmml">M</ci>
+  <apply xml:id="m16.1.9.1.cmml">
+    <interval closure="closed" xml:id="m16.1.9.1.1.cmml"/>
+    <cn type="integer" xml:id="m16.1.4.cmml">0</cn>
+    <apply xml:id="m16.1.9.1.2.cmml">
+      <times xml:id="m16.1.9.1.2.1.cmml"/>
+      <cn type="integer" xml:id="m16.1.6.cmml">2</cn>
+      <ci xml:id="m16.1.7.cmml">π</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m17.1" mws:data_id="18">
+<apply xml:id="m17.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m17.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m17.1.1.cmml">G</ci>
+  <cn type="integer" xml:id="m17.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m18.1" mws:data_id="18">
+<ci xml:id="m18.1.1.cmml">M</ci></mws:expr>
+<mws:expr url="#m19.1" mws:data_id="18">
+<ci xml:id="m19.1.1.cmml">H</ci></mws:expr>
+<mws:expr url="#S0.Ex2.m1.1" mws:data_id="18">
+<apply xml:id="S0.Ex2.m1.1.28.cmml">
+  <eq xml:id="S0.Ex2.m1.1.7.cmml"/>
+  <apply xml:id="S0.Ex2.m1.1.28.1.cmml">
+    <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.28.1.1.cmml">subscript</csymbol>
+    <apply xml:id="S0.Ex2.m1.1.28.1.2.cmml">
+      <interval closure="open" xml:id="S0.Ex2.m1.1.28.1.2.1.cmml"/>
+      <ci xml:id="S0.Ex2.m1.1.2.cmml">ϕ</ci>
+      <ci xml:id="S0.Ex2.m1.1.4.cmml">ψ</ci>
+    </apply>
+    <cn type="integer" xml:id="S0.Ex2.m1.1.6.1.cmml">0</cn>
+  </apply>
+  <apply xml:id="S0.Ex2.m1.1.28.2.cmml">
+    <apply xml:id="S0.Ex2.m1.1.28.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.28.2.1.1.cmml">superscript</csymbol>
+      <apply xml:id="S0.Ex2.m1.1.28.2.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.28.2.1.2.1.cmml">subscript</csymbol>
+        <int xml:id="S0.Ex2.m1.1.8.cmml"/>
+        <cn type="integer" xml:id="S0.Ex2.m1.1.9.1.cmml">0</cn>
+      </apply>
+      <apply xml:id="S0.Ex2.m1.1.10.1.cmml">
+        <times xml:id="S0.Ex2.m1.1.10.1.3.cmml"/>
+        <cn type="integer" xml:id="S0.Ex2.m1.1.10.1.1.cmml">2</cn>
+        <ci xml:id="S0.Ex2.m1.1.10.1.2.cmml">π</ci>
+      </apply>
+    </apply>
+    <apply xml:id="S0.Ex2.m1.1.28.2.2.cmml">
+      <times xml:id="S0.Ex2.m1.1.28.2.2.1.cmml"/>
+      <apply xml:id="S0.Ex2.m1.1.28.2.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex2.m1.1.28.2.2.2.1.cmml">subscript</csymbol>
+        <apply xml:id="S0.Ex2.m1.1.28.2.2.2.2.cmml">
+          <interval closure="open" xml:id="S0.Ex2.m1.1.28.2.2.2.2.1.cmml"/>
+          <apply xml:id="S0.Ex2.m1.1.28.2.2.2.2.2.cmml">
+            <times xml:id="S0.Ex2.m1.1.28.2.2.2.2.2.1.cmml"/>
+            <ci xml:id="S0.Ex2.m1.1.12.cmml">ϕ</ci>
+            <ci xml:id="S0.Ex2.m1.1.14.cmml">t</ci>
+          </apply>
+          <apply xml:id="S0.Ex2.m1.1.28.2.2.2.2.3.cmml">
+            <times xml:id="S0.Ex2.m1.1.28.2.2.2.2.3.1.cmml"/>
+            <ci xml:id="S0.Ex2.m1.1.17.cmml">ψ</ci>
+            <ci xml:id="S0.Ex2.m1.1.19.cmml">t</ci>
+          </apply>
+        </apply>
+        <ci xml:id="S0.Ex2.m1.1.22.1.cmml">H</ci>
+      </apply>
+      <ci xml:id="S0.Ex2.m1.1.23.cmml">d</ci>
+      <ci xml:id="S0.Ex2.m1.1.24.cmml">μ</ci>
+      <ci xml:id="S0.Ex2.m1.1.26.cmml">t</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#S0.Ex3.m1.1" mws:data_id="18">
+<cerror xml:id="S0.Ex3.m1.1a.cmml">
+  <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1b.cmml">fragments</csymbol>
+  <ci xml:id="S0.Ex3.m1.1.1.cmml">normal-|</ci>
+  <csymbol cd="unknown" xml:id="S0.Ex3.m1.1c.cmml">ϕ</csymbol>
+  <apply xml:id="S0.Ex3.m1.1.31.cmml">
+    <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.31.1.cmml">subscript</csymbol>
+    <ci xml:id="S0.Ex3.m1.1.3.cmml">normal-|</ci>
+    <cn type="integer" xml:id="S0.Ex3.m1.1.4.1.cmml">0</cn>
+  </apply>
+  <eq xml:id="S0.Ex3.m1.1.5.cmml"/>
+  <apply xml:id="S0.Ex3.m1.1.32.cmml">
+    <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.32.1.cmml">superscript</csymbol>
+    <cerror xml:id="S0.Ex3.m1.1.32.2.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.32.2a.cmml">fragments</csymbol>
+      <ci xml:id="S0.Ex3.m1.1.6.cmml">[</ci>
+      <apply xml:id="S0.Ex3.m1.1.32.2.1.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.32.2.1.1.cmml">superscript</csymbol>
+        <apply xml:id="S0.Ex3.m1.1.32.2.1.2.cmml">
+          <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.32.2.1.2.1.cmml">subscript</csymbol>
+          <int xml:id="S0.Ex3.m1.1.7.cmml"/>
+          <cn type="integer" xml:id="S0.Ex3.m1.1.8.1.cmml">0</cn>
+        </apply>
+        <apply xml:id="S0.Ex3.m1.1.9.1.cmml">
+          <times xml:id="S0.Ex3.m1.1.9.1.3.cmml"/>
+          <cn type="integer" xml:id="S0.Ex3.m1.1.9.1.1.cmml">2</cn>
+          <ci xml:id="S0.Ex3.m1.1.9.1.2.cmml">π</ci>
+        </apply>
+      </apply>
+      <ci xml:id="S0.Ex3.m1.1.10.cmml"> </ci>
+      <ci xml:id="S0.Ex3.m1.1.11.cmml">normal-|</ci>
+      <csymbol cd="unknown" xml:id="S0.Ex3.m1.1.32.2b.cmml">ϕ</csymbol>
+      <cerror xml:id="S0.Ex3.m1.1.32.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.32.2.2a.cmml">fragments</csymbol>
+        <ci xml:id="S0.Ex3.m1.1.13.cmml">normal-(</ci>
+        <csymbol cd="unknown" xml:id="S0.Ex3.m1.1.32.2.2b.cmml">t</csymbol>
+        <ci xml:id="S0.Ex3.m1.1.15.cmml">normal-)</ci>
+      </cerror>
+      <apply xml:id="S0.Ex3.m1.1.32.2.3.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.32.2.3.1.cmml">subscript</csymbol>
+        <ci xml:id="S0.Ex3.m1.1.16.cmml">normal-|</ci>
+        <ci xml:id="S0.Ex3.m1.1.17.1.cmml">H</ci>
+      </apply>
+      <csymbol cd="unknown" xml:id="S0.Ex3.m1.1.32.2c.cmml">d</csymbol>
+      <csymbol cd="unknown" xml:id="S0.Ex3.m1.1.32.2d.cmml">μ</csymbol>
+      <ci xml:id="S0.Ex3.m1.1.20.cmml">]</ci>
+    </cerror>
+    <apply xml:id="S0.Ex3.m1.1.21.1.cmml">
+      <divide xml:id="S0.Ex3.m1.1.21.1.2.cmml"/>
+      <cn type="integer" xml:id="S0.Ex3.m1.1.21.1.1.cmml">1</cn>
+      <cn type="integer" xml:id="S0.Ex3.m1.1.21.1.3.cmml">2</cn>
+    </apply>
+  </apply>
+  <cerror xml:id="S0.Ex3.m1.1.33.cmml">
+    <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.33a.cmml">fragments</csymbol>
+    <ci xml:id="S0.Ex3.m1.1.22.cmml">normal-(</ci>
+    <csymbol cd="unknown" xml:id="S0.Ex3.m1.1.33b.cmml">ϕ</csymbol>
+    <ci xml:id="S0.Ex3.m1.1.24.cmml">normal-,</ci>
+    <csymbol cd="unknown" xml:id="S0.Ex3.m1.1.33c.cmml">ψ</csymbol>
+    <in xml:id="S0.Ex3.m1.1.26.cmml"/>
+    <apply xml:id="S0.Ex3.m1.1.33.1.cmml">
+      <csymbol cd="ambiguous" xml:id="S0.Ex3.m1.1.33.1.1.cmml">subscript</csymbol>
+      <ci xml:id="S0.Ex3.m1.1.27.cmml">G</ci>
+      <cn type="integer" xml:id="S0.Ex3.m1.1.28.1.cmml">0</cn>
+    </apply>
+    <ci xml:id="S0.Ex3.m1.1.29.cmml">normal-)</ci>
+  </cerror>
+  <ci xml:id="S0.Ex3.m1.1.30.cmml">normal-.</ci>
+</cerror></mws:expr>
+<mws:expr url="#m20.1" mws:data_id="18">
+<ci xml:id="m20.1.1.cmml">H</ci></mws:expr>
+<mws:expr url="#m21.1" mws:data_id="18">
+<apply xml:id="m21.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m21.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m21.1.1.cmml">G</ci>
+  <cn type="integer" xml:id="m21.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m22.1" mws:data_id="18">
+<ci xml:id="m22.1.1.cmml">normal-Θ</ci></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="20">
+<ci xml:id="m1.1.1.cmml">ω</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="20">
+<ci xml:id="m2.1.1.cmml">ω</ci></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="20">
+<ci xml:id="m3.1.1.cmml">ω</ci></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="20">
+<ci xml:id="m4.1.1.cmml">ω</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="20">
+<ci xml:id="m5.1.1.cmml">λ</ci></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="20">
+<ci xml:id="m6.1.1.cmml">ω</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="20">
+<ci xml:id="m7.1.1.cmml">λ</ci></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="20">
+<ci xml:id="m8.1.1.cmml">λ</ci></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="21">
+<ci xml:id="m1.1.1.cmml">P</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="21">
+<apply xml:id="m2.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m2.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m2.1.1.cmml">M</ci>
+  <ci xml:id="m2.1.2.1.cmml">n</ci>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="21">
+<apply xml:id="m3.1.4.cmml">
+  <geq xml:id="m3.1.2.cmml"/>
+  <ci xml:id="m3.1.1.cmml">n</ci>
+  <cn type="integer" xml:id="m3.1.3.cmml">2</cn>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="21">
+<ci xml:id="m4.1.1.cmml">P</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="21">
+<ci xml:id="m5.1.1.cmml">P</ci></mws:expr>
+<mws:expr url="#S0.Ex1.m1.1" mws:data_id="22">
+<apply xml:id="S0.Ex1.m1.1.31.cmml">
+  <eq xml:id="S0.Ex1.m1.1.7.cmml"/>
+  <apply xml:id="S0.Ex1.m1.1.31.1.cmml">
+    <times xml:id="S0.Ex1.m1.1.31.1.1.cmml"/>
+    <ci xml:id="S0.Ex1.m1.1.1.cmml">f</ci>
+    <apply xml:id="S0.Ex1.m1.1.31.1.2.cmml">
+      <interval closure="open" xml:id="S0.Ex1.m1.1.31.1.2.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.3.cmml">x</ci>
+      <ci xml:id="S0.Ex1.m1.1.5.cmml">y</ci>
+    </apply>
+  </apply>
+  <apply xml:id="S0.Ex1.m1.1.31.2.cmml">
+    <plus xml:id="S0.Ex1.m1.1.11.cmml"/>
+    <apply xml:id="S0.Ex1.m1.1.31.2.1.cmml">
+      <times xml:id="S0.Ex1.m1.1.31.2.1.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.8.cmml">a</ci>
+      <apply xml:id="S0.Ex1.m1.1.31.2.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.31.2.1.2.1.cmml">superscript</csymbol>
+        <ci xml:id="S0.Ex1.m1.1.9.cmml">x</ci>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.10.1.cmml">4</cn>
+      </apply>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.31.2.2.cmml">
+      <times xml:id="S0.Ex1.m1.1.31.2.2.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.12.cmml">b</ci>
+      <apply xml:id="S0.Ex1.m1.1.31.2.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.31.2.2.2.1.cmml">superscript</csymbol>
+        <ci xml:id="S0.Ex1.m1.1.13.cmml">x</ci>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.14.1.cmml">3</cn>
+      </apply>
+      <ci xml:id="S0.Ex1.m1.1.15.cmml">y</ci>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.31.2.3.cmml">
+      <times xml:id="S0.Ex1.m1.1.31.2.3.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.17.cmml">c</ci>
+      <apply xml:id="S0.Ex1.m1.1.31.2.3.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.31.2.3.2.1.cmml">superscript</csymbol>
+        <ci xml:id="S0.Ex1.m1.1.18.cmml">x</ci>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.19.1.cmml">2</cn>
+      </apply>
+      <apply xml:id="S0.Ex1.m1.1.31.2.3.3.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.31.2.3.3.1.cmml">superscript</csymbol>
+        <ci xml:id="S0.Ex1.m1.1.20.cmml">y</ci>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.21.1.cmml">2</cn>
+      </apply>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.31.2.4.cmml">
+      <times xml:id="S0.Ex1.m1.1.31.2.4.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.23.cmml">d</ci>
+      <ci xml:id="S0.Ex1.m1.1.24.cmml">x</ci>
+      <apply xml:id="S0.Ex1.m1.1.31.2.4.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.31.2.4.2.1.cmml">superscript</csymbol>
+        <ci xml:id="S0.Ex1.m1.1.25.cmml">y</ci>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.26.1.cmml">3</cn>
+      </apply>
+    </apply>
+    <apply xml:id="S0.Ex1.m1.1.31.2.5.cmml">
+      <times xml:id="S0.Ex1.m1.1.31.2.5.1.cmml"/>
+      <ci xml:id="S0.Ex1.m1.1.28.cmml">e</ci>
+      <apply xml:id="S0.Ex1.m1.1.31.2.5.2.cmml">
+        <csymbol cd="ambiguous" xml:id="S0.Ex1.m1.1.31.2.5.2.1.cmml">superscript</csymbol>
+        <ci xml:id="S0.Ex1.m1.1.29.cmml">y</ci>
+        <cn type="integer" xml:id="S0.Ex1.m1.1.30.1.cmml">4</cn>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="22">
+<apply xml:id="m2.1.14.cmml">
+  <eq xml:id="m2.1.7.cmml"/>
+  <apply xml:id="m2.1.14.1.cmml">
+    <times xml:id="m2.1.14.1.1.cmml"/>
+    <ci xml:id="m2.1.1.cmml">f</ci>
+    <apply xml:id="m2.1.14.1.2.cmml">
+      <interval closure="open" xml:id="m2.1.14.1.2.1.cmml"/>
+      <ci xml:id="m2.1.3.cmml">x</ci>
+      <ci xml:id="m2.1.5.cmml">y</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m2.1.14.2.cmml">
+    <times xml:id="m2.1.14.2.1.cmml"/>
+    <ci xml:id="m2.1.8.cmml">f</ci>
+    <apply xml:id="m2.1.14.2.2.cmml">
+      <interval closure="open" xml:id="m2.1.14.2.2.1.cmml"/>
+      <ci xml:id="m2.1.10.cmml">u</ci>
+      <ci xml:id="m2.1.12.cmml">v</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="22">
+<apply xml:id="m3.1.43.cmml">
+  <eq xml:id="m3.1.7.cmml"/>
+  <apply xml:id="m3.1.43.1.cmml">
+    <times xml:id="m3.1.43.1.1.cmml"/>
+    <ci xml:id="m3.1.1.cmml">q</ci>
+    <apply xml:id="m3.1.43.1.2.cmml">
+      <interval closure="open" xml:id="m3.1.43.1.2.1.cmml"/>
+      <ci xml:id="m3.1.3.cmml">m</ci>
+      <ci xml:id="m3.1.5.cmml">n</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m3.1.43.2.cmml">
+    <plus xml:id="m3.1.40.cmml"/>
+    <apply xml:id="m3.1.43.2.1.cmml">
+      <minus xml:id="m3.1.36.cmml"/>
+      <apply xml:id="m3.1.43.2.1.1.cmml">
+        <plus xml:id="m3.1.31.cmml"/>
+        <apply xml:id="m3.1.43.2.1.1.1.cmml">
+          <minus xml:id="m3.1.24.cmml"/>
+          <apply xml:id="m3.1.43.2.1.1.1.1.cmml">
+            <plus xml:id="m3.1.19.cmml"/>
+            <apply xml:id="m3.1.43.2.1.1.1.1.1.cmml">
+              <minus xml:id="m3.1.13.cmml"/>
+              <apply xml:id="m3.1.43.2.1.1.1.1.1.1.cmml">
+                <times xml:id="m3.1.43.2.1.1.1.1.1.1.1.cmml"/>
+                <cn type="integer" xml:id="m3.1.8.cmml">4</cn>
+                <ci xml:id="m3.1.9.cmml">a</ci>
+                <ci xml:id="m3.1.10.cmml">m</ci>
+                <apply xml:id="m3.1.43.2.1.1.1.1.1.1.2.cmml">
+                  <csymbol cd="ambiguous" xml:id="m3.1.43.2.1.1.1.1.1.1.2.1.cmml">superscript</csymbol>
+                  <ci xml:id="m3.1.11.cmml">n</ci>
+                  <cn type="integer" xml:id="m3.1.12.1.cmml">3</cn>
+                </apply>
+              </apply>
+              <apply xml:id="m3.1.43.2.1.1.1.1.1.2.cmml">
+                <times xml:id="m3.1.43.2.1.1.1.1.1.2.1.cmml"/>
+                <cn type="integer" xml:id="m3.1.14.cmml">3</cn>
+                <ci xml:id="m3.1.15.cmml">b</ci>
+                <ci xml:id="m3.1.16.cmml">m</ci>
+                <apply xml:id="m3.1.43.2.1.1.1.1.1.2.2.cmml">
+                  <csymbol cd="ambiguous" xml:id="m3.1.43.2.1.1.1.1.1.2.2.1.cmml">superscript</csymbol>
+                  <ci xml:id="m3.1.17.cmml">n</ci>
+                  <cn type="integer" xml:id="m3.1.18.1.cmml">2</cn>
+                </apply>
+              </apply>
+            </apply>
+            <apply xml:id="m3.1.43.2.1.1.1.1.2.cmml">
+              <times xml:id="m3.1.43.2.1.1.1.1.2.1.cmml"/>
+              <cn type="integer" xml:id="m3.1.20.cmml">2</cn>
+              <ci xml:id="m3.1.21.cmml">c</ci>
+              <ci xml:id="m3.1.22.cmml">m</ci>
+              <ci xml:id="m3.1.23.cmml">n</ci>
+            </apply>
+          </apply>
+          <apply xml:id="m3.1.43.2.1.1.1.2.cmml">
+            <times xml:id="m3.1.43.2.1.1.1.2.1.cmml"/>
+            <ci xml:id="m3.1.25.cmml">d</ci>
+            <ci xml:id="m3.1.26.cmml">m</ci>
+          </apply>
+          <apply xml:id="m3.1.43.2.1.1.1.3.cmml">
+            <times xml:id="m3.1.43.2.1.1.1.3.1.cmml"/>
+            <ci xml:id="m3.1.28.cmml">b</ci>
+            <apply xml:id="m3.1.43.2.1.1.1.3.2.cmml">
+              <csymbol cd="ambiguous" xml:id="m3.1.43.2.1.1.1.3.2.1.cmml">superscript</csymbol>
+              <ci xml:id="m3.1.29.cmml">n</ci>
+              <cn type="integer" xml:id="m3.1.30.1.cmml">3</cn>
+            </apply>
+          </apply>
+        </apply>
+        <apply xml:id="m3.1.43.2.1.1.2.cmml">
+          <times xml:id="m3.1.43.2.1.1.2.1.cmml"/>
+          <cn type="integer" xml:id="m3.1.32.cmml">2</cn>
+          <ci xml:id="m3.1.33.cmml">c</ci>
+          <apply xml:id="m3.1.43.2.1.1.2.2.cmml">
+            <csymbol cd="ambiguous" xml:id="m3.1.43.2.1.1.2.2.1.cmml">superscript</csymbol>
+            <ci xml:id="m3.1.34.cmml">n</ci>
+            <cn type="integer" xml:id="m3.1.35.1.cmml">2</cn>
+          </apply>
+        </apply>
+      </apply>
+      <apply xml:id="m3.1.43.2.1.2.cmml">
+        <times xml:id="m3.1.43.2.1.2.1.cmml"/>
+        <cn type="integer" xml:id="m3.1.37.cmml">3</cn>
+        <ci xml:id="m3.1.38.cmml">d</ci>
+        <ci xml:id="m3.1.39.cmml">n</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m3.1.43.2.2.cmml">
+      <times xml:id="m3.1.43.2.2.1.cmml"/>
+      <cn type="integer" xml:id="m3.1.41.cmml">3</cn>
+      <ci xml:id="m3.1.42.cmml">e</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="22">
+<apply xml:id="m4.1.14.cmml">
+  <eq xml:id="m4.1.7.cmml"/>
+  <apply xml:id="m4.1.14.1.cmml">
+    <times xml:id="m4.1.14.1.1.cmml"/>
+    <ci xml:id="m4.1.1.cmml">f</ci>
+    <apply xml:id="m4.1.14.1.2.cmml">
+      <interval closure="open" xml:id="m4.1.14.1.2.1.cmml"/>
+      <ci xml:id="m4.1.3.cmml">x</ci>
+      <ci xml:id="m4.1.5.cmml">y</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m4.1.14.2.cmml">
+    <times xml:id="m4.1.14.2.1.cmml"/>
+    <ci xml:id="m4.1.8.cmml">f</ci>
+    <apply xml:id="m4.1.14.2.2.cmml">
+      <interval closure="open" xml:id="m4.1.14.2.2.1.cmml"/>
+      <ci xml:id="m4.1.10.cmml">u</ci>
+      <ci xml:id="m4.1.12.cmml">v</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="22">
+<apply xml:id="m5.1.5.cmml">
+  <neq xml:id="m5.1.2.cmml"/>
+  <ci xml:id="m5.1.1.cmml">y</ci>
+  <apply xml:id="m5.1.5.1.cmml">
+    <csymbol cd="latexml" xml:id="m5.1.3.cmml">plus-or-minus</csymbol>
+    <ci xml:id="m5.1.4.cmml">v</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="22">
+<apply xml:id="m6.1.4.cmml">
+  <list xml:id="m6.1.4.1.cmml"/>
+  <ci xml:id="m6.1.1.cmml">n</ci>
+  <ci xml:id="m6.1.3.cmml">m</ci>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="22">
+<apply xml:id="m7.1.7.cmml">
+  <times xml:id="m7.1.7.1.cmml"/>
+  <ci xml:id="m7.1.1.cmml">q</ci>
+  <apply xml:id="m7.1.7.2.cmml">
+    <interval closure="open" xml:id="m7.1.7.2.1.cmml"/>
+    <ci xml:id="m7.1.3.cmml">m</ci>
+    <ci xml:id="m7.1.5.cmml">n</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="22">
+<apply xml:id="m8.1.7.cmml">
+  <times xml:id="m8.1.7.1.cmml"/>
+  <ci xml:id="m8.1.1.cmml">q</ci>
+  <apply xml:id="m8.1.7.2.cmml">
+    <interval closure="open" xml:id="m8.1.7.2.1.cmml"/>
+    <ci xml:id="m8.1.3.cmml">n</ci>
+    <ci xml:id="m8.1.5.cmml">m</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="22">
+<apply xml:id="m9.1.14.cmml">
+  <minus xml:id="m9.1.1.cmml"/>
+  <apply xml:id="m9.1.14.1.cmml">
+    <times xml:id="m9.1.14.1.1.cmml"/>
+    <ci xml:id="m9.1.2.cmml">q</ci>
+    <apply xml:id="m9.1.14.1.2.cmml">
+      <interval closure="open" xml:id="m9.1.14.1.2.1.cmml"/>
+      <ci xml:id="m9.1.4.cmml">m</ci>
+      <ci xml:id="m9.1.6.cmml">n</ci>
+    </apply>
+    <ci xml:id="m9.1.8.cmml">q</ci>
+    <apply xml:id="m9.1.14.1.3.cmml">
+      <interval closure="open" xml:id="m9.1.14.1.3.1.cmml"/>
+      <ci xml:id="m9.1.10.cmml">n</ci>
+      <ci xml:id="m9.1.12.cmml">m</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="22">
+<ci xml:id="m10.1.1.cmml">n</ci></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="22">
+<ci xml:id="m11.1.1.cmml">m</ci></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="22">
+<ci xml:id="m12.1.1.cmml">m</ci></mws:expr>
+<mws:expr url="#m13.1" mws:data_id="22">
+<ci xml:id="m13.1.1.cmml">n</ci></mws:expr>
+<mws:expr url="#m14.1" mws:data_id="22">
+<apply xml:id="m14.1.4.cmml">
+  <list xml:id="m14.1.4.1.cmml"/>
+  <ci xml:id="m14.1.1.cmml">m</ci>
+  <ci xml:id="m14.1.3.cmml">n</ci>
+</apply></mws:expr>
+<mws:expr url="#m15.1" mws:data_id="22">
+<apply xml:id="m15.1.6.cmml">
+  <eq xml:id="m15.1.2.cmml"/>
+  <ci xml:id="m15.1.1.cmml">x</ci>
+  <cn type="integer" xml:id="m15.1.5.cmml">158</cn>
+</apply></mws:expr>
+<mws:expr url="#m16.1" mws:data_id="22">
+<apply xml:id="m16.1.5.cmml">
+  <eq xml:id="m16.1.2.cmml"/>
+  <ci xml:id="m16.1.1.cmml">y</ci>
+  <cn type="integer" xml:id="m16.1.4.cmml">59</cn>
+</apply></mws:expr>
+<mws:expr url="#m17.1" mws:data_id="22">
+<apply xml:id="m17.1.6.cmml">
+  <eq xml:id="m17.1.2.cmml"/>
+  <ci xml:id="m17.1.1.cmml">u</ci>
+  <cn type="integer" xml:id="m17.1.5.cmml">134</cn>
+</apply></mws:expr>
+<mws:expr url="#m18.1" mws:data_id="22">
+<apply xml:id="m18.1.6.cmml">
+  <eq xml:id="m18.1.2.cmml"/>
+  <ci xml:id="m18.1.1.cmml">v</ci>
+  <cn type="integer" xml:id="m18.1.5.cmml">133</cn>
+</apply></mws:expr>
+<mws:expr url="#m19.1" mws:data_id="22">
+<apply xml:id="m19.1.12.cmml">
+  <eq xml:id="m19.1.6.cmml"/>
+  <apply xml:id="m19.1.12.1.cmml">
+    <plus xml:id="m19.1.3.cmml"/>
+    <apply xml:id="m19.1.12.1.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m19.1.12.1.1.1.cmml">superscript</csymbol>
+      <ci xml:id="m19.1.1.cmml">x</ci>
+      <cn type="integer" xml:id="m19.1.2.1.cmml">4</cn>
+    </apply>
+    <apply xml:id="m19.1.12.1.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m19.1.12.1.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m19.1.4.cmml">y</ci>
+      <cn type="integer" xml:id="m19.1.5.1.cmml">4</cn>
+    </apply>
+  </apply>
+  <apply xml:id="m19.1.12.2.cmml">
+    <plus xml:id="m19.1.9.cmml"/>
+    <apply xml:id="m19.1.12.2.1.cmml">
+      <csymbol cd="ambiguous" xml:id="m19.1.12.2.1.1.cmml">superscript</csymbol>
+      <ci xml:id="m19.1.7.cmml">u</ci>
+      <cn type="integer" xml:id="m19.1.8.1.cmml">4</cn>
+    </apply>
+    <apply xml:id="m19.1.12.2.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m19.1.12.2.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m19.1.10.cmml">v</ci>
+      <cn type="integer" xml:id="m19.1.11.1.cmml">4</cn>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m20.1" mws:data_id="22">
+<apply xml:id="m20.1.8.cmml">
+  <eq xml:id="m20.1.2.cmml"/>
+  <ci xml:id="m20.1.1.cmml">m</ci>
+  <apply xml:id="m20.1.8.1.cmml">
+    <divide xml:id="m20.1.5.cmml"/>
+    <cn type="integer" xml:id="m20.1.4.cmml">12</cn>
+    <cn type="integer" xml:id="m20.1.7.cmml">37</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m21.1" mws:data_id="22">
+<apply xml:id="m21.1.9.cmml">
+  <eq xml:id="m21.1.2.cmml"/>
+  <ci xml:id="m21.1.1.cmml">n</ci>
+  <apply xml:id="m21.1.9.1.cmml">
+    <minus xml:id="m21.1.3.cmml"/>
+    <apply xml:id="m21.1.9.1.1.cmml">
+      <divide xml:id="m21.1.6.cmml"/>
+      <cn type="integer" xml:id="m21.1.5.cmml">73</cn>
+      <cn type="integer" xml:id="m21.1.8.cmml">48</cn>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="23">
+<apply xml:id="m1.1.6.cmml">
+  <subset xml:id="m1.1.3.cmml"/>
+  <apply xml:id="m1.1.6.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m1.1.6.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m1.1.1.cmml">normal-Ω</ci>
+    <ci xml:id="m1.1.2.1.cmml">ε</ci>
+  </apply>
+  <apply xml:id="m1.1.6.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m1.1.6.2.1.cmml">superscript</csymbol>
+    <ci xml:id="m1.1.4.cmml">ℝ</ci>
+    <ci xml:id="m1.1.5.1.cmml">n</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="23">
+<ci xml:id="m2.1.1.cmml">ε</ci></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="23">
+<apply xml:id="m3.1.6.cmml">
+  <minus xml:id="m3.1.3.cmml"/>
+  <ci xml:id="m3.1.2.cmml">n</ci>
+  <cn type="integer" xml:id="m3.1.4.cmml">1</cn>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="23">
+<apply xml:id="m4.1.4.cmml">
+  <ci xml:id="m4.1.2.cmml">normal-→</ci>
+  <ci xml:id="m4.1.1.cmml">ε</ci>
+  <cn type="integer" xml:id="m4.1.3.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="25">
+<apply xml:id="m1.1.5.cmml">
+  <times xml:id="m1.1.5.1.cmml"/>
+  <ci xml:id="m1.1.1.cmml">O</ci>
+  <ci xml:id="m1.1.3.cmml">ε</ci>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="25">
+<apply xml:id="m2.1.5.cmml">
+  <times xml:id="m2.1.5.1.cmml"/>
+  <ci xml:id="m2.1.1.cmml">O</ci>
+  <ci xml:id="m2.1.3.cmml">ε</ci>
+</apply></mws:expr>
+<mws:expr url="#m13.1" mws:data_id="443">
+<ci xml:id="m13.1.1.cmml">u</ci></mws:expr>
+<mws:expr url="#m14.1" mws:data_id="443">
+<apply xml:id="m14.1.4.cmml">
+  <lt xml:id="m14.1.2.cmml"/>
+  <ci xml:id="m14.1.1.cmml">t</ci>
+  <ci xml:id="m14.1.3.cmml">τ</ci>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="446">
+<ci xml:id="m1.1.1.cmml">B</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="446">
+<apply xml:id="m2.1.6.cmml">
+  <ci xml:id="m2.1.2.cmml">normal-:</ci>
+  <ci xml:id="m2.1.1.cmml">β</ci>
+  <apply xml:id="m2.1.6.1.cmml">
+    <ci xml:id="m2.1.4.cmml">normal-→</ci>
+    <ci xml:id="m2.1.3.cmml">ℝ</ci>
+    <ci xml:id="m2.1.5.cmml">ℝ</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="446">
+<apply xml:id="m3.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m3.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m3.1.1.cmml">ℝ</ci>
+  <plus xml:id="m3.1.2.1.cmml"/>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="446">
+<ci xml:id="m4.1.1.cmml">u</ci></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="446">
+<apply xml:id="m5.1.14.cmml">
+  <eq xml:id="m5.1.5.cmml"/>
+  <apply xml:id="m5.1.14.1.cmml">
+    <times xml:id="m5.1.14.1.1.cmml"/>
+    <ci xml:id="m5.1.1.cmml">β</ci>
+    <ci xml:id="m5.1.3.cmml">x</ci>
+  </apply>
+  <apply xml:id="m5.1.14.2.cmml">
+    <plus xml:id="m5.1.11.cmml"/>
+    <apply xml:id="m5.1.14.2.1.cmml">
+      <times xml:id="m5.1.14.2.1.1.cmml"/>
+      <apply xml:id="m5.1.14.2.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m5.1.14.2.1.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m5.1.6.cmml">β</ci>
+        <cn type="integer" xml:id="m5.1.7.1.cmml">0</cn>
+      </apply>
+      <ci xml:id="m5.1.9.cmml">x</ci>
+    </apply>
+    <apply xml:id="m5.1.14.2.2.cmml">
+      <times xml:id="m5.1.14.2.2.1.cmml"/>
+      <ci xml:id="m5.1.12.cmml">α</ci>
+      <ci xml:id="m5.1.13.cmml">x</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="446">
+<apply xml:id="m6.1.4.cmml">
+  <gt xml:id="m6.1.2.cmml"/>
+  <ci xml:id="m6.1.1.cmml">α</ci>
+  <cn type="integer" xml:id="m6.1.3.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="446">
+<apply xml:id="m7.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m7.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m7.1.1.cmml">β</ci>
+  <cn type="integer" xml:id="m7.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="446">
+<apply xml:id="m8.1.14.cmml">
+  <geq xml:id="m8.1.8.cmml"/>
+  <apply xml:id="m8.1.14.1.cmml">
+    <abs xml:id="m8.1.14.1.1.cmml"/>
+    <apply xml:id="m8.1.14.1.2.cmml">
+      <times xml:id="m8.1.14.1.2.1.cmml"/>
+      <apply xml:id="m8.1.14.1.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m8.1.14.1.2.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m8.1.2.cmml">β</ci>
+        <cn type="integer" xml:id="m8.1.3.1.cmml">0</cn>
+      </apply>
+      <ci xml:id="m8.1.5.cmml">x</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m8.1.14.2.cmml">
+    <times xml:id="m8.1.14.2.1.cmml"/>
+    <ci xml:id="m8.1.9.cmml">k</ci>
+    <apply xml:id="m8.1.14.2.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m8.1.14.2.2.1.cmml">superscript</csymbol>
+      <apply xml:id="m8.1.14.2.2.2.cmml">
+        <abs xml:id="m8.1.14.2.2.2.1.cmml"/>
+        <ci xml:id="m8.1.11.cmml">x</ci>
+      </apply>
+      <ci xml:id="m8.1.13.1.cmml">ϱ</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="446">
+<apply xml:id="m9.1.4.cmml">
+  <gt xml:id="m9.1.2.cmml"/>
+  <ci xml:id="m9.1.1.cmml">ϱ</ci>
+  <cn type="integer" xml:id="m9.1.3.cmml">1</cn>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="446">
+<apply xml:id="m10.1.6.cmml">
+  <geq xml:id="m10.1.4.cmml"/>
+  <apply xml:id="m10.1.6.1.cmml">
+    <abs xml:id="m10.1.6.1.1.cmml"/>
+    <ci xml:id="m10.1.2.cmml">x</ci>
+  </apply>
+  <cn type="integer" xml:id="m10.1.5.cmml">1</cn>
+</apply></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="446">
+<apply xml:id="m11.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m11.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m11.1.1.cmml">X</ci>
+  <ci xml:id="m11.1.2.1.cmml">t</ci>
+</apply></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="446">
+<apply xml:id="m12.1.7.cmml">
+  <times xml:id="m12.1.7.1.cmml"/>
+  <ci xml:id="m12.1.1.cmml">u</ci>
+  <ci xml:id="m12.1.3.cmml">x</ci>
+  <ci xml:id="m12.1.5.cmml">d</ci>
+  <ci xml:id="m12.1.6.cmml">x</ci>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="447">
+<apply xml:id="m1.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m1.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m1.1.1.cmml">i</ci>
+  <cn type="integer" xml:id="m1.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="447">
+<apply xml:id="m2.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m2.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m2.1.1.cmml">i</ci>
+  <cn type="integer" xml:id="m2.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="447">
+<apply xml:id="m3.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m3.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m3.1.1.cmml">C</ci>
+  <apply xml:id="m3.1.2.1.cmml">
+    <gt xml:id="m3.1.2.1.1.cmml"/>
+    <csymbol cd="latexml" xml:id="m3.1.2.1.3.cmml">absent</csymbol>
+    <cn type="integer" xml:id="m3.1.2.1.2.cmml">1</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="447">
+<apply xml:id="m4.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m4.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m4.1.1.cmml">C</ci>
+  <apply xml:id="m4.1.2.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m4.1.2.1.3.cmml">superscript</csymbol>
+    <cn type="integer" xml:id="m4.1.2.1.1.cmml">1</cn>
+    <plus xml:id="m4.1.2.1.2.1.cmml"/>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="447">
+<apply xml:id="m5.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m5.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m5.1.1.cmml">C</ci>
+  <apply xml:id="m5.1.2.1.cmml">
+    <gt xml:id="m5.1.2.1.1.cmml"/>
+    <csymbol cd="latexml" xml:id="m5.1.2.1.3.cmml">absent</csymbol>
+    <cn type="integer" xml:id="m5.1.2.1.2.cmml">1</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="447">
+<apply xml:id="m6.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m6.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m6.1.1.cmml">i</ci>
+  <cn type="integer" xml:id="m6.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="447">
+<apply xml:id="m7.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m7.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m7.1.1.cmml">C</ci>
+  <apply xml:id="m7.1.2.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m7.1.2.1.3.cmml">superscript</csymbol>
+    <cn type="integer" xml:id="m7.1.2.1.1.cmml">1</cn>
+    <plus xml:id="m7.1.2.1.2.1.cmml"/>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="447">
+<apply xml:id="m8.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m8.1.3.1.cmml">superscript</csymbol>
+  <ci xml:id="m8.1.1.cmml">i</ci>
+  <cn type="integer" xml:id="m8.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m1.1" mws:data_id="448">
+<ci xml:id="m1.1.1.cmml">B</ci></mws:expr>
+<mws:expr url="#m2.1" mws:data_id="448">
+<apply xml:id="m2.1.6.cmml">
+  <ci xml:id="m2.1.2.cmml">normal-:</ci>
+  <ci xml:id="m2.1.1.cmml">β</ci>
+  <apply xml:id="m2.1.6.1.cmml">
+    <ci xml:id="m2.1.4.cmml">normal-→</ci>
+    <ci xml:id="m2.1.3.cmml">ℝ</ci>
+    <ci xml:id="m2.1.5.cmml">ℝ</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m3.1" mws:data_id="448">
+<apply xml:id="m3.1.31.cmml">
+  <leq xml:id="m3.1.12.cmml"/>
+  <apply xml:id="m3.1.31.1.cmml">
+    <abs xml:id="m3.1.31.1.1.cmml"/>
+    <apply xml:id="m3.1.31.1.2.cmml">
+      <minus xml:id="m3.1.6.cmml"/>
+      <apply xml:id="m3.1.31.1.2.1.cmml">
+        <times xml:id="m3.1.31.1.2.1.1.cmml"/>
+        <ci xml:id="m3.1.2.cmml">β</ci>
+        <ci xml:id="m3.1.4.cmml">x</ci>
+      </apply>
+      <apply xml:id="m3.1.31.1.2.2.cmml">
+        <times xml:id="m3.1.31.1.2.2.1.cmml"/>
+        <ci xml:id="m3.1.7.cmml">β</ci>
+        <ci xml:id="m3.1.9.cmml">y</ci>
+      </apply>
+    </apply>
+  </apply>
+  <apply xml:id="m3.1.31.2.cmml">
+    <times xml:id="m3.1.31.2.1.cmml"/>
+    <apply xml:id="m3.1.31.2.2.cmml">
+      <plus xml:id="m3.1.15.cmml"/>
+      <ci xml:id="m3.1.14.cmml">c</ci>
+      <apply xml:id="m3.1.31.2.2.1.cmml">
+        <csymbol cd="ambiguous" xml:id="m3.1.31.2.2.1.1.cmml">superscript</csymbol>
+        <apply xml:id="m3.1.31.2.2.1.2.cmml">
+          <abs xml:id="m3.1.31.2.2.1.2.1.cmml"/>
+          <ci xml:id="m3.1.17.cmml">x</ci>
+        </apply>
+        <ci xml:id="m3.1.19.1.cmml">r</ci>
+      </apply>
+      <apply xml:id="m3.1.31.2.2.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m3.1.31.2.2.2.1.cmml">superscript</csymbol>
+        <apply xml:id="m3.1.31.2.2.2.2.cmml">
+          <abs xml:id="m3.1.31.2.2.2.2.1.cmml"/>
+          <ci xml:id="m3.1.22.cmml">y</ci>
+        </apply>
+        <ci xml:id="m3.1.24.1.cmml">r</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m3.1.31.2.3.cmml">
+      <abs xml:id="m3.1.31.2.3.1.cmml"/>
+      <apply xml:id="m3.1.31.2.3.2.cmml">
+        <minus xml:id="m3.1.28.cmml"/>
+        <ci xml:id="m3.1.27.cmml">x</ci>
+        <ci xml:id="m3.1.29.cmml">y</ci>
+      </apply>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m4.1" mws:data_id="448">
+<apply xml:id="m4.1.4.cmml">
+  <gt xml:id="m4.1.2.cmml"/>
+  <ci xml:id="m4.1.1.cmml">c</ci>
+  <cn type="integer" xml:id="m4.1.3.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m5.1" mws:data_id="448">
+<apply xml:id="m5.1.4.cmml">
+  <geq xml:id="m5.1.2.cmml"/>
+  <ci xml:id="m5.1.1.cmml">r</ci>
+  <cn type="integer" xml:id="m5.1.3.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="448">
+<apply xml:id="m6.1.6.cmml">
+  <in xml:id="m6.1.4.cmml"/>
+  <apply xml:id="m6.1.6.1.cmml">
+    <list xml:id="m6.1.6.1.1.cmml"/>
+    <ci xml:id="m6.1.1.cmml">x</ci>
+    <ci xml:id="m6.1.3.cmml">y</ci>
+  </apply>
+  <ci xml:id="m6.1.5.cmml">ℝ</ci>
+</apply></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="448">
+<apply xml:id="m7.1.21.cmml">
+  <geq xml:id="m7.1.10.cmml"/>
+  <apply xml:id="m7.1.21.1.cmml">
+    <minus xml:id="m7.1.5.cmml"/>
+    <apply xml:id="m7.1.21.1.1.cmml">
+      <times xml:id="m7.1.21.1.1.1.cmml"/>
+      <ci xml:id="m7.1.1.cmml">β</ci>
+      <ci xml:id="m7.1.3.cmml">x</ci>
+    </apply>
+    <apply xml:id="m7.1.21.1.2.cmml">
+      <times xml:id="m7.1.21.1.2.1.cmml"/>
+      <ci xml:id="m7.1.6.cmml">β</ci>
+      <ci xml:id="m7.1.8.cmml">y</ci>
+    </apply>
+  </apply>
+  <apply xml:id="m7.1.21.2.cmml">
+    <plus xml:id="m7.1.18.cmml"/>
+    <apply xml:id="m7.1.21.2.1.cmml">
+      <times xml:id="m7.1.21.2.1.1.cmml"/>
+      <apply xml:id="m7.1.21.2.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m7.1.21.2.1.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m7.1.11.cmml">β</ci>
+        <cn type="integer" xml:id="m7.1.12.1.cmml">1</cn>
+      </apply>
+      <apply xml:id="m7.1.21.2.1.3.cmml">
+        <minus xml:id="m7.1.15.cmml"/>
+        <ci xml:id="m7.1.14.cmml">x</ci>
+        <ci xml:id="m7.1.16.cmml">y</ci>
+      </apply>
+    </apply>
+    <apply xml:id="m7.1.21.2.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m7.1.21.2.2.1.cmml">subscript</csymbol>
+      <ci xml:id="m7.1.19.cmml">β</ci>
+      <cn type="integer" xml:id="m7.1.20.1.cmml">2</cn>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m8.1" mws:data_id="448">
+<apply xml:id="m8.1.5.cmml">
+  <in xml:id="m8.1.3.cmml"/>
+  <apply xml:id="m8.1.5.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m8.1.5.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m8.1.1.cmml">β</ci>
+    <cn type="integer" xml:id="m8.1.2.1.cmml">2</cn>
+  </apply>
+  <ci xml:id="m8.1.4.cmml">ℝ</ci>
+</apply></mws:expr>
+<mws:expr url="#m9.1" mws:data_id="448">
+<apply xml:id="m9.1.5.cmml">
+  <gt xml:id="m9.1.3.cmml"/>
+  <apply xml:id="m9.1.5.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m9.1.5.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m9.1.1.cmml">β</ci>
+    <cn type="integer" xml:id="m9.1.2.1.cmml">1</cn>
+  </apply>
+  <cn type="integer" xml:id="m9.1.4.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m10.1" mws:data_id="448">
+<apply xml:id="m10.1.4.cmml">
+  <geq xml:id="m10.1.2.cmml"/>
+  <ci xml:id="m10.1.1.cmml">x</ci>
+  <ci xml:id="m10.1.3.cmml">y</ci>
+</apply></mws:expr>
+<mws:expr url="#m11.1" mws:data_id="448">
+<apply xml:id="m11.1.9.cmml">
+  <in xml:id="m11.1.3.cmml"/>
+  <apply xml:id="m11.1.9.1.cmml">
+    <csymbol cd="ambiguous" xml:id="m11.1.9.1.1.cmml">subscript</csymbol>
+    <ci xml:id="m11.1.1.cmml">X</ci>
+    <cn type="integer" xml:id="m11.1.2.1.cmml">0</cn>
+  </apply>
+  <apply xml:id="m11.1.9.2.cmml">
+    <times xml:id="m11.1.9.2.1.cmml"/>
+    <apply xml:id="m11.1.9.2.2.cmml">
+      <csymbol cd="ambiguous" xml:id="m11.1.9.2.2.1.cmml">superscript</csymbol>
+      <ci xml:id="m11.1.4.cmml">L</ci>
+      <apply xml:id="m11.1.5.1.cmml">
+        <times xml:id="m11.1.5.1.8.cmml"/>
+        <cn type="integer" xml:id="m11.1.5.1.1.cmml">2</cn>
+        <apply xml:id="m11.1.5.1.9.cmml">
+          <csymbol cd="ambiguous" xml:id="m11.1.5.1.9.1.cmml">superscript</csymbol>
+          <apply xml:id="m11.1.5.1.9.2.cmml">
+            <plus xml:id="m11.1.5.1.4.cmml"/>
+            <ci xml:id="m11.1.5.1.3.cmml">r</ci>
+            <cn type="integer" xml:id="m11.1.5.1.5.cmml">1</cn>
+          </apply>
+          <cn type="integer" xml:id="m11.1.5.1.7.1.cmml">2</cn>
+        </apply>
+      </apply>
+    </apply>
+    <ci xml:id="m11.1.7.cmml">ℙ</ci>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m12.1" mws:data_id="448">
+<ci xml:id="m12.1.1.cmml">β</ci></mws:expr>
+<mws:expr url="#m13.1" mws:data_id="448">
+<apply xml:id="m13.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m13.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m13.1.1.cmml">ℝ</ci>
+  <plus xml:id="m13.1.2.1.cmml"/>
+</apply></mws:expr>
+<mws:expr url="#m14.1" mws:data_id="448">
+<apply xml:id="m14.1.14.cmml">
+  <eq xml:id="m14.1.5.cmml"/>
+  <apply xml:id="m14.1.14.1.cmml">
+    <times xml:id="m14.1.14.1.1.cmml"/>
+    <ci xml:id="m14.1.1.cmml">β</ci>
+    <ci xml:id="m14.1.3.cmml">x</ci>
+  </apply>
+  <apply xml:id="m14.1.14.2.cmml">
+    <plus xml:id="m14.1.11.cmml"/>
+    <apply xml:id="m14.1.14.2.1.cmml">
+      <times xml:id="m14.1.14.2.1.1.cmml"/>
+      <apply xml:id="m14.1.14.2.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m14.1.14.2.1.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m14.1.6.cmml">β</ci>
+        <cn type="integer" xml:id="m14.1.7.1.cmml">0</cn>
+      </apply>
+      <ci xml:id="m14.1.9.cmml">x</ci>
+    </apply>
+    <apply xml:id="m14.1.14.2.2.cmml">
+      <times xml:id="m14.1.14.2.2.1.cmml"/>
+      <ci xml:id="m14.1.12.cmml">α</ci>
+      <ci xml:id="m14.1.13.cmml">x</ci>
+    </apply>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m15.1" mws:data_id="448">
+<apply xml:id="m15.1.3.cmml">
+  <csymbol cd="ambiguous" xml:id="m15.1.3.1.cmml">subscript</csymbol>
+  <ci xml:id="m15.1.1.cmml">β</ci>
+  <cn type="integer" xml:id="m15.1.2.1.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m16.1" mws:data_id="448">
+<apply xml:id="m16.1.10.cmml">
+  <ci xml:id="m16.1.8.cmml">normal-→</ci>
+  <apply xml:id="m16.1.10.1.cmml">
+    <divide xml:id="m16.1.6.cmml"/>
+    <apply xml:id="m16.1.10.1.1.cmml">
+      <times xml:id="m16.1.10.1.1.1.cmml"/>
+      <apply xml:id="m16.1.10.1.1.2.cmml">
+        <csymbol cd="ambiguous" xml:id="m16.1.10.1.1.2.1.cmml">subscript</csymbol>
+        <ci xml:id="m16.1.1.cmml">β</ci>
+        <cn type="integer" xml:id="m16.1.2.1.cmml">0</cn>
+      </apply>
+      <ci xml:id="m16.1.4.cmml">x</ci>
+    </apply>
+    <ci xml:id="m16.1.7.cmml">x</ci>
+  </apply>
+  <cn type="integer" xml:id="m16.1.9.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m17.1" mws:data_id="448">
+<apply xml:id="m17.1.5.cmml">
+  <ci xml:id="m17.1.2.cmml">normal-→</ci>
+  <ci xml:id="m17.1.1.cmml">x</ci>
+  <apply xml:id="m17.1.5.1.cmml">
+    <csymbol cd="latexml" xml:id="m17.1.5.1.1.cmml">limit-from</csymbol>
+    <cn type="integer" xml:id="m17.1.3.cmml">0</cn>
+    <plus xml:id="m17.1.4.cmml"/>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m18.1" mws:data_id="448">
+<apply xml:id="m18.1.4.cmml">
+  <gt xml:id="m18.1.2.cmml"/>
+  <ci xml:id="m18.1.1.cmml">α</ci>
+  <cn type="integer" xml:id="m18.1.3.cmml">0</cn>
+</apply></mws:expr>
+<mws:expr url="#m19.1" mws:data_id="448">
+<apply xml:id="m19.1.8.cmml">
+  <eq xml:id="m19.1.5.cmml"/>
+  <apply xml:id="m19.1.8.1.cmml">
+    <times xml:id="m19.1.8.1.1.cmml"/>
+    <ci xml:id="m19.1.1.cmml">β</ci>
+    <ci xml:id="m19.1.3.cmml">x</ci>
+  </apply>
+  <apply xml:id="m19.1.8.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m19.1.8.2.1.cmml">superscript</csymbol>
+    <ci xml:id="m19.1.6.cmml">x</ci>
+    <cn type="integer" xml:id="m19.1.7.1.cmml">3</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m20.1" mws:data_id="448">
+<apply xml:id="m20.1.8.cmml">
+  <eq xml:id="m20.1.5.cmml"/>
+  <apply xml:id="m20.1.8.1.cmml">
+    <times xml:id="m20.1.8.1.1.cmml"/>
+    <ci xml:id="m20.1.1.cmml">β</ci>
+    <ci xml:id="m20.1.3.cmml">x</ci>
+  </apply>
+  <apply xml:id="m20.1.8.2.cmml">
+    <csymbol cd="ambiguous" xml:id="m20.1.8.2.1.cmml">superscript</csymbol>
+    <ci xml:id="m20.1.6.cmml">x</ci>
+    <cn type="integer" xml:id="m20.1.7.1.cmml">5</cn>
+  </apply>
+</apply></mws:expr>
+<mws:expr url="#m6.1" mws:data_id="449">
+<ci xml:id="m6.1.1.cmml">d</ci></mws:expr>
+<mws:expr url="#m7.1" mws:data_id="449">
+<ci xml:id="m7.1.1.cmml">ε</ci></mws:expr>
+</mws:query>

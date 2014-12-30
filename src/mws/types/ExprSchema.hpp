@@ -18,38 +18,32 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
-#define _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
+#ifndef _MWS_TYPES_EXPRSCHEMA_HPP
+#define _MWS_TYPES_EXPRSCHEMA_HPP
 
 /**
-  * @author  Radu Hambasan
-  * @date    30 Dec 2014
+  * @author Radu Hambasan
+  * @date 30 Dec 2014
   *
   * License: GPL v3
   *
   */
 
-#include <libxml/xmlwriter.h>
+#include <string>
+
 #include "mws/types/CmmlToken.hpp"
-#include "mws/types/GenericAnswer.hpp"
-#include "mws/types/Query.hpp"
 
 namespace mws {
-namespace parser {
+namespace types {
 
-struct SchemaResponseFormatter : public types::Query::ResponseFormatter {
-    static SchemaResponseFormatter instance;
+struct ExprSchema {
+    CmmlToken* root;
+    size_t coverage;
 
-    virtual const char* getContentType() const;
-    virtual int writeData(const GenericAnswer* ans, FILE* output) const;
-
- private:
-    int printCmmlToken(const types::CmmlToken* root, xmlTextWriter* wrt) const;
+    ExprSchema() : root(nullptr), coverage(0) {}
 };
 
-extern const SchemaResponseFormatter* RESPONSE_FORMATTER_SCHEMA;
-
-}  // namespace parser
+}  // namespace types
 }  // namespace mws
 
-#endif  // _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
+#endif  // _MWS_TYPES_EXPRSCHEMA_HPP

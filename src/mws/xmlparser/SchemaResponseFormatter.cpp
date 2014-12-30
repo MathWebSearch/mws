@@ -36,12 +36,17 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 using std::string;
+using std::to_string;
 #include <vector>
 using std::vector;
 
 #include "common/utils/compiler_defs.h"
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
+#include "mws/types/GenericAnswer.hpp"
+#include "mws/types/SchemaAnswset.hpp"
+#include "mws/types/ExprSchema.hpp"
+using mws::types::ExprSchema;
 #include "mws/xmlparser/SchemaResponseFormatter.hpp"
 
 #include "build-gen/config.h"
@@ -77,9 +82,9 @@ const char* SchemaResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
-int SchemaResponseFormatter::writeData(const void* data,
+int SchemaResponseFormatter::writeData(const GenericAnswer* ans,
                                     FILE* output) const {
-    const vector<CmmlToken*>& schemata = *((const vector<CmmlToken*>*)data);
+    SchemaAnswset& schemataSet = *((SchemaAnswset*)ans);
     xmlOutputBuffer* outPtr;
     xmlTextWriter* writerPtr;
     LocalContext ctxt;
@@ -135,21 +140,37 @@ int SchemaResponseFormatter::writeData(const void* data,
         goto finally;
     }
 
-    ret = xmlTextWriterWriteAttribute(writerPtr, BAD_CAST "size",
-                                      BAD_CAST std::to_string(schemata.size())
+    ret = xmlTextWriterWriteAttribute(
+                writerPtr, BAD_CAST "size",
+                BAD_CAST to_string(schemataSet.schemata.size()).c_str());
+    if (ret == -1) {
+        PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
+        goto finally;
+    }
+
+    ret = xmlTextWriterWriteAttribute(writerPtr, BAD_CAST "total",
+                                      BAD_CAST to_string(schemataSet.total)
                                       .c_str());
     if (ret == -1) {
         PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
         goto finally;
     }
 
-    for (const CmmlToken* tok : schemata) {
+    for (const ExprSchema& schema : schemataSet.schemata) {
         ret = xmlTextWriterStartElement(writerPtr, BAD_CAST SCHEMA_ANSW_NAME);
         if (ret == -1) {
             PRINT_WARN("Error at xmlTextWriterStartElement\n");
             break;
         }
-        ret = printCmmlToken(tok, writerPtr);
+        ret = xmlTextWriterWriteAttribute(writerPtr, BAD_CAST "coverage",
+                                          BAD_CAST to_string(schema.coverage)
+                                          .c_str());
+        if (ret == -1) {
+            PRINT_WARN("Error at xmlTextWriterWriteAttribute\n");
+            goto finally;
+        }
+
+        ret = printCmmlToken(schema.root, writerPtr);
         if (ret == -1) {
             PRINT_WARN("Error at printCmmlToken\n");
             break;

@@ -71,4 +71,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #cmakedefine APPLY_RESTRICTIONS
 
+// Schema Query
+#define DEFAULT_SCHEMA_DEPTH 3
+
 #endif // _CONFIG_CONFIG_H

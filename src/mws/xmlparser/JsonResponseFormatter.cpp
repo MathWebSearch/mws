@@ -40,6 +40,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 
+#include "mws/types/GenericAnswer.hpp"
+#include "mws/types/MwsAnswset.hpp"
 #include "mws/xmlparser/JsonResponseFormatter.hpp"
 
 using namespace std;
@@ -58,9 +60,9 @@ const char* JsonResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
-int JsonResponseFormatter::writeData(const void* data,
+int JsonResponseFormatter::writeData(const GenericAnswer* ans,
                                      FILE* output) const {
-    const MwsAnswset& answerSet = *((const MwsAnswset*)data);
+    const MwsAnswset& answerSet = *((const MwsAnswset*)ans);
     json_object* json_doc, *qvars, *hits;
 
     json_doc = json_object_new_object();

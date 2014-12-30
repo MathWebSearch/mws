@@ -47,6 +47,9 @@ using mws::index::MeaningDictionary;
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::Meaning;
+#include "mws/types/ExprSchema.hpp"
+using mws::types::ExprSchema;
+#include "mws/types/SchemaAnswset.hpp"
 #include "mws/query/SchemaEngine.hpp"
 
 namespace mws {
@@ -54,8 +57,11 @@ namespace query {
 SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary)
     : decoder(meaningDictionary) {}
 
-vector<CmmlToken*> SchemaEngine::getSchemata(
-        const vector<EncodedFormula>& formulae, uint32_t max_total, uint8_t depth) {
+SchemaAnswset* SchemaEngine::getSchemata(
+        const vector<EncodedFormula>& formulae, uint32_t max_total,
+        uint8_t depth) const {
+    SchemaAnswset* result = new SchemaAnswset();
+
     unordered_map<string, int> exprCount;
     for (const EncodedFormula& expr : formulae) {
         string hash = hashExpr(reduceFormula(expr, depth));
@@ -66,11 +72,12 @@ vector<CmmlToken*> SchemaEngine::getSchemata(
             exprCount[hash] = 1;
         }
     }
+    result->total = exprCount.size();
 
     vector<pair<string, int>> topExpr(exprCount.begin(), exprCount.end());
     std::sort(topExpr.begin(), topExpr.end(),
               [](const pair<string, int> & p1, const pair<string, int> & p2) {
-        return p1.second < p2.second;
+        return p1.second > p2.second;
     });
 
     // By convention, max_total=0  means "retrieve all schemata"
@@ -78,18 +85,20 @@ vector<CmmlToken*> SchemaEngine::getSchemata(
         topExpr.resize(max_total);
     }
 
-    vector<CmmlToken*> schemata;
-    schemata.reserve(topExpr.size());
+    result->schemata.reserve(topExpr.size());
     for (auto& p : topExpr) {
         EncodedFormula e = unhashExpr(p.first);
-        schemata.push_back(decodeFormula(e, depth));
+        ExprSchema sch;
+        sch.root = decodeFormula(e, depth);
+        sch.coverage = p.second;
+        result->schemata.push_back(sch);
     }
 
-    return schemata;
+    return result;
 }
 
 EncodedFormula SchemaEngine::reduceFormula(const EncodedFormula& expr,
-                                           uint8_t max_depth) {
+                                           uint8_t max_depth) const {
     EncodedFormula reducedExpr;
     if (expr.empty()) return {};
     if (max_depth == 0) return {};
@@ -134,7 +143,7 @@ EncodedFormula SchemaEngine::reduceFormula(const EncodedFormula& expr,
 }
 
 size_t SchemaEngine::completeExpression(const EncodedFormula& expr,
-                                        size_t startExpr) {
+                                        size_t startExpr) const {
     stack<uint32_t> unexplored;
     size_t currTok = startExpr;
 
@@ -156,7 +165,7 @@ size_t SchemaEngine::completeExpression(const EncodedFormula& expr,
     return currTok;
 }
 
-string SchemaEngine::hashExpr(const EncodedFormula& expr) {
+string SchemaEngine::hashExpr(const EncodedFormula& expr) const {
     ostringstream serial;
     serial << expr.size();
 
@@ -167,7 +176,7 @@ string SchemaEngine::hashExpr(const EncodedFormula& expr) {
     return serial.str();
 }
 
-EncodedFormula SchemaEngine::unhashExpr(const std::string& exprHash) {
+EncodedFormula SchemaEngine::unhashExpr(const std::string& exprHash) const {
     istringstream serial(exprHash);
     EncodedFormula expr;
 
@@ -186,7 +195,7 @@ EncodedFormula SchemaEngine::unhashExpr(const std::string& exprHash) {
 }
 
 CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
-                                       uint8_t max_depth) {
+                                       uint8_t max_depth) const {
     if (expr.size() == 0) {
         CmmlToken* unifZero = CmmlToken::newRoot();
         unifZero->setTag(types::QVAR_TAG);
@@ -253,7 +262,7 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
 }
 
 pair<string, string> SchemaEngine::decodeMeaning(
-        const types::Meaning& meaning) {
+        const types::Meaning& meaning) const {
     size_t delim_pos = meaning.find('#');
     if (delim_pos == string::npos) {
         return {meaning, ""};

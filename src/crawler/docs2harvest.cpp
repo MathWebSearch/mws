@@ -22,8 +22,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
  *  @file docs2harvest.cpp
  *  @author Corneliu C Prodescu <cprodescu@gmail.com>
  *
- *  @edited Radu Hambasan
+ *  @edit Radu Hambasan
  *  @date 07 Feb 2014
+ *
  *  Harvest HTML and XHTML documents given as command line arguments.
  */
 

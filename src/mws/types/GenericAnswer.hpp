@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+Copyright (C) 2010-2015 KWARC Group <kwarc.info>
 
 This file is part of MathWebSearch.
 
@@ -18,22 +18,25 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_DAEMON_QUERYHANDLER_HPP
-#define _MWS_DAEMON_QUERYHANDLER_HPP
+#ifndef _GENERICANSWER_HPP
+#define _GENERICANSWER_HPP
 
-#include "mws/types/Query.hpp"
-#include "mws/types/GenericAnswer.hpp"
+/**
+  * @author Radu Hambasan
+  * @date 30 Dec 2014
+  */
 
 namespace mws {
-namespace daemon {
 
-class QueryHandler {
- public:
-    virtual ~QueryHandler() {}
-    virtual GenericAnswer* handleQuery(types::Query* query) = 0;
+/**
+  * @brief Generic interface used to answer queries
+  *
+  */
+struct GenericAnswer {
+    virtual ~GenericAnswer() {
+    }
 };
 
-}  // namespace daemon
 }  // namespace mws
 
-#endif  // _MWS_DAEMON_QUERYHANDLER_HPP
+#endif // _GENERICANSWER_HPP

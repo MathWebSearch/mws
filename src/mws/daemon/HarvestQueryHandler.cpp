@@ -70,7 +70,7 @@ HarvestQueryHandler::HarvestQueryHandler(const HarvesterConfiguration& config)
 
 HarvestQueryHandler::~HarvestQueryHandler() {}
 
-MwsAnswset* HarvestQueryHandler::handleQuery(Query* mwsQuery) {
+GenericAnswer* HarvestQueryHandler::handleQuery(Query* mwsQuery) {
     MwsAnswset* result;
 
     QueryEncoder encoder(&_meaningDictionary);

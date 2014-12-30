@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010-2013 KWARC Group <kwarc.info>
+Copyright (C) 2010-2015 KWARC Group <kwarc.info>
 
 This file is part of MathWebSearch.
 
@@ -18,22 +18,37 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_DAEMON_QUERYHANDLER_HPP
-#define _MWS_DAEMON_QUERYHANDLER_HPP
+#ifndef _SCHEMAANSWSET_HPP
+#define _SCHEMAANSWSET_HPP
 
-#include "mws/types/Query.hpp"
-#include "mws/types/GenericAnswer.hpp"
+/**
+  * @author Radu Hambasan
+  * @date 30 Dec 2014
+  */
+
+#include <vector>
+
+#include "mws/types/CmmlToken.hpp"
+#include "mws/types/ExprSchema.hpp"
+#include "GenericAnswer.hpp"
 
 namespace mws {
-namespace daemon {
 
-class QueryHandler {
- public:
-    virtual ~QueryHandler() {}
-    virtual GenericAnswer* handleQuery(types::Query* query) = 0;
+struct SchemaAnswset : GenericAnswer {
+    std::vector<mws::types::ExprSchema> schemata;
+    /// Total number of found schemata (some might have been dropped)
+    int total;
+
+    SchemaAnswset() : total(0) {
+    }
+
+    ~SchemaAnswset() {
+        for (mws::types::ExprSchema& sch : schemata) {
+            delete sch.root;
+        }
+    }
 };
 
-}  // namespace daemon
 }  // namespace mws
 
-#endif  // _MWS_DAEMON_QUERYHANDLER_HPP
+#endif // _SCHEMAANSWSET_HPP

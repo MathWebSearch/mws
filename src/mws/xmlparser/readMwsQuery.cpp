@@ -55,12 +55,15 @@ using mws::parser::RESPONSE_FORMATTER_JSON;
 using mws::parser::RESPONSE_FORMATTER_XML;
 #include "mws/xmlparser/MwsIdsResponseFormatter.hpp"
 using mws::parser::RESPONSE_FORMATTER_MWS_IDS;
+#include "mws/xmlparser/SchemaResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_SCHEMA;
 
 #define MWSQUERY_MAIN_NAME "mws:query"
 #define MWSQUERY_ATTR_ANSWSET_MAXSIZE "answsize"
 #define MWSQUERY_ATTR_ANSWSET_LIMITMIN "limitmin"
 #define MWSQUERY_ATTR_ANSWSET_TOTALREQ "totalreq"
 #define MWSQUERY_ATTR_OUTPUTFORMAT "output"
+#define MWSQUERY_ATTR_SCHEMADEPTH "schema_depth"
 #define MWSQUERY_EXPR_NAME "mws:expr"
 
 using namespace mws;
@@ -162,18 +165,25 @@ static void my_startElement(void* user_data, const xmlChar* name,
                     boolValue = getBoolType((char*)attrs[1]);
                     data->result->attrResultTotalReq = boolValue;
                 } else if (strcmp((char*)attrs[0],
+                                  MWSQUERY_ATTR_SCHEMADEPTH) == 0) {
+                    numValue = (int)strtol((char*)attrs[1], nullptr, 10);
+                    data->result->max_depth = numValue;
+                } else if (strcmp((char*)attrs[0],
                                   MWSQUERY_ATTR_OUTPUTFORMAT) == 0) {
                     if (strcmp((char*)attrs[1], "xml") == 0) {
                         data->result->responseFormatter =
-                            RESPONSE_FORMATTER_XML;
+                                RESPONSE_FORMATTER_XML;
                     } else if (strcmp((char*)attrs[1], "json") == 0) {
                         data->result->responseFormatter =
-                            RESPONSE_FORMATTER_JSON;
+                                RESPONSE_FORMATTER_JSON;
                     } else if (strcmp((char*)attrs[1], "mws-ids") == 0) {
                         data->result->responseFormatter =
-                            RESPONSE_FORMATTER_MWS_IDS;
+                                RESPONSE_FORMATTER_MWS_IDS;
                         data->result->options.includeHits = false;
                         data->result->options.includeMwsIds = true;
+                    } else if (strcmp((char*)attrs[1], "schema") == 0) {
+                        data->result->responseFormatter =
+                                RESPONSE_FORMATTER_SCHEMA;
                     } else {
                         PRINT_WARN("Invalid output format \"%s\"\n", attrs[1]);
                     }

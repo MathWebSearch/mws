@@ -41,6 +41,8 @@ using mws::index::MeaningDictionary;
 using mws::query::SchemaEngine;
 using mws::query::EncodedFormula;
 using mws::query::RETRIEVE_ALL;
+#include "mws/types/SchemaAnswset.hpp"
+using mws::SchemaAnswset;
 
 uint32_t g_meaning_dict_val_off = 1;
 MeaningId constantId = CONSTANT_ID_MIN + g_meaning_dict_val_off;
@@ -88,12 +90,10 @@ struct Tester {
                                         size_t expected, uint8_t depth) {
         MeaningDictionary dict = get_meaning_dict();
         SchemaEngine schEng(dict);
-        vector<CmmlToken*> schemata = schEng.getSchemata(exprs, RETRIEVE_ALL,
-                                                         depth);
-        size_t nrSch = schemata.size();
-        for (auto& rootTok : schemata) {
-            free(rootTok);
-        }
+        SchemaAnswset* answset = schEng.getSchemata(exprs, RETRIEVE_ALL, depth);
+        size_t nrSch = answset->schemata.size();
+        delete answset;
+
         if (nrSch != expected) return EXIT_FAILURE;
         return EXIT_SUCCESS;
     }

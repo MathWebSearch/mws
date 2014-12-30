@@ -35,6 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include "mws/types/Query.hpp"
+#include "mws/types/GenericAnswer.hpp"
 
 namespace mws {
 namespace parser {
@@ -43,7 +44,7 @@ struct JsonResponseFormatter : public types::Query::ResponseFormatter {
     static JsonResponseFormatter instance;
 
     virtual const char* getContentType() const;
-    virtual int writeData(const void* data, FILE* output) const;
+    virtual int writeData(const GenericAnswer* ans, FILE* output) const;
 };
 
 extern JsonResponseFormatter* RESPONSE_FORMATTER_JSON;

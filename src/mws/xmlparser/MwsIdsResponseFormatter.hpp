@@ -34,6 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
+#include "mws/types/GenericAnswer.hpp"
 #include "mws/types/Query.hpp"
 
 namespace mws {
@@ -43,7 +44,7 @@ struct MwsIdsResponseFormatter : public types::Query::ResponseFormatter {
     static MwsIdsResponseFormatter instance;
 
     virtual const char* getContentType() const;
-    virtual int writeData(const void* data, FILE* output) const;
+    virtual int writeData(const GenericAnswer* ans, FILE* output) const;
 };
 
 extern MwsIdsResponseFormatter* RESPONSE_FORMATTER_MWS_IDS;

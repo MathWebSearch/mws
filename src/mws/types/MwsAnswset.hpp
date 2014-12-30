@@ -34,6 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <set>
 
 #include "mws/types/Answer.hpp"
+#include "GenericAnswer.hpp"
 #include "mws/types/FormulaPath.hpp"
 
 namespace mws {
@@ -42,8 +43,7 @@ namespace mws {
   * @brief <mws:answset> Answer Set
   *
   */
-struct MwsAnswset
-{
+struct MwsAnswset : GenericAnswer {
     /// Vector containing the MWS Answers
     std::vector<mws::types::Answer*> answers;
     /// Total number of solutions in the index

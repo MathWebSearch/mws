@@ -36,6 +36,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "mws/types/Answer.hpp"
+#include "mws/types/MwsAnswset.hpp"
 #include "mws/xmlparser/XmlResponseFormatter.hpp"
 using mws::parser::RESPONSE_FORMATTER_XML;
 #include "common/utils/compiler_defs.h"

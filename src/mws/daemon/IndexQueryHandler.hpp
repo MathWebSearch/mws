@@ -18,12 +18,10 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _INDEX_DAEMON_HPP
-#define _INDEX_DAEMON_HPP
+#ifndef _MWS_DAEMON_INDEXQUERYHANDLER_HPP
+#define _MWS_DAEMON_INDEXQUERYHANDLER_HPP
 
 /**
-  * @brief File containing the header of the IndexDaemon class.
-  * @file IndexDaemon.hpp
   * @author Corneliu-Claudiu Prodescu
   * @date 18 Jun 2011
   *
@@ -44,6 +42,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/daemon/QueryHandler.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
 #include "mws/index/IndexLoader.hpp"
+#include "mws/types/GenericAnswer.hpp"
 
 namespace mws {
 namespace daemon {
@@ -61,7 +60,7 @@ class IndexQueryHandler : public QueryHandler {
                       const Config& config = Config());
     ~IndexQueryHandler();
 
-    MwsAnswset* handleQuery(types::Query* query);
+    GenericAnswer* handleQuery(types::Query* query);
 
  private:
     index::IndexLoader _index;
@@ -73,4 +72,4 @@ class IndexQueryHandler : public QueryHandler {
 }  // namespace daemon
 }  // namespace mws
 
-#endif  // _INDEX_DAEMON_HPP
+#endif  // _MWS_DAEMON_INDEXQUERYHANDLER_HPP

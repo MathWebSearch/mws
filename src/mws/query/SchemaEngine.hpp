@@ -37,12 +37,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/index/MeaningDictionary.hpp"
 #include "mws/index/index.h"
 #include "mws/types/CmmlToken.hpp"
+#include "mws/types/SchemaAnswset.hpp"
 #include "common/utils/util.hpp"
+#include "build-gen/config.h"
 
 namespace mws {
 namespace query {
 
-constexpr uint8_t DEFAULT_SCHEMA_DEPTH = 3;
 constexpr char DEFAULT_QVAR_PREFIX[] = "x";
 constexpr uint32_t RETRIEVE_ALL = 0;
 
@@ -51,20 +52,20 @@ typedef std::vector<encoded_token_t> EncodedFormula;
 class SchemaEngine {
  public:
     explicit SchemaEngine(const index::MeaningDictionary& meaningDictionary);
-    std::vector<types::CmmlToken*> getSchemata(
-        const std::vector<EncodedFormula>& formulae, uint32_t max_total,
-        uint8_t depth = DEFAULT_SCHEMA_DEPTH);
+    mws::SchemaAnswset* getSchemata(const std::vector<EncodedFormula>& formulae,
+                                   uint32_t max_total,
+                                   uint8_t depth = DEFAULT_SCHEMA_DEPTH) const;
 
  private:
     const index::ExpressionDecoder decoder;
 
-    EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth);
-    size_t completeExpression(const EncodedFormula& expr, size_t startExpr);
-    std::string hashExpr(const EncodedFormula& expr);
-    EncodedFormula unhashExpr(const std::string& exprHash);
-    types::CmmlToken* decodeFormula(const EncodedFormula& expr, uint8_t depth);
+    EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth) const;
+    size_t completeExpression(const EncodedFormula& expr, size_t startExpr) const;
+    std::string hashExpr(const EncodedFormula& expr) const;
+    EncodedFormula unhashExpr(const std::string& exprHash) const;
+    types::CmmlToken* decodeFormula(const EncodedFormula& expr, uint8_t depth) const;
     std::pair<std::string, std::string> decodeMeaning(
-            const types::Meaning& meaning);
+            const types::Meaning& meaning) const;
     ALLOW_TESTER_ACCESS;
 };
 

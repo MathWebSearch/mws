@@ -40,7 +40,14 @@ TARGET_LINK_LIBRARIES( mws-index
        commonutils
 )
 
+# SchemaSearch executable
+ADD_EXECUTABLE(schemad schemad.cpp)
+TARGET_LINK_LIBRARIES( schemad
+       mwsdaemon
+       commonutils
+)
+
 # Output executables at the root of build tree
-SET_PROPERTY( TARGET mwsd mws-index
+SET_PROPERTY( TARGET mwsd mws-index schemad
         PROPERTY RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )

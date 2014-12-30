@@ -40,6 +40,8 @@ using std::string;
 
 #include "mws/types/FormulaPath.hpp"
 using mws::types::FormulaId;
+#include "mws/types/GenericAnswer.hpp"
+#include "mws/types/MwsAnswset.hpp"
 #include "mws/xmlparser/MwsIdsResponseFormatter.hpp"
 
 namespace mws {
@@ -53,9 +55,9 @@ const char* MwsIdsResponseFormatter::getContentType() const {
     return "application/json";
 }
 
-int MwsIdsResponseFormatter::writeData(const void* data,
+int MwsIdsResponseFormatter::writeData(const GenericAnswer* ans,
                                        FILE* output) const {
-    const MwsAnswset& answerSet = *((const MwsAnswset*)data);
+    const MwsAnswset& answerSet = *((const MwsAnswset*)ans);
     json_object* json_doc = json_object_new_object();
 
     // Creating qvars field

@@ -18,12 +18,12 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _GENERICRESPONSES_HPP
-#define _GENERICRESPONSES_HPP
+#ifndef _GENERICHTTPRESPONSES_HPP
+#define _GENERICHTTPRESPONSES_HPP
 
 /**
   * @brief File containing generic responses for the RESTful interface.
-  * @file GenericResponses.hpp
+  * @file GenericHttpResponses.hpp
   * @author Corneliu-Claudiu Prodescu
   * @date 31 Jul 2011
   *
@@ -108,4 +108,4 @@ sendOptionsResponse(struct MHD_Connection* connection)
     return ret;
 }
 
-#endif // _GENERICRESPONSES_HPP
+#endif // _GENERICHTTPRESPONSES_HPP

@@ -35,7 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/utils/compiler_defs.h"
 #include "mws/types/CmmlToken.hpp"
-#include "mws/types/MwsAnswset.hpp"
+#include "mws/types/GenericAnswer.hpp"
 
 #include "build-gen/config.h"
 
@@ -48,8 +48,8 @@ namespace types {
 struct Query {
     struct ResponseFormatter {
         virtual const char* getContentType() const = 0;
-        virtual int writeData(const void* data,
-                                            FILE* output) const = 0;
+        virtual int writeData(const GenericAnswer* ans,
+                              FILE* output) const = 0;
         ResponseFormatter() {}
         DISALLOW_COPY_AND_ASSIGN(ResponseFormatter);
     };
@@ -78,6 +78,8 @@ struct Query {
     Options options;
     /// Boolean value showing if the query needed restrictions
     bool restricted;
+    /// Depth used for schema-queries; ignored for regular mws-queries
+    bool max_depth;
 
     /// Default Constructor of the MwsQuery class
     Query()
@@ -86,7 +88,8 @@ struct Query {
           attrResultLimitMin(0),
           attrResultTotalReq(DEFAULT_QUERY_TOTALREQ),
           attrResultTotalReqNr(DEFAULT_QUERY_RESULT_TOTAL),
-          restricted(false) {}
+          restricted(false),
+          max_depth(DEFAULT_SCHEMA_DEPTH) {}
 
     /// Destructor of the MwsQuery class
     ~Query() {
