@@ -43,7 +43,7 @@ struct XmlResponseFormatter : public types::Query::ResponseFormatter {
     static XmlResponseFormatter instance;
 
     virtual const char* getContentType() const;
-    virtual int writeData(const MwsAnswset& answerSet, FILE* output) const;
+    virtual int writeData(const void* data, FILE* output) const;
 };
 
 extern const XmlResponseFormatter* RESPONSE_FORMATTER_XML;
@@ -51,4 +51,4 @@ extern const XmlResponseFormatter* RESPONSE_FORMATTER_XML;
 }  // namespace parser
 }  // namespace mws
 
-#endif  // _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP
+#endif  // _MWS_PARSER_XMLRESPONSE_FORMATTER_HPP

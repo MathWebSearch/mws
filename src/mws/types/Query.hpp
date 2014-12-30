@@ -48,7 +48,7 @@ namespace types {
 struct Query {
     struct ResponseFormatter {
         virtual const char* getContentType() const = 0;
-        virtual int writeData(const MwsAnswset& answerSet,
+        virtual int writeData(const void* data,
                                             FILE* output) const = 0;
         ResponseFormatter() {}
         DISALLOW_COPY_AND_ASSIGN(ResponseFormatter);

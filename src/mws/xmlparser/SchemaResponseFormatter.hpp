@@ -18,37 +18,37 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_PARSER_XMLRESPONSE_FORMATTER_HPP
-#define _MWS_PARSER_XMLRESPONSE_FORMATTER_HPP
+#ifndef _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
+#define _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
 
 /**
-  * @brief   XmlResponseFormatter
+  * @author  Radu Hambasan
+  * @date    30 Dec 2014
   *
-  * @file    XmlResponseFormatter.hpp
-  * @author  Corneliu-Claudiu Prodescu
-  * @date    30 Jul 2011
-  *
-  * @edited Radu Hambasan
-  * @date 20 Mar 2014
   * License: GPL v3
   *
   */
 
+#include <libxml/xmlwriter.h>
+#include "mws/types/CmmlToken.hpp"
 #include "mws/types/Query.hpp"
 
 namespace mws {
 namespace parser {
 
-struct XmlResponseFormatter : public types::Query::ResponseFormatter {
-    static XmlResponseFormatter instance;
+struct SchemaResponseFormatter : public types::Query::ResponseFormatter {
+    static SchemaResponseFormatter instance;
 
     virtual const char* getContentType() const;
-    virtual int writeData(const MwsAnswset& answerSet, FILE* output) const;
+    virtual int writeData(const void* data, FILE* output) const;
+
+ private:
+    int printCmmlToken(const types::CmmlToken* root, xmlTextWriter* wrt) const;
 };
 
-extern const XmlResponseFormatter* RESPONSE_FORMATTER_XML;
+extern const SchemaResponseFormatter* RESPONSE_FORMATTER_SCHEMA;
 
 }  // namespace parser
 }  // namespace mws
 
-#endif  // _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP
+#endif  // _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP

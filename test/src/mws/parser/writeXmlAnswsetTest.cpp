@@ -60,7 +60,7 @@ int main() {
 
     FILE* file = fopen(xml_path.c_str(), "w");
     FAIL_ON(file == nullptr);
-    FAIL_ON(RESPONSE_FORMATTER_XML->writeData(answset, file) != 260);
+    FAIL_ON(RESPONSE_FORMATTER_XML->writeData(&answset, file) != 260);
 
     (void)fclose(file);
 

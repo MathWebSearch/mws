@@ -86,8 +86,9 @@ const char* XmlResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
-int XmlResponseFormatter::writeData(const MwsAnswset& answerSet,
+int XmlResponseFormatter::writeData(const void* data,
                                     FILE* output) const {
+    const MwsAnswset& answerSet = *((const MwsAnswset*)data);
     xmlOutputBuffer* outPtr;
     xmlTextWriter* writerPtr;
     size_t qvarNr;

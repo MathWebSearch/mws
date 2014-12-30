@@ -43,7 +43,7 @@ struct JsonResponseFormatter : public types::Query::ResponseFormatter {
     static JsonResponseFormatter instance;
 
     virtual const char* getContentType() const;
-    virtual int writeData(const MwsAnswset& answerSet, FILE* output) const;
+    virtual int writeData(const void* data, FILE* output) const;
 };
 
 extern JsonResponseFormatter* RESPONSE_FORMATTER_JSON;

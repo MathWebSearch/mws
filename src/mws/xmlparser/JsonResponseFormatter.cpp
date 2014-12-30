@@ -58,8 +58,9 @@ const char* JsonResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
-int JsonResponseFormatter::writeData(const MwsAnswset& answerSet,
+int JsonResponseFormatter::writeData(const void* data,
                                      FILE* output) const {
+    const MwsAnswset& answerSet = *((const MwsAnswset*)data);
     json_object* json_doc, *qvars, *hits;
 
     json_doc = json_object_new_object();

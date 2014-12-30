@@ -53,8 +53,9 @@ const char* MwsIdsResponseFormatter::getContentType() const {
     return "application/json";
 }
 
-int MwsIdsResponseFormatter::writeData(const MwsAnswset& answerSet,
+int MwsIdsResponseFormatter::writeData(const void* data,
                                        FILE* output) const {
+    const MwsAnswset& answerSet = *((const MwsAnswset*)data);
     json_object* json_doc = json_object_new_object();
 
     // Creating qvars field
