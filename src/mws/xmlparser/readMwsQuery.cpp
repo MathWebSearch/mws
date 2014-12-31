@@ -181,9 +181,6 @@ static void my_startElement(void* user_data, const xmlChar* name,
                                 RESPONSE_FORMATTER_MWS_IDS;
                         data->result->options.includeHits = false;
                         data->result->options.includeMwsIds = true;
-                    } else if (strcmp((char*)attrs[1], "schema") == 0) {
-                        data->result->responseFormatter =
-                                RESPONSE_FORMATTER_SCHEMA;
                     } else {
                         PRINT_WARN("Invalid output format \"%s\"\n", attrs[1]);
                     }
@@ -339,7 +336,7 @@ static void my_fatalError(void* user_data, const char* msg, ...) {
 namespace mws {
 namespace xmlparser {
 
-Query* readMwsQuery(FILE* file) {
+Query* readMwsQuery(FILE* file, QueryMode mode) {
     // file might be nullptr, if no data was sent
     if (file == nullptr) return nullptr;
     MwsQuery_SaxUserData user_data;
@@ -387,6 +384,10 @@ Query* readMwsQuery(FILE* file) {
     // Unlocking libXML -- to allow multi-threaded use
     xmlUnlockLibrary();
 
+    // override any output attr if we have a schema query
+    if (mode == QUERY_SCHEMA) {
+        user_data.result->responseFormatter = RESPONSE_FORMATTER_SCHEMA;
+    }
     return user_data.result;
 }
 

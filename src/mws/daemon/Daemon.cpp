@@ -46,6 +46,9 @@ using common::utils::formattedString;
 using mws::types::Query;
 #include "mws/xmlparser/readMwsQuery.hpp"
 using mws::xmlparser::readMwsQuery;
+using mws::xmlparser::QueryMode;
+#include "mws/daemon/SchemaQueryHandler.hpp"
+using mws::daemon::SchemaQueryHandler;
 #include "mws/daemon/GenericHttpResponses.hpp"
 #include "mws/daemon/microhttpd_linux.h"
 #include "mws/daemon/Daemon.hpp"
@@ -191,8 +194,15 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
         return MHD_YES;
     }
 
+    QueryHandler* qh = reinterpret_cast<QueryHandler*>(cls);
     // Parse query
-    unique_ptr<Query> mwsQuery(readMwsQuery(memstream->getOutputFile()));
+    QueryMode qMode = QueryMode::QUERY_MWS;
+    // is instance of SchemaQueryHandler
+    if (dynamic_cast<SchemaQueryHandler*>(qh) != nullptr) {
+        qMode = QueryMode::QUERY_SCHEMA;
+    }
+    unique_ptr<Query> mwsQuery(readMwsQuery(memstream->getOutputFile(),
+                                            qMode));
     delete memstream;
 
     // Check if query failed or is empty
@@ -206,7 +216,7 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
 #ifdef APPLY_RESTRICTIONS
     mwsQuery->applyRestrictions();
 #endif
-    QueryHandler* qh = reinterpret_cast<QueryHandler*>(cls);
+
     unique_ptr<GenericAnswer> answset(qh->handleQuery(mwsQuery.get()));
     if (answset == nullptr) {
         PRINT_WARN("Error while obtaining answer set\n");
@@ -218,6 +228,7 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
     MemStream responseData;
     int ret = mwsQuery->responseFormatter->writeData(answset.get(),
                                                      responseData.getInput());
+
     if (ret < 0) {
         PRINT_WARN("Error while writing the Answer Set\n");
         return sendXmlGenericResponse(connection, XML_MWS_SERVER_ERROR,

@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
 <mws:query
     xmlns:m="http://www.w3.org/1998/Math/MathML"
-    xmlns:mws="http://search.mathweb.org/ns"
-    output="schema">
+    xmlns:mws="http://search.mathweb.org/ns">
 <mws:expr url="#m1.1" mws:data_id="0">
 <apply xml:id="m1.1.3.cmml">
   <times xml:id="m1.1.3.1.cmml"/>

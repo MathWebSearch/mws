@@ -41,13 +41,18 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace xmlparser {
 
+enum QueryMode {
+    QUERY_MWS,
+    QUERY_SCHEMA
+};
+
 /**
   * @brief Function to read a MwsQuery from an input file descriptor.
   * @param file is the file from where to read.
   * @return a pointer to a MwsQuery containing the information read or NULL in
   * case of failure.
   */
-mws::types::Query* readMwsQuery(FILE* file);
+mws::types::Query* readMwsQuery(FILE* file, QueryMode mode = QUERY_MWS);
 
 }  // namespace xmlparser
 }  // namespace mws
