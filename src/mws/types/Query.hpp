@@ -79,7 +79,7 @@ struct Query {
     /// Boolean value showing if the query needed restrictions
     bool restricted;
     /// Depth used for schema-queries; ignored for regular mws-queries
-    bool max_depth;
+    uint8_t max_depth;
 
     /// Default Constructor of the MwsQuery class
     Query()
