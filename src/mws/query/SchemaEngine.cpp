@@ -258,6 +258,28 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
         }
     } while (currTok < expr.size());
 
+    if (unexplored.empty()) return currCmml;
+
+    // We need to complete the last token, in case it had arity > 0
+    uint32_t anonExprs = unexplored.top();
+    unexplored.pop();
+    for (size_t i = 1; i <= anonExprs; i++) {
+        auto qvar = currCmml->newChildNode();
+        qvar->setTag(types::QVAR_TAG);
+        qvar->appendTextContent(DEFAULT_QVAR_PREFIX +
+                                std::to_string(qvar_count));
+        qvar_count++;
+    }
+    uint32_t parentExpr = 0;
+    while (!unexplored.empty() && (parentExpr == 0)) {
+        parentExpr = unexplored.top() - 1;
+        unexplored.pop();
+        currCmml = currCmml->getParentNode();
+        if (parentExpr != 0) unexplored.push(parentExpr);
+    }
+    assert(unexplored.empty());
+    assert(currCmml->isRoot());
+
     return currCmml;
 }
 
