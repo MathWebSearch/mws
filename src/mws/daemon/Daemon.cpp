@@ -58,7 +58,7 @@ using mws::daemon::SchemaQueryHandler;
 namespace mws {
 namespace daemon {
 
-Daemon::Config::Config() : port(DEFAULT_SCHEMA_PORT), enableIpv6(false) {}
+Daemon::Config::Config() : port(DEFAULT_MWS_PORT), enableIpv6(false) {}
 
 class MemStream {
     enum Mode {

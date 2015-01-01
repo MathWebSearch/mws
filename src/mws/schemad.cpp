@@ -84,10 +84,11 @@ int main(int argc, char* argv[]) {
     daemonConfig.enableIpv6 = FlagParser::hasArg('6');
 
     // port
+    daemonConfig.port = DEFAULT_SCHEMA_PORT;
     if (FlagParser::hasArg('p')) {
-        int mwsPort = atoi(FlagParser::getArg('p').c_str());
-        if (mwsPort > 0 && mwsPort < (1 << 16)) {
-            daemonConfig.port = mwsPort;
+        int schPort= atoi(FlagParser::getArg('p').c_str());
+        if (schPort> 0 && schPort< (1 << 16)) {
+            daemonConfig.port = schPort;
         } else {
             fprintf(stderr, "Invalid port \"%s\"\n",
                     FlagParser::getArg('p').c_str());
