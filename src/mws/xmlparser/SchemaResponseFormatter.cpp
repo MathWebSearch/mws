@@ -227,8 +227,11 @@ int SchemaResponseFormatter::printCmmlToken(const CmmlToken *root,
     int ret = 0;
     const char* tag = root->getTag().c_str();
     const char* content = root->getTextContent().c_str();
-    ret = xmlTextWriterStartElement(wrt, BAD_CAST tag);
-    ret = xmlTextWriterWriteString(wrt, BAD_CAST content);
+
+    ret = xmlTextWriterStartElement(wrt, BAD_CAST tag);    
+    if (root->getTextContent() != "") {
+        ret = xmlTextWriterWriteString(wrt, BAD_CAST content);
+    }
 
     for (const CmmlToken* child : root->getChildNodes()) {
         ret = printCmmlToken(child, wrt);
