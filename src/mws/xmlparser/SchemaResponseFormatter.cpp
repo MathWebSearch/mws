@@ -82,6 +82,7 @@ const char* SchemaResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
+/* TODO: write a macro for this repetitive code */
 int SchemaResponseFormatter::writeData(const GenericAnswer* ans,
                                     FILE* output) const {
     SchemaAnswset& schemataSet = *((SchemaAnswset*)ans);
@@ -170,11 +171,23 @@ int SchemaResponseFormatter::writeData(const GenericAnswer* ans,
             goto finally;
         }
 
+        ret = xmlTextWriterStartElement(writerPtr, BAD_CAST "math");
+        if (ret == -1) {
+            PRINT_WARN("Error at xmlTextWriterStartElement\n");
+            break;
+        }
+
         ret = printCmmlToken(schema.root, writerPtr);
         if (ret == -1) {
             PRINT_WARN("Error at printCmmlToken\n");
             break;
         }
+        ret = xmlTextWriterEndElement(writerPtr);
+        if (ret == -1) {
+            PRINT_WARN("Error at xmlTextWriterEndElement\n");
+            break;
+        }
+
         ret = xmlTextWriterEndElement(writerPtr);
         if (ret == -1) {
             PRINT_WARN("Error at xmlTextWriterEndElement\n");
