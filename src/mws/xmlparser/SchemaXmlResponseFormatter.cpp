@@ -47,7 +47,7 @@ using mws::types::CmmlToken;
 #include "mws/types/SchemaAnswset.hpp"
 #include "mws/types/ExprSchema.hpp"
 using mws::types::ExprSchema;
-#include "mws/xmlparser/SchemaResponseFormatter.hpp"
+#include "mws/xmlparser/SchemaXmlResponseFormatter.hpp"
 
 #include "build-gen/config.h"
 
@@ -72,18 +72,18 @@ static inline int fileXmlOutputWriteCallback(void* _ctxt, const char* data,
 namespace mws {
 namespace parser {
 
-SchemaResponseFormatter SchemaResponseFormatter::instance;
-const SchemaResponseFormatter* RESPONSE_FORMATTER_SCHEMA =
-    &SchemaResponseFormatter::instance;
+SchemaXmlResponseFormatter SchemaXmlResponseFormatter::instance;
+const SchemaXmlResponseFormatter* RESPONSE_FORMATTER_SCHEMA_XML =
+    &SchemaXmlResponseFormatter::instance;
 
 static const char HTTP_ENCODING[] = "application/xml";
 
-const char* SchemaResponseFormatter::getContentType() const {
+const char* SchemaXmlResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
 /* TODO: write a macro for this repetitive code */
-int SchemaResponseFormatter::writeData(const GenericAnswer* ans,
+int SchemaXmlResponseFormatter::writeData(const GenericAnswer* ans,
                                     FILE* output) const {
     SchemaAnswset& schemataSet = *((SchemaAnswset*)ans);
     xmlOutputBuffer* outPtr;
@@ -222,7 +222,8 @@ finally:
     }
 }
 
-int SchemaResponseFormatter::printCmmlToken(const CmmlToken *root,
+/* TODO: use to_string() method */
+int SchemaXmlResponseFormatter::printCmmlToken(const CmmlToken *root,
                                              xmlTextWriter *wrt) const {
     int ret = 0;
     const char* tag = root->getTag().c_str();

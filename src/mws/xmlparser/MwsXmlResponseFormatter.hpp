@@ -18,13 +18,11 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP
-#define _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP
+#ifndef _MWS_PARSER_MWSXMLRESPONSE_FORMATTER_HPP
+#define _MWS_PARSER_MWSXMLRESPONSE_FORMATTER_HPP
 
 /**
-  * @brief   JsonResponseFormatter
-  *
-  * @file    JsonResponseFormatter.hpp
+  * @file    MwsXmlResponseFormatter.hpp
   * @author  Corneliu-Claudiu Prodescu
   * @date    30 Jul 2011
   *
@@ -34,22 +32,22 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include "mws/types/Query.hpp"
 #include "mws/types/GenericAnswer.hpp"
+#include "mws/types/Query.hpp"
 
 namespace mws {
 namespace parser {
 
-struct JsonResponseFormatter : public types::Query::ResponseFormatter {
-    static JsonResponseFormatter instance;
+struct MwsXmlResponseFormatter : public types::Query::ResponseFormatter {
+    static MwsXmlResponseFormatter instance;
 
     virtual const char* getContentType() const;
     virtual int writeData(const GenericAnswer* ans, FILE* output) const;
 };
 
-extern JsonResponseFormatter* RESPONSE_FORMATTER_JSON;
+extern const MwsXmlResponseFormatter* RESPONSE_FORMATTER_MWS_XML;
 
 }  // namespace parser
 }  // namespace mws
 
-#endif  // _MWS_PARSER_JSONRESPONSE_FORMATTER_HPP
+#endif  // _MWS_PARSER_MWSXMLRESPONSE_FORMATTER_HPP

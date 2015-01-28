@@ -26,6 +26,10 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @date 30 Dec 2014
   */
 
+#include <vector>
+#include <string>
+
+#include "mws/types/CmmlToken.hpp"
 #include "mws/daemon/QueryHandler.hpp"
 #include "mws/index/ExpressionEncoder.hpp"
 using mws::index::ExpressionEncoder;
@@ -45,8 +49,11 @@ class SchemaQueryHandler : public QueryHandler {
     GenericAnswer* handleQuery(types::Query* query);
 
  private:
-    index::ExpressionEncoder::Config _encodingConfig;
+   void getSubstitutions(types::CmmlToken* exprRoot,
+                         types::CmmlToken* schemaRoot,
+                         std::vector<std::string>* substitutions);
 
+    index::ExpressionEncoder::Config _encodingConfig;
     DISALLOW_COPY_AND_ASSIGN(SchemaQueryHandler);
 };
 

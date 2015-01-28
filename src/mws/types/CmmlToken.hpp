@@ -103,6 +103,7 @@ class CmmlToken {
     CmmlToken* getParentNode() const;
     const std::string& getTag() const;
     const std::string& getXpath() const;
+    std::string getAttribute(const std::string& attr) const;
     /**
      * @brief getXpathRelative
      * @return Xpath wihout root selector prefix

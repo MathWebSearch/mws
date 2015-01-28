@@ -27,10 +27,14 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <vector>
 using std::vector;
+#include <string>
+using std::string;
 
 #include "common/utils/compiler_defs.h"
 #include "mws/types/Query.hpp"
 using mws::types::Query;
+#include "mws/types/ExprSchema.hpp"
+using mws::types::ExprSchema;
 #include "mws/types/SchemaAnswset.hpp"
 using mws::SchemaAnswset;
 #include "mws/types/CmmlToken.hpp"
@@ -53,13 +57,12 @@ SchemaQueryHandler::SchemaQueryHandler(const ExpressionEncoder::Config& conf) :
 SchemaQueryHandler::~SchemaQueryHandler() {}
 
 GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
-    SchemaAnswset* result;
     const uint8_t max_depth = query->max_depth;
-    const uint32_t max_total= query->attrResultMaxSize;
+    const uint32_t max_total = query->attrResultMaxSize;
 
     MeaningDictionary dict;
     // using a HarvestEncoder to be able to fill
-    // the MeaningDictonary on the fly, so we don't require an index
+    // the MeaningDictonary on the fly, so we don't require an index for ids
     HarvestEncoder encoder(&dict);
     vector<EncodedFormula> exprs;
     exprs.reserve(query->tokens.size());
@@ -72,8 +75,68 @@ GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
     }
 
     SchemaEngine schemaEngine(dict);
-    result = schemaEngine.getSchemata(exprs, max_total, max_depth);
+    SchemaAnswset* result =
+            schemaEngine.getSchemata(exprs, max_total, max_depth);
+
+    /* we can't deduce the substitutions in SchemaEngine because we need
+     * the original query, so we will do it here */
+    for (ExprSchema& sch : result->schemata) {
+        /* As a heuristic,
+         * we choose the first formula in this class to be schematized */
+        const uint32_t representativeId = sch.formulae.front();
+        CmmlToken* exprRoot = query->tokens[representativeId];
+        getSubstitutions(exprRoot, sch.root, &sch.subst);
+    }
+
     return result;
+}
+
+
+void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
+                                          CmmlToken *schemaRoot,
+                                          vector<string> *subst) {
+    if (exprRoot == nullptr || schemaRoot == nullptr || subst == nullptr) {
+        PRINT_WARN("nullptr pased. Skipping...");
+        return;
+    }
+    auto exprChildren = exprRoot->getChildNodes();
+    auto schemaChildren = exprRoot->getChildNodes();
+
+    if (exprChildren.size() != schemaChildren.size()) {
+        PRINT_WARN("Expression and schema are incompatible. Skipping...");
+        return;
+    }
+
+    // Done with this token
+    if (exprChildren.size() == 0) {
+        return;
+    }
+
+    const string& currSchemaTag = schemaRoot->getTag();
+    if (currSchemaTag == types::QVAR_TAG) {
+        const string& href = exprRoot->getAttribute("href");
+        if (href == "") {
+            PRINT_LOG("Missing href attribute. Skipping...");
+            return;
+        }
+        subst->push_back(href);
+        return;
+    }
+
+    auto expr_it = exprChildren.begin();
+    auto schema_it = schemaChildren.begin();
+    const string& currExprTag = exprRoot->getTag();
+    // disregard the first child of apply
+    if (currExprTag == "apply") {
+        expr_it++;
+        schema_it++;
+    }
+
+    /* we know that both exprChildren and schmaChildren have the same length,
+     * so it is enough to check for one */
+    while (expr_it != exprChildren.end()){
+        getSubstitutions(*expr_it, *schema_it, subst);
+    }
 }
 
 }  // namespace daemon

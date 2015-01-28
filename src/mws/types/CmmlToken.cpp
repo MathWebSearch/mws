@@ -218,6 +218,15 @@ const std::string& CmmlToken::getVarName() const {
     }
 }
 
+std::string CmmlToken::getAttribute(const std::string& attr) const {
+    auto it = _attributes.find(attr);
+    if (it == _attributes.end()) {
+        return "";
+    } else {
+        return it->second;
+    }
+}
+
 /**
  * @brief CmmlToken::getRangeBounds
  * @return a pair with the first field set to the low bound

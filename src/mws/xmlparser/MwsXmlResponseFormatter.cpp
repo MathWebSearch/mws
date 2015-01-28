@@ -44,7 +44,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/compiler_defs.h"
 #include "mws/types/GenericAnswer.hpp"
 #include "mws/types/MwsAnswset.hpp"
-#include "mws/xmlparser/XmlResponseFormatter.hpp"
+#include "mws/xmlparser/MwsXmlResponseFormatter.hpp"
 
 #include "build-gen/config.h"
 
@@ -78,17 +78,17 @@ static inline int fileXmlOutputWriteCallback(void* _ctxt, const char* data,
 namespace mws {
 namespace parser {
 
-XmlResponseFormatter XmlResponseFormatter::instance;
-const XmlResponseFormatter* RESPONSE_FORMATTER_XML =
-    &XmlResponseFormatter::instance;
+MwsXmlResponseFormatter MwsXmlResponseFormatter::instance;
+const MwsXmlResponseFormatter* RESPONSE_FORMATTER_MWS_XML =
+    &MwsXmlResponseFormatter::instance;
 
 static const char HTTP_ENCODING[] = "application/xml";
 
-const char* XmlResponseFormatter::getContentType() const {
+const char* MwsXmlResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
-int XmlResponseFormatter::writeData(const GenericAnswer* ans,
+int MwsXmlResponseFormatter::writeData(const GenericAnswer* ans,
                                     FILE* output) const {
     const MwsAnswset& answerSet = *((const MwsAnswset*)ans);
     xmlOutputBuffer* outPtr;

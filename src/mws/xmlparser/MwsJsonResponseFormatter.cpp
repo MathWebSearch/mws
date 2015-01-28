@@ -42,7 +42,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/types/GenericAnswer.hpp"
 #include "mws/types/MwsAnswset.hpp"
-#include "mws/xmlparser/JsonResponseFormatter.hpp"
+#include "mws/xmlparser/MwsJsonResponseFormatter.hpp"
 
 using namespace std;
 using namespace mws;
@@ -50,17 +50,17 @@ using namespace mws;
 namespace mws {
 namespace parser {
 
-JsonResponseFormatter JsonResponseFormatter::instance;
-JsonResponseFormatter* RESPONSE_FORMATTER_JSON =
-    &JsonResponseFormatter::instance;
+MwsJsonResponseFormatter MwsJsonResponseFormatter::instance;
+MwsJsonResponseFormatter* RESPONSE_FORMATTER_MWS_JSON =
+    &MwsJsonResponseFormatter::instance;
 
 static const char HTTP_ENCODING[] = "application/json";
 
-const char* JsonResponseFormatter::getContentType() const {
+const char* MwsJsonResponseFormatter::getContentType() const {
     return HTTP_ENCODING;
 }
 
-int JsonResponseFormatter::writeData(const GenericAnswer* ans,
+int MwsJsonResponseFormatter::writeData(const GenericAnswer* ans,
                                      FILE* output) const {
     const MwsAnswset& answerSet = *((const MwsAnswset*)ans);
     json_object* json_doc, *qvars, *hits;

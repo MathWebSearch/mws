@@ -62,22 +62,26 @@ SchemaAnswset* SchemaEngine::getSchemata(
         uint8_t depth) const {
     SchemaAnswset* result = new SchemaAnswset();
 
-    unordered_map<string, int> exprCount;
-    for (const EncodedFormula& expr : formulae) {
+    unordered_map<string, vector<uint32_t>> schemaGroup;
+    for (size_t i = 0; i < formulae.size(); i++) {
+        const EncodedFormula& expr = formulae[i];
         string hash = hashExpr(reduceFormula(expr, depth));
-        auto it = exprCount.find(hash);
-        if (it != exprCount.end()) {
-            exprCount[hash] = it->second + 1;
+
+        auto it = schemaGroup.find(hash);
+        if (it != schemaGroup.end()) {
+            it->second.push_back(i);
         } else {
-            exprCount[hash] = 1;
+            schemaGroup[hash] = {(uint32_t) i};
         }
     }
-    result->total = exprCount.size();
+    result->total = schemaGroup.size();
 
-    vector<pair<string, int>> topExpr(exprCount.begin(), exprCount.end());
+    vector<pair<string, vector<uint32_t>>> topExpr(schemaGroup.begin(),
+                                                   schemaGroup.end());
     std::sort(topExpr.begin(), topExpr.end(),
-              [](const pair<string, int> & p1, const pair<string, int> & p2) {
-        return p1.second > p2.second;
+              [](const pair<string, vector<uint32_t>>& p1,
+              const pair<string, vector<uint32_t>>& p2) {
+        return p1.second.size() > p2.second.size();
     });
 
     // By convention, max_total=0  means "retrieve all schemata"
@@ -90,7 +94,8 @@ SchemaAnswset* SchemaEngine::getSchemata(
         EncodedFormula e = unhashExpr(p.first);
         ExprSchema sch;
         sch.root = decodeFormula(e, depth);
-        sch.coverage = p.second;
+        sch.coverage = p.second.size();
+        sch.formulae = p.second;
         result->schemata.push_back(sch);
     }
 

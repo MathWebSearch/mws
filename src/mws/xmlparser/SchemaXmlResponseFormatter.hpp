@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
-#define _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
+#ifndef _MWS_PARSER_SCHEMAXMLRESPONSE_FORMATTER_HPP
+#define _MWS_PARSER_SCHEMAXMLRESPONSE_FORMATTER_HPP
 
 /**
   * @author  Radu Hambasan
@@ -37,8 +37,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace parser {
 
-struct SchemaResponseFormatter : public types::Query::ResponseFormatter {
-    static SchemaResponseFormatter instance;
+struct SchemaXmlResponseFormatter : public types::Query::ResponseFormatter {
+    static SchemaXmlResponseFormatter instance;
 
     virtual const char* getContentType() const;
     virtual int writeData(const GenericAnswer* ans, FILE* output) const;
@@ -47,9 +47,9 @@ struct SchemaResponseFormatter : public types::Query::ResponseFormatter {
     int printCmmlToken(const types::CmmlToken* root, xmlTextWriter* wrt) const;
 };
 
-extern const SchemaResponseFormatter* RESPONSE_FORMATTER_SCHEMA;
+extern const SchemaXmlResponseFormatter* RESPONSE_FORMATTER_SCHEMA_XML;
 
 }  // namespace parser
 }  // namespace mws
 
-#endif  // _MWS_PARSER_SCHEMARESPONSE_FORMATTER_HPP
+#endif  // _MWS_PARSER_SCHEMAXMLRESPONSE_FORMATTER_HPP

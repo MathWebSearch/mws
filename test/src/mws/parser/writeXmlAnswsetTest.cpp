@@ -38,8 +38,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/types/Answer.hpp"
 #include "mws/types/MwsAnswset.hpp"
-#include "mws/xmlparser/XmlResponseFormatter.hpp"
-using mws::parser::RESPONSE_FORMATTER_XML;
+#include "mws/xmlparser/MwsXmlResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_MWS_XML;
 #include "common/utils/compiler_defs.h"
 
 // Macros
@@ -62,7 +62,7 @@ int main() {
 
     FILE* file = fopen(xml_path.c_str(), "w");
     FAIL_ON(file == nullptr);
-    FAIL_ON(RESPONSE_FORMATTER_XML->writeData(&answset, file) != 260);
+    FAIL_ON(RESPONSE_FORMATTER_MWS_XML->writeData(&answset, file) != 260);
 
     (void)fclose(file);
 

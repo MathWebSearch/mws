@@ -49,14 +49,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "common/utils/getBoolType.hpp"
 using common::utils::BoolType;
 using common::utils::getBoolType;
-#include "mws/xmlparser/JsonResponseFormatter.hpp"
-using mws::parser::RESPONSE_FORMATTER_JSON;
-#include "mws/xmlparser/XmlResponseFormatter.hpp"
-using mws::parser::RESPONSE_FORMATTER_XML;
+#include "mws/xmlparser/MwsJsonResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_MWS_JSON;
+#include "mws/xmlparser/MwsXmlResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_MWS_XML;
 #include "mws/xmlparser/MwsIdsResponseFormatter.hpp"
 using mws::parser::RESPONSE_FORMATTER_MWS_IDS;
-#include "mws/xmlparser/SchemaResponseFormatter.hpp"
-using mws::parser::RESPONSE_FORMATTER_SCHEMA;
+#include "mws/xmlparser/SchemaXmlResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_SCHEMA_XML;
+#include "mws/xmlparser/SchemaJsonResponseFormatter.hpp"
+using mws::parser::RESPONSE_FORMATTER_SCHEMA_JSON;
 
 #define MWSQUERY_MAIN_NAME "mws:query"
 #define MWSQUERY_ATTR_ANSWSET_MAXSIZE "answsize"
@@ -98,16 +100,20 @@ struct MwsQuery_SaxUserData {
     bool errorDetected;
     /// Result of the parsing
     mws::types::Query* result;
+    /// Type of query that we are parsing
+    mws::xmlparser::QueryMode qMode;
 
     MwsQuery_SaxUserData() {
         result = nullptr;
         result = new Query;
-        result->responseFormatter = RESPONSE_FORMATTER_XML;
+        result->responseFormatter = RESPONSE_FORMATTER_MWS_XML;
         currentToken = nullptr;
         currentTokenRoot = nullptr;
         state = MWSQUERYSTATE_DEFAULT;
         errorDetected = false;
         result->warnings = 0;
+        qMode = mws::xmlparser::QUERY_MWS;
+
     }
 };
 
@@ -170,12 +176,24 @@ static void my_startElement(void* user_data, const xmlChar* name,
                     data->result->max_depth = numValue;
                 } else if (strcmp((char*)attrs[0],
                                   MWSQUERY_ATTR_OUTPUTFORMAT) == 0) {
+                    bool schemaMode =
+                            data->qMode == mws::xmlparser::QUERY_SCHEMA;
                     if (strcmp((char*)attrs[1], "xml") == 0) {
-                        data->result->responseFormatter =
-                                RESPONSE_FORMATTER_XML;
+                        if (schemaMode) {
+                            data->result->responseFormatter =
+                                    RESPONSE_FORMATTER_SCHEMA_XML;
+                        } else {
+                            data->result->responseFormatter =
+                                    RESPONSE_FORMATTER_MWS_XML;
+                        }
                     } else if (strcmp((char*)attrs[1], "json") == 0) {
-                        data->result->responseFormatter =
-                                RESPONSE_FORMATTER_JSON;
+                        if (schemaMode) {
+                            data->result->responseFormatter =
+                                    RESPONSE_FORMATTER_SCHEMA_JSON;
+                        } else {
+                            data->result->responseFormatter =
+                                    RESPONSE_FORMATTER_MWS_JSON;
+                        }
                     } else if (strcmp((char*)attrs[1], "mws-ids") == 0) {
                         data->result->responseFormatter =
                                 RESPONSE_FORMATTER_MWS_IDS;
@@ -340,6 +358,12 @@ Query* readMwsQuery(FILE* file, QueryMode mode) {
     // file might be nullptr, if no data was sent
     if (file == nullptr) return nullptr;
     MwsQuery_SaxUserData user_data;
+    if (mode == QUERY_SCHEMA) {
+        user_data.qMode = QUERY_SCHEMA;
+    } else {
+        user_data.qMode = QUERY_MWS;
+    }
+
     xmlSAXHandler saxHandler;
     xmlParserCtxtPtr ctxtPtr;
     int ret;
@@ -384,10 +408,6 @@ Query* readMwsQuery(FILE* file, QueryMode mode) {
     // Unlocking libXML -- to allow multi-threaded use
     xmlUnlockLibrary();
 
-    // override any output attr if we have a schema query
-    if (mode == QUERY_SCHEMA) {
-        user_data.result->responseFormatter = RESPONSE_FORMATTER_SCHEMA;
-    }
     return user_data.result;
 }
 

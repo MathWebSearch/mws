@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2010-2013 KWARC Group <kwarc.info>
 
@@ -18,40 +18,36 @@ You should have received a copy of the GNU General Public License
 along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _MWS_TYPES_EXPRSCHEMA_HPP
-#define _MWS_TYPES_EXPRSCHEMA_HPP
+#ifndef _MWS_PARSER_MWSJSONRESPONSE_FORMATTER_HPP
+#define _MWS_PARSER_MWSJSONRESPONSE_FORMATTER_HPP
 
 /**
-  * @author Radu Hambasan
-  * @date 30 Dec 2014
+  * @file    MwsJsonResponseFormatter.hpp
+  * @author  Corneliu-Claudiu Prodescu
+  * @date    30 Jul 2011
   *
+  * @edited Radu Hambasan
+  * @date 20 Mar 2014
   * License: GPL v3
   *
   */
 
-#include <string>
-#include <vector>
-
-#include "mws/types/CmmlToken.hpp"
+#include "mws/types/Query.hpp"
+#include "mws/types/GenericAnswer.hpp"
 
 namespace mws {
-namespace types {
+namespace parser {
 
-struct ExprSchema {
-    CmmlToken* root;
-    size_t coverage;
-    /** Formulae belonging to this schema class.
-      * Only the index of a formula is included, not the whole formula */
-    std::vector<uint32_t> formulae;
-    /**
-     * hrefs to PMML ids that have been substituted with qvars
-     */
-    std::vector<std::string> subst;
+struct MwsJsonResponseFormatter : public types::Query::ResponseFormatter {
+    static MwsJsonResponseFormatter instance;
 
-    ExprSchema() : root(nullptr), coverage(0) {}
+    virtual const char* getContentType() const;
+    virtual int writeData(const GenericAnswer* ans, FILE* output) const;
 };
 
-}  // namespace types
+extern MwsJsonResponseFormatter* RESPONSE_FORMATTER_MWS_JSON;
+
+}  // namespace parser
 }  // namespace mws
 
-#endif  // _MWS_TYPES_EXPRSCHEMA_HPP
+#endif  // _MWS_PARSER_MWSJSONRESPONSE_FORMATTER_HPP
