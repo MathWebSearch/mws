@@ -10,8 +10,10 @@ GNU General Public License version 3.
 
 Content
 -------
+* `analytics/` user defined analytics source files
 * `config/` configuration files
 * `data/` data used to run a MWS demo
+* `doc/` documentation for MWS users
 * `scripts/` utility scripts
 * `src/` source code
 * `test/` test source code and data
