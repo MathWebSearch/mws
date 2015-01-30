@@ -107,11 +107,6 @@ void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
         return;
     }
 
-    // Done with this token
-    if (exprChildren.size() == 0) {
-        return;
-    }
-
     const string& currSchemaTag = schemaRoot->getTag();
     if (currSchemaTag == types::QVAR_TAG) {
         const string& href = exprRoot->getAttribute("href");
@@ -126,16 +121,28 @@ void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
     auto expr_it = exprChildren.begin();
     auto schema_it = schemaChildren.begin();
     const string& currExprTag = exprRoot->getTag();
+    if (currExprTag != currSchemaTag) {
+        PRINT_WARN("Expression and schema are incompatible. Skipping...");
+        return;
+    }
+    // Done with this token?
+    if (exprChildren.size() == 0) {
+        return;
+    }
+
     // disregard the first child of apply
     if (currExprTag == "apply") {
         expr_it++;
         schema_it++;
     }
 
-    /* we know that both exprChildren and schmaChildren have the same length,
+    /* we know that both exprChildren and schemaChildren have the same length,
      * so it is enough to check for one */
     while (expr_it != exprChildren.end()){
         getSubstitutions(*expr_it, *schema_it, subst);
+        ++expr_it;
+        ++schema_it;
+
     }
 }
 

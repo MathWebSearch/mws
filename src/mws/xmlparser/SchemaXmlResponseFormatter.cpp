@@ -222,7 +222,7 @@ finally:
     }
 }
 
-/* TODO: use to_string() method */
+/* TODO?: use to_string() method */
 int SchemaXmlResponseFormatter::printCmmlToken(const CmmlToken *root,
                                              xmlTextWriter *wrt) const {
     int ret = 0;

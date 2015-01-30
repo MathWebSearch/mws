@@ -360,8 +360,8 @@ Query* readMwsQuery(FILE* file, QueryMode mode) {
     MwsQuery_SaxUserData user_data;
     if (mode == QUERY_SCHEMA) {
         user_data.qMode = QUERY_SCHEMA;
-    } else {
-        user_data.qMode = QUERY_MWS;
+        // because the default setting was MWS_XML
+        user_data.result->responseFormatter = RESPONSE_FORMATTER_SCHEMA_JSON;
     }
 
     xmlSAXHandler saxHandler;
