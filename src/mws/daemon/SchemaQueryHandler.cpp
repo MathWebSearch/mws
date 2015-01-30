@@ -102,11 +102,6 @@ void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
     auto exprChildren = exprRoot->getChildNodes();
     auto schemaChildren = schemaRoot->getChildNodes();
 
-    if (exprChildren.size() != schemaChildren.size()) {
-        PRINT_WARN("Expression and schema are incompatible. Skipping...");
-        return;
-    }
-
     const string& currSchemaTag = schemaRoot->getTag();
     if (currSchemaTag == types::QVAR_TAG) {
         const string& xref = exprRoot->getAttribute("xref");
@@ -115,6 +110,11 @@ void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
             return;
         }
         subst->push_back(xref);
+        return;
+    }
+
+    if (exprChildren.size() != schemaChildren.size()) {
+        PRINT_WARN("Expression and schema are incompatible. Skipping...");
         return;
     }
 
