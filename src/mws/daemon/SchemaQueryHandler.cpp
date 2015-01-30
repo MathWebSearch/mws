@@ -100,7 +100,7 @@ void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
         return;
     }
     auto exprChildren = exprRoot->getChildNodes();
-    auto schemaChildren = exprRoot->getChildNodes();
+    auto schemaChildren = schemaRoot->getChildNodes();
 
     if (exprChildren.size() != schemaChildren.size()) {
         PRINT_WARN("Expression and schema are incompatible. Skipping...");
@@ -109,12 +109,12 @@ void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
 
     const string& currSchemaTag = schemaRoot->getTag();
     if (currSchemaTag == types::QVAR_TAG) {
-        const string& href = exprRoot->getAttribute("href");
-        if (href == "") {
+        const string& xref = exprRoot->getAttribute("xref");
+        if (xref == "") {
             PRINT_LOG("Missing href attribute. Skipping...");
             return;
         }
-        subst->push_back(href);
+        subst->push_back(xref);
         return;
     }
 

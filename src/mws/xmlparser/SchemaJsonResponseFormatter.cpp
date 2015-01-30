@@ -87,9 +87,9 @@ int SchemaJsonResponseFormatter::writeData(const GenericAnswer* ans,
         json_object_object_add(schema, "formulae", formulae);
 
         json_object* subst = json_object_new_array();
-        for (const string& href : exprSch.subst) {
+        for (const string& xref : exprSch.subst) {
             json_object_array_add(subst,
-                                  json_object_new_string(href.c_str()));
+                                  json_object_new_string(xref.c_str()));
         }
         json_object_object_add(schema, "subst", subst);
 
