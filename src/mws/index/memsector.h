@@ -50,8 +50,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 typedef uint32_t memsector_off_t;
 typedef uint64_t memsector_long_off_t;
 
-#define MEMSECTOR_OFF_NULL      (memsector_off_t) 0
-#define MEMSECTOR_ALLOC_UNIT    (uint32_t) 4
+#define MEMSECTOR_OFF_NULL (memsector_off_t)0
+#define MEMSECTOR_ALLOC_UNIT (uint32_t)4
 #define MEMSECTOR_LONG_OFF_START (1ULL << 32)
 
 /**
@@ -88,20 +88,18 @@ typedef struct memsector_writer_s {
 
 BEGIN_DECLS
 
-static inline
-const char* memsector_off2addr(const memsector_header_t* ms,
-                               memsector_long_off_t off) {
+static inline const char* memsector_off2addr(const memsector_header_t* ms,
+                                             memsector_long_off_t off) {
     return ((char*)ms) + MEMSECTOR_ALLOC_UNIT * off;
 }
 
-static inline
-const char* memsector_relOff2addr(const char* baseAddr,
-                                  memsector_long_off_t off) {
+static inline const char* memsector_relOff2addr(const char* baseAddr,
+                                                memsector_long_off_t off) {
     return baseAddr - MEMSECTOR_ALLOC_UNIT * off;
 }
 
-static inline
-memsector_off_t memsector_get_current_offset(const memsector_writer_t* mswr) {
+static inline memsector_off_t memsector_get_current_offset(
+    const memsector_writer_t* mswr) {
     assert(mswr->offset % MEMSECTOR_ALLOC_UNIT == 0);
     return mswr->offset / MEMSECTOR_ALLOC_UNIT;
 }
@@ -109,32 +107,30 @@ memsector_off_t memsector_get_current_offset(const memsector_writer_t* mswr) {
 /**
  * @return 0 on success, -1 on failure.
  */
-int memsector_create(memsector_writer_t *mswr,
-                     const char *path);
+int memsector_create(memsector_writer_t* mswr, const char* path);
 
-void memsector_write(memsector_writer_t* msw,
-                     void* data, size_t size);
+void memsector_write(memsector_writer_t* msw, void* data, size_t size);
 
 /**
  * @return 0 on success, -1 on failure.
  */
-int memsector_save(memsector_writer_t *msw, memsector_long_off_t index_off);
+int memsector_save(memsector_writer_t* msw, memsector_long_off_t index_off);
 
 /**
  * @return 0 on success, -1 on failure.
  */
-int memsector_load(memsector_handle_t *ms, const char *path);
+int memsector_load(memsector_handle_t* ms, const char* path);
 
 /**
  * @return 0 on success, -1 on failure.
  */
-int memsector_unload(memsector_handle_t *ms);
+int memsector_unload(memsector_handle_t* ms);
 
 /**
  * @return 0 on success, -1 on failure.
  */
-int memsector_remove(memsector_handle_t *ms);
+int memsector_remove(memsector_handle_t* ms);
 
 END_DECLS
 
-#endif // __MWS_INDEX_MEMSECTOR_H
+#endif  // __MWS_INDEX_MEMSECTOR_H

@@ -34,13 +34,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // Headers needed to be included before MicroHTTPDd native header
 
-#include <stdarg.h>                    // C variable argument list
-#include <stdint.h>                    // C standard integer types
-#include <sys/select.h>                // C select API
-#include <sys/socket.h>                // C sockets API
+#include <stdarg.h>      // C variable argument list
+#include <stdint.h>      // C standard integer types
+#include <sys/select.h>  // C select API
+#include <sys/socket.h>  // C sockets API
 
 // MicroHTTPd native header
 
-#include <microhttpd.h>                // MicroHTTPd library headers
+#include <microhttpd.h>  // MicroHTTPd library headers
 
-#endif // ! _MICROHTTPD_LINUX_H
+#endif  // ! _MICROHTTPD_LINUX_H

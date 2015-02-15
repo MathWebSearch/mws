@@ -99,8 +99,9 @@ class VectorMap {
 
             // Re-ordering the vector
             i = _data.size() - 1;
-            while ((i > 0) && (Comparator<K>::compare(
-                                   _data[i].first, _data[i - 1].first) < 0)) {
+            while ((i > 0) &&
+                   (Comparator<K>::compare(_data[i].first, _data[i - 1].first) <
+                    0)) {
                 key_value tmp;
 
                 tmp = _data[i];

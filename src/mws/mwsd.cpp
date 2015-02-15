@@ -30,7 +30,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #include <signal.h>
 
-
 #include <memory>
 using std::unique_ptr;
 #include <stdexcept>
@@ -186,7 +185,8 @@ int main(int argc, char* argv[]) {
 
             try {
                 qh = new IndexQueryHandler(indexConfig.dataPath, config);
-            } catch (const exception& e) {
+            }
+            catch (const exception & e) {
                 PRINT_LOG("Could not load index: %s\n", e.what());
             }
 
@@ -195,7 +195,7 @@ int main(int argc, char* argv[]) {
                 createCompressedIndex(indexConfig);
                 qh = new IndexQueryHandler(indexConfig.dataPath, config);
             } else if (qh == nullptr) {
-                PRINT_WARN("Invalid index and no harvests supplied."\
+                PRINT_WARN("Invalid index and no harvests supplied."
                            "Aborting...\n");
                 return EXIT_FAILURE;
             }
@@ -203,7 +203,8 @@ int main(int argc, char* argv[]) {
             PRINT_LOG("Index loaded successfully.\n");
             setup_signals();
             mwsDaemon.reset(new Daemon(qh, daemonConfig));
-        } catch (const exception& e) {
+        }
+        catch (const exception & e) {
             PRINT_WARN("Aborting: %s", e.what());
             return EXIT_FAILURE;
         }
@@ -215,7 +216,8 @@ int main(int argc, char* argv[]) {
             PRINT_LOG("Index built successfully.\n");
             setup_signals();
             mwsDaemon.reset(new Daemon(queryHandler, daemonConfig));
-        } catch (const exception& e) {
+        }
+        catch (const exception & e) {
             PRINT_WARN("Aborting: %s", e.what());
             return EXIT_FAILURE;
         }

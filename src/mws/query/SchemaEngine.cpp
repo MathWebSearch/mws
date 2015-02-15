@@ -57,9 +57,9 @@ namespace query {
 SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary)
     : decoder(meaningDictionary) {}
 
-SchemaAnswset* SchemaEngine::getSchemata(
-        const vector<EncodedFormula>& formulae, uint32_t max_total,
-        uint8_t depth) const {
+SchemaAnswset* SchemaEngine::getSchemata(const vector<EncodedFormula>& formulae,
+                                         uint32_t max_total,
+                                         uint8_t depth) const {
     SchemaAnswset* result = new SchemaAnswset();
 
     unordered_map<string, vector<uint32_t>> schemaGroup;
@@ -71,7 +71,7 @@ SchemaAnswset* SchemaEngine::getSchemata(
         if (it != schemaGroup.end()) {
             it->second.push_back(i);
         } else {
-            schemaGroup[hash] = {(uint32_t) i};
+            schemaGroup[hash] = {(uint32_t)i};
         }
     }
     result->total = schemaGroup.size();
@@ -79,8 +79,8 @@ SchemaAnswset* SchemaEngine::getSchemata(
     vector<pair<string, vector<uint32_t>>> topExpr(schemaGroup.begin(),
                                                    schemaGroup.end());
     std::sort(topExpr.begin(), topExpr.end(),
-              [](const pair<string, vector<uint32_t>>& p1,
-              const pair<string, vector<uint32_t>>& p2) {
+              [](const pair<string, vector<uint32_t>> & p1,
+                 const pair<string, vector<uint32_t>> & p2) {
         return p1.second.size() > p2.second.size();
     });
 
@@ -289,7 +289,7 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
 }
 
 pair<string, string> SchemaEngine::decodeMeaning(
-        const types::Meaning& meaning) const {
+    const types::Meaning& meaning) const {
     size_t delim_pos = meaning.find('#');
     if (delim_pos == string::npos) {
         return {meaning, ""};

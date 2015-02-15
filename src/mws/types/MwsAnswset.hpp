@@ -54,8 +54,7 @@ struct MwsAnswset : GenericAnswer {
     std::vector<std::string> qvarXpaths;
     /// Set with the FormulaIds
     std::set<mws::types::FormulaId> ids;
-    MwsAnswset() : total(0) {
-    }
+    MwsAnswset() : total(0) {}
 
     ~MwsAnswset() {
         for (auto answer : answers) {
@@ -66,4 +65,4 @@ struct MwsAnswset : GenericAnswer {
 
 }  // namespace mws
 
-#endif // _MWSANSWSET_HPP
+#endif  // _MWSANSWSET_HPP

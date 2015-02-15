@@ -31,8 +31,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   *
   */
 
-#include<cstdlib>
-#include<cstring>
+#include <cstdlib>
+#include <cstring>
 
 #include <list>
 using std::list;
@@ -78,7 +78,7 @@ struct BacktrackCtxt {
     bool isSolved;
     BacktrackCtxt() : isSolved(false) {}
     virtual typename Accessor::Node* solve(typename Accessor::Index* index,
-                                          typename Accessor::Node* root) = 0;
+                                           typename Accessor::Node* root) = 0;
     virtual typename Accessor::Node* nextSol() = 0;
 
     virtual ~BacktrackCtxt() {}
@@ -89,7 +89,7 @@ struct QvarCtxt : public BacktrackCtxt<Accessor> {
     IndexIterator<Accessor> iterator;
 
     typename Accessor::Node* solve(typename Accessor::Index* index,
-                                          typename Accessor::Node* root) {
+                                   typename Accessor::Node* root) {
         iterator.set(index, root);
         typename Accessor::Node* node = iterator.next();
         if (node != nullptr) {
@@ -112,8 +112,8 @@ struct RangeCtxt : public BacktrackCtxt<Accessor> {
     pair<double, double> bounds;
     ExpressionDecoder* decoder;
 
-    RangeCtxt(pair<double, double> bounds, ExpressionDecoder* decoder) :
-        bounds(bounds), decoder(decoder) {}
+    RangeCtxt(pair<double, double> bounds, ExpressionDecoder* decoder)
+        : bounds(bounds), decoder(decoder) {}
 
     typename Accessor::Index* index;
     typename Accessor::Node* root;
@@ -127,7 +127,7 @@ struct RangeCtxt : public BacktrackCtxt<Accessor> {
         // XXX:
         typename Accessor::Iterator it = Accessor::getChildrenIterator(root);
         // malloc'ed because there is no default constructor
-        iterator = (typename Accessor::Iterator*) malloc(sizeof(it));
+        iterator = (typename Accessor::Iterator*)malloc(sizeof(it));
         assert(iterator != nullptr);
         *iterator = it;
 
@@ -174,9 +174,7 @@ struct RangeCtxt : public BacktrackCtxt<Accessor> {
         return node;
     }
 
-    ~RangeCtxt() {
-        free(iterator);
-    }
+    ~RangeCtxt() { free(iterator); }
 
  private:
     bool isCmmlNumber(encoded_token_t tok) {
@@ -199,7 +197,8 @@ struct RangeCtxt : public BacktrackCtxt<Accessor> {
         double num;
         try {
             num = std::stod(val);
-        } catch (std::exception& e) {
+        }
+        catch (std::exception & e) {
             UNUSED(e);
             return false;
         }
@@ -223,7 +222,7 @@ SearchContext::SearchContext(const vector<encoded_token_t>& encodedFormula,
                              const types::Query::Options& options,
                              const RangeBounds& rangeBounds,
                              const MeaningDictionary* meaningDict)
-    :options(options), rangeBounds(rangeBounds) {
+    : options(options), rangeBounds(rangeBounds) {
     if (meaningDict != nullptr) {
         decoder.reset(new ExpressionDecoder(*meaningDict));
     }
@@ -287,8 +286,7 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
             auto it = rangeBounds.find(i.meaningId);
             assert(it != rangeBounds.end());
             pair<double, double> limits = it->second;
-            bkTable[bkTablePos].reset(new RangeCtxt<A>(limits,
-                                                       decoder.get()));
+            bkTable[bkTablePos].reset(new RangeCtxt<A>(limits, decoder.get()));
         }
         bkTablePos++;
     }
@@ -296,7 +294,7 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
     auto result = new MwsAnswset();
     size_t currentToken = 0;  // index for the expression vector
     unsigned int found = 0;   // # of found matches
-    int lastSolved = -1;  // last qvar/range that was solved
+    int lastSolved = -1;      // last qvar/range that was solved
     typename A::Node* currentNode = A::getRootNode(index);
 
     // Checking the arguments
@@ -320,7 +318,7 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
                 int qvarId = expr[currentToken].arity;
                 if (bkTable[qvarId]->isSolved) {
                     QvarCtxt<A>* qCtxt =
-                            dynamic_cast<QvarCtxt<A>*>(bkTable[qvarId].get());
+                        dynamic_cast<QvarCtxt<A>*>(bkTable[qvarId].get());
                     for (auto& elem : qCtxt->iterator.getPath()) {
                         encoded_token_t token = A::getToken(elem);
                         currentNode = A::getChild(index, currentNode, token);
@@ -377,15 +375,16 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
                         dbMaxSize = size;
                     }
 
-                    auto callback = [result](const FormulaPath& formulaPath,
-                                             const CrawlData& crawlData) {
+                    auto callback = [result](const FormulaPath & formulaPath,
+                                             const CrawlData & crawlData) {
                         auto answer = new mws::types::Answer();
                         answer->data = crawlData;
                         answer->uri = formulaPath.xmlId;
                         answer->xpath = formulaPath.xpath;
                         result->answers.push_back(answer);
                         return 0;
-                    };
+                    }
+                    ;
 
                     dbQueryManager->query(formulaId, dbOffset, dbMaxSize,
                                           callback);
@@ -408,8 +407,7 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
             // Backtracking or going to the next expression token
             // starting with the last
             while (lastSolved >= 0 &&
-                   nullptr ==
-                       (currentNode = bkTable[lastSolved]->nextSol())) {
+                   nullptr == (currentNode = bkTable[lastSolved]->nextSol())) {
                 lastSolved--;
             }
 

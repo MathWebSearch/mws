@@ -30,7 +30,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #include <signal.h>
 
-
 #include <memory>
 using std::unique_ptr;
 #include <stdexcept>
@@ -86,8 +85,8 @@ int main(int argc, char* argv[]) {
     // port
     daemonConfig.port = DEFAULT_SCHEMA_PORT;
     if (FlagParser::hasArg('p')) {
-        int schPort= atoi(FlagParser::getArg('p').c_str());
-        if (schPort> 0 && schPort< (1 << 16)) {
+        int schPort = atoi(FlagParser::getArg('p').c_str());
+        if (schPort > 0 && schPort < (1 << 16)) {
             daemonConfig.port = schPort;
         } else {
             fprintf(stderr, "Invalid port \"%s\"\n",
@@ -140,10 +139,11 @@ int main(int argc, char* argv[]) {
     try {
         initxmlparser();
         SchemaQueryHandler* queryHandler =
-                new SchemaQueryHandler(encodingConfig);
+            new SchemaQueryHandler(encodingConfig);
         setup_signals();
         mwsDaemon.reset(new Daemon(queryHandler, daemonConfig));
-    } catch (const exception& e) {
+    }
+    catch (const exception & e) {
         PRINT_WARN("Aborting: %s", e.what());
         return EXIT_FAILURE;
     }

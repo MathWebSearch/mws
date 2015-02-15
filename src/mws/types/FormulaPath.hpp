@@ -41,7 +41,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common/types/Parcelable.hpp"
 
-
 namespace mws {
 namespace types {
 
@@ -58,12 +57,10 @@ struct FormulaPath : public common::types::Parcelable {
     std::string xmlId;
     std::string xpath;
 
-    FormulaPath() {
-    }
+    FormulaPath() {}
 
     FormulaPath(std::string xmlId, std::string xpath)
-        : xmlId(std::move(xmlId)), xpath(std::move(xpath)) {
-    }
+        : xmlId(std::move(xmlId)), xpath(std::move(xpath)) {}
 
     inline bool operator!=(const FormulaPath& rhs) const {
         return xmlId != rhs.xmlId || xpath != rhs.xpath;

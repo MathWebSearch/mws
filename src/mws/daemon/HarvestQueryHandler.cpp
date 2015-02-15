@@ -77,8 +77,9 @@ GenericAnswer* HarvestQueryHandler::handleQuery(Query* mwsQuery) {
     vector<encoded_token_t> encodedQuery;
     ExpressionInfo queryInfo;
 
-    if (encoder.encode(_encodingConfig, mwsQuery->tokens[0],
-                       &encodedQuery, &queryInfo) == 0) {
+    if (encoder.encode(_encodingConfig, mwsQuery->tokens[0], &encodedQuery,
+                       &queryInfo) ==
+        0) {
         dbc::DbQueryManager dbQueryManger(&_crawlDb, &_formulaDb);
         SearchContext ctxt(encodedQuery, mwsQuery->options,
                            queryInfo.rangeBounds, &_meaningDictionary);

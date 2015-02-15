@@ -38,7 +38,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace daemon {
 
-class HarvestQueryHandler: public QueryHandler {
+class HarvestQueryHandler : public QueryHandler {
  public:
     explicit HarvestQueryHandler(const index::HarvesterConfiguration& config);
     ~HarvestQueryHandler();

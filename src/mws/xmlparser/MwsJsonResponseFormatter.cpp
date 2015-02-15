@@ -61,7 +61,7 @@ const char* MwsJsonResponseFormatter::getContentType() const {
 }
 
 int MwsJsonResponseFormatter::writeData(const GenericAnswer* ans,
-                                     FILE* output) const {
+                                        FILE* output) const {
     const MwsAnswset& answerSet = *((const MwsAnswset*)ans);
     json_object* json_doc, *qvars, *hits;
 

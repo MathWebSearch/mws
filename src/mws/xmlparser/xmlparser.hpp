@@ -30,7 +30,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace mws {
 namespace parser {
-    
+
 /**
   * @brief Method to initialize the xmlparser module of Math Web Search.
   * @return 0 if the initialization succeeds with multi-threading support

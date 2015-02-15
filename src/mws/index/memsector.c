@@ -51,8 +51,7 @@ static uint32_t memsector_get_checksum(const memsector_header_t* memsector);
 /* Implementation                                                           */
 /*--------------------------------------------------------------------------*/
 
-int memsector_create(memsector_writer_t *mswr,
-                     const char *path) {
+int memsector_create(memsector_writer_t* mswr, const char* path) {
     /* initialize memsector writer */
     memset(mswr, 0, sizeof(*mswr));
 
@@ -80,8 +79,7 @@ int memsector_create(memsector_writer_t *mswr,
     return 0;
 }
 
-void memsector_write(memsector_writer_t* msw,
-                     void* data, size_t size) {
+void memsector_write(memsector_writer_t* msw, void* data, size_t size) {
     size_t items_writen = fwrite(data, size, 1, msw->file);
     if (items_writen != 1) {
         perror("fwrite");
@@ -90,7 +88,7 @@ void memsector_write(memsector_writer_t* msw,
     msw->ms.checksum = crc32(msw->ms.checksum, data, size);
 }
 
-int memsector_save(memsector_writer_t *msw, memsector_long_off_t index_off) {
+int memsector_save(memsector_writer_t* msw, memsector_long_off_t index_off) {
     msw->ms.root_off = index_off;
     msw->ms.index_size = msw->offset - sizeof(msw->ms);
     fseek(msw->file, 0, SEEK_SET);
@@ -99,7 +97,7 @@ int memsector_save(memsector_writer_t *msw, memsector_long_off_t index_off) {
     return fclose(msw->file);
 }
 
-int memsector_load(memsector_handle_t *ms, const char *path) {
+int memsector_load(memsector_handle_t* ms, const char* path) {
     int status;
 
     // load memory map
@@ -110,15 +108,15 @@ int memsector_load(memsector_handle_t *ms, const char *path) {
 
     // read and validate memsector data
     memsector_header_t* memsector =
-            (memsector_header_t*) ms->mmap_handle.start_addr;
+        (memsector_header_t*)ms->mmap_handle.start_addr;
     if (memsector->magic != MEMSECTOR_MAGIC) {
         PRINT_WARN("File %s is not a memsector (magic mismatch)\n", path);
         mmap_unload(&ms->mmap_handle);
         return -1;
     }
     if (memsector->version != MEMSECTOR_VERSION) {
-        PRINT_WARN("Cannot process memsector %s v%d\n",
-                   path, (int) memsector->version);
+        PRINT_WARN("Cannot process memsector %s v%d\n", path,
+                   (int)memsector->version);
         mmap_unload(&ms->mmap_handle);
         return -1;
     }
@@ -138,7 +136,7 @@ int memsector_unload(memsector_handle_t* ms) {
     return mmap_unload(&ms->mmap_handle);
 }
 
-int memsector_remove(memsector_handle_t *ms) {
+int memsector_remove(memsector_handle_t* ms) {
     return mmap_remove(&ms->mmap_handle);
 }
 
@@ -148,7 +146,7 @@ int memsector_remove(memsector_handle_t *ms) {
 
 static uint32_t memsector_get_checksum(const memsector_header_t* memsector) {
     /* hash index data */
-    const char* index_start = ((char*) memsector) + sizeof(*memsector);
+    const char* index_start = ((char*)memsector) + sizeof(*memsector);
     size_t index_size = memsector->index_size;
 
     return crc32(/* initial crc32 = */ 0, index_start, index_size);

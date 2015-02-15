@@ -1,4 +1,5 @@
-﻿/*
+﻿
+/*
 
 Copyright (C) 2010-2013 KWARC Group <kwarc.info>
 
@@ -34,8 +35,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/types/Query.hpp"
 #include "mws/types/GenericAnswer.hpp"
-
-namespace mws {
+    namespace mws {
 namespace parser {
 
 struct MwsJsonResponseFormatter : public types::Query::ResponseFormatter {

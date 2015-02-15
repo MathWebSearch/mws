@@ -113,7 +113,6 @@ struct MwsQuery_SaxUserData {
         errorDetected = false;
         result->warnings = 0;
         qMode = mws::xmlparser::QUERY_MWS;
-
     }
 };
 
@@ -159,44 +158,48 @@ static void my_startElement(void* user_data, const xmlChar* name,
                 if (strncmp((char*)attrs[0], "xmlns:", 6) == 0) {
                     /* ignore namespaces */
                 } else if (strcmp((char*)attrs[0],
-                                  MWSQUERY_ATTR_ANSWSET_MAXSIZE) == 0) {
+                                  MWSQUERY_ATTR_ANSWSET_MAXSIZE) ==
+                           0) {
                     numValue = (int)strtol((char*)attrs[1], nullptr, 10);
                     data->result->attrResultMaxSize = numValue;
                 } else if (strcmp((char*)attrs[0],
-                                  MWSQUERY_ATTR_ANSWSET_LIMITMIN) == 0) {
+                                  MWSQUERY_ATTR_ANSWSET_LIMITMIN) ==
+                           0) {
                     numValue = (int)strtol((char*)attrs[1], nullptr, 10);
                     data->result->attrResultLimitMin = numValue;
                 } else if (strcmp((char*)attrs[0],
-                                  MWSQUERY_ATTR_ANSWSET_TOTALREQ) == 0) {
+                                  MWSQUERY_ATTR_ANSWSET_TOTALREQ) ==
+                           0) {
                     boolValue = getBoolType((char*)attrs[1]);
                     data->result->attrResultTotalReq = boolValue;
-                } else if (strcmp((char*)attrs[0],
-                                  MWSQUERY_ATTR_SCHEMADEPTH) == 0) {
+                } else if (strcmp((char*)attrs[0], MWSQUERY_ATTR_SCHEMADEPTH) ==
+                           0) {
                     numValue = (int)strtol((char*)attrs[1], nullptr, 10);
                     data->result->max_depth = numValue;
                 } else if (strcmp((char*)attrs[0],
-                                  MWSQUERY_ATTR_OUTPUTFORMAT) == 0) {
+                                  MWSQUERY_ATTR_OUTPUTFORMAT) ==
+                           0) {
                     bool schemaMode =
-                            data->qMode == mws::xmlparser::QUERY_SCHEMA;
+                        data->qMode == mws::xmlparser::QUERY_SCHEMA;
                     if (strcmp((char*)attrs[1], "xml") == 0) {
                         if (schemaMode) {
                             data->result->responseFormatter =
-                                    RESPONSE_FORMATTER_SCHEMA_XML;
+                                RESPONSE_FORMATTER_SCHEMA_XML;
                         } else {
                             data->result->responseFormatter =
-                                    RESPONSE_FORMATTER_MWS_XML;
+                                RESPONSE_FORMATTER_MWS_XML;
                         }
                     } else if (strcmp((char*)attrs[1], "json") == 0) {
                         if (schemaMode) {
                             data->result->responseFormatter =
-                                    RESPONSE_FORMATTER_SCHEMA_JSON;
+                                RESPONSE_FORMATTER_SCHEMA_JSON;
                         } else {
                             data->result->responseFormatter =
-                                    RESPONSE_FORMATTER_MWS_JSON;
+                                RESPONSE_FORMATTER_MWS_JSON;
                         }
                     } else if (strcmp((char*)attrs[1], "mws-ids") == 0) {
                         data->result->responseFormatter =
-                                RESPONSE_FORMATTER_MWS_IDS;
+                            RESPONSE_FORMATTER_MWS_IDS;
                         data->result->options.includeHits = false;
                         data->result->options.includeMwsIds = true;
                     } else {

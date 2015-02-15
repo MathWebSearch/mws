@@ -42,16 +42,16 @@ namespace daemon {
 class SchemaQueryHandler : public QueryHandler {
  public:
     SchemaQueryHandler(const ExpressionEncoder::Config& encodingConfig =
-            ExpressionEncoder::Config());
+                           ExpressionEncoder::Config());
 
     ~SchemaQueryHandler();
 
     GenericAnswer* handleQuery(types::Query* query);
 
  private:
-   void getSubstitutions(types::CmmlToken* exprRoot,
-                         types::CmmlToken* schemaRoot,
-                         std::vector<std::string>* substitutions);
+    void getSubstitutions(types::CmmlToken* exprRoot,
+                          types::CmmlToken* schemaRoot,
+                          std::vector<std::string>* substitutions);
 
     index::ExpressionEncoder::Config _encodingConfig;
     DISALLOW_COPY_AND_ASSIGN(SchemaQueryHandler);

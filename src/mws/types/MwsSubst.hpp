@@ -34,35 +34,30 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <vector>                      // C++ vector class header
+#include <vector>  // C++ vector class header
 
 // Local includes
 
-namespace mws
-{
+namespace mws {
 
 /**
   * @brief Datatype used to store a MWS Substitution
   */
-struct MwsSubst
-{
+struct MwsSubst {
     /// Xpaths of the substituted qvars
     std::vector<std::string> qvarXpaths;
 
-    MwsSubst()
-    {
+    MwsSubst() {
         // Nothing to do here
     }
 
-    ~MwsSubst()
-    {
+    ~MwsSubst() {
         // Nothing to do here
     }
 
-private:
+ private:
     MwsSubst(const MwsSubst&);
 };
-
 }
 
-#endif // _MWSSUBST_HPP
+#endif  // _MWSSUBST_HPP

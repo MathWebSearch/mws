@@ -39,8 +39,7 @@ struct SchemaAnswset : GenericAnswer {
     /// Total number of found schemata (some might have been dropped)
     int total;
 
-    SchemaAnswset() : total(0) {
-    }
+    SchemaAnswset() : total(0) {}
 
     ~SchemaAnswset() {
         for (mws::types::ExprSchema& sch : schemata) {
@@ -51,4 +50,4 @@ struct SchemaAnswset : GenericAnswer {
 
 }  // namespace mws
 
-#endif // _SCHEMAANSWSET_HPP
+#endif  // _SCHEMAANSWSET_HPP

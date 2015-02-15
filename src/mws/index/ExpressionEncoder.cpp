@@ -59,8 +59,7 @@ ExpressionEncoder::ExpressionEncoder(MeaningDictionary* dictionary)
 
 ExpressionEncoder::~ExpressionEncoder() {}
 
-int ExpressionEncoder::encode(const Config& config,
-                              const CmmlToken* expression,
+int ExpressionEncoder::encode(const Config& config, const CmmlToken* expression,
                               vector<encoded_token_t>* encodedFormula,
                               ExpressionInfo* expressionInfo) {
     int rv = 0;
@@ -88,8 +87,8 @@ int ExpressionEncoder::encode(const Config& config,
                     _getNamedVarOffset() + namedVarDictionary.put(qvarName);
                 if (expressionInfo != nullptr) {
                     expressionInfo->qvarNames.push_back(qvarName);
-                    expressionInfo->qvarXpaths.push_back(
-                        token->getXpathRelative());
+                    expressionInfo->qvarXpaths
+                        .push_back(token->getXpathRelative());
                 }
             }
         } else if (token->isRange()) {
@@ -98,8 +97,8 @@ int ExpressionEncoder::encode(const Config& config,
             anonRangeId++;
             if (expressionInfo != nullptr) {
                 MeaningId tokenId = encoded_token.id;
-                expressionInfo->rangeBounds.insert({tokenId,
-                                                    token->getRangeBounds()});
+                expressionInfo->rangeBounds
+                    .insert({tokenId, token->getRangeBounds()});
             }
         } else {
             encoded_token.arity = token->getArity();

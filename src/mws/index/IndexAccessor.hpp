@@ -116,8 +116,8 @@ class IndexAccessor {
             off = inode_get_child(node, token);
             break;
         case LONG_INTERNAL_NODE:
-            off = inode_long_get_child(reinterpret_cast<LongNode*>(node),
-                                       token);
+            off =
+                inode_long_get_child(reinterpret_cast<LongNode*>(node), token);
             break;
         default:
             assert(node->type == INTERNAL_NODE ||

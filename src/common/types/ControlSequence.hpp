@@ -34,20 +34,18 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 // System includes
 
-#include <string>                      // C++ string headers
+#include <string>  // C++ string headers
 
 // Local includes
 
-#include "common/types/DataFormat.hpp" // Data formats enum
+#include "common/types/DataFormat.hpp"  // Data formats enum
 
-
-class ControlSequence
-{
-private:
-    bool       _parsed;
+class ControlSequence {
+ private:
+    bool _parsed;
     DataFormat _format;
 
-public:
+ public:
     /**
       * @brief Default constructor of the ControlSequence class.
       */
@@ -86,4 +84,4 @@ public:
     ssize_t recv(int fd);
 };
 
-#endif // _CONTROLSEQUENCE_HPP
+#endif  // _CONTROLSEQUENCE_HPP

@@ -35,10 +35,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/CmmlToken.hpp"
 #include "mws/index/encoded_token.h"
 
-namespace mws { namespace index {
+namespace mws {
+namespace index {
 
 typedef common::types::IdDictionary<types::Meaning, MeaningId>
-MeaningDictionary;
+    MeaningDictionary;
 
 }  // namespace types
 }  // namesapce mws

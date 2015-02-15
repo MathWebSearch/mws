@@ -33,10 +33,9 @@ namespace mws {
   *
   */
 struct GenericAnswer {
-    virtual ~GenericAnswer() {
-    }
+    virtual ~GenericAnswer() {}
 };
 
 }  // namespace mws
 
-#endif // _GENERICANSWER_HPP
+#endif  // _GENERICANSWER_HPP

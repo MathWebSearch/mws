@@ -99,15 +99,16 @@ static result_cb_return_t result_callback(void* _ctxt, const leaf_t* leaf) {
     MwsAnswset* result = ctxt->result;
     Query* mwsQuery = ctxt->mwsQuery;
     DbQueryManager* dbQueryManager = ctxt->dbQueryManager;
-    DbAnswerCallback queryCallback = [result](const FormulaPath& formulaPath,
-                                              const CrawlData& crawlData) {
+    DbAnswerCallback queryCallback =
+        [result](const FormulaPath & formulaPath, const CrawlData & crawlData) {
         auto answer = new mws::types::Answer();
         answer->data = crawlData;
         answer->uri = formulaPath.xmlId;
         answer->xpath = formulaPath.xpath;
         result->answers.push_back(answer);
         return 0;
-    };
+    }
+    ;
 
     dbQueryManager->query((FormulaId)leaf->formula_id,
                           mwsQuery->attrResultLimitMin,
@@ -124,7 +125,8 @@ GenericAnswer* IndexQueryHandler::handleQuery(Query* query) {
     ExpressionInfo queryInfo;
 
     if (encoder.encode(_config.encoding, query->tokens[0], &encodedQuery,
-                       &queryInfo) == 0) {
+                       &queryInfo) ==
+        0) {
         if (_config.useExperimentalQueryEngine) {
             HandlerStruct ctxt;
             ctxt.result = result = new MwsAnswset();

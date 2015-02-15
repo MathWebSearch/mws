@@ -83,12 +83,12 @@ IndexLoader::IndexLoader(const std::string& path, const LoadingOptions& options)
         PRINT_LOG("Loaded CrawlDb\n");
 
         m_dbQueryManager =
-                unique_ptr<DbQueryManager>(new DbQueryManager(crawlDb,
-                                                              formulaDb));
+            unique_ptr<DbQueryManager>(new DbQueryManager(crawlDb, formulaDb));
     }
 
     if (memsector_load(&m_memsectorHandler,
-                       (path + "/" + INDEX_MEMSECTOR_FILE).c_str()) != 0) {
+                       (path + "/" + INDEX_MEMSECTOR_FILE).c_str()) !=
+        0) {
         throw runtime_error("Error while loading memsector " + path + "/" +
                             INDEX_MEMSECTOR_FILE);
     }

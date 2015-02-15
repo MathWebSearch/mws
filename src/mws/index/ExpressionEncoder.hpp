@@ -48,7 +48,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace mws {
 namespace index {
 
-
 struct ExpressionInfo {
     std::vector<std::string> qvarNames;
     std::vector<std::string> qvarXpaths;
@@ -64,15 +63,14 @@ class ExpressionEncoder {
         Config() : renameCi(false) {}
     };
 
-
     explicit ExpressionEncoder(MeaningDictionary* dictionary);
     virtual ~ExpressionEncoder();
 
-    int encode(const Config& config,
-               const types::CmmlToken* expression,
-               std::vector<encoded_token_t> *encodedFormula,
+    int encode(const Config& config, const types::CmmlToken* expression,
+               std::vector<encoded_token_t>* encodedFormula,
                ExpressionInfo* expressionInfo);
     types::Meaning decodeMeaning(encoded_token_t token);
+
  protected:
     virtual MeaningId _getAnonVarOffset() const = 0;
     virtual MeaningId _getNamedVarOffset() const = 0;
@@ -90,6 +88,7 @@ class HarvestEncoder : public ExpressionEncoder {
  public:
     explicit HarvestEncoder(MeaningDictionary* dictionary);
     virtual ~HarvestEncoder();
+
  protected:
     virtual MeaningId _getAnonVarOffset() const;
     virtual MeaningId _getNamedVarOffset() const;
@@ -101,6 +100,7 @@ class QueryEncoder : public ExpressionEncoder {
  public:
     explicit QueryEncoder(MeaningDictionary* dictionary);
     virtual ~QueryEncoder();
+
  protected:
     virtual MeaningId _getAnonVarOffset() const;
     virtual MeaningId _getNamedVarOffset() const;
@@ -110,6 +110,7 @@ class QueryEncoder : public ExpressionEncoder {
 
 class ExpressionDecoder {
     MeaningDictionary::ReverseLookupTable _lookupTable;
+
  public:
     explicit ExpressionDecoder(const MeaningDictionary& dictionary);
     types::Meaning getMeaning(MeaningId meaningId) const;

@@ -52,8 +52,8 @@ using mws::query::EncodedFormula;
 namespace mws {
 namespace daemon {
 
-SchemaQueryHandler::SchemaQueryHandler(const ExpressionEncoder::Config& conf) :
-    _encodingConfig(conf) {}
+SchemaQueryHandler::SchemaQueryHandler(const ExpressionEncoder::Config& conf)
+    : _encodingConfig(conf) {}
 SchemaQueryHandler::~SchemaQueryHandler() {}
 
 GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
@@ -67,7 +67,7 @@ GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
     vector<EncodedFormula> exprs;
     exprs.reserve(query->tokens.size());
 
-    for (const CmmlToken* tok: query->tokens) {
+    for (const CmmlToken* tok : query->tokens) {
         EncodedFormula encTok;
         if (encoder.encode(_encodingConfig, tok, &encTok, nullptr) == 0) {
             exprs.push_back(std::move(encTok));
@@ -76,7 +76,7 @@ GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
 
     SchemaEngine schemaEngine(dict);
     SchemaAnswset* result =
-            schemaEngine.getSchemata(exprs, max_total, max_depth);
+        schemaEngine.getSchemata(exprs, max_total, max_depth);
 
     /* we can't deduce the substitutions in SchemaEngine because we need
      * the original query, so we will do it here */
@@ -91,10 +91,9 @@ GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
     return result;
 }
 
-
-void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
-                                          CmmlToken *schemaRoot,
-                                          vector<string> *subst) {
+void SchemaQueryHandler::getSubstitutions(CmmlToken* exprRoot,
+                                          CmmlToken* schemaRoot,
+                                          vector<string>* subst) {
     if (exprRoot == nullptr || schemaRoot == nullptr || subst == nullptr) {
         PRINT_WARN("nullptr pased. Skipping...");
         return;
@@ -138,11 +137,10 @@ void SchemaQueryHandler::getSubstitutions(CmmlToken *exprRoot,
 
     /* we know that both exprChildren and schemaChildren have the same length,
      * so it is enough to check for one */
-    while (expr_it != exprChildren.end()){
+    while (expr_it != exprChildren.end()) {
         getSubstitutions(*expr_it, *schema_it, subst);
         ++expr_it;
         ++schema_it;
-
     }
 }
 

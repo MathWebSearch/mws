@@ -67,7 +67,8 @@ namespace index {
 static void logIndexStatistics(const TmpIndex* index, FILE* logFile);
 
 HarvesterConfiguration::HarvesterConfiguration()
-    : recursive(false), shouldIgnoreData(false),
+    : recursive(false),
+      shouldIgnoreData(false),
       fileExtension(DEFAULT_MWS_HARVEST_EXTENSION) {}
 
 IndexBuilder::IndexBuilder(dbc::FormulaDb* formulaDb, dbc::CrawlDb* crawlDb,
@@ -95,7 +96,7 @@ int IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
     HarvestEncoder encoder(m_meaningDictionary);
     int numSubExpressions = 0;
 
-    cmmlToken->foreachSubexpression([&](const CmmlToken* token) {
+    cmmlToken->foreachSubexpression([&](const CmmlToken * token) {
         vector<encoded_token_t> encodedFormula;
         encoder.encode(m_indexingOptions, token, &encodedFormula, nullptr);
         TmpLeafNode* leaf = m_index->insertData(encodedFormula);
@@ -133,8 +134,8 @@ uint64_t loadHarvests(IndexBuilder* indexBuilder,
 
     for (string dirPath : config.paths) {
         PRINT_LOG("Loading from %s...\n", dirPath.c_str());
-        common::utils::FileCallback fileCallback = [&](
-            const std::string& path, const std::string& prefix) {
+        common::utils::FileCallback fileCallback =
+            [&](const std::string & path, const std::string & prefix) {
             UNUSED(prefix);
             if (common::utils::hasSuffix(path, config.fileExtension)) {
                 PRINT_LOG("Loading %s... ", path.c_str());
@@ -161,13 +162,15 @@ uint64_t loadHarvests(IndexBuilder* indexBuilder,
             }
 
             return 0;
-        };
+        }
+        ;
 
-        common::utils::DirectoryCallback recursive = [&](
-            const std::string partialPath) {
+        common::utils::DirectoryCallback recursive =
+            [&](const std::string partialPath) {
             UNUSED(partialPath);
             return config.recursive;
-        };
+        }
+        ;
 
         if (foreachEntryInDirectory(dirPath, fileCallback, recursive) != 0) {
             continue;

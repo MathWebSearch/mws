@@ -49,7 +49,7 @@ namespace parser {
 
 SchemaJsonResponseFormatter SchemaJsonResponseFormatter::instance;
 SchemaJsonResponseFormatter* RESPONSE_FORMATTER_SCHEMA_JSON =
-        &SchemaJsonResponseFormatter::instance;
+    &SchemaJsonResponseFormatter::instance;
 
 static const char HTTP_ENCODING[] = "application/json";
 
@@ -75,7 +75,8 @@ int SchemaJsonResponseFormatter::writeData(const GenericAnswer* ans,
     for (const ExprSchema& exprSch : answSet.schemata) {
         json_object* schema = json_object_new_object();
 
-        json_object_object_add(schema, "cmmlSchema",
+        json_object_object_add(
+            schema, "cmmlSchema",
             json_object_new_string(exprSch.root->toString().c_str()));
         json_object_object_add(schema, "coverage",
                                json_object_new_int(exprSch.coverage));
@@ -88,8 +89,7 @@ int SchemaJsonResponseFormatter::writeData(const GenericAnswer* ans,
 
         json_object* subst = json_object_new_array();
         for (const string& xref : exprSch.subst) {
-            json_object_array_add(subst,
-                                  json_object_new_string(xref.c_str()));
+            json_object_array_add(subst, json_object_new_string(xref.c_str()));
         }
         json_object_object_add(schema, "subst", subst);
 
@@ -97,15 +97,11 @@ int SchemaJsonResponseFormatter::writeData(const GenericAnswer* ans,
     }
     json_object_object_add(json_doc, "schemata", schemata);
 
-
     string json_string = json_object_to_json_string(json_doc);
     fwrite(json_string.c_str(), json_string.size(), 1, output);
 
     json_object_put(json_doc);
     return json_string.size();
 }
-
-
 }
 }
-

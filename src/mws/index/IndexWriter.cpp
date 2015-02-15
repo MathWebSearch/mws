@@ -74,7 +74,8 @@ int createCompressedIndex(const IndexConfiguration& config) {
         formulaLevDb->create_new((output_dir + "/" + FORMULA_DB_FILE).c_str(),
                                  config.deleteOldData);
         formulaDb.reset(formulaLevDb);
-    } catch (exception& e) {
+    }
+    catch (exception & e) {
         PRINT_WARN("%s\n", e.what());
         return EXIT_FAILURE;
     }

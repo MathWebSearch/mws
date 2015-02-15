@@ -115,9 +115,7 @@ void CmmlToken::appendTextContent(const string& textContent) {
     appendTextContent(textContent.c_str(), textContent.size());
 }
 
-void CmmlToken::popLastChild() {
-    _childNodes.pop_back();
-}
+void CmmlToken::popLastChild() { _childNodes.pop_back(); }
 
 const string& CmmlToken::getTextContent() const { return _textContent; }
 
@@ -245,7 +243,8 @@ const std::pair<double, double> CmmlToken::getRangeBounds() const {
     } else {
         try {
             bounds.first = std::stod(itLow->second);
-        } catch (std::exception& e) {
+        }
+        catch (std::exception & e) {
             UNUSED(e);
             PRINT_WARN("Invalid low bound for range.");
             bounds.first = numeric_limits<double>::min();
@@ -258,7 +257,8 @@ const std::pair<double, double> CmmlToken::getRangeBounds() const {
     } else {
         try {
             bounds.second = std::stod(itHigh->second);
-        } catch (std::exception& e) {
+        }
+        catch (std::exception & e) {
             UNUSED(e);
             PRINT_WARN("Invalid upper bound for range.");
             bounds.second = numeric_limits<double>::max();
@@ -271,7 +271,7 @@ const std::pair<double, double> CmmlToken::getRangeBounds() const {
 std::string CmmlToken::getMeaning() const {
     assert(getType() == CONSTANT);
 
-    if (_tag == "mtext") { // mtext content is discarded
+    if (_tag == "mtext") {  // mtext content is discarded
         return "mtext#";
     }
 

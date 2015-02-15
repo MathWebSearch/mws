@@ -40,16 +40,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 const std::string DEFAULT_MIME_TYPE = "text/xml";
 
-
-enum DataFormat
-{
+enum DataFormat {
     DATAFORMAT_DEFAULT,
     DATAFORMAT_UNKNOWN,
     DATAFORMAT_XML,
     DATAFORMAT_JSON,
 };
 
-std::ostream& operator << (std::ostream& out, DataFormat dataFormat);
-
+std::ostream& operator<<(std::ostream& out, DataFormat dataFormat);
 
 #endif

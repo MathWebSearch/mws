@@ -47,11 +47,13 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include "mws/types/MwsAnswset.hpp"
 #include "mws/types/Query.hpp"
 
-namespace mws { namespace query {
+namespace mws {
+namespace query {
 
 class SearchContext {
  public:
-    typedef std::unordered_map<MeaningId, std::pair<double, double>> RangeBounds;
+    typedef std::unordered_map<MeaningId, std::pair<double, double>>
+        RangeBounds;
 
     SearchContext(const std::vector<encoded_token_t>& encodedFormula,
                   const types::Query::Options& options,
@@ -68,11 +70,10 @@ class SearchContext {
       * without returning).
       * @return an answer set with the corresponding results.
       */
-    template<class Accessor>
+    template <class Accessor>
     mws::MwsAnswset* getResult(typename Accessor::Index* aNode,
                                dbc::DbQueryManager* dbQueryManager,
-                               unsigned int anOffset,
-                               unsigned int aSize,
+                               unsigned int anOffset, unsigned int aSize,
                                unsigned int aMaxTotal);
 
  private:
@@ -83,9 +84,9 @@ class SearchContext {
     };
 
     struct _NodeTriple {
-        TokType   type;
+        TokType type;
         MeaningId meaningId;
-        Arity     arity;
+        Arity arity;
         _NodeTriple(TokType type, MeaningId aMeaningId, Arity anArity);
     };
 
@@ -103,4 +104,4 @@ class SearchContext {
 }  // namespace query
 }  // namespace mws
 
-#endif // _SEARCHCONTEXT_HPP
+#endif  // _SEARCHCONTEXT_HPP

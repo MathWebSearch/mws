@@ -133,7 +133,7 @@ class MemStream {
  private:
     void closeWritingMode() {
         assert(_mode == MODE_WRITING);
-        if (_input != nullptr ) fclose(_input);
+        if (_input != nullptr) fclose(_input);
         _input = nullptr;
     }
 
@@ -201,8 +201,7 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
     if (dynamic_cast<SchemaQueryHandler*>(qh) != nullptr) {
         qMode = QueryMode::QUERY_SCHEMA;
     }
-    unique_ptr<Query> mwsQuery(readMwsQuery(memstream->getOutputFile(),
-                                            qMode));
+    unique_ptr<Query> mwsQuery(readMwsQuery(memstream->getOutputFile(), qMode));
     delete memstream;
 
     // Check if query failed or is empty
@@ -226,8 +225,8 @@ static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
 
     // Write answer
     MemStream responseData;
-    int ret = mwsQuery->responseFormatter->writeData(answset.get(),
-                                                     responseData.getInput());
+    int ret = mwsQuery->responseFormatter
+        ->writeData(answset.get(), responseData.getInput());
 
     if (ret < 0) {
         PRINT_WARN("Error while writing the Answer Set\n");
@@ -273,11 +272,10 @@ Daemon::Daemon(QueryHandler* queryHandler, const Config& config)
     if (config.enableIpv6) {
         mhd_flags |= MHD_USE_IPv6;
     }
-    _mhd = MHD_start_daemon(mhd_flags, config.port,
-                            acceptPolicyCallback, /* PolicyContext = */ nullptr,
+    _mhd = MHD_start_daemon(mhd_flags, config.port, acceptPolicyCallback,
+                            /* PolicyContext = */ nullptr,
                             accessHandlerCallback, _queryHandler.get(),
-                            MHD_OPTION_CONNECTION_LIMIT, 20,
-                            MHD_OPTION_END);
+                            MHD_OPTION_CONNECTION_LIMIT, 20, MHD_OPTION_END);
     if (_mhd == nullptr) {
         throw runtime_error(
             formattedString("MHD_start_daemon: %s", strerror(errno)));

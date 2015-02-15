@@ -69,11 +69,11 @@ struct Tester {
         g_meaning_dict_val_off = MeaningDictionary::VALUEID_START;
 
         MeaningId constantId = CONSTANT_ID_MIN + g_meaning_dict_val_off;
-        apply4_tok  = encoded_token(constantId++, 4);
-        f_tok       = encoded_token(constantId++, 0);
-        h_tok       = encoded_token(constantId++, 0);
-        t_tok       = encoded_token(constantId++, 0);
-        cn_tok      = encoded_token(constantId++, 0);
+        apply4_tok = encoded_token(constantId++, 4);
+        f_tok = encoded_token(constantId++, 0);
+        h_tok = encoded_token(constantId++, 0);
+        t_tok = encoded_token(constantId++, 0);
+        cn_tok = encoded_token(constantId++, 0);
     }
 
     static index::TmpIndex* create_test_MwsIndexNode() {
@@ -122,8 +122,7 @@ static vector<encoded_token_t> create_test_query() {
     return encodedQuery;
 }
 
-static unordered_map<MeaningId, pair<double, double>>
-get_test_range_bounds() {
+static unordered_map<MeaningId, pair<double, double>> get_test_range_bounds() {
     unordered_map<MeaningId, pair<double, double>> bounds;
     bounds.insert({RANGE_ID_MIN, {-5.0, 5.0}});
 
@@ -141,10 +140,9 @@ int main() {
     defaultQuery.options.includeHits = false;
 
     SearchContext ctxt(encodedQuery, defaultQuery.options, rangeBounds, &dict);
-    MwsAnswset* answ =  ctxt.getResult<TmpIndexAccessor>(
-                index, nullptr, defaultQuery.attrResultLimitMin,
-                defaultQuery.attrResultMaxSize,
-                defaultQuery.attrResultTotalReqNr);
+    MwsAnswset* answ = ctxt.getResult<TmpIndexAccessor>(
+        index, nullptr, defaultQuery.attrResultLimitMin,
+        defaultQuery.attrResultMaxSize, defaultQuery.attrResultTotalReqNr);
     FAIL_ON(answ == nullptr);
     FAIL_ON(answ->total != 1);
     FAIL_ON(*(answ->ids.begin()) != g_result_leaf_id);

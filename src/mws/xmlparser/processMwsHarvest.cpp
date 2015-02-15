@@ -143,7 +143,8 @@ static inline int setupCopyToStringWriter(MwsHarvest_SaxUserData* data) {
 
     data->buffer.clear();
     if ((outPtr = xmlOutputBufferCreateIO(copyToCharBufCallback, nullptr,
-                                          &data->buffer, nullptr)) == nullptr) {
+                                          &data->buffer, nullptr)) ==
+        nullptr) {
         PRINT_WARN("Error while creating the OutputBuffer\n");
         return -1;
     } else if ((data->stringWriter = xmlNewTextWriter(outPtr)) == nullptr) {
@@ -228,10 +229,12 @@ static void my_startElement(void* user_data, const xmlChar* name,
             data->localId = "";
             while (nullptr != attrs && nullptr != attrs[0]) {
                 if (strcmp(reinterpret_cast<const char*>(attrs[0]),
-                           MWSHARVEST_EXPR_ATTR_XMLID_NAME) == 0) {
+                           MWSHARVEST_EXPR_ATTR_XMLID_NAME) ==
+                    0) {
                     data->exprUri = reinterpret_cast<const char*>(attrs[1]);
                 } else if (strcmp(reinterpret_cast<const char*>(attrs[0]),
-                                  MWSHARVEST_EXPR_ATTR_LOCALID_NAME) == 0) {
+                                  MWSHARVEST_EXPR_ATTR_LOCALID_NAME) ==
+                           0) {
                     data->localId = reinterpret_cast<const char*>(attrs[1]);
                 } else {
                     // Invalid attribute
@@ -249,12 +252,14 @@ static void my_startElement(void* user_data, const xmlChar* name,
                 data->localId = "";
             }
         } else if (strcmp(reinterpret_cast<const char*>(name),
-                          MWSHARVEST_DATA_NAME) == 0) {
+                          MWSHARVEST_DATA_NAME) ==
+                   0) {
             // Parsing the attributes
             data->localId = "";
             while (nullptr != attrs && nullptr != attrs[0]) {
                 if (strcmp(reinterpret_cast<const char*>(attrs[0]),
-                           MWSHARVEST_DATA_ATTR_LOCALID_NAME) == 0) {
+                           MWSHARVEST_DATA_ATTR_LOCALID_NAME) ==
+                    0) {
                     data->localId = reinterpret_cast<const char*>(attrs[1]);
                 } else {
                     // Invalid attribute
@@ -350,7 +355,7 @@ static void my_endElement(void* user_data, const xmlChar* name) {
             int ret;
             auto it = data->localIdToCrawlIds.find(data->localId);
             if (data->shouldProcessData &&
-                    it != data->localIdToCrawlIds.end()) {
+                it != data->localIdToCrawlIds.end()) {
                 CrawlId crawlId = it->second;
                 ret = data->harvestProcessor->processExpression(
                     data->currentToken, data->exprUri, crawlId);
@@ -379,7 +384,7 @@ static void my_endElement(void* user_data, const xmlChar* name) {
             // Insert data in db
             if (data->shouldProcessData) {
                 CrawlId crawlId =
-                        data->harvestProcessor->processData(data->data);
+                    data->harvestProcessor->processData(data->data);
                 if (crawlId != CRAWLID_NULL) {
                     data->localIdToCrawlIds[data->localId] = crawlId;
                 }
@@ -452,8 +457,7 @@ static void my_fatalError(void* user_data, const char* msg, ...) {
 
 // Implementation
 
-HarvestResult processHarvestFromFd(int fd,
-                                   HarvestProcessor* harvestProcessor,
+HarvestResult processHarvestFromFd(int fd, HarvestProcessor* harvestProcessor,
                                    bool shouldProcessData) {
     MwsHarvest_SaxUserData user_data;
     xmlSAXHandler saxHandler;
@@ -479,11 +483,12 @@ HarvestResult processHarvestFromFd(int fd,
     // Creating the IOParser context
     if ((ctxtPtr = xmlCreateIOParserCtxt(&saxHandler, &user_data,
                                          fdXmlInputReadCallback, nullptr, &fd,
-                                         XML_CHAR_ENCODING_UTF8)) == nullptr) {
+                                         XML_CHAR_ENCODING_UTF8)) ==
+        nullptr) {
         PRINT_WARN("Error while creating the ParserContext\n");
     }
-    // Parsing the document
-    else if ((result.status = xmlParseDocument(ctxtPtr)) == -1) {
+        // Parsing the document
+        else if ((result.status = xmlParseDocument(ctxtPtr)) == -1) {
         PRINT_WARN("Parsing XML document failed\n");
     }
 

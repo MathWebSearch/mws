@@ -53,19 +53,22 @@ class SchemaEngine {
  public:
     explicit SchemaEngine(const index::MeaningDictionary& meaningDictionary);
     mws::SchemaAnswset* getSchemata(const std::vector<EncodedFormula>& formulae,
-                                   uint32_t max_total,
-                                   uint8_t depth = DEFAULT_SCHEMA_DEPTH) const;
+                                    uint32_t max_total,
+                                    uint8_t depth = DEFAULT_SCHEMA_DEPTH) const;
 
  private:
     const index::ExpressionDecoder decoder;
 
-    EncodedFormula reduceFormula(const EncodedFormula& expr, uint8_t depth) const;
-    size_t completeExpression(const EncodedFormula& expr, size_t startExpr) const;
+    EncodedFormula reduceFormula(const EncodedFormula& expr,
+                                 uint8_t depth) const;
+    size_t completeExpression(const EncodedFormula& expr,
+                              size_t startExpr) const;
     std::string hashExpr(const EncodedFormula& expr) const;
     EncodedFormula unhashExpr(const std::string& exprHash) const;
-    types::CmmlToken* decodeFormula(const EncodedFormula& expr, uint8_t depth) const;
+    types::CmmlToken* decodeFormula(const EncodedFormula& expr,
+                                    uint8_t depth) const;
     std::pair<std::string, std::string> decodeMeaning(
-            const types::Meaning& meaning) const;
+        const types::Meaning& meaning) const;
     ALLOW_TESTER_ACCESS;
 };
 

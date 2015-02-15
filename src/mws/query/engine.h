@@ -29,7 +29,6 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __MWS_QUERY_ENGINE_H
 #define __MWS_QUERY_ENGINE_H
 
-
 #include "mws/index/index.h"
 #include "mws/index/encoded_token.h"
 #include "common/utils/compiler_defs.h"
@@ -46,7 +45,7 @@ typedef enum result_cb_return_e {
 
 /* TODO report unificating instantiation */
 typedef result_cb_return_t (*result_callback_t)(void* handle,
-                                                const leaf_t * leaf);
+                                                const leaf_t* leaf);
 
 /*--------------------------------------------------------------------------*/
 /* Methods                                                                  */
@@ -54,11 +53,10 @@ typedef result_cb_return_t (*result_callback_t)(void* handle,
 
 BEGIN_DECLS
 
-int query_engine_run(index_handle_t* RESTRICT    index,
-                     encoded_formula_t* RESTRICT query,
-                     result_callback_t           cb,
-                     void* RESTRICT              cb_handle);
+int query_engine_run(index_handle_t* RESTRICT index,
+                     encoded_formula_t* RESTRICT query, result_callback_t cb,
+                     void* RESTRICT cb_handle);
 
 END_DECLS
 
-#endif // !__MWS_QUERY_QUERYENGINE_H
+#endif  // !__MWS_QUERY_QUERYENGINE_H

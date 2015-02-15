@@ -40,15 +40,16 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 namespace common {
 namespace types {
 
-template<class Key, class ValueId>
+template <class Key, class ValueId>
 class IdDictionary {
-private:
-    typedef std::map<Key, ValueId>  _MapContainer;
+ private:
+    typedef std::map<Key, ValueId> _MapContainer;
     _MapContainer _map;
     ValueId _nextId;
     static const ValueId VALUEID_START = 1;
     ALLOW_TESTER_ACCESS;
-public:
+
+ public:
     static const ValueId KEY_NOT_FOUND = VALUEID_START - 1;
 
     class ReverseLookupTable {
@@ -61,12 +62,9 @@ public:
         friend class IdDictionary;
     };
 
-    IdDictionary()
-        : _nextId(VALUEID_START)  {
-    }
+    IdDictionary() : _nextId(VALUEID_START) {}
 
-    explicit IdDictionary(const std::string& path)
-        : _nextId(VALUEID_START) {
+    explicit IdDictionary(const std::string& path) : _nextId(VALUEID_START) {
         try {
             std::ifstream file;
             file.exceptions(std::ifstream::badbit | std::ifstream::failbit);
@@ -83,10 +81,10 @@ public:
             }
 
             PRINT_LOG("Loaded IdDictionary\n");
-        } catch (...) {
-            throw std::runtime_error(
-                        "Cannot import IdDictionary " + path + ": " +
-                        strerror(errno));
+        }
+        catch (...) {
+            throw std::runtime_error("Cannot import IdDictionary " + path +
+                                     ": " + strerror(errno));
         }
     }
 
@@ -98,7 +96,8 @@ public:
                 out << key << '\0';
             }
             out.flush();
-        } catch (...) {
+        }
+        catch (...) {
             return -1;
         }
 
@@ -118,7 +117,7 @@ public:
     }
 
     ValueId get(const Key& key) {
-        typename _MapContainer :: iterator it;
+        typename _MapContainer::iterator it;
 
         it = _map.find(key);
         if (it != _map.end()) {
@@ -132,7 +131,7 @@ public:
         ReverseLookupTable table;
         table._keys.resize(_map.size());
 
-        for (const auto & elem : _map) {
+        for (const auto& elem : _map) {
             table._keys[elem.second - VALUEID_START] = elem.first;
         }
 
@@ -143,4 +142,4 @@ public:
 }  // namespace types
 }  // namespace common
 
-#endif // _COMMON_TYPES_IDDICTIONARY_HPP
+#endif  // _COMMON_TYPES_IDDICTIONARY_HPP
