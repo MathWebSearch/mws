@@ -125,6 +125,15 @@ the service, use
 Output is logged to `/var/log/mwsd_zbldemo.log`. To serve different harvest
 paths, create your own configurations and deploy the service.
 
+Direct install
+--------------
+You can install MWS directly from this
+[PPA](https://launchpad.net/~radu-hambasan/+archive/ubuntu/math-web-search):
+
+    sudo add-apt-repository ppa:radu-hambasan/math-web-search
+    sudo apt-get install mws
+
+
 Copyright
 ---------
 The software in this project (binaries and sources) is released "as is",
