@@ -67,16 +67,34 @@ GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
     vector<EncodedFormula> exprs;
     exprs.reserve(query->tokens.size());
 
+    vector<const CmmlToken*> exprsTokens;
+    exprsTokens.reserve(query->tokens.size());
     for (const CmmlToken* tok : query->tokens) {
         EncodedFormula encTok;
         if (encoder.encode(_encodingConfig, tok, &encTok, nullptr) == 0) {
             exprs.push_back(std::move(encTok));
+            exprsTokens.push_back(tok);
         }
+    }
+
+    SchemaEngine::Config engineConfig;
+    switch (query->cutoff_mode) {
+    case 'A':
+        engineConfig.cutoffHeuristic = SchemaEngine::ABSOLUTE;
+        break;
+    case 'R':
+        engineConfig.cutoffHeuristic = SchemaEngine::RELATIVE;
+        break;
+    default:
+        PRINT_WARN("Invalid cutoff heuristic %c\n. Using default.",
+                   query->cutoff_mode);
+        engineConfig.cutoffHeuristic = SchemaEngine::ABSOLUTE;  // default
+        break;
     }
 
     SchemaEngine schemaEngine(dict);
     SchemaAnswset* result =
-        schemaEngine.getSchemata(exprs, max_total, max_depth);
+        schemaEngine.getSchemata(exprs, exprsTokens, max_total, max_depth);
 
     /* we can't deduce the substitutions in SchemaEngine because we need
      * the original query, so we will do it here */

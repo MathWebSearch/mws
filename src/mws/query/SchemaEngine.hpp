@@ -51,13 +51,26 @@ typedef std::vector<encoded_token_t> EncodedFormula;
 
 class SchemaEngine {
  public:
-    explicit SchemaEngine(const index::MeaningDictionary& meaningDictionary);
+    enum CutoffHeuristic {
+        ABSOLUTE,
+        RELATIVE
+    };
+
+    struct Config {
+        CutoffHeuristic cutoffHeuristic;
+        Config() : cutoffHeuristic(ABSOLUTE) {}
+    };
+
+    explicit SchemaEngine(const index::MeaningDictionary& meaningDictionary,
+                          const Config config = Config());
     mws::SchemaAnswset* getSchemata(const std::vector<EncodedFormula>& formulae,
-                                    uint32_t max_total,
-                                    uint8_t depth = DEFAULT_SCHEMA_DEPTH) const;
+                            const std::vector<const types::CmmlToken*>& toks,
+                            uint32_t max_total,
+                            uint8_t depth = DEFAULT_SCHEMA_DEPTH) const;
 
  private:
     const index::ExpressionDecoder decoder;
+    const Config _config;
 
     EncodedFormula reduceFormula(const EncodedFormula& expr,
                                  uint8_t depth) const;

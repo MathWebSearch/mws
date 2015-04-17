@@ -54,18 +54,33 @@ using mws::types::ExprSchema;
 
 namespace mws {
 namespace query {
-SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary)
-    : decoder(meaningDictionary) {}
+SchemaEngine::SchemaEngine(const MeaningDictionary& meaningDictionary,
+                           const Config config)
+    : decoder(meaningDictionary), _config(config) {}
 
 SchemaAnswset* SchemaEngine::getSchemata(const vector<EncodedFormula>& formulae,
-                                         uint32_t max_total,
-                                         uint8_t depth) const {
+                                const vector<const CmmlToken*>& exprsTokens,
+                                uint32_t max_total,
+                                uint8_t depth) const {
     SchemaAnswset* result = new SchemaAnswset();
 
     unordered_map<string, vector<uint32_t>> schemaGroup;
     for (size_t i = 0; i < formulae.size(); i++) {
         const EncodedFormula& expr = formulae[i];
-        string hash = hashExpr(reduceFormula(expr, depth));
+        uint8_t cutoff;
+        switch (_config.cutoffHeuristic) {
+        case ABSOLUTE:
+            cutoff = depth;
+            break;
+        case RELATIVE:
+            // "depth" percentages of token depth
+            cutoff = 0.01 * depth * exprsTokens[i]->getExprDepth();
+            break;
+        default:
+            assert(false);
+        }
+
+        string hash = hashExpr(reduceFormula(expr, cutoff));
 
         auto it = schemaGroup.find(hash);
         if (it != schemaGroup.end()) {

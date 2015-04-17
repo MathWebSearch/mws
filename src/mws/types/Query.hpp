@@ -79,6 +79,8 @@ struct Query {
     bool restricted;
     /// Depth used for schema-queries; ignored for regular mws-queries
     uint8_t max_depth;
+    /// Cutoff mode used for schema-queries; ignored for regular mws-queries
+    char cutoff_mode;
 
     /// Default Constructor of the MwsQuery class
     Query()

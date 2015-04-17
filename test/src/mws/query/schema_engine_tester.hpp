@@ -90,7 +90,8 @@ struct Tester {
                                         size_t expected, uint8_t depth) {
         MeaningDictionary dict = get_meaning_dict();
         SchemaEngine schEng(dict);
-        SchemaAnswset* answset = schEng.getSchemata(exprs, RETRIEVE_ALL, depth);
+        SchemaAnswset* answset = schEng.getSchemata(exprs, {},
+                                                    RETRIEVE_ALL, depth);
         size_t nrSch = answset->schemata.size();
         delete answset;
 

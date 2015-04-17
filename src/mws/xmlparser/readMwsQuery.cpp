@@ -65,7 +65,8 @@ using mws::parser::RESPONSE_FORMATTER_SCHEMA_JSON;
 #define MWSQUERY_ATTR_ANSWSET_LIMITMIN "limitmin"
 #define MWSQUERY_ATTR_ANSWSET_TOTALREQ "totalreq"
 #define MWSQUERY_ATTR_OUTPUTFORMAT "output"
-#define MWSQUERY_ATTR_SCHEMADEPTH "schema_depth"
+#define SCHQUERY_ATTR_DEPTH "schema_depth"
+#define SCHQUERY_ATTR_CUTOFFMODE "cutoff_mode"
 #define MWSQUERY_EXPR_NAME "mws:expr"
 
 using namespace mws;
@@ -172,10 +173,13 @@ static void my_startElement(void* user_data, const xmlChar* name,
                            0) {
                     boolValue = getBoolType((char*)attrs[1]);
                     data->result->attrResultTotalReq = boolValue;
-                } else if (strcmp((char*)attrs[0], MWSQUERY_ATTR_SCHEMADEPTH) ==
+                } else if (strcmp((char*)attrs[0], SCHQUERY_ATTR_DEPTH) ==
                            0) {
                     numValue = (int)strtol((char*)attrs[1], nullptr, 10);
                     data->result->max_depth = numValue;
+                } else if (strcmp((char*)attrs[0], SCHQUERY_ATTR_CUTOFFMODE) ==
+                           0) {
+                    data->result->cutoff_mode = ((char*)attrs[1])[0];
                 } else if (strcmp((char*)attrs[0],
                                   MWSQUERY_ATTR_OUTPUTFORMAT) ==
                            0) {
