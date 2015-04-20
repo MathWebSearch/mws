@@ -299,6 +299,7 @@ bool CmmlToken::equals(const CmmlToken* t) const {
             it1++;
             it2++;
         }
+        return true;
     }
     case RANGE:
         // We don't allow named ranges.

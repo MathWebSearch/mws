@@ -82,6 +82,7 @@ class SchemaEngine {
                                     uint8_t depth) const;
     std::pair<std::string, std::string> decodeMeaning(
         const types::Meaning& meaning) const;
+    bool isApply(const encoded_token_t& tok) const;
     ALLOW_TESTER_ACCESS;
 };
 

@@ -126,36 +126,43 @@ EncodedFormula SchemaEngine::reduceFormula(const EncodedFormula& expr,
     if (expr.empty()) return {};
     if (max_depth == 0) return {};
 
-    stack<uint32_t> unexplored;
+    /* the int is given by the arity of the current node, i.e.
+     * how many unexplored nodes are left from the current node.
+     * the bool indicates if the first node should be treated specially
+     * (expanded completely, regardless of max_depth), because it is the
+     * first child of apply
+     */
+    stack<pair<uint32_t, bool>> unexplored;
     size_t currToken = 0;
     reducedExpr.push_back(expr[currToken]);
-    unexplored.push(expr[currToken].arity);
+    unexplored.push({expr[currToken].arity, isApply(expr[currToken])});
     currToken++;
 
     while (currToken < expr.size()) {
-        if (unexplored.size() >= max_depth) {
-            uint32_t exprToComplete = unexplored.top();
+        bool isFirstChild = unexplored.top().second;
+        if (unexplored.size() >= max_depth && !isFirstChild) {
+            uint32_t exprToComplete = unexplored.top().first;
             unexplored.pop();
             for (size_t i = 1; i <= exprToComplete; i++) {
                 currToken = completeExpression(expr, currToken);
             }
             uint32_t parentExpr = 0;
             while (!unexplored.empty() && (parentExpr == 0)) {
-                parentExpr = unexplored.top() - 1;
+                parentExpr = unexplored.top().first - 1;
                 unexplored.pop();
-                if (parentExpr != 0) unexplored.push(parentExpr);
+                if (parentExpr != 0) unexplored.push({parentExpr, false});
             }
         } else {
             reducedExpr.push_back(expr[currToken]);
             uint32_t ary = expr[currToken].arity;
             if (ary != 0) {
-                unexplored.push(ary);
+                unexplored.push({ary, isApply(expr[currToken])});
             } else {
                 uint32_t parentExpr = 0;
                 while (!unexplored.empty() && (parentExpr == 0)) {
-                    parentExpr = unexplored.top() - 1;
+                    parentExpr = unexplored.top().first - 1;
                     unexplored.pop();
-                    if (parentExpr != 0) unexplored.push(parentExpr);
+                    if (parentExpr != 0) unexplored.push({parentExpr, false});
                 }
             }
             currToken++;
@@ -226,24 +233,31 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
         return unifZero;
     }
 
-    stack<uint32_t> unexplored;
+    /* the int is given by the arity of the current node, i.e.
+     * how many unexplored nodes are left from the current node.
+     * the bool indicates if the first node should be treated specially
+     * (explored completely, regardless of max_depth), because it is the
+     * first child of apply
+     */
+    stack<pair<uint32_t, bool>> unexplored;
     CmmlToken* currCmml = CmmlToken::newRoot();
     size_t currTok = 0;
     auto meaning = decodeMeaning(decoder.getMeaning(expr[currTok].id));
     currCmml->setTag(meaning.first);
     currCmml->appendTextContent(meaning.second);
-    unexplored.push(expr[currTok].arity);
+    unexplored.push({expr[currTok].arity, isApply(expr[currTok])});
     currTok++;
 
     // Corner case when the query consists of a single token with arity 0 */
-    if (unexplored.top() == 0) {
+    if (unexplored.top().first == 0) {
         return currCmml;
     }
 
     uint32_t qvar_count = 1;
     do {
-        if (unexplored.size() >= max_depth) {
-            uint32_t anonExprs = unexplored.top();
+        bool isFirstChild = unexplored.top().second;
+        if (unexplored.size() >= max_depth && !isFirstChild) {
+            uint32_t anonExprs = unexplored.top().first;
             unexplored.pop();
             for (size_t i = 1; i <= anonExprs; i++) {
                 auto qvar = currCmml->newChildNode();
@@ -254,51 +268,53 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
             }
             uint32_t parentExpr = 0;
             while (!unexplored.empty() && (parentExpr == 0)) {
-                parentExpr = unexplored.top() - 1;
+                parentExpr = unexplored.top().first - 1;
                 unexplored.pop();
                 currCmml = currCmml->getParentNode();
-                if (parentExpr != 0) unexplored.push(parentExpr);
+                if (parentExpr != 0) unexplored.push({parentExpr, false});
             }
         } else {
             currCmml = currCmml->newChildNode();
             meaning = decodeMeaning(decoder.getMeaning(expr[currTok].id));
-            currCmml->setTag("m:" + meaning.first);
+            currCmml->setTag(meaning.first);
             currCmml->appendTextContent(meaning.second);
 
             uint32_t ary = expr[currTok].arity;
             if (ary != 0) {
-                unexplored.push(ary);
+                unexplored.push({ary, isApply(expr[currTok])});
             } else {
                 uint32_t parentExpr = 0;
                 while (!unexplored.empty() && (parentExpr == 0)) {
-                    parentExpr = unexplored.top() - 1;
+                    parentExpr = unexplored.top().first - 1;
                     unexplored.pop();
                     currCmml = currCmml->getParentNode();
-                    if (parentExpr != 0) unexplored.push(parentExpr);
+                    if (parentExpr != 0) unexplored.push({parentExpr, false});
                 }
             }
             currTok++;
         }
     } while (currTok < expr.size());
 
-    if (unexplored.empty()) return currCmml;
-
     // We need to complete the last token, in case it had arity > 0
-    uint32_t anonExprs = unexplored.top();
-    unexplored.pop();
-    for (size_t i = 1; i <= anonExprs; i++) {
-        auto qvar = currCmml->newChildNode();
-        qvar->setTag(types::QVAR_TAG);
-        qvar->appendTextContent(DEFAULT_QVAR_PREFIX +
-                                std::to_string(qvar_count));
-        qvar_count++;
-    }
-    uint32_t parentExpr = 0;
-    while (!unexplored.empty() && (parentExpr == 0)) {
-        parentExpr = unexplored.top() - 1;
+    while (!unexplored.empty()) {
+        uint32_t anonExprs = unexplored.top().first;
+        // this cannot be the first child of apply
+        assert(unexplored.top().second == false);
         unexplored.pop();
-        currCmml = currCmml->getParentNode();
-        if (parentExpr != 0) unexplored.push(parentExpr);
+        for (size_t i = 1; i <= anonExprs; i++) {
+            auto qvar = currCmml->newChildNode();
+            qvar->setTag(types::QVAR_TAG);
+            qvar->appendTextContent(DEFAULT_QVAR_PREFIX +
+                                    std::to_string(qvar_count));
+            qvar_count++;
+        }
+        uint32_t parentExpr = 0;
+        while (!unexplored.empty() && (parentExpr == 0)) {
+            parentExpr = unexplored.top().first - 1;
+            unexplored.pop();
+            currCmml = currCmml->getParentNode();
+            if (parentExpr != 0) unexplored.push({parentExpr, false});
+        }
     }
     assert(unexplored.empty());
     assert(currCmml->isRoot());
@@ -320,6 +336,12 @@ pair<string, string> SchemaEngine::decodeMeaning(
 
     string text = meaning.substr(delim_pos + 1);
     return {tag, text};
+}
+
+bool SchemaEngine::isApply(const encoded_token_t& tok) const {
+    const types::Meaning meaning = decoder.getMeaning(tok.id);
+    const string tag = decodeMeaning(meaning).first;  // .second is the content
+    return (tag.find("apply") == 0);
 }
 
 }  // namespace query

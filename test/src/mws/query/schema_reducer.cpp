@@ -42,7 +42,7 @@ query #1: f(h,h,t): (apply,4) (f,0) (t,0) (t,0) (t,0)
 expected schema #1 at depth 0: ?x0 : {}
 
 query #2: f(h,h,t): (apply,4) (f,0) (t,0) (t,0) (t,0)
-expected schema #2 at depth 1: ?x1(?x2, ?x3, ?x4): (apply, 4)
+expected schema #2 at depth 1: f(?x2, ?x3, ?x4): (apply, 4) (f, 0)
 
 query #3: f(h,h,t): (apply,4) (f,0) (t,0) (t,0) (t,0)
 expected schema #3 at depth 2: f(h,t,t): (apply,4) (f,0) (t,0) (t,0) (t,0)
@@ -67,7 +67,7 @@ static EncodedFormula get_expected_reduction_at_d0() {
 }
 
 static EncodedFormula get_expected_reduction_at_d1() {
-    return {apply4_tok};
+    return {apply4_tok, f_tok};
 }
 
 static EncodedFormula get_expected_reduction_at_d2() {

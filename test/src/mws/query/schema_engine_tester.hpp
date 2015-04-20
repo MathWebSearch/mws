@@ -50,6 +50,7 @@ encoded_token_t apply4_tok = encoded_token(constantId++, 4);
 encoded_token_t f_tok      = encoded_token(constantId++, 0);
 encoded_token_t h_tok      = encoded_token(constantId++, 0);
 encoded_token_t t_tok      = encoded_token(constantId++, 0);
+encoded_token_t g_tok      = encoded_token(constantId++, 0);
 encoded_token_t cn_tok     = encoded_token(constantId++, 0);
 
 
@@ -59,6 +60,7 @@ MeaningDictionary get_meaning_dict() {
     dict.put("f#");
     dict.put("h#");
     dict.put("t#");
+    dict.put("g#");
     dict.put("cn#3.5");
 
     return dict;
@@ -96,6 +98,19 @@ struct Tester {
         delete answset;
 
         if (nrSch != expected) return EXIT_FAILURE;
+        return EXIT_SUCCESS;
+    }
+
+    static inline int test_expr_decoder(const EncodedFormula& expr,
+                                        const CmmlToken* expected,
+                                        uint8_t depth) {
+        MeaningDictionary dict = get_meaning_dict();
+        SchemaEngine schEng(dict);
+        CmmlToken* tok = schEng.decodeFormula(expr, depth);
+        bool success = tok->equals(expected);
+        delete tok;
+
+        if (!success) return EXIT_FAILURE;
         return EXIT_SUCCESS;
     }
 };
