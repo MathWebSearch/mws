@@ -65,6 +65,7 @@ SchemaAnswset* SchemaEngine::getSchemata(const vector<EncodedFormula>& formulae,
     SchemaAnswset* result = new SchemaAnswset();
 
     unordered_map<string, vector<uint32_t>> schemaGroup;
+    unordered_map<string, uint8_t> cutoffs;
     for (size_t i = 0; i < formulae.size(); i++) {
         const EncodedFormula& expr = formulae[i];
         uint8_t cutoff;
@@ -88,6 +89,8 @@ SchemaAnswset* SchemaEngine::getSchemata(const vector<EncodedFormula>& formulae,
         } else {
             schemaGroup[hash] = {(uint32_t)i};
         }
+        // we need to store the cutoff for each schemata in order to decode it
+        cutoffs[hash] = cutoff;
     }
     result->total = schemaGroup.size();
 
@@ -108,7 +111,7 @@ SchemaAnswset* SchemaEngine::getSchemata(const vector<EncodedFormula>& formulae,
     for (auto& p : topExpr) {
         EncodedFormula e = unhashExpr(p.first);
         ExprSchema sch;
-        sch.root = decodeFormula(e, depth);
+        sch.root = decodeFormula(e, cutoffs[p.first]);
         sch.coverage = p.second.size();
         sch.formulae = p.second;
         result->schemata.push_back(sch);

@@ -92,7 +92,7 @@ GenericAnswer* SchemaQueryHandler::handleQuery(Query* query) {
         break;
     }
 
-    SchemaEngine schemaEngine(dict);
+    SchemaEngine schemaEngine(dict, engineConfig);
     SchemaAnswset* result =
         schemaEngine.getSchemata(exprs, exprsTokens, max_total, max_depth);
 
