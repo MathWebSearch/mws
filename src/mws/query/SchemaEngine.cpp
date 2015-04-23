@@ -135,7 +135,8 @@ EncodedFormula SchemaEngine::reduceFormula(const EncodedFormula& expr,
     stack<pair<uint32_t, bool>> unexplored;
     size_t currToken = 0;
     reducedExpr.push_back(expr[currToken]);
-    unexplored.push({expr[currToken].arity, isApply(expr[currToken])});
+    uint32_t rootArity = expr[currToken].arity;
+    unexplored.push({rootArity, isApply(expr[currToken])});
     currToken++;
 
     while (currToken < expr.size()) {
@@ -245,7 +246,8 @@ CmmlToken* SchemaEngine::decodeFormula(const EncodedFormula& expr,
     auto meaning = decodeMeaning(decoder.getMeaning(expr[currTok].id));
     currCmml->setTag(meaning.first);
     currCmml->appendTextContent(meaning.second);
-    unexplored.push({expr[currTok].arity, isApply(expr[currTok])});
+    uint32_t rootArity = expr[currTok].arity;
+    unexplored.push({rootArity, isApply(expr[currTok])});
     currTok++;
 
     // Corner case when the query consists of a single token with arity 0 */
