@@ -42,9 +42,11 @@ class LevFormulaDb : public FormulaDb {
     LevFormulaDb();
     virtual ~LevFormulaDb();
 
-    void open(const char* path) throw (std::runtime_error);
-    void create_new(const char* path, bool deleteIfExists)
-    throw (std::runtime_error);
+    /**@throw runtime_error*/
+    void open(const char* path);
+
+    /**@throw runtime_error*/
+    void create_new(const char* path, bool deleteIfExists);
 
     virtual int insertFormula(const types::FormulaId&   formulaId,
                               const CrawlId&     crawlId,

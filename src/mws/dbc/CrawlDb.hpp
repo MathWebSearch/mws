@@ -46,10 +46,9 @@ public:
      * @brief insert crawled data
      * @param crawlId id of the crawl element
      * @param crawlData data associated with the crawl element
-     *
+     * @throw exception
      */
-    virtual CrawlId putData(const CrawlData& crawlData)
-    throw(std::exception) = 0;
+    virtual CrawlId putData(const CrawlData& crawlData) = 0;
 
     /**
      * @brief get crawled data
@@ -57,8 +56,7 @@ public:
      * @return CrawlData corresponding to crawlId
      * @throw NotFound or I/O exceptions
      */
-    virtual const CrawlData getData(const CrawlId& crawlId)
-    throw(std::exception) = 0;
+    virtual const CrawlData getData(const CrawlId& crawlId) = 0;
 };
 
 }  // namespace dbc

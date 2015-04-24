@@ -55,7 +55,8 @@ LevFormulaDb::LevFormulaDb() : mDatabase(nullptr), mCounter(0) {}
 
 LevFormulaDb::~LevFormulaDb() { delete mDatabase; }
 
-void LevFormulaDb::open(const char* path) throw(runtime_error) {
+/** @throw runtime_error */
+void LevFormulaDb::open(const char* path) {
     Options options;
     options.create_if_missing = false;
     Status status = DB::Open(options, path, &mDatabase);
@@ -65,8 +66,8 @@ void LevFormulaDb::open(const char* path) throw(runtime_error) {
     }
 }
 
-void LevFormulaDb::create_new(const char* path,
-                              bool deleteIfExists) throw(runtime_error) {
+/** @throw runtime_error */
+void LevFormulaDb::create_new(const char* path, bool deleteIfExists) {
     if (deleteIfExists) {
         (void)DestroyDB(path, Options());
     }

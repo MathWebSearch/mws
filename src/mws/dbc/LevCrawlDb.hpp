@@ -44,18 +44,19 @@ class LevCrawlDb : public CrawlDb {
     LevCrawlDb();
     virtual ~LevCrawlDb();
 
-    void open(const char* path) throw (std::runtime_error);
-    void create_new(const char* path, bool deleteIfExists)
-    throw (std::runtime_error);
+    /** @throw runtime_error */
+    void open(const char* path);
+    /** @throw runtime_error */
+    void create_new(const char* path, bool deleteIfExists);
 
     /**
      * @brief insert crawled data
      * @param crawlId id of the crawl element
      * @param crawlData data associated with the crawl element
      *
+     *@throw runtime_error
      */
-    virtual CrawlId putData(const CrawlData& crawlData)
-    throw (std::exception);
+    virtual CrawlId putData(const CrawlData& crawlData);
 
     /**
      * @brief get crawled data
@@ -63,8 +64,7 @@ class LevCrawlDb : public CrawlDb {
      * @return CrawlData corresponding to crawlId
      * @throw NotFound or I/O exceptions
      */
-    virtual const CrawlData getData(const CrawlId& crawlId)
-    throw (std::exception);
+    virtual const CrawlData getData(const CrawlId& crawlId);
 
  private:
     leveldb::DB* mDatabase;

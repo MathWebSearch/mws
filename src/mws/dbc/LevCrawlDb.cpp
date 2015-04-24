@@ -53,7 +53,8 @@ LevCrawlDb::LevCrawlDb() : mDatabase(nullptr), mNextCrawlId(CRAWLID_NULL) {}
 
 LevCrawlDb::~LevCrawlDb() { delete mDatabase; }
 
-void LevCrawlDb::open(const char* path) throw(runtime_error) {
+/** @throw runtime_error */
+void LevCrawlDb::open(const char* path) {
     leveldb::Options options;
     options.create_if_missing = false;
     leveldb::Status status = leveldb::DB::Open(options, path, &mDatabase);
@@ -63,8 +64,9 @@ void LevCrawlDb::open(const char* path) throw(runtime_error) {
     }
 }
 
+/** @throw runtime_error */
 void LevCrawlDb::create_new(const char* path,
-                            bool deleteIfExists) throw(runtime_error) {
+                            bool deleteIfExists) {
     if (deleteIfExists) {
         (void)DestroyDB(path, Options());
     }
@@ -78,7 +80,8 @@ void LevCrawlDb::create_new(const char* path,
     }
 }
 
-CrawlId LevCrawlDb::putData(const CrawlData& crawlData) throw(std::exception) {
+/** @throw std::exception */
+CrawlId LevCrawlDb::putData(const CrawlData& crawlData) {
     CrawlId crawlId = ++mNextCrawlId;
     string crawlId_str = std::to_string(crawlId);
 
@@ -98,8 +101,8 @@ CrawlId LevCrawlDb::putData(const CrawlData& crawlData) throw(std::exception) {
     return crawlId;
 }
 
-const CrawlData LevCrawlDb::getData(const CrawlId& crawlId) throw(
-    std::exception) {
+/** @throw std::exception */
+const CrawlData LevCrawlDb::getData(const CrawlId& crawlId) {
     string crawlId_str = std::to_string(crawlId);
     string retrieved_str;
     CrawlData retrieved;

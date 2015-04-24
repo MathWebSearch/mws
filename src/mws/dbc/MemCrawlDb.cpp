@@ -39,7 +39,8 @@ namespace dbc {
 
 MemCrawlDb::MemCrawlDb() : mNextCrawlId(CRAWLID_NULL) {}
 
-CrawlId MemCrawlDb::putData(const CrawlData& crawlData) throw(std::exception) {
+/** @throw std::exception */
+CrawlId MemCrawlDb::putData(const CrawlData& crawlData) {
     const CrawlId crawlId = ++mNextCrawlId;
     auto ret = mData.insert(make_pair(crawlId, crawlData));
     if (!ret.second) {
@@ -50,8 +51,8 @@ CrawlId MemCrawlDb::putData(const CrawlData& crawlData) throw(std::exception) {
     return crawlId;
 }
 
-const CrawlData MemCrawlDb::getData(const CrawlId& crawlId) throw(
-    std::exception) {
+/** @throw std::exception */
+const CrawlData MemCrawlDb::getData(const CrawlId& crawlId) {
     auto it = mData.find(crawlId);
     if (it != mData.end()) {
         return it->second;
