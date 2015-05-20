@@ -42,6 +42,9 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 /* Constants                                                                */
 /*--------------------------------------------------------------------------*/
 
+/* We are using 8 bits to hold the arity. A cerror might have a higher arity */
+#define ENC_TOK_MAX_ARITY 255
+
 #define HVAR_ID_MIN 1
 #define HVAR_ID_MAX 32
 #define ANON_HVAR_ID_MIN 33

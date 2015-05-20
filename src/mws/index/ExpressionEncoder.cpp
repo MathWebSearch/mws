@@ -42,6 +42,7 @@ using std::unordered_map;
 #include <vector>
 using std::vector;
 
+#include "encoded_token.h"
 #include "mws/types/CmmlToken.hpp"
 using mws::types::CmmlToken;
 using mws::types::Meaning;
@@ -101,6 +102,10 @@ int ExpressionEncoder::encode(const Config& config, const CmmlToken* expression,
                     .insert({tokenId, token->getRangeBounds()});
             }
         } else {
+            /* Only cerrors have such a high arity */
+            if (token->getArity() > ENC_TOK_MAX_ARITY) {
+                return -1;
+            }
             encoded_token.arity = token->getArity();
             if (config.renameCi && token->getTag() == "ci") {
                 encoded_token.id = _getCiMeaning((token));

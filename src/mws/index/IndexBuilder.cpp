@@ -98,7 +98,11 @@ int IndexBuilder::indexContentMath(const CmmlToken* cmmlToken,
 
     cmmlToken->foreachSubexpression([&](const CmmlToken * token) {
         vector<encoded_token_t> encodedFormula;
-        encoder.encode(m_indexingOptions, token, &encodedFormula, nullptr);
+        if (encoder.encode(m_indexingOptions, token, &encodedFormula, nullptr) != 0) {
+            PRINT_WARN("Skipping a formula (could not encode)\n");
+            return;
+        }
+
         TmpLeafNode* leaf = m_index->insertData(encodedFormula);
         FormulaId formulaId = leaf->id;
         auto ret = uniqueFormulaIds.insert(formulaId);

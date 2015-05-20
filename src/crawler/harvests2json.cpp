@@ -364,9 +364,12 @@ int HarvestParser::processExpression(const CmmlToken* expression,
 
     expression->foreachSubexpression([&](const CmmlToken* subexpression) {
         vector<encoded_token_t> encodedFormula;
-        encoder.encode(_indexingOptions, subexpression, &encodedFormula,
-                       nullptr);
-
+        int ret = encoder.encode(_indexingOptions, subexpression,
+                                 &encodedFormula, nullptr);
+        if (ret != 0) {
+            PRINT_WARN("Skipping a formula (could not encode)\n");
+            return;
+        }
         MwsAnswset* result;
         SearchContext ctxt(encodedFormula, _queryOptions);
         result = ctxt.getResult<IndexAccessor>(_index,
