@@ -41,6 +41,8 @@ namespace utils {
 
 // String utils
 
+std::string escapeJsonString(const std::string& input);
+
 bool hasSuffix(const std::string& str, const std::string& suffix);
 
 /**

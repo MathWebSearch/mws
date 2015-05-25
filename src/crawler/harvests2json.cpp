@@ -54,6 +54,7 @@ using std::exception;
 #include "common/utils/Path.hpp"
 #include "common/utils/util.hpp"
 using common::utils::hasSuffix;
+using common::utils::escapeJsonString;
 #include "common/utils/FlagParser.hpp"
 using common::utils::FlagParser;
 #include "crawler/parser/XmlParser.hpp"
@@ -206,7 +207,7 @@ static void writeParseResultToFile(const ParseResult& parseResult, FILE* file) {
                            json_object_new_string(dataItems->text.c_str()));
 
     fprintf(file, "{\"index\" : { \"_id\" : \"%s\" } }\n",
-            dataItems->id.c_str());
+            escapeJsonString(dataItems->id).c_str());
     fputs(json_object_to_json_string(curr_doc), file);
     fprintf(file, "\n");
     json_object_put(curr_doc);
