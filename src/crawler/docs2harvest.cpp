@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
     FlagParser::addFlag('x', "document-uri-xpath", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('c', "config-file", FLAG_OPT, ARG_REQ);
     FlagParser::addFlag('n', "no-data", FLAG_OPT, ARG_NONE);
-    FlagParser::setMinNumParams(0);
+    FlagParser::setMinNumParams(1);
 
     if (FlagParser::parse(argc, argv) != 0) {
         fprintf(stderr, "%s", FlagParser::getUsage().c_str());

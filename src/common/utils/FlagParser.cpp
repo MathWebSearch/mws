@@ -77,7 +77,6 @@ int FlagParser::parse(const int argc, char* const argv[]) {
     struct option currentOpt;
     const struct option zeroOpt = {nullptr, 0, nullptr, 0};
     int optIndex;
-    int argPos;
 
     // these default flags should always be present
     addFlag('h', "help", FLAG_OPT, ARG_NONE);
@@ -139,23 +138,9 @@ int FlagParser::parse(const int argc, char* const argv[]) {
                 break;
             case ARG_REQ:
                 if (optarg == nullptr) goto failure;
-                /* there might be multiple arguments */
-                argPos = optind - 1;
-                while (argPos < argc) {
-                    string currArg = string(argv[argPos]);
-                    argPos++;
-                    if (currArg[0] != '-') {
-                        _parsedArgs[ch].push_back(currArg);
-                    } else {
-                        break;
-                    }
-                }
-                if (argPos != argc) {
-                    optind = argPos - 1;
-                } else {
-                    optind = argPos;
-                }
+                _parsedArgs[ch].push_back(optarg);
                 break;
+
             default:
                 assert(0);
             }
