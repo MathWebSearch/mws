@@ -59,6 +59,7 @@ The core MathWebSearch executables require:
   - libleveldb
   - libsnappy
   - libjson-c
+  - libjson0-dev
 
 The crawler executables require:
   - libhtmlcxx-dev
