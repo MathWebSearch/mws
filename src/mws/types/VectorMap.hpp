@@ -55,7 +55,17 @@ class VectorMap {
     typedef typename _VectorContainer::iterator iterator;
     typedef typename _VectorContainer::const_iterator const_iterator;
 
-    inline size_t size() const { return _data.size(); }
+    /**
+     * @brief Method to determine the number of elements in this VectorMap
+     * @use std::distance instead of std::Vector::size to avoid size_type
+     * return type that is container dependent
+     * @std::distance returns ssize_t and program will have overflow errors
+     * for exceedingly great number of children
+     */
+    inline size_t size() const {
+      return (size_t)std::distance(_data.begin(), _data.end());
+    }
+
     /**
       * @brief Method to find an element by key.
       * @param key is the key to be searched.
