@@ -27,12 +27,11 @@ curl -s -S -XPUT $HOST:$PORT/$INDEX/ -d '
     "doc" : {
         "dynamic" : "strict",
         "properties" : {
-            "metadata" : { "dynamic" : true, "type" : "object", "store" : false,
-                "index" : "analyzed" },
+            "metadata" : { "dynamic" : true, "type" : "object" },
             "mws_ids" : { "type" : "long", "store" : false, "index" : "not_analyzed"},
             "text" : { "type" : "string", "store" : false, "index" : "analyzed" },
-            "mws_id" : { "enabled" : false, "type" : "object", "store" : true, "index" : "no" },
-            "math" : { "enabled" : false, "type" : "object", "store" : true, "index" : "no" }
+            "mws_id" : { "enabled" : false, "type" : "object" },
+            "math" : { "enabled" : false, "type" : "object" }
         }
     }
 } }'; echo
