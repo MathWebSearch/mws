@@ -32,6 +32,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdio>
 #include <vector>
 #include <set>
+#include <ctime>
 
 #include "mws/types/Answer.hpp"
 #include "GenericAnswer.hpp"
@@ -54,6 +55,9 @@ struct MwsAnswset : GenericAnswer {
     std::vector<std::string> qvarXpaths;
     /// Set with the FormulaIds
     std::set<mws::types::FormulaId> ids;
+    /// Duration for retrieng results (in ms)
+    time_t time;
+
     MwsAnswset() : total(0) {}
 
     ~MwsAnswset() {

@@ -38,6 +38,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <list>
 #include <unordered_map>
 #include <memory>
+#include <chrono>
 
 #include "mws/dbc/DbQueryManager.hpp"
 #include "mws/index/encoded_token.h"
@@ -54,6 +55,9 @@ class SearchContext {
  public:
     typedef std::unordered_map<MeaningId, std::pair<double, double>>
         RangeBounds;
+
+    typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::milliseconds ms;
 
     SearchContext(const std::vector<encoded_token_t>& encodedFormula,
                   const types::Query::Options& options,

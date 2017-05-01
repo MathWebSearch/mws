@@ -33,6 +33,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
+#include <chrono>
 
 #include <list>
 using std::list;
@@ -297,6 +299,8 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
     int lastSolved = -1;      // last qvar/range that was solved
     typename A::Node* currentNode = A::getRootNode(index);
 
+    auto startTime = Time::now();
+
     // Checking the arguments
     if (offset + size > maxTotal) {
         if (maxTotal <= offset) {
@@ -421,6 +425,10 @@ MwsAnswset* SearchContext::getResult(typename A::Index* index,
             currentToken++;
         }
     }
+    auto endTime = Time::now();
+    ms elapsed_time = std::chrono::duration_cast<ms>(endTime-startTime);
+
+    result->time = elapsed_time.count();
     result->total = found;
 
     return result;

@@ -72,6 +72,9 @@ int MwsJsonResponseFormatter::writeData(const GenericAnswer* ans,
     json_object_object_add(json_doc, "total",
                            json_object_new_int(answerSet.total));
 
+    json_object_object_add(json_doc, "time",
+                           json_object_new_int(answerSet.time));
+
     // Creating qvars field
     for (int i = 0; i < (int)answerSet.qvarNames.size(); i++) {
         json_object* qvar = json_object_new_object();
