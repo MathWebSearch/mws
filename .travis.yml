@@ -17,7 +17,7 @@ install:
  - sudo apt-get install libjson0-dev
  - sudo apt-get install libhtmlcxx-dev
  - sudo apt-get install libicu-dev
- - sudo apt-get install libcurl4-*-dev
+ - sudo apt-get install libcurl4-gnutls-dev
  - sudo apt-get install netcat
  - sudo apt-get install curl
 
