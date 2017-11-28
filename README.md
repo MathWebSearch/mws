@@ -10,7 +10,7 @@ GNU General Public License version 3.
 
 Demos
 ------
-can be found at http://search.mathweb.org
+can be found at http://search.mathweb.org, in particular, the arXiv demo is at http://arxivsearch.mathweb.org
 
 Content
 -------
