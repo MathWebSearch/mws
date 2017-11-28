@@ -8,6 +8,10 @@ formulae. It indexes MathML formulae, using a technique derived from automated
 theorem proving: Substitution Tree Indexing. The software is licensed under the
 GNU General Public License version 3.
 
+Demos
+------
+can be found at http://search.mathweb.org
+
 Content
 -------
 * `analytics/` user defined analytics source files
