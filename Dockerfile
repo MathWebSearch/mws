@@ -1,9 +1,10 @@
-FROM ubuntu:xenial
+### Dockerfile for MathWebSearch
+
+## Builder Image
+FROM debian:stretch-slim as builder
 
 # Install dependencies
-# These come first to take advantage of the build cache
-RUN apt-get update \
-    && apt-get -y install \
+RUN apt-get update && apt-get -y install \
         cmake \
         g++ \
         make \
@@ -12,11 +13,9 @@ RUN apt-get update \
         libxml2-dev \
         libleveldb-dev \
         libsnappy-dev \
-        libjson0 \
-        libjson0-dev \
-        libhtmlcxx3v5 \
+        libjson-c-dev \
         libhtmlcxx-dev \
-        libgnutls-dev \
+        libgnutls28-dev \
         libicu-dev \
         libcurl4-gnutls-dev \
         doxygen \
@@ -24,10 +23,9 @@ RUN apt-get update \
         curl \
     && apt-get clean
 
-# Setup file structure under /mws/
+## Setup file structure under /mws
 ADD analytics/ /mws/analytics
 ADD config/ mws/config
-ADD doc/ /mws/doc
 ADD scripts/ mws/scripts
 ADD src /mws/src
 ADD test/ mws/test
@@ -37,9 +35,38 @@ ADD .arcconfig /mws/
 ADD .arclint /mws/
 ADD .clang-format /mws/
 ADD CMakeLists.txt /mws/
-ADD LICENSE /mws/
 ADD Makefile /mws/
 
-# Run a build
+# Build and install into /install
 WORKDIR /mws/
 RUN make all
+RUN mkdir -p /install/usr/ \
+    && make install DESTDIR=/install PREFIX=/usr
+
+
+## 
+## add a runtime image
+FROM debian:stretch-slim
+
+# Install runtime libraries
+RUN apt-get update && apt-get --no-install-recommends -y install \
+        libmicrohttpd12 \
+        libxml2 \
+        libleveldb1v5 \
+        libsnappy1v5 \
+        libjson-c3 \
+        libhtmlcxx3v5 \
+        libgnutlsxx28 \
+        libicu57 \
+        libcurl3-gnutls \
+    && apt-get clean
+
+## Setup file structure under /mws
+ADD config/ mws/config
+ADD scripts/ mws/scripts
+ADD README.md /mws
+ADD LICENSE /mws/
+COPY --from=builder /install/usr/local/bin/ /mws/bin
+
+## And expand the path variable
+ENV PATH="/mws/bin:${PATH}"
