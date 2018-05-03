@@ -33,8 +33,10 @@ ENDIF (PKGCONFIG_FOUND)
 FIND_PATH(JSON_INCLUDE_DIRS
     NAMES
         json.h
+        json_object.h
     PATH_SUFFIXES
         json
+        json-c
     PATHS
         ${PC_JSON_INCLUDE_DIRS}
         /usr/include

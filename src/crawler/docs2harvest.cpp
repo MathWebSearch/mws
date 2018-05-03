@@ -33,8 +33,8 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
-#include <json/json.h>
-#include <json/json_object.h>
+#include <json.h>
+#include <json_object.h>
 
 #include <string>
 using std::string;
