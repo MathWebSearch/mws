@@ -69,4 +69,5 @@ ADD LICENSE /mws/
 COPY --from=builder /install/usr/local/bin/ /mws/bin
 
 ## And expand the path variable
+ENV HOST="0.0.0.0"
 ENV PATH="/mws/bin:${PATH}"
