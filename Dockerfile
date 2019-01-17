@@ -71,3 +71,10 @@ COPY --from=builder /install/usr/local/bin/ /mws/bin
 ## And expand the path variable
 ENV HOST="0.0.0.0"
 ENV PATH="/mws/bin:${PATH}"
+
+# Add a /data/ volume and a port to run on
+VOLUME /data/
+EXPOSE 8080
+
+# Run the MWS Daemon
+CMD "/mws/bin/mwsd" "-I" "/data/" "-p" "8080"
