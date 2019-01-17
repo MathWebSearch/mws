@@ -3,10 +3,9 @@ MathWebSearch [![Build Status](https://secure.travis-ci.org/KWARC/mws.png?branch
 
 About
 -----
-The MathWebSearch system (MWS) is a content-based search engine for mathematical
-formulae. It indexes MathML formulae, using a technique derived from automated
-theorem proving: Substitution Tree Indexing. The software is licensed under the
-GNU General Public License version 3.
+The MathWebSearch system (MWS) is a content-based search engine for mathematical formulae. 
+It indexes MathML formulae, using a technique derived from automated theorem proving: Substitution Tree Indexing. 
+The software is licensed under the GNU General Public License version 3.
 
 Demos
 ------
@@ -105,8 +104,8 @@ crawl a repository of XHTML documents, use:
 The executable `mwsd` starts the main MWS server. This takes as argument a
 harvest include path which is used to load document data, and a port which
 where the data is served via HTTP. It accepts HTTP POST requests with
-[MWS Queries](https://trac.mathweb.org/MWS/wiki/MwsQuery) and returns
-[MWS Answer Sets](https://trac.mathweb.org/MWS/wiki/MwsAnswset).
+[MWS Queries](https://github.com/KWARC/mws/wiki/MWSQuery) and returns
+[MWS Answer Sets](https://github.com/KWARC/mws/wiki/MWSAnswerSet).
 
 	bin/mwsd -I <harvest include dir> -p <port number>
 
@@ -138,6 +137,15 @@ You can install MWS directly from this
     sudo add-apt-repository ppa:radu-hambasan/math-web-search
     sudo apt-get install mws
 
+Usage with Docker
+-----------------
+
+This repository contains a Dockerfile for using the MWS Daemon. 
+It can be found as the [kwarc/mathwebsearch](https://hub.docker.com/r/kwarc/mathwebsearch/) automated build on Docker Hub and used as follows:
+
+  docker run -v /path/to/harvests:/data/ -p 8080:8080 kwarc/mathwebsearch
+
+The image is configured to serve harvests from a `/data/` volume on port 8080. 
 
 Copyright
 ---------
@@ -148,11 +156,10 @@ under the file name LICENSE.
 
 Credits
 -------
-Most of the code in the core repository was developed by Corneliu-Claudiu
-Prodescu <c.prodescu@jacobs-university.de>, under the supervision of Prof.
-Michael Kohlhase <m.kohlhase@jacobs-university.de>.
+Most of the code in the core repository was developed by [Corneliu-Claudiu Prodescu](https://kwarc.info/people/cprodescu/), under the supervision of Prof.
+[Michael Kohlhase](https://kwarc.info/people/mkohlhase/).
 For a complete list of developers visit
-https://trac.mathweb.org/MWS/wiki/DevTeam
+https://github.com/KWARC/mws/graphs/contributors
 
 Contact
 -------
