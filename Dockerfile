@@ -40,9 +40,6 @@ ADD Makefile /mws/
 # Build and install into /install
 WORKDIR /mws/
 RUN make all
-RUN mkdir -p /install/usr/ \
-    && make install DESTDIR=/install PREFIX=/usr
-
 
 ## 
 ## add a runtime image
@@ -66,7 +63,7 @@ ADD config/ mws/config
 ADD scripts/ mws/scripts
 ADD README.md /mws
 ADD LICENSE /mws/
-COPY --from=builder /install/usr/local/bin/ /mws/bin
+COPY --from=builder /mws/bin/ /mws/bin
 
 ## And expand the path variable
 ENV HOST="0.0.0.0"
