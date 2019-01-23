@@ -141,9 +141,9 @@ Usage with Docker
 -----------------
 
 This repository contains a Dockerfile for using the MWS Daemon. 
-It can be found as the [kwarc/mathwebsearch](https://hub.docker.com/r/kwarc/mathwebsearch/) automated build on Docker Hub and used as follows:
+It can be found as the [mathwebsearch/mathwebsearch](https://hub.docker.com/r/mathwebsearch/mathwebsearch/) automated build on Docker Hub and used as follows:
 
-  docker run -v /path/to/harvests:/data/ -p 8080:8080 kwarc/mathwebsearch
+  docker run -v /path/to/harvests:/data/ -p 8080:8080 mathwebsearch/mathwebsearch
 
 The image is configured to serve harvests from a `/data/` volume on port 8080. 
 
