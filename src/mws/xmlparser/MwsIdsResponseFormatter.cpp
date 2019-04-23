@@ -82,6 +82,13 @@ int MwsIdsResponseFormatter::writeData(const GenericAnswer* ans,
     }
     json_object_object_add(json_doc, "ids", json_ids);
 
+    /* Total number of formulae considered
+     * (some schemata might have been dropped) */
+    json_object_object_add(json_doc, "total",
+                           json_object_new_int(answerSet.total));
+    json_object_object_add(json_doc, "size",
+                           json_object_new_int(answerSet.ids.size()));
+
     string json_string = json_object_to_json_string(json_doc);
     fwrite(json_string.c_str(), json_string.size(), 1, output);
 
