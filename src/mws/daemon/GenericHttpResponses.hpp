@@ -33,6 +33,11 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "mws/daemon/microhttpd_linux.h"
 
+const char XML_MWS_ROOT_RESPONSE[] =
+    "<?xml version=\"1.0\"?>\n"
+    "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
+    "MathWebSearch Daemon listening</mws:info>";
+
 const char XML_MWS_BAD_QUERY[] =
     "<?xml version=\"1.0\"?>\n"
     "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
@@ -43,6 +48,12 @@ const char XML_MWS_SERVER_ERROR[] =
     "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
     "Server error</mws:info>";
 
+const char XML_MWS_METHOD_NOT_ALLOWED[] =
+    "<?xml version=\"1.0\"?>\n"
+    "<mws:info xmlns:mws=\"http://search.mathweb.org/ns\">"
+    "Method not allowed</mws:info>";
+
+const char ROOT_URL[] = "/";
 const char EMPTY_RESPONSE[] = "";
 
 inline int sendXmlGenericResponse(struct MHD_Connection* connection,
@@ -68,7 +79,7 @@ inline int sendXmlGenericResponse(struct MHD_Connection* connection,
     return ret;
 }
 
-inline int sendOptionsResponse(struct MHD_Connection* connection) {
+inline int sendOptionsResponse(struct MHD_Connection* connection, bool allowGet) {
     struct MHD_Response* response;
     int ret;
 
@@ -82,7 +93,7 @@ inline int sendOptionsResponse(struct MHD_Connection* connection) {
     MHD_add_response_header(response, "Content-Type", "text/plain");
     MHD_add_response_header(response, "Access-Control-Allow-Origin", "*");
     MHD_add_response_header(response, "Access-Control-Allow-Methods",
-                            "POST, OPTIONS");
+                            allowGet ? "GET, POST, OPTIONS" : "POST, OPTIONS");
     MHD_add_response_header(response, "Access-Control-Allow-Headers",
                             "CONTENT-TYPE");
     MHD_add_response_header(response, "Access-Control-Max-Age", "1728000");
@@ -91,5 +102,32 @@ inline int sendOptionsResponse(struct MHD_Connection* connection) {
 
     return ret;
 }
+
+inline int sendMethodNotAllowedResponse(struct MHD_Connection* connection, bool allowGet) {
+    struct MHD_Response* response;
+    int ret;
+
+#ifdef MICROHTTPD_DEPRECATED
+    response = MHD_create_response_from_data(
+        strlen(XML_MWS_METHOD_NOT_ALLOWED), (void*)XML_MWS_METHOD_NOT_ALLOWED, false, false);
+#else  // MICROHTTPD_DEPRECATED
+    response = MHD_create_response_from_buffer(
+        strlen(XML_MWS_METHOD_NOT_ALLOWED), (void*)XML_MWS_METHOD_NOT_ALLOWED, MHD_RESPMEM_PERSISTENT);
+#endif  // MICROHTTPD_DEPRECATED
+    MHD_add_response_header(response, "Content-Type", "text/xml");
+    MHD_add_response_header(response, "Allow",
+                            allowGet ? "GET, POST, OPTIONS" : "POST, OPTIONS");
+    MHD_add_response_header(response, "Access-Control-Allow-Origin", "*");
+    MHD_add_response_header(response, "Allow",
+                            allowGet ? "GET, POST, OPTIONS" : "POST, OPTIONS");
+    MHD_add_response_header(response, "Access-Control-Allow-Headers",
+                            "CONTENT-TYPE");
+    MHD_add_response_header(response, "Access-Control-Max-Age", "1728000");
+    ret = MHD_queue_response(connection, MHD_HTTP_METHOD_NOT_ALLOWED, response);
+    MHD_destroy_response(response);
+
+    return ret;
+}
+
 
 #endif  // _GENERICHTTPRESPONSES_HPP

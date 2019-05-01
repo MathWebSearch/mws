@@ -154,21 +154,31 @@ static int acceptPolicyCallback(void* cls, const sockaddr* addr,
     return MHD_YES;
 }
 
+
+
 static int accessHandlerCallback(void* cls, struct MHD_Connection* connection,
                                  const char* url, const char* method,
                                  const char* version, const char* upload_data,
                                  size_t* upload_data_size, void** ptr) {
-    UNUSED(url);
     UNUSED(version);
+
+    // check if we have the root url
+    bool isRootURL = strcmp(url, ROOT_URL) == 0;
 
     // On OPTIONS method request different behavior
     if (0 == strcmp(method, MHD_HTTP_METHOD_OPTIONS)) {
-        return sendOptionsResponse(connection);
+        return sendOptionsResponse(connection, isRootURL);
+    }
+
+    // If we have a GET request, and we have the ROOT url
+    // we should send
+    if ((0 == strcmp(method, MHD_HTTP_METHOD_GET)) && isRootURL) {
+        return sendXmlGenericResponse(connection, XML_MWS_ROOT_RESPONSE, MHD_HTTP_OK);
     }
 
     // Accept only POST requests
     if (0 != strcmp(method, MHD_HTTP_METHOD_POST)) {
-        return MHD_NO;
+        return sendMethodNotAllowedResponse(connection, isRootURL);
     }
 
     // Allocate handler data
