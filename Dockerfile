@@ -27,6 +27,7 @@ RUN apt-get update && apt-get -y install \
 ADD analytics/ /mws/analytics
 ADD config/ mws/config
 ADD scripts/ mws/scripts
+ADD data /mws/data
 ADD src /mws/src
 ADD test/ mws/test
 ADD third_party/ mws/third_party/
