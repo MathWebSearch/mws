@@ -26,18 +26,18 @@
 # Module name
 SET(MODULE "mwsindex")
 
+# Sources
+FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*.h")
+ADD_LIBRARY( ${MODULE} ${SOURCES} )
+
 # Dependencies
 
 # Includes
-INCLUDE_DIRECTORIES(${CRC32_INCLUDES})
+TARGET_INCLUDE_DIRECTORIES( ${MODULE} PRIVATE ${CRC32_INCLUDES})
 
 # Flags
 
-# Sources
-FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*.h")
-
 # Binaries
-ADD_LIBRARY( ${MODULE} ${SOURCES} )
 TARGET_LINK_LIBRARIES(${MODULE}
                       mwsdbc
                       mwstypes

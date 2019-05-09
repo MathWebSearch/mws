@@ -26,17 +26,18 @@
 # Module name
 SET(MODULE "crawlerparser")
 
+# Sources
+FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*.h")
+ADD_LIBRARY( ${MODULE} ${SOURCES})
+
 # Dependencies
 FIND_PACKAGE (LibXml2 REQUIRED)
 
 # Includes
-INCLUDE_DIRECTORIES( "${LIBXML2_INCLUDE_DIR}" )
+TARGET_INCLUDE_DIRECTORIES( ${MODULE} PUBLIC "${LIBXML2_INCLUDE_DIR}" )
 
-# Sources
-FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.c" "*.hpp" "*.h")
 
 # Binaries
-ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
     commontypes
     commonutils

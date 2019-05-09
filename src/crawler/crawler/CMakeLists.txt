@@ -26,18 +26,18 @@
 # Module name
 SET(MODULE "crawlercrawler")
 
+# Sources
+FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
+ADD_LIBRARY( ${MODULE} ${SOURCES})
+
 # Dependencies
 
 # Includes
-INCLUDE_DIRECTORIES( "${GOOGLEURL_INCLUDES}" )
+TARGET_INCLUDE_DIRECTORIES( ${MODULE} PUBLIC "${GOOGLEURL_INCLUDES}" )
 
 # Flags
 
-# Sources
-FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
-
 # Binaries
-ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       crawlertypes
                       crawlerutils

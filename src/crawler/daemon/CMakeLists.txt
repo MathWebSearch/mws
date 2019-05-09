@@ -26,21 +26,22 @@
 # Module name
 SET(MODULE "crawlerdaemon")
 
+# Sources
+FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
+ADD_LIBRARY( ${MODULE} ${SOURCES})
+
 # Dependencies
 FIND_PACKAGE(MicroHttpd REQUIRED)
 
 # Includes
-INCLUDE_DIRECTORIES(${MICROHTTPD_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES(${MODULE} PUBLIC ${MICROHTTPD_INCLUDE_DIRS})
 CONFIGURE_FILE(GetResponse.html GetResponse.html)
 
 # Flags
 ADD_DEFINITIONS(${MICROHTTPD_DEFINITIONS})
 
-# Sources
-FILE( GLOB SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.cpp" "*.hpp")
 
 # Binaries
-ADD_LIBRARY( ${MODULE} ${SOURCES})
 TARGET_LINK_LIBRARIES(${MODULE}
                       commonthread
                       commonutils
