@@ -40,7 +40,7 @@ ADD Makefile /mws/
 
 # Build and install into /install
 WORKDIR /mws/
-RUN make all
+RUN make all test
 
 ## 
 ## add a runtime image
