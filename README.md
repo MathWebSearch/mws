@@ -79,6 +79,21 @@ The test target requires:
 The config step requires:
   - cmake-curses-gui
 
+To install all build, runtime and test dependencies on a sufficiently new Debian / Ubuntu machine you can use:
+
+```bash
+apt-get install g++ cmake make pkg-config libmicrohttpd12 libxml2 libleveldb1v5 \
+  libsnappy1v5 libjson-c3 libhtmlcxx3v5 libgnutlsxx28 libicu57 libcurl3-gnutls
+```
+
+To install all build, runtime and test dependencies on Mac OS, you can use [homebrew](https://brew.sh):
+
+```bash
+brew install gcc make cmake pkg-config libmicrohttpd libxml2 leveldb snappy json-c \
+  htmlcxx icu4c gnutls netcat curl
+
+```
+
 Makefile targets
 ----------------
 * `all` builds all the binaries of the project and tests
