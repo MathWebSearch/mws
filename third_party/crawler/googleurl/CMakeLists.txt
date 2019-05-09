@@ -16,6 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+# Sources
+FILE( GLOB SOURCES "src/*.cc")
+
+# Targets
+ADD_LIBRARY( googleurl ${SOURCES} )
+
 # External dependencies
 FIND_PACKAGE( ICU       REQUIRED )
 FIND_PACKAGE( Threads   REQUIRED )
@@ -25,13 +32,7 @@ SET( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w" )
 SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w" )
 
 # Includes
-INCLUDE_DIRECTORIES( ${ICU_INCLUDE_DIRS} )
-
-# Sources
-FILE( GLOB SOURCES "src/*.cc")
-
-# Targets
-ADD_LIBRARY( googleurl ${SOURCES} )
+TARGET_INCLUDE_DIRECTORIES( googleurl PRIVATE ${ICU_INCLUDE_DIRS} )
 
 # Dependencies
 TARGET_LINK_LIBRARIES( googleurl

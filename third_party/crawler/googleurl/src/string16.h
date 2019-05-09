@@ -62,7 +62,12 @@ typedef std::wstring string16;
 
 #else  // !WIN32
 
+#ifdef __APPLE__
+typedef char16_t char16;
+#else // !__APPLE__
 typedef uint16 char16;
+#endif // __APPLE__
+
 
 namespace base {
 
