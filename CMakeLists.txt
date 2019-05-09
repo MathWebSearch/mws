@@ -59,7 +59,7 @@ LIST(APPEND CMAKE_MODULE_PATH
     ${PROJECT_SOURCE_DIR}/third_party/cmake-modules)
 
 # Set compiler flags
-SET(COMMON_FLAGS "-Wall -W -Wextra -Wno-flexible-array-extensions")
+SET(COMMON_FLAGS "-Wall -W -Wextra")
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMMON_FLAGS}")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS} -std=c++0x")
 
