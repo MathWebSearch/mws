@@ -62,12 +62,19 @@ typedef std::wstring string16;
 
 #else  // !WIN32
 
-#ifdef __APPLE__
-typedef char16_t char16;
-#else // !__APPLE__
-typedef uint16 char16;
-#endif // __APPLE__
+// twiesing: This is a complete hack
+// we should really be doing feature detection here
+// but this works for most of my systems
 
+#include <unicode/uvernum.h>
+
+// if we have a sufficiently new libicu then
+// we can use char16_t, else  fallback to legacy uint16
+#if U_ICU_VERSION_MAJOR_NUM >= 59
+typedef char16_t char16;
+#else
+typedef uint16 char16;
+#endif
 
 namespace base {
 
