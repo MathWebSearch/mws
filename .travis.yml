@@ -23,23 +23,22 @@ addons:
       - libcurl4-gnutls-dev
       - netcat
       - curl
-
-before_install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall make  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall make  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall cmake ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall pkg-config  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall libmicrohttpd ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall libxml2 ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall leveldb  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall snappy ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall json-c  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall htmlcxx  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall icu4c  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall gnutls ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall netcat  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew reinstall curl  ; fi
+  homebrew:
+    packages:
+      - make
+      - cmake
+      - pkg-config
+      - libmicrohttpd
+      - libxml2
+      - leveldb
+      - snappy
+      - json-c
+      - htmlcxx
+      - icu4c
+      - gnutls
+      - netcat
+      - curl
+    update: true
 
 script:
  - make
