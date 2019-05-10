@@ -1,4 +1,4 @@
-MathWebSearch [![Build Status](https://secure.travis-ci.org/KWARC/mws.png?branch=master)](http://travis-ci.org/KWARC/mws)
+MathWebSearch [![Build Status](https://secure.travis-ci.org/MathWebSearch/mws.png?branch=master)](http://travis-ci.org/MathWebSearch/mws)
 =============
 
 About
