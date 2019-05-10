@@ -33,7 +33,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   */
 
 #include <unistd.h>
-#include <json.h>
+#include <json-c/json.h>
 #include <stdio.h>
 
 #include <sstream>

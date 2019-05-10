@@ -33,7 +33,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
   * @todo fix writeData return value
   */
 
-#include <json.h>
+#include <json-c/json.h>
 
 #include <string>
 using std::string;

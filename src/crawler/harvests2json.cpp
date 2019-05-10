@@ -34,7 +34,7 @@ along with MathWebSearch.  If not, see <http://www.gnu.org/licenses/>.
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
-#include <json.h>
+#include <json-c/json.h>
 #include <errno.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
