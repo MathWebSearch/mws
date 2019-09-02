@@ -248,6 +248,9 @@ static void catch_sig(int sig) {
         struct sigaction new_sa;
         memset(&new_sa, 0, sizeof(struct sigaction));
         new_sa.sa_handler = SIG_DFL;
+        // also reset the handling for SIGSEGV, otherwise there will be an
+        // endless chain of signal handling
+        sigaction(SIGSEGV, &new_sa, nullptr);
         sigaction(SIGTERM, &new_sa, nullptr);
         sigaction(SIGABRT, &new_sa, nullptr);
         // let it crash and generate a core dump
