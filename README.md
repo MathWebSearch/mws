@@ -1,4 +1,4 @@
-MathWebSearch [![Build Status](https://secure.travis-ci.org/MathWebSearch/mws.png?branch=master)](http://travis-ci.org/MathWebSearch/mws)
+MathWebSearch [![Build Status](https://github.com/MathWebSearch/mws/workflows/CI/badge.svg)](https://github.com/MathWebSearch/mws/actions)
 =============
 
 About

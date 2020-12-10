@@ -1,0 +1,35 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup dependencies
+      run: |
+        sudo apt-get -y install \
+          cmake \
+          make \
+          pkg-config \
+          libmicrohttpd-dev \
+          libxml2-dev \
+          libleveldb-dev \
+          libsnappy-dev \
+          libjson0-dev \
+          libhtmlcxx-dev \
+          libicu-dev \
+          libcurl4-gnutls-dev \
+          netcat \
+          curl
+
+    - run: make
+      env:
+        CC: ${{ matrix.compiler }}
+    - run: make test
+      env:
+        CC: ${{ matrix.compiler }}
