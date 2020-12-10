@@ -219,7 +219,7 @@ static int cd_AccessHandlerCallback(void* cls,
 
         if (0 == strcmp(method, "POST")) {
             con_info->postprocessor = MHD_create_post_processor(
-                connection, POSTBUFFERSIZE, cd_IteratePostRequest,
+                connection, POSTBUFFERSIZE, (MHD_PostDataIterator)cd_IteratePostRequest,
                 (void*)con_info);
 
             if (nullptr == con_info->postprocessor) {
@@ -292,7 +292,7 @@ int CrawlerDaemon::start(int aPort, SharedQueue* sqPtr) {
     _daemonHandler = MHD_start_daemon(
         MHD_USE_SELECT_INTERNALLY, aPort,
         nullptr,  // TODO:      my_MHD_AcceptPolicyCallback,
-        nullptr, cd_AccessHandlerCallback,  // ... my_MHD_AccessHandlerCallback,
+        nullptr, (MHD_AccessHandlerCallback)cd_AccessHandlerCallback,  // ... my_MHD_AccessHandlerCallback,
         nullptr, MHD_OPTION_CONNECTION_LIMIT, 20, MHD_OPTION_NOTIFY_COMPLETED,
         cd_RequestCompletedCallback, (void*)sqPtr, MHD_OPTION_END);
     if (_daemonHandler == nullptr) {

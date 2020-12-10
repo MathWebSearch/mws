@@ -159,6 +159,12 @@ static json_object* getJsonChild(json_object* json_parent, const char* key) {
     }
 }
 
+// in newer versions of json-c, TRUE isn't defined. 
+// So define it here it is missing. 
+#ifndef TRUE
+#define TRUE ((json_bool)1)
+#endif // ifndef TRUE
+
 static bool getJsonBool(json_object* json_parent, const char* key) {
     bool value = false;
     json_object* json_bool_object = getJsonChild(json_parent, key);

@@ -282,9 +282,9 @@ Daemon::Daemon(QueryHandler* queryHandler, const Config& config)
     if (config.enableIpv6) {
         mhd_flags |= MHD_USE_IPv6;
     }
-    _mhd = MHD_start_daemon(mhd_flags, config.port, acceptPolicyCallback,
+    _mhd = MHD_start_daemon(mhd_flags, config.port, (MHD_AcceptPolicyCallback)acceptPolicyCallback,
                             /* PolicyContext = */ nullptr,
-                            accessHandlerCallback, _queryHandler.get(),
+                            (MHD_AccessHandlerCallback)accessHandlerCallback, _queryHandler.get(),
                             MHD_OPTION_CONNECTION_LIMIT, 20, MHD_OPTION_END);
     if (_mhd == nullptr) {
         throw runtime_error(
