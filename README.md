@@ -9,7 +9,7 @@ The software is licensed under the GNU General Public License version 3.
 
 Demos
 ------
-can be found at http://search.mathweb.org, in particular, the arXiv demo is at http://arxivsearch.mathweb.org
+can be found at http://search.mathweb.org, in particular, the arXiv demo is at http://ar5search.kwarc.info
 
 Content
 -------
