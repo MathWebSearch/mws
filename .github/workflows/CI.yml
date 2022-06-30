@@ -3,8 +3,9 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  buildlinux:
     runs-on: ubuntu-16.04
+    name: 'Ubuntu / ${{ matrix.compiler }}'
     strategy:
       matrix:
         compiler: [gcc, clang]
@@ -26,6 +27,39 @@ jobs:
           libcurl4-gnutls-dev \
           netcat \
           curl
+
+    - run: make
+      env:
+        CC: ${{ matrix.compiler }}
+    - run: make test
+      env:
+        CC: ${{ matrix.compiler }}
+  buildmac:
+    runs-on: macos-latest
+    name: 'macOS / ${{ matrix.compiler }}'
+    strategy:
+      matrix:
+        compiler: [gcc]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup dependencies
+      run: |
+        brew install \
+          cmake \
+          curl \
+          gcc \
+          gnutls \
+          htmlcxx \
+          icu4c \
+          json-c \
+          leveldb \
+          libmicrohttpd \
+          libxml2 \
+          make \
+          netcat \
+          pkg-config \
+          snappy \
+        && brew link --force icu4c
 
     - run: make
       env:
