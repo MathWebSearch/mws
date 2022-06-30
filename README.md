@@ -89,9 +89,11 @@ apt-get install g++ cmake make pkg-config libmicrohttpd12 libxml2 libleveldb1v5 
 To install all build, runtime and test dependencies on Mac OS, you can use [homebrew](https://brew.sh):
 
 ```bash
+# install all the depependencies
 brew install gcc make cmake pkg-config libmicrohttpd libxml2 leveldb snappy json-c \
   htmlcxx icu4c gnutls netcat curl
-
+# in order for icu4c to be found also run:
+brew link --force icu4c
 ```
 
 Makefile targets

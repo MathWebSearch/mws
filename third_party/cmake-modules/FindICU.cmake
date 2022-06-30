@@ -22,7 +22,7 @@
 set(CMAKE_INCLUDE_PATH "/usr/local/opt/icu4c/include/")
 find_path(
   ICU_INCLUDE_DIR
-  NAMES unicode/utypes.h
+  NAMES unicode/ucnv.h
   DOC "Include directory for the ICU library")
 mark_as_advanced(ICU_INCLUDE_DIR)
 
