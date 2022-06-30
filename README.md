@@ -83,7 +83,7 @@ To install all build, runtime and test dependencies on a sufficiently new Debian
 
 ```bash
 apt-get install g++ cmake make pkg-config libmicrohttpd12 libxml2 libleveldb1v5 \
-  libsnappy1v5 libjson-c3 libhtmlcxx3v5 libgnutlsxx28 libicu57 libcurl3-gnutls
+  libsnappy1v5 libjson-c-dev libhtmlcxx3v5 libgnutlsxx28 libicu57 libcurl3-gnutls
 ```
 
 To install all build, runtime and test dependencies on Mac OS, you can use [homebrew](https://brew.sh):

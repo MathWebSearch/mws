@@ -4,15 +4,16 @@ on: [push, pull_request]
 
 jobs:
   buildlinux:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     name: 'Ubuntu / ${{ matrix.compiler }}'
     strategy:
       matrix:
-        compiler: [gcc, clang]
+        compiler: [gcc]
     steps:
     - uses: actions/checkout@v2
     - name: Setup dependencies
       run: |
+        sudo apt-get update && \
         sudo apt-get -y install \
           cmake \
           make \
@@ -21,7 +22,7 @@ jobs:
           libxml2-dev \
           libleveldb-dev \
           libsnappy-dev \
-          libjson0-dev \
+          libjson-c-dev \
           libhtmlcxx-dev \
           libicu-dev \
           libcurl4-gnutls-dev \
@@ -39,7 +40,7 @@ jobs:
     name: 'macOS / ${{ matrix.compiler }}'
     strategy:
       matrix:
-        compiler: [gcc]
+        compiler: [gcc, clang]
     steps:
     - uses: actions/checkout@v2
     - name: Setup dependencies
